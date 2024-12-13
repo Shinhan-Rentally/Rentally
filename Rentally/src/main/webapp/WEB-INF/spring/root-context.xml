@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<context:component-scan
+		base-package="com.rental.shinhan"></context:component-scan>
+
+	<!-- properties 여러개 읽기 -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/application.properties</value>
+			</list>
+		</property>
+		<property name="fileEncoding" value="UTF-8" />
+	</bean>
+
+	<!-- sqlSession을 생성해줌 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:mybatis/sqlMapConfig.xml" />
+		<property name="mapperLocations" value="classpath:mybatis/mappers/*Mapper.xml" />
+	</bean>
+
+	<!-- SQL문 실행하여 DB객체와 JAVA객체를 Mapping해줌 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="dataSourceOriginal" />
+		<property name="logFormatter">
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+				<property name="loggingType" value="MULTI_LINE"></property>
+				<property name="sqlPrefix" value="[ SQL문장 ] "></property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- DataSource 설정 -->
+    <bean id="dataSourceOriginal" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${supabase.driverClassName}" />
+        <property name="url" value="${supabase.database.url}" />
+        <property name="username" value="${supabase.database.username}" />
+        <property name="password" value="${supabase.database.password}" />
+    </bean>
+
+</beans>

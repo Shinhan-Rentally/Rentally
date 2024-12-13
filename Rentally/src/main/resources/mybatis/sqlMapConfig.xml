@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="logImpl" value="LOG4J" />
+		
+		<!-- mapper에서 null값이 왔을때 컬럼의 해당 타입임을 설정
+			 이 설정이 없으면 #{email,jdbcType=VARCHAR}), #{salary, jdbcType=INTEGER} -->
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+	<typeAliases>
+		<!-- <typeAlias type="com.shinhan.myapp.vo.DeptDTO" alias="deptVO" /> -->
+		<typeAlias type="com.rental.shinhan.TestDTO" alias="TestVO" />
+
+	</typeAliases>
+
+</configuration>
