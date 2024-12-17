@@ -1516,5 +1516,6 @@
 
 	<script src="@@webRoot/node_modules/imask/dist/imask.min.js"></script>
 	<script src="@@webRoot/assets/js/vendors/inputmask.js"></script>
+	<script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 </body>
 </html>
