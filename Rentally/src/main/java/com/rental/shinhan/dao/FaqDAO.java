@@ -13,7 +13,7 @@ import com.rental.shinhan.dto.FaqDTO;
 public class FaqDAO implements FaqDAOInterface {
     @Autowired
     SqlSession sqlSession;
-    String namespace = "com.rental.shinhan";
+    String namespace = "com.rental.shinhan.";
 
     public List<FaqDTO> select() {
         List<FaqDTO> faqlist = sqlSession.selectList(namespace+"select");
