@@ -4,7 +4,7 @@ import com.rental.shinhan.dto.ProductDTO;
 
 import java.util.List;
 
-public interface ProductInterface {
+public interface AdminInterface {
 
     public List<ProductDTO> selectAllProducts();
 }
