@@ -1,6 +1,6 @@
 package com.rental.shinhan.service;
 
-import com.rental.shinhan.dao.ProductDAO;
+import com.rental.shinhan.dao.AdminDAO;
 import com.rental.shinhan.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ProductService {
+public class AdminService {
 
     @Autowired
-    ProductDAO productDAO;
+    AdminDAO adminDAO;
 
     public List<ProductDTO> selectAllProducts() {
-        return productDAO.selectAllProducts();
+        return adminDAO.selectAllProducts();
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class ProductDAO implements ProductInterface {
+public class AdminDAO implements ProductInterface {
 
     String namespace = "com.rental.shinhan.";
 
@@ -17,7 +17,7 @@ public class ProductDAO implements ProductInterface {
     SqlSession sqlSession;
 
     public List<ProductDTO> selectAllProducts() {
-        List<ProductDTO> products = sqlSession.selectList(namespace + "selectAll");
+        List<ProductDTO> products = sqlSession.selectList(namespace + "selectProducts");
         return products;
     }
 }
