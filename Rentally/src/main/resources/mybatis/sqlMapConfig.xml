@@ -12,7 +12,7 @@
 	</settings>
 	<typeAliases>
 		<!-- <typeAlias type="com.shinhan.myapp.vo.DeptDTO" alias="deptVO" /> -->
-		<typeAlias type="com.rental.shinhan.TestDTO" alias="TestVO" />
+		<typeAlias type="com.rental.shinhan.test.TestDTO" alias="TestVO" />
 
 	</typeAliases>
 
