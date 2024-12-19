@@ -7,5 +7,9 @@
 	<select id="select1" resultType="TestVO">
 		SELECT * FROM category
 	</select>
+	
+	<select id="selectSubSeq" resultType="int">
+		SELECT last_value FROM sub_seq
+	</select>
 
 </mapper>

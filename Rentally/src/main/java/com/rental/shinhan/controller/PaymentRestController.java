@@ -11,6 +11,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rental.shinhan.dto.PaymentRequestDTO;
+import com.rental.shinhan.service.SubscribeService;
 
 @RestController
 @RequestMapping("/payment")
@@ -33,7 +35,14 @@ public class PaymentRestController {
     @Autowired
     private RestTemplate restTemplate;
     
-    //@PostMapping("/getAccessToken")
+	@Autowired
+	SubscribeService subService;
+	
+	@GetMapping("/getSubseq")
+    public int getSubseq() {
+        return subService.selectSubSeq();
+    }
+    
     public String getAccessToken() {
     	String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
     	
@@ -61,11 +70,7 @@ public class PaymentRestController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        
-	        // Access the "access_token" value
-			//accessToken = rootNode.path("response").path("access_token").asText();
 
-    		//System.out.println(response.body());
 			return rootNode.path("response").path("access_token").asText();
     }
 

@@ -1,37 +1,30 @@
 package com.rental.shinhan.controller;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.rental.shinhan.service.SubscribeService;
 
 @Controller
 public class PaymentController {
 
-	//private final PortOneService portOneService;
-
-//	@PostMapping("/billings")
-//	public void getBillingKey() {
-//		
-//	}
+	@Autowired
+	SubscribeService subService;
 	
-//    @Autowired
-//    public PaymentController(PortOneService portOneService) {
-//        this.portOneService = portOneService;
-//    }
-    
-    @GetMapping("/makeBillingkey")
-    public String f1() {
+    @GetMapping("/payment")
+    public String getPaymetPage(Model model, HttpSession session) {
+    	session.setAttribute("cust_seq", "1"); // 추후 삭제
+    	
+    	// 장바구니와 상품상세화면에서 product_seq 줬다는 가정
+    	
+    	
+    	model.addAttribute("productName", "");
+    	model.addAttribute("productPay", "");
+    	
     	return "product/payment";
     }
-
-	/*
-	 * @PostMapping("/makePayment") public String makePayment(Model model) { //
-	 * Example data, replace with actual values String paymentId = "new-payment-id";
-	 * String billingKey = "example-billing-key"; String customerInfo =
-	 * "example-customer-info";
-	 * 
-	 * try { String response = portOneService.makePayment(paymentId, billingKey,
-	 * customerInfo); model.addAttribute("response", response); return
-	 * "successPage"; } catch (Exception e) { model.addAttribute("error",
-	 * e.getMessage()); return "errorPage"; } }
-	 */
 }
