@@ -38,7 +38,7 @@
 										cust_id
 									</label>
 									<input type="text" class="form-control"
-										id="formSignupId" placeholder="ID를 입력해주세요" required />
+										id="formSignupId" name="cust_id" placeholder="ID를 입력해주세요" required />
 									<div class="invalid-feedback">ID를 입력해주세요.</div>
 								</div>
 								<div class="col">
@@ -47,7 +47,7 @@
 										cust_name
 									</label>
 									<input type="text" class="form-control"
-										id="formSignupName" placeholder="이름" required />
+										id="formSignupName" name="cust_name" placeholder="이름" required />
 									<div class="invalid-feedback">이름을 입력해주세요.</div>
 									<!-- ******* 스크립트에서 이름 자음만 넣지 못하게 !!! ****** -->
 								</div>
@@ -56,12 +56,19 @@
 									<label for="formSignupEmail" class="form-label visually-hidden">
 										cust_email
 									</label>
-									<input type="email" class="form-control"
-										id="formSignupEmail" placeholder="Email" required />
+									<input type="text" class="form-control"
+										id="formSignupEmail" name="cust_email" placeholder="Email" required>
+									<span>@</span>
+									<input type="text" name="cust_email2" id="formSignupEmail2">
+									<select class="form-control" id="formSignupEmail" required>
+										<option value="">직접입력</option>
+										<option value="naver.com">naver.com</option>
+										<option value="gmail.com">gmail.com</option>
+										<option value="daum.net">daum.net</option>
+										<option value="hanmail.net">hanmail.net</option>
+										<option value="nate.com">nate.com</option>
+									</select>
 									<div class="invalid-feedback">이메일을 입력해주세요.</div>
-									<!-- select 네이버~ 다음~ 지메일~ -->
-									<input type="email" class="form-control"
-										id="formSignupEmail" placeholder="Email" required />
 								</div>
 								<div class="col-12">
 									<!-- input -->
@@ -111,5 +118,16 @@
 	<!-- @@include("../partials/footer.html") -->
 	<!-- Javascript-->
 	<!-- <script src="@@webRoot/assets/js/vendors/password.js"></script> -->
+	<script>
+		$("select").on("change", function(){
+			if($(this).val()){
+				$("#formSignupEmail2").attr("readonly", true);
+				$("#formSignupEmail2").val($(this).val());
+			}else{
+				$("#formSignupEmail2").val("");
+				$("#formSignupEmail2").attr("readonly", false);
+			}
+		});
+	</script>
 </body>
 </html>
