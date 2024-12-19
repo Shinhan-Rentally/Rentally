@@ -1,17 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:set var="path" value="${pageContext.servletContext.contextPath}" scope="application"></c:set>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<%-- <%@ include file="../partials/head/head-meta.html"%> --%>
+<%@ include file="../common/headMeta.jsp"%>
 <title>Shop Checkout eCommerce HTML Template - FreshCart</title>
-<%-- <%@ include file="../partials/head/head-links.html"%> --%>
+<%@ include file="../common/headLinks.jsp"%>
 
-<!-- endbuild -->
-<%-- <%@ include file="../partials/head/analytics-code.html"%>
-<%@ include file="../partials/head/clarity.html"%> --%>
 </head>
 
 <body>
