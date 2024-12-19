@@ -13,6 +13,7 @@
 	<typeAliases>
 		<!-- <typeAlias type="com.shinhan.myapp.vo.DeptDTO" alias="deptVO" /> -->
 		<typeAlias type="com.rental.shinhan.test.TestDTO" alias="TestVO" />
+		<typeAlias type="com.rental.shinhan.dto.CustomerDTO" alias="CustomerVO"/>
 
 	</typeAliases>
 
