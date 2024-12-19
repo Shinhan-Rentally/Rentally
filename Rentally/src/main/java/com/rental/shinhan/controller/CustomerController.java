@@ -23,6 +23,6 @@ public class CustomerController {
 		int result = jService.insertService(cust);
 		log.info("회원가입 " +result+" 건");
 		//메인 화면 jsp 수정
-		return "redirect:";
+		return "/customer/login";
 	}
 }
