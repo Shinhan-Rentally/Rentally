@@ -25,7 +25,7 @@
 					
 						<div style="background: url(resources/images/slider/slide-1.jpg) no-repeat; background-size: cover; border-radius: 0.5rem; background-position: center">
 							<div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
-								<span class="badge text-bg-warning">Opening Sale Discount 50%</span>
+								<span class="badge text-bg-warning">Opening Sale Discount 510%</span>
 
 								<h2 class="text-dark display-5 fw-bold mt-4">SuperMarket For Fresh Grocery</h2>
 								<p class="lead">Introduced a new model for online grocery shopping and convenient home delivery.</p>
