@@ -16,7 +16,6 @@
 	</properties>
 
 	<dependencies>
-		<!-- 비밀번호 암호화 -->
 		<!-- https://mvnrepository.com/artifact/at.favre.lib/bcrypt -->
 		<dependency>
 			<groupId>at.favre.lib</groupId>
