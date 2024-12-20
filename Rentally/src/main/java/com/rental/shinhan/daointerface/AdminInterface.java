@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface AdminInterface {
 
-    public List<ProductDTO> selectAllProducts();
+    public List<ProductDTO> selectProducts();
 }

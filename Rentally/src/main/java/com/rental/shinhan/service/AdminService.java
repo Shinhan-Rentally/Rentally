@@ -13,7 +13,8 @@ public class AdminService {
     @Autowired
     AdminDAO adminDAO;
 
-    public List<ProductDTO> selectAllProducts() {
-        return adminDAO.selectAllProducts();
+    public List<ProductDTO> findProducts() {
+
+        return adminDAO.selectProducts();
     }
 }

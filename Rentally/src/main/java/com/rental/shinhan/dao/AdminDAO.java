@@ -16,7 +16,7 @@ public class AdminDAO implements AdminInterface {
     @Autowired
     SqlSession sqlSession;
 
-    public List<ProductDTO> selectAllProducts() {
+    public List<ProductDTO> selectProducts() {
         List<ProductDTO> products = sqlSession.selectList(namespace + "selectProducts");
         return products;
     }
