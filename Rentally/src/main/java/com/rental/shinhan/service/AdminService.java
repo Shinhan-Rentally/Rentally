@@ -20,6 +20,7 @@ public class AdminService {
     }
 
     public List<ReviewDTO> findReviews() {
+      
         return adminDAO.selectReviews();
     }
 }

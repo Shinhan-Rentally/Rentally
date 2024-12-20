@@ -2,6 +2,7 @@ package com.rental.shinhan.controller;
 
 import com.rental.shinhan.dto.ProductDTO;
 import com.rental.shinhan.dto.ReviewDTO;
+
 import com.rental.shinhan.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,12 +20,14 @@ public class AdminController {
 
     @GetMapping("/product/list")
     public String getProducts() {
+      
         List<ProductDTO> products = adminService.findProducts();
         return "";
     }
 
     @GetMapping("/review/list")
     public String getReviews() {
+      
         List<ReviewDTO> reviews = adminService.findReviews();
         return "";
     }
