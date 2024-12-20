@@ -95,7 +95,7 @@ public class PaymentRestController {
         );
         
         // Print out the request body for debugging
-        System.out.println(requestBody);
+        System.out.println("requestBody:"+requestBody);
         
         // Wrap the body and headers in an HttpEntity
         HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
@@ -103,7 +103,7 @@ public class PaymentRestController {
         // Send the request to IAMPORT API
         try {
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-            
+
             // Handle response from IAMPORT API
             if (response.getStatusCode().is2xxSuccessful()) {
                 // Payment processed successfully

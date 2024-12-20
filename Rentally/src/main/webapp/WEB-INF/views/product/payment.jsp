@@ -276,46 +276,109 @@
 	<!-- Footer -->
 	<%-- <%@ include file="../partials/footer.html"%> --%>
 	<!-- Javascript-->
- 	<script src="${path}/resources/js/vendors/flatpickr.min.js"></script>
+ 	<script src="${path}/resources/libs/flatpickr/dist/flatpickr.min.js"></script>
 	<%-- <%@ include file="../partials/scripts.html"%> --%>
 	<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 	<script src="${path}/resources/js/main.js"></script>
 	
-	<script src="${path}/resources/js/vendors/imask.min.js"></script>
+	<script src="${path}/resources/libs/imask/dist/imask.min.js"></script>
 	<script src="${path}/resources/js/vendors/inputmask.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 	<script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 	
 	<script>
-	var merchant_uid;
+	let merchantUid;
+	let year;
+    let month;
+    let day;
+    let hours;
+    let minutes;
+    let seconds;
 	
 	$.ajax({
 		  url: `${path}/payment/getSubseq`,
 		  type: "GET", // 요청 유형
 		  success: function(data) {
-			merchant_uid = data+1;
-		    console.log(merchant_uid); // 서버로부터 받은 데이터
+			merchantUid = data+1;
+		    console.log(merchantUid); // 서버로부터 받은 데이터
 		  },
 		  error: function(jqXHR, textStatus, errorThrown) {
 		    console.error("Error: " + textStatus, errorThrown); // 에러 처리
 		  }
 		});
-	
-	$("#subscribe").click(payment);
+    
+    $("#subscribe").click(payment);
+    //$("#subscribe").click(payment2);
+    
+    async function payment2(){
+    	const issueResponse = PortOne.requestIssueBillingKey({
+    	    storeId: "store-df220412-2eec-4989-8173-fdc3bfb8f541", // 고객사 storeId로 변경해주세요.
+    	    channelKey: "channel-key-9dc1fb15-6f45-4b0f-8ced-8c35e312efa6", // 콘솔 결제 연동 화면에서 채널 연동 시 생성된 채널 키를 입력해주세요.
+    	    billingKeyMethod: "CARD",
+    	    issueId: "1",
+    	    issueName: "테스트결제",
+    	    customer: {
+    	      fullName: "포트원",
+    	      phoneNumber: "010-0000-1234",
+    	      email: "test@portone.io",
+    	    }
+    	});
+
+    	// 빌링키가 제대로 발급되지 않은 경우 에러 코드가 존재합니다
+    	if (issueResponse.code !== undefined) {
+    	  return alert(issueResponse.message);
+    	}
+
+    	// 고객사 서버에 빌링키를 전달합니다
+    	const response = await fetch(`${path}/make-payment`, {
+    	  method: "POST",
+    	  header: { "Content-Type": "application/json" },
+    	  body: JSON.stringify({
+    	    billingKey: issueResponse.billingKey,
+    	    // ...
+    	  }),
+    	});
+    	if (!response.ok) throw new Error(`response: \${await response.json()}`);
+    }
+
+    function pad(number) {
+        return number < 10 ? '0' + number : number;
+    }
+
+    // Function to display the current date and time
+    function displayDateTime() {
+        let now = new Date();
+
+        // Get the current date
+        year = now.getFullYear();
+        month = pad(now.getMonth() + 1);
+        day = pad(now.getDate());
+
+        // Get the current time
+        hours = pad(now.getHours());
+        minutes = pad(now.getMinutes());
+        seconds = pad(now.getSeconds());
+        
+        return year+month+day+hours+minutes+seconds;
+    }
 	
 	function payment(){
+		let nowDate = displayDateTime();
+		console.log(nowDate);
 		IMP.init("imp26414862");
 		
 		IMP.request_pay(
 				  {
 				    channelKey: "channel-key-32f7b4dd-ec84-4363-abb9-a8c3b5d5a071",
 				    pay_method: "card", // 'card'만 지원됩니다.
-				    merchant_uid: merchant_uid, // 상점에서 관리하는 주문 번호
+				    //merchant_uid: merchantUid, // 상점에서 관리하는 주문 번호
+				    merchant_uid: "order_004", // 상점에서 관리하는 주문 번호
 				    name: $('#productName').text(),
 				    amount: 100, // 결제창에 표시될 금액. 실제 승인이 이뤄지지는 않습니다.
-				    customer_uid: ${cust_seq}, // 필수 입력.
+				    customer_uid: `${cust_seq}\${nowDate}`, // 필수 입력.
+				    //customer_uid: "003", // 필수 입력.
 				    buyer_email: "test@portone.io",
 				    buyer_name: "포트원",
 				    buyer_tel: "02-1234-1234",
@@ -326,7 +389,7 @@
 				      
 					    const paymentData = {
 				                billingKey: rsp.customer_uid,  // Or whichever field contains the billing key
-				                merchant_uid: rsp.merchant_uid,
+				                merchantUid: rsp.merchant_uid,
 				                amount: 100 // Example amount, replace with actual payment amount
 				            };
 

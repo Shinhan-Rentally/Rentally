@@ -12,8 +12,9 @@ import com.rental.shinhan.service.SubscribeService;
 @Controller
 public class PaymentController {
 
-	@Autowired
-	SubscribeService subService;
+	/*
+	 * @Autowired SubscribeService subService;
+	 */
 	
     @GetMapping("/payment")
     public String getPaymetPage(Model model, HttpSession session) {
@@ -27,4 +28,5 @@ public class PaymentController {
     	
     	return "product/payment";
     }
+
 }
