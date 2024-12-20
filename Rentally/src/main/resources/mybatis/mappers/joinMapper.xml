@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.rental.shinhan">
+<mapper namespace="com.rental.shinhan.joinDAO">
 
-	<select id="insert" parameterType="CustomerVO">
+	<insert id="insert" parameterType="CustomerVO">
 		INSERT INTO CUSTOMER
 			(CUST_SEQ, CUST_ID, CUST_PW, CUST_PHONE,
 			CUST_EMAIL, CUST_NAME, CUST_STATUS)
@@ -12,6 +12,6 @@
 			(nextval('customer_seq'), #{cust_id},
 			#{cust_pw}, #{cust_phone}, #{cust_email},
 			#{cust_name}, 'true')
-	</select>
+	</insert>
 
 </mapper>
