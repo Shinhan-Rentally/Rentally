@@ -26,4 +26,9 @@ public class AdminDAO implements AdminInterface {
         List<ReviewDTO> reviews = sqlSession.selectList(namespace + "selectReviews");
         return reviews;
     }
+
+    public int deleteProduct(int productSeq) {
+        int result = sqlSession.update(namespace + "deleteProduct", productSeq);
+        return result;
+    }
 }

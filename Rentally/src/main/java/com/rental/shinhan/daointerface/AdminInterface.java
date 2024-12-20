@@ -9,4 +9,5 @@ public interface AdminInterface {
 
     public List<ProductDTO> selectProducts();
     public List<ReviewDTO> selectReviews();
+    public int deleteProduct(int productSeq);
 }
