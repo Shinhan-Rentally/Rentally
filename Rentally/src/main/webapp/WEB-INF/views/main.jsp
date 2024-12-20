@@ -4,20 +4,26 @@
 <html>
 <head>
 <!-- Favicon icon-->
-<link rel="shortcut icon" type="image/x-icon" href="/resources/images/favicon/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon/favicon.ico">
 <!-- Theme CSS -->
 <!-- build:css @@webRoot/assets/css/theme.min.css -->
 <link rel="stylesheet" href="resources/css/theme.css">
-<link href="@@webRoot/node_modules/slick-carousel/slick/slick.css" rel="stylesheet" />
-		<link href="@@webRoot/node_modules/slick-carousel/slick/slick-theme.css" rel="stylesheet" />
-		<link href="@@webRoot/node_modules/tiny-slider/dist/tiny-slider.css" rel="stylesheet" />
+<link href="resources/libs/slick-carousel/slick/slick.css" rel="stylesheet" />
+		<link href="resources/libs/slick-carousel/slick/slick-theme.css" rel="stylesheet" />
+		<link href="resources/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet" />
+	
+		
+		
+		
 
 <meta charset="UTF-8">
+<%@ include file="./common/headMeta.jsp" %>
 <title>Rentally</title>
+<%@ include file="./common/headLinks.jsp" %>
 </head>
 <body>
-	<%@ include file="./common/header.jsp" %>
 
+<%@ include file="./common/header.jsp" %>
 	
 		<main>
 			<section class="mt-8">
@@ -49,11 +55,12 @@
 						</div>
 					</div>
 					<div class="category-slider">
+					
 						<div class="item">
 							<a href="#" class="text-decoration-none text-inherit">
 								<div class="card card-product mb-lg-4">
 									<div class="card-body text-center py-8">
-										<img src="/resources/images/category/category-dairy-bread-eggs.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" />
+										<img src="resources/images/category/category-dairy-bread-eggs.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" />
 										<div class="text-truncate">Dairy, Bread & Eggs</div>
 									</div>
 								</div>
@@ -63,7 +70,7 @@
 							<a href="#" class="text-decoration-none text-inherit">
 								<div class="card card-product mb-lg-4">
 									<div class="card-body text-center py-8">
-										<img src="/resources/images/category/category-snack-munchies.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
+										<img src="resources/images/category/category-snack-munchies.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
 										<div class="text-truncate">Snack & Munchies</div>
 									</div>
 								</div>
@@ -73,7 +80,7 @@
 							<a href="../pages/shop-grid.html" class="text-decoration-none text-inherit">
 								<div class="card card-product mb-lg-4">
 									<div class="card-body text-center py-8">
-										<img src="/resources/images/category/category-bakery-biscuits.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
+										<img src="resources/images/category/category-bakery-biscuits.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
 										<div class="text-truncate">Bakery & Biscuits</div>
 									</div>
 								</div>
@@ -83,7 +90,7 @@
 							<a href="../pages/shop-grid.html" class="text-decoration-none text-inherit">
 								<div class="card card-product mb-lg-4">
 									<div class="card-body text-center py-8">
-										<img src="/resources/images/category/category-instant-food.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
+										<img src="resources/images/category/category-instant-food.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
 										<div class="text-truncate">Instant Food</div>
 									</div>
 								</div>
@@ -93,7 +100,7 @@
 							<a href="../pages/shop-grid.html" class="text-decoration-none text-inherit">
 								<div class="card card-product mb-lg-4">
 									<div class="card-body text-center py-8">
-										<img src="/resources/images/category/category-tea-coffee-drinks.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
+										<img src="resources/images/category/category-tea-coffee-drinks.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
 										<div class="text-truncate">Tea, Coffee & Drinks</div>
 									</div>
 								</div>
@@ -103,7 +110,7 @@
 							<a href="../pages/shop-grid.html" class="text-decoration-none text-inherit">
 								<div class="card card-product mb-lg-4">
 									<div class="card-body text-center py-8">
-										<img src="/resources/images/category/category-atta-rice-dal.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
+										<img src="resources/images/category/category-atta-rice-dal.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
 										<div class="text-truncate">Atta, Rice & Dal</div>
 									</div>
 								</div>
@@ -114,7 +121,7 @@
 							<a href="../pages/shop-grid.html" class="text-decoration-none text-inherit">
 								<div class="card card-product mb-lg-4">
 									<div class="card-body text-center py-8">
-										<img src="/resources/images/category/category-baby-care.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
+										<img src="resources/images/category/category-baby-care.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
 										<div class="text-truncate">Baby Care</div>
 									</div>
 								</div>
@@ -124,7 +131,7 @@
 							<a href="../pages/shop-grid.html" class="text-decoration-none text-inherit">
 								<div class="card card-product mb-lg-4">
 									<div class="card-body text-center py-8">
-										<img src="/resources/images/category/category-chicken-meat-fish.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
+										<img src="resources/images/category/category-chicken-meat-fish.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
 										<div class="text-truncate">Chicken, Meat & Fish</div>
 									</div>
 								</div>
@@ -134,7 +141,7 @@
 							<a href="../pages/shop-grid.html" class="text-decoration-none text-inherit">
 								<div class="card card-product mb-lg-4">
 									<div class="card-body text-center py-8">
-										<img src="/resources/images/category/category-cleaning-essentials.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
+										<img src="resources/images/category/category-cleaning-essentials.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
 										<div class="text-truncate">Cleaning Essentials</div>
 									</div>
 								</div>
@@ -144,7 +151,7 @@
 							<a href="../pages/shop-grid.html" class="text-decoration-none text-inherit">
 								<div class="card card-product mb-lg-4">
 									<div class="card-body text-center py-8">
-										<img src="/resources/images/category/category-pet-care.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
+										<img src="resources/images/category/category-pet-care.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
 										<div class="text-truncate">Pet Care</div>
 									</div>
 								</div>
@@ -159,7 +166,7 @@
 					<div class="row">
 						<div class="col-12 col-md-6 mb-3 mb-lg-0">
 							<div>
-								<div class="py-10 px-8 rounded" style="background: url(/resources/images/banner/grocery-banner.png) no-repeat; background-size: cover; background-position: center">
+								<div class="py-10 px-8 rounded" style="background: url(resources/images/banner/grocery-banner.png) no-repeat; background-size: cover; background-position: center">
 									<div>
 										<h3 class="fw-bold mb-1">Fruits & Vegetables</h3>
 										<p class="mb-4">
@@ -174,7 +181,7 @@
 						</div>
 						<div class="col-12 col-md-6">
 							<div>
-								<div class="py-10 px-8 rounded" style="background: url(/resources/images/banner/grocery-banner-2.jpg) no-repeat; background-size: cover; background-position: center">
+								<div class="py-10 px-8 rounded" style="background: url(resources/images/banner/grocery-banner-2.jpg) no-repeat; background-size: cover; background-position: center">
 									<div>
 										<h3 class="fw-bold mb-1">Freshly Baked Buns</h3>
 										<p class="mb-4">
@@ -207,7 +214,7 @@
 										<div class="position-absolute top-0 start-0">
 											<span class="badge bg-danger">Sale</span>
 										</div>
-										<a href="#!"><img src="/resources/images/products/product-img-1.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
+										<a href="#!"><img src="resources/images/products/product-img-1.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
 
 										<div class="card-product-action">
 											<a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal">
@@ -267,7 +274,7 @@
 										<div class="position-absolute top-0 start-0">
 											<span class="badge bg-success">14%</span>
 										</div>
-										<a href="./pages/shop-single.html"><img src="/resources/images/products/product-img-2.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
+										<a href="./pages/shop-single.html"><img src="resources/images/products/product-img-2.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
 										<div class="card-product-action">
 											<a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal">
 												<i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i>
@@ -320,7 +327,7 @@
 							<div class="card card-product">
 								<div class="card-body">
 									<div class="text-center position-relative">
-										<a href="./pages/shop-single.html"><img src="/resources/images/products/product-img-3.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
+										<a href="./pages/shop-single.html"><img src="resources/images/products/product-img-3.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
 										<div class="card-product-action">
 											<a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal">
 												<i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i>
@@ -376,7 +383,7 @@
 							<div class="card card-product">
 								<div class="card-body">
 									<div class="text-center position-relative">
-										<a href="./pages/shop-single.html"><img src="/resources/images/products/product-img-4.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
+										<a href="./pages/shop-single.html"><img src="resources/images/products/product-img-4.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
 										<div class="card-product-action">
 											<a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal">
 												<i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i>
@@ -435,7 +442,7 @@
 							<div class="card card-product">
 								<div class="card-body">
 									<div class="text-center position-relative">
-										<a href="./pages/shop-single.html"><img src="/resources/images/products/product-img-5.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
+										<a href="./pages/shop-single.html"><img src="resources/images/products/product-img-5.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
 										<div class="card-product-action">
 											<a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal">
 												<i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i>
@@ -494,7 +501,7 @@
 										<div class="position-absolute top-0 start-0">
 											<span class="badge bg-danger">Sale</span>
 										</div>
-										<a href="#!"><img src="/resources/images/products/product-img-6.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
+										<a href="#!"><img src="resources/images/products/product-img-6.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
 										<div class="card-product-action">
 											<a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal">
 												<i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i>
@@ -550,7 +557,7 @@
 							<div class="card card-product">
 								<div class="card-body">
 									<div class="text-center position-relative">
-										<a href="./pages/shop-single.html"><img src="/resources/images/products/product-img-7.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
+										<a href="./pages/shop-single.html"><img src="resources/images/products/product-img-7.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
 										<div class="card-product-action">
 											<a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal">
 												<i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i>
@@ -603,7 +610,7 @@
 							<div class="card card-product">
 								<div class="card-body">
 									<div class="text-center position-relative">
-										<a href="./pages/shop-single.html"><img src="assets/images/products/product-img-8.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
+										<a href="./pages/shop-single.html"><img src="resources/images/products/product-img-8.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
 										<div class="card-product-action">
 											<a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal">
 												<i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i>
@@ -659,7 +666,7 @@
 							<div class="card card-product">
 								<div class="card-body">
 									<div class="text-center position-relative">
-										<a href="./pages/shop-single.html"><img src="/resources/images/products/product-img-9.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
+										<a href="./pages/shop-single.html"><img src="resources/images/products/product-img-9.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
 										<div class="card-product-action">
 											<a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal">
 												<i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i>
@@ -715,7 +722,7 @@
 							<div class="card card-product">
 								<div class="card-body">
 									<div class="text-center position-relative">
-										<a href="./pages/shop-single.html"><img src="/resources/images/products/product-img-10.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
+										<a href="./pages/shop-single.html"><img src="resources/images/products/product-img-10.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
 										<div class="card-product-action">
 											<a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal">
 												<i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i>
@@ -781,7 +788,7 @@
 					<div class="table-responsive-lg pb-6">
 						<div class="row row-cols-lg-4 row-cols-1 row-cols-md-2 g-4 flex-nowrap">
 							<div class="col">
-								<div class="pt-8 px-6 px-xl-8 rounded" style="background: url(/resources/images/banner/banner-deal.jpg) no-repeat; background-size: cover; height: 470px">
+								<div class="pt-8 px-6 px-xl-8 rounded" style="background: url(resources/images/banner/banner-deal.jpg) no-repeat; background-size: cover; height: 470px">
 									<div>
 										<h3 class="fw-bold text-white">100% Organic Coffee Beans.</h3>
 										<p class="text-white">Get the best deal before close.</p>
@@ -796,7 +803,7 @@
 								<div class="card card-product">
 									<div class="card-body">
 										<div class="text-center position-relative">
-											<a href="./pages/shop-single.html"><img src="assets/images/products/product-img-11.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
+											<a href="./pages/shop-single.html"><img src="resources/images/products/product-img-11.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
 
 											<div class="card-product-action">
 												<a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal">
@@ -857,7 +864,7 @@
 								<div class="card card-product">
 									<div class="card-body">
 										<div class="text-center position-relative">
-											<a href="./pages/shop-single.html"><img src="/resources/images/products/product-img-12.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
+											<a href="./pages/shop-single.html"><img src="resources/images/products/product-img-12.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
 											<div class="card-product-action">
 												<a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal">
 													<i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i>
@@ -916,7 +923,7 @@
 								<div class="card card-product">
 									<div class="card-body">
 										<div class="text-center position-relative">
-											<a href="./pages/shop-single.html"><img src="/resources/images/products/product-img-13.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
+											<a href="./pages/shop-single.html"><img src="resources/images/products/product-img-13.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
 											<div class="card-product-action">
 												<a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal">
 													<i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i>
@@ -980,28 +987,28 @@
 					<div class="row">
 						<div class="col-md-6 col-lg-3">
 							<div class="mb-8 mb-xl-0">
-								<div class="mb-6"><img src="/resources/images/icons/clock.svg" alt="" /></div>
+								<div class="mb-6"><img src="resources/images/icons/clock.svg" alt="" /></div>
 								<h3 class="h5 mb-3">10 minute grocery now</h3>
 								<p>Get your order delivered to your doorstep at the earliest from FreshCart pickup stores near you.</p>
 							</div>
 						</div>
 						<div class="col-md-6 col-lg-3">
 							<div class="mb-8 mb-xl-0">
-								<div class="mb-6"><img src="/resources/images/icons/gift.svg" alt="" /></div>
+								<div class="mb-6"><img src="resources/images/icons/gift.svg" alt="" /></div>
 								<h3 class="h5 mb-3">Best Prices & Offers</h3>
 								<p>Cheaper prices than your local supermarket, great cashback offers to top it off. Get best pricess & offers.</p>
 							</div>
 						</div>
 						<div class="col-md-6 col-lg-3">
 							<div class="mb-8 mb-xl-0">
-								<div class="mb-6"><img src="/resources/images/icons/package.svg" alt="" /></div>
+								<div class="mb-6"><img src="resources/images/icons/package.svg" alt="" /></div>
 								<h3 class="h5 mb-3">Wide Assortment</h3>
 								<p>Choose from 5000+ products across food, personal care, household, bakery, veg and non-veg & other categories.</p>
 							</div>
 						</div>
 						<div class="col-md-6 col-lg-3">
 							<div class="mb-8 mb-xl-0">
-								<div class="mb-6"><img src="/resources/images/icons/refresh-cw.svg" alt="" /></div>
+								<div class="mb-6"><img src="resources/images/icons/refresh-cw.svg" alt="" /></div>
 								<h3 class="h5 mb-3">Easy Returns</h3>
 								<p>
 									Not satisfied with a product? Return it at the doorstep & get a refund within hours. No questions asked
@@ -1020,13 +1027,13 @@
 		<!-- Javascript-->
 
 		
-		<script src="/resources/js/vendors/jquery.min.js"></script>
-		<script src="/resources/js/vendors/countdown.js"></script>
-		<!--  <script src="@@webRoot/node_modules/slick-carousel/slick/slick.min.js"></script>-->
-		<script src="\/resources/js/vendors/slick-slider.js"></script>
-	<!-- 	<script src="@@webRoot/node_modules/tiny-slider/dist/min/tiny-slider.js"></script>-->
-		<script src="/resources/js/vendors/tns-slider.js"></script>
-		<script src="/resources/js/vendors/zoom.js"></script>
+		<script src="resources/js/vendors/jquery.min.js"></script>
+		<script src="resources/js/vendors/countdown.js"></script>
+		 <script src="resources/libs/slick-carousel/slick/slick.min.js"></script>
+		<script src="resources/js/vendors/slick-slider.js"></script>
+	 	<script src="resources/libs/tiny-slider/dist/min/tiny-slider.js"></script>
+		<script src="resources/js/vendors/tns-slider.js"></script>
+		<script src="resources/js/vendors/zoom.js"></script>
 
 
 </body>
