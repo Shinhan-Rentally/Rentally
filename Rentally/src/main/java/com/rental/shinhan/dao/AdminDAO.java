@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public class AdminDAO implements AdminInterface {
 
-    String namespace = "com.rental.shinhan.";
+    String namespace = "com.rental.shinhan.admin.";
 
     @Autowired
     SqlSession sqlSession;
