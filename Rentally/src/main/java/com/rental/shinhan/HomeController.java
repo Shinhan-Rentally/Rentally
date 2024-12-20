@@ -46,6 +46,7 @@ public class HomeController {
 	public void test() {
 		testService.test();
 	}
+	//메인 이동
 	@GetMapping("/main")
 	public String main() {
 		return "main";

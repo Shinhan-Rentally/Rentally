@@ -22,7 +22,7 @@
 <%@ include file="./common/headLinks.jsp" %>
 </head>
 <body>
-
+<!-- 헤더화면 임포트 -->
 <%@ include file="./common/header.jsp" %>
 	
 		<main>
