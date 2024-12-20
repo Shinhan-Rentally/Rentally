@@ -14,4 +14,9 @@
         order by review_date desc;
     </select>
 
+    <update id="deleteProduct" parameterType="int">
+        update product
+        set product_grade = 'F'
+        where product_seq = #{product_seq}
+    </update>
 </mapper>
