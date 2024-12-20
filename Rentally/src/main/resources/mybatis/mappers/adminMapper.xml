@@ -14,4 +14,10 @@
         order by review_date desc;
     </select>
 
+    <select id="selectCustomers" resultType="com.rental.shinhan.dto.CustomerDTO">
+        select cust_id, cust_name, cust_email, cust_phone
+        from customer
+        where cust_status = true
+    </select>
+
 </mapper>
