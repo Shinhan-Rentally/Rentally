@@ -1,6 +1,7 @@
 package com.rental.shinhan.service;
 
 import com.rental.shinhan.dao.AdminDAO;
+import com.rental.shinhan.dto.OrderJoinDTO;
 import com.rental.shinhan.dto.ProductDTO;
 import com.rental.shinhan.dto.ReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,10 @@ public class AdminService {
     public List<ReviewDTO> findReviews() {
       
         return adminDAO.selectReviews();
+    }
+
+    public List<OrderJoinDTO> findOrders() {
+
+        return adminDAO.selectOrders();
     }
 }
