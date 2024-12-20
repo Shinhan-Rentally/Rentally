@@ -16,6 +16,14 @@
 	</properties>
 
 	<dependencies>
+		<!-- 2024/12/20에 추가함 → 암호화 -->
+		<!-- https://mvnrepository.com/artifact/at.favre.lib/bcrypt -->
+		<dependency>
+			<groupId>at.favre.lib</groupId>
+			<artifactId>bcrypt</artifactId>
+			<version>0.9.0</version>
+		</dependency>
+		
 		<!-- 2024/12/19에 추가함 -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
