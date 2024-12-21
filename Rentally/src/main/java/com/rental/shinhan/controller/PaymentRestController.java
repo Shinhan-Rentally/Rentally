@@ -47,8 +47,6 @@ public class PaymentRestController {
     }
     
     public String getAccessToken() {
-    	System.out.println(impKey);
-    	System.out.println(impSecret);
     	String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
     	
     	HttpRequest request = HttpRequest.newBuilder()
@@ -97,6 +95,7 @@ public class PaymentRestController {
             paymentRequest.getMerchantUid(),
             paymentRequest.getAmount()
         );
+        System.out.println("requestBody:"+requestBody);
 
         HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
 
@@ -105,13 +104,27 @@ public class PaymentRestController {
 
 
             if (response.getStatusCode().is2xxSuccessful()) {
-                return ResponseEntity.ok("{\"success\": true, \"message\": \"Payment processed successfully\"}");
+                // Parse the JSON response
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode responseBody = objectMapper.readTree(response.getBody());
+                
+                // Extract paid_amount and card_name
+                JsonNode responseNode = responseBody.path("response");
+                int paidAmount = responseNode.path("paid_amount").asInt();
+                String cardName = responseNode.path("card_name").asText();
+
+                // Create response JSON
+                String responseJson = String.format("{\"success\": true, \"message\": \"Payment processed successfully\", \"paid_amount\": %d, \"card_name\": \"%s\"}", paidAmount, cardName);
+
+                return ResponseEntity.ok(responseJson);
             } else {
-                return ResponseEntity.status(400).body("{\"success\": false, \"message\": \"Payment failed\"}");
+                String responseJson = "{\"success\": false, \"message\": \"Payment failed\"}";
+                return ResponseEntity.status(400).body(responseJson);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body("{\"success\": false, \"message\": \"Server error\"}");
+            String responseJson = "{\"success\": false, \"message\": \"Server error\"}";
+            return ResponseEntity.status(500).body(responseJson);
         }
     }
 }
