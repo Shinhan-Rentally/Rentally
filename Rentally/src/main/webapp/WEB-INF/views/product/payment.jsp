@@ -78,15 +78,8 @@
 														</div>
 														<!-- address -->
 														<address>
-															
-															<br />
-
-															4450 North Avenue Oakland,
-															<br />
-
-															Nebraska, United States,
-															<br />
-
+															4450 North Avenue Oakland,<br>
+															Nebraska, United States<br>
 															<abbr title="Phone">P: 402-776-1106</abbr>
 														</address>
 														<span class="text-danger">Default address</span>
@@ -100,12 +93,8 @@
 															<label class="form-check-label text-dark" for="officeRadio">사람이름2</label>
 														</div>
 														<address>
-															<br />
-															3853 Coal Road,
-															<br />
-															Tannersville, Pennsylvania, 18372, USA,
-															<br />
-
+															3853 Coal Road<br>
+															Tannersville, Pennsylvania, 18372, USA<br>
 															<abbr title="Phone">P: 402-776-1106</abbr>
 														</address>
 													</div>
@@ -163,7 +152,7 @@
 												<div class="me-auto">
 													<div class="fw-bold">매달 이용요금</div>
 												</div>
-												<span class="fw-bold" id="price">
+												<span class="fw-bold" id="productPay">
 													<fmt:formatNumber value="${productPay}" type="number" pattern="#,###"/>원
 												</span>
 											</li>
@@ -171,7 +160,7 @@
 									</div>
 									<div class="d-grid mb-1 mt-4">
 										<!-- btn -->
-										<button class="btn btn-primary btn-lg d-flex justify-content-center align-items-center" type="submit" id="subscribe">
+										<button class="btn btn-primary btn-lg d-flex justify-content-center align-items-center" id="subscribe">
 											구독하기
 										</button>
 									</div>
@@ -324,11 +313,12 @@
         let minutes = pad(now.getMinutes());
         let seconds = pad(now.getSeconds());
         
-        return `\${year}\${month}\${day}\${hours}\${minutes}\${seconds}`;
+        return `\${year}-\${month}-\${day} \${hours}:\${minutes}:\${seconds}`;
     }
 	
 	function payment(){
 		let nowDate = displayDateTime();
+		let nowDateStr = nowDate.replace(/[^\d]/g, '');
 
 		IMP.init("imp26414862");
 		
@@ -336,17 +326,19 @@
 				  {
 				    channelKey: "channel-key-32f7b4dd-ec84-4363-abb9-a8c3b5d5a071",
 				    pay_method: "card", 
-				    merchant_uid: `\${merchantUid}_\${nowDate}`, 
+				    merchant_uid: `\${merchantUid}_\${nowDateStr}`, 
 				    name: $('#productName').text(),
-				    amount: $('#price').text().replace(/[^\d]/g, ''), 
-				    customer_uid: `${cust_seq}_\${nowDate}`, 
-				    buyer_email: `${email}`,
-				    buyer_name: `${name}`,
-				    buyer_tel: `${tel}`
+				    amount: $('#productPay').text().replace(/[^\d]/g, ''), 
+				    customer_uid: `${custSeq}_\${nowDateStr}`, 
+				    buyer_email: `${custEmail}`,
+				    buyer_name: `${custName}`,
+				    buyer_tel: `${custPhone}`
 				  },
 				  function (rsp) {
 				    if (rsp.success) {
 				      alert("빌링키 발급 성공");
+				      let subTotal = rsp.paid_amount;
+				      let subCard = rsp.card_name;
 				      console.log(rsp);
 				      
 					    const paymentData = {
@@ -366,7 +358,15 @@
 				            .then(response => response.json())
 				            .then(data => {
 				                if (data.success) {
-				                    alert("결제 성공");
+				                    console.log(data);
+				                	alert("결제 성공");
+				                    
+				                    const paymentResultData = {
+				                    	subTotal: subTotal,
+				                    	subCard: subCard,
+				                    	subDate: nowDate
+				                    };
+				                    redirectToCompletePage(paymentResultData);
 				                } else {
 				                    alert("결제 실패");
 				                }
@@ -381,6 +381,97 @@
 				  },
 				);
 	}
+	
+	function getSelectedAddress() {
+		// 선택된 라디오 버튼을 찾습니다.
+		const selectedRadio = document.querySelector('input[name="flexRadioDefault"]:checked');
+
+		// 선택된 라디오 버튼을 포함하는 가장 가까운 .card 요소를 찾습니다.
+		const selectedCard = selectedRadio.closest('.card');
+
+		// .card 요소 내의 <address> 요소를 찾습니다.
+		const addressElement = selectedCard.querySelector('address');
+
+		// <address> 요소 내의 텍스트를 줄 단위로 분리합니다.
+		const addressLines = addressElement.innerText.split('\n').map(line => line.trim()).filter(line => line !== '');
+
+		// addressTitle과 addressDetail을 추출합니다.
+		const addressTitle = addressLines[0];
+		const addressDetail = addressLines[1];
+
+		// 사람 이름을 추출합니다.
+		const subName = selectedCard.querySelector('.form-check-label').innerText;
+
+		// 전화번호를 추출합니다.
+		const subPhone = selectedCard.querySelector('address abbr[title="Phone"]').innerText.replace('P: ', '');
+
+		return { subName, subPhone, addressTitle, addressDetail };
+
+	}
+	
+	function redirectToCompletePage(paymentResultData) {
+	    const selectedAddress = getSelectedAddress();
+	    if (!selectedAddress) {
+	        alert('선택된 주소가 없습니다.');
+	        return;
+	    }
+
+	    const form = document.createElement('form');
+	    form.method = 'POST';
+	    form.action = `${path}/payment/complete`;
+
+	    // Add payment data to form
+	    for (const key in paymentResultData) {
+	        if (paymentResultData.hasOwnProperty(key)) {
+	            const input = document.createElement('input');
+	            input.type = 'hidden';
+	            input.name = key;
+	            input.value = paymentResultData[key];
+	            form.appendChild(input);
+	        }
+	    }
+
+	    // Add selected address to form
+	    const nameInput = document.createElement('input');
+	    nameInput.type = 'hidden';
+	    nameInput.name = 'subName';
+	    nameInput.value = selectedAddress.subName;
+	    form.appendChild(nameInput);
+
+	    const addressTitleInput = document.createElement('input');
+	    addressTitleInput.type = 'hidden';
+	    addressTitleInput.name = 'subAddressT';
+	    addressTitleInput.value = selectedAddress.addressTitle;
+	    form.appendChild(addressTitleInput);
+	    
+	    const addressDetailInput = document.createElement('input');
+	    addressDetailInput.type = 'hidden';
+	    addressDetailInput.name = 'subAddressD';
+	    addressDetailInput.value = selectedAddress.addressDetail;
+	    form.appendChild(addressDetailInput);
+	    
+	    const phoneInput = document.createElement('input');
+	    phoneInput.type = 'hidden';
+	    phoneInput.name = 'subPhone';
+	    phoneInput.value = selectedAddress.subPhone;
+	    form.appendChild(phoneInput);
+	    
+	    const productSeqInput = document.createElement('input');
+	    productSeqInput.type = 'hidden';
+	    productSeqInput.name = 'productSeq';
+	    productSeqInput.value = ${productSeq};
+	    form.appendChild(productSeqInput);
+	    
+	    const subPeriodInput = document.createElement('input');
+	    subPeriodInput.type = 'hidden';
+	    subPeriodInput.name = 'productPeriod';
+	    subPeriodInput.value = ${productPeriod};
+	    form.appendChild(subPeriodInput);
+	    
+	    document.body.appendChild(form);
+	    form.submit();
+	}
+
 	
     async function payment2(){
     	const issueResponse = PortOne.requestIssueBillingKey({
