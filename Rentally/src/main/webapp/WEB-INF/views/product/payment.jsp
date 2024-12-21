@@ -418,7 +418,7 @@
 
 	    const form = document.createElement('form');
 	    form.method = 'POST';
-	    form.action = `${path}/payment/complete`;
+	    form.action = `${path}/subscribe/product`;
 
 	    // Add payment data to form
 	    for (const key in paymentResultData) {
