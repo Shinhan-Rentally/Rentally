@@ -1,6 +1,6 @@
 package com.rental.shinhan.daointerface;
 
-public interface PaymenInterface {
+public interface PaymentInterface {
 
 	public int selectSubSeq();
 }
