@@ -19,15 +19,15 @@ public class PaymentController {
     	
     	int productSeq = 0;
     	int productPeriod = 0;
-    	String productName = "[LG] Æ®·Ò ¿ÀºêÁ¦ÄÃ·º¼Ç ¿ö½ÃÄŞº¸ ¼¼Å¹±â 25kg + °ÇÁ¶±â 15kg + ¹Ì´Ï¿ö½Ã (½ºÆäÀÌ½º ºí·¢)";
+    	String productName = "[LG] íŠ¸ë¡¬ ì˜¤ë¸Œì œì»¬ë ‰ì…˜ ì›Œì‹œì½¤ë³´ ì„¸íƒê¸° 25kg + ê±´ì¡°ê¸° 15kg + ë¯¸ë‹ˆì›Œì‹œ (ìŠ¤í˜ì´ìŠ¤ ë¸”ë™)";
     	int productPay = 137800;
     	String custEmail = "test@portone.io";
-    	String custName = "Æ÷Æ®¿ø";
+    	String custName = "ì‚¬ëŒì´ë¦„1";
     	String custPhone = "02-1234-1234";
     	
     	int custSeq = (int)session.getAttribute("custSeq");
     	
-    	// Àå¹Ù±¸´Ï¿Í »óÇ°»ó¼¼È­¸é¿¡¼­ product_seq Áá´Ù´Â °¡Á¤
+    	// ì¥ë°”êµ¬ë‹ˆì™€ ìƒí’ˆìƒì„¸í™”ë©´ì—ì„œ product_seq ì¤¬ë‹¤ëŠ” ê°€ì •
     	Map<String, ?>  map = RequestContextUtils.getInputFlashMap(request);
 		if(map!=null) {
 			productSeq = (int) map.get("productSeq");
@@ -37,19 +37,19 @@ public class PaymentController {
 				productPeriod = (int) map.get("cartOption");
 		}
 		
-    	// 1. where product_seq = ? ÀÎ Äõ¸® »ç¿ëÇØ¼­ »óÇ°Á¤º¸ ¹Ş¾Æ¿À±â(ProductService)
-    	// 2. session¿¡ ÀúÀåµÈ cust_seq ¹Ş¾Æ¿Í¼­ where cust_seq = ? ÀÎ Äõ¸® »ç¿ëÇØ¼­ °í°´Á¤º¸ ¹Ş¾Æ¿À±â(CustomerService)
-		productSeq = 1;
+    	// 1. where product_seq = ? ì¸ ì¿¼ë¦¬ ì‚¬ìš©í•´ì„œ ìƒí’ˆì •ë³´ ë°›ì•„ì˜¤ê¸°(ProductService)
+    	// 2. sessionì— ì €ì¥ëœ cust_seq ë°›ì•„ì™€ì„œ where cust_seq = ? ì¸ ì¿¼ë¦¬ ì‚¬ìš©í•´ì„œ ê³ ê°ì •ë³´ ë°›ì•„ì˜¤ê¸°(CustomerService)
+		productSeq = 25;
 		productPeriod = 12;
 		
 		model.addAttribute("productSeq", productSeq); 
 		model.addAttribute("productPeriod", productPeriod); 
 		
-    	model.addAttribute("productName", productName); // 1¹ø Äõ¸®°á°ú·Î ¼öÁ¤
-    	model.addAttribute("productPay", productPay); // 1¹ø Äõ¸®°á°ú·Î ¼öÁ¤
-    	model.addAttribute("custEmail", custEmail); // 2¹ø Äõ¸®°á°ú·Î ¼öÁ¤
-    	model.addAttribute("custName", custName); // 2¹ø Äõ¸®°á°ú·Î ¼öÁ¤
-    	model.addAttribute("custPhone", custPhone); // 2¹ø Äõ¸®°á°ú·Î ¼öÁ¤
+    	model.addAttribute("productName", productName); // 1ë²ˆ ì¿¼ë¦¬ê²°ê³¼ë¡œ ìˆ˜ì •
+    	model.addAttribute("productPay", productPay); // 1ë²ˆ ì¿¼ë¦¬ê²°ê³¼ë¡œ ìˆ˜ì •
+    	model.addAttribute("custEmail", custEmail); // 2ë²ˆ ì¿¼ë¦¬ê²°ê³¼ë¡œ ìˆ˜ì •
+    	model.addAttribute("custName", custName); // 2ë²ˆ ì¿¼ë¦¬ê²°ê³¼ë¡œ ìˆ˜ì •
+    	model.addAttribute("custPhone", custPhone); // 2ë²ˆ ì¿¼ë¦¬ê²°ê³¼ë¡œ ìˆ˜ì •
     	
     	return "product/payment";
     }
