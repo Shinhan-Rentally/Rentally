@@ -464,7 +464,7 @@
 	    
 	    const subPeriodInput = document.createElement('input');
 	    subPeriodInput.type = 'hidden';
-	    subPeriodInput.name = 'product_period';
+	    subPeriodInput.name = 'sub_period';
 	    subPeriodInput.value = ${productPeriod};
 	    form.appendChild(subPeriodInput);
 	    
