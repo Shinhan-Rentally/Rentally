@@ -362,9 +362,9 @@
 				                	alert("결제 성공");
 				                    
 				                    const paymentResultData = {
-				                    	subTotal: subTotal,
-				                    	subCard: subCard,
-				                    	subDate: nowDate
+				                    	sub_total: subTotal,
+				                    	sub_card: subCard,
+				                    	sub_date: nowDate
 				                    };
 				                    redirectToCompletePage(paymentResultData);
 				                } else {
@@ -434,37 +434,37 @@
 	    // Add selected address to form
 	    const nameInput = document.createElement('input');
 	    nameInput.type = 'hidden';
-	    nameInput.name = 'subName';
+	    nameInput.name = 'sub_name';
 	    nameInput.value = selectedAddress.subName;
 	    form.appendChild(nameInput);
 
 	    const addressTitleInput = document.createElement('input');
 	    addressTitleInput.type = 'hidden';
-	    addressTitleInput.name = 'subAddressT';
+	    addressTitleInput.name = 'sub_addrT';
 	    addressTitleInput.value = selectedAddress.addressTitle;
 	    form.appendChild(addressTitleInput);
 	    
 	    const addressDetailInput = document.createElement('input');
 	    addressDetailInput.type = 'hidden';
-	    addressDetailInput.name = 'subAddressD';
+	    addressDetailInput.name = 'sub_addrD';
 	    addressDetailInput.value = selectedAddress.addressDetail;
 	    form.appendChild(addressDetailInput);
 	    
 	    const phoneInput = document.createElement('input');
 	    phoneInput.type = 'hidden';
-	    phoneInput.name = 'subPhone';
+	    phoneInput.name = 'sub_phone';
 	    phoneInput.value = selectedAddress.subPhone;
 	    form.appendChild(phoneInput);
 	    
 	    const productSeqInput = document.createElement('input');
 	    productSeqInput.type = 'hidden';
-	    productSeqInput.name = 'productSeq';
+	    productSeqInput.name = 'product_seq';
 	    productSeqInput.value = ${productSeq};
 	    form.appendChild(productSeqInput);
 	    
 	    const subPeriodInput = document.createElement('input');
 	    subPeriodInput.type = 'hidden';
-	    subPeriodInput.name = 'productPeriod';
+	    subPeriodInput.name = 'product_period';
 	    subPeriodInput.value = ${productPeriod};
 	    form.appendChild(subPeriodInput);
 	    
