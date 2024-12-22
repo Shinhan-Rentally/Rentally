@@ -124,13 +124,15 @@
 	                                    <td class="align-middle border-top-0">${sub.sub_enddate}</td>
 	                                    <td class="align-middle border-top-0">
 	                                    <form action="" method="post">
-											<input type="hidden" name="" value="">
+											<input type="hidden" name="sub_seq" value="${sub.sub_seq}">
 	                                       	<button class="btn btn-danger">해지신청</button>
 	                                    </form>
 	                                    </td>
 	                                    <td class="align-middle border-top-0">
 	                                    <form action="" method="post">
-											<input type="hidden" name="" value="">
+											<input type="hidden" name="product_brand" value="${sub.product_brand}">
+											<input type="hidden" name="product_grade" value="${sub.product_grade}">
+											<input type="hidden" name="product_date" value="${sub.product_date}">
 											<button class="btn btn-primary">업그레이드</button>
 										</form>
 	                                    </td>
