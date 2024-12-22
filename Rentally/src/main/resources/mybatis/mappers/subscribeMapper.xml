@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rental.shinhan.subscribe">
+
+	<select id="selectSubscribeList" parameterType="int" resultType="com.rental.shinhan.dto.SubscribeListJoinDTO">
+	select *
+	from subscribe join customer using (cust_seq)
+				   join product using (product_seq)
+	where cust_seq = #{cust_seq} and sub_date + sub_period >= current_date and sub_cancel = false
+	</select>
+
+</mapper>
