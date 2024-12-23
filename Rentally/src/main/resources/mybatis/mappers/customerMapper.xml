@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rental.shinhan.customer">
+
+	<select id="selectCustomer" resultType="CustomerVO">
+		select * from customer
+	</select>
+	
+	<!-- 로그인 기능 -->
+	<select id="customerLogin" parameterType="string" resultType="LoginVO" >
+		SELECT
+		c.*,
+		COUNT(DISTINCT crt.cart_seq) AS cart_count,
+		COUNT(DISTINCT wl.wish_seq) AS wishlist_count
+		FROM
+		CUSTOMER c
+		LEFT JOIN
+		CART crt
+		ON
+		c.cust_seq = crt.cust_seq
+		LEFT JOIN
+		WISHLIST wl
+		ON
+		c.cust_seq = wl.cust_seq
+		WHERE
+		c.cust_id = #{cust_id} AND CUST_STATUS = TRUE
+		GROUP BY
+		c.cust_seq, c.cust_id, c.cust_name, c.cust_phone, c.cust_email
+	</select>
+
+
+    <update id="deleteCustomer" parameterType="int">
+        update customer
+        set
+        cust_status = false
+        where cust_seq = #{cust_seq}
+    </update>
+
+	<update id="updateCustInfo" parameterType="CustomerVO">
+		update customer
+		set
+		cust_name = #{cust_name},
+		cust_email = #{cust_email},
+		cust_phone = #{cust_phone}
+		where cust_seq = #{cust_seq}
+	</update>
+	
+	<insert id="insertCustomer" parameterType="CustomerVO">
+		INSERT INTO CUSTOMER
+			(CUST_SEQ, CUST_ID, CUST_PW, CUST_PHONE,
+			CUST_EMAIL, CUST_NAME, CUST_STATUS)
+		VALUES
+			(nextval('customer_seq'), #{cust_id},
+			#{cust_pw}, #{cust_phone}, #{cust_email},
+			#{cust_name}, 'true')
+	</insert>
+
+</mapper>
