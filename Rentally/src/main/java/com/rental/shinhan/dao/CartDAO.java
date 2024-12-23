@@ -15,7 +15,7 @@ public class CartDAO {
 	SqlSession sqlSession;
 	
 	String namespace = "com.rental.shinhan.";
-	public List<CartJoinDTO> selectCart(int cust_id){
+	public List<CartJoinDTO> selectCart(String cust_id){
 		List<CartJoinDTO> cartlist = sqlSession.selectList(namespace+"selectCart", cust_id);
 		log.info(cartlist.size()+"°³ Á¶È¸");
 		return cartlist;
