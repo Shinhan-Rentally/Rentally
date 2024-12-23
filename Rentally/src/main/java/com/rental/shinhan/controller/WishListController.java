@@ -4,6 +4,7 @@ import com.rental.shinhan.dto.WishListJoinDTO;
 import com.rental.shinhan.service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,12 @@ public class WishListController {
     @GetMapping("/{custSeq}/list")
     public String getWishLists(@PathVariable("custSeq") int custSeq) {
         List<WishListJoinDTO> wishList = wishListService.findWishLists(custSeq);
+        return "";
+    }
+
+    @DeleteMapping("/delete")
+    public String deleteWish(int wishSeq) {
+        int result = wishListService.deleteWish(wishSeq);
         return "";
     }
 }
