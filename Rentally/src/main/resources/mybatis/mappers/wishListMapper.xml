@@ -13,4 +13,9 @@
         where w.cust_seq = #{cust_seq}
     </select>
 
+    <delete id="deleteWish" parameterType="int">
+        DELETE FROM wishlist
+        where wish_seq = #{wish_seq}
+    </delete>
+
 </mapper>
