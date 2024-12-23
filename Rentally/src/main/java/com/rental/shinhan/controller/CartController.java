@@ -18,7 +18,7 @@ public class CartController {
 	CartService cartService;
 	
 	@GetMapping("/cart/list")
-	public String cartList(int cust_id, Model model) {
+	public String cartList(String cust_id, Model model) {
 		model.addAttribute("cartList", cartService.selectCart(cust_id));
 		//장바구니 jsp 페이지
 		return "";

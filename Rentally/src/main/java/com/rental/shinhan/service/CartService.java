@@ -11,7 +11,7 @@ public class CartService {
 	@Autowired
 	CartDAO cartDAO;
 	
-	public List<CartJoinDTO> selectCart(int cust_id){
+	public List<CartJoinDTO> selectCart(String cust_id){
 		return cartDAO.selectCart(cust_id);
 	}
 }

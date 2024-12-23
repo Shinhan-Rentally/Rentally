@@ -5,5 +5,5 @@ import java.util.List;
 import com.rental.shinhan.dto.CartJoinDTO;
 
 public interface CartDAOInterface {
-	public List<CartJoinDTO> selectCart(int cust_id);
+	public List<CartJoinDTO> selectCart(String cust_id);
 }
