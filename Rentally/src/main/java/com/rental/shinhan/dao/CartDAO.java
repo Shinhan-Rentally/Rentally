@@ -17,10 +17,10 @@ public class CartDAO implements CartDAOInterface{
 	@Autowired
 	SqlSession sqlSession;
 	
-	String namespace = "com.rental.shinhan.";
+	String namespace = "com.rental.shinhan.cart.";
 	public List<CartJoinDTO> selectCart(String cust_id){
 		List<CartJoinDTO> cartlist = sqlSession.selectList(namespace+"selectCart", cust_id);
-		log.info(cartlist.size()+"°³ Á¶È¸");
+		log.info(cartlist.size()+"ê±´");
 		return cartlist;
 	}
 }
