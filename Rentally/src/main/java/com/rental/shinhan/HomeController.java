@@ -36,14 +36,22 @@ public class HomeController {
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		
 		String formattedDate = dateFormat.format(date);
-		
+		 
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "home";
+		return "main";
 	}
 	
 	@GetMapping("/test")
 	public void test() {
 		testService.test();
 	}
+	//메인 이동
+	@GetMapping("/main")
+	public String main() {
+		return "main";
+	}
+
+	
+	
 }
