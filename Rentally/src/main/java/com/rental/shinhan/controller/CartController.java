@@ -18,7 +18,7 @@ public class CartController {
 	@GetMapping("/cart/list")
 	public String cartList(String cust_id, Model model) {
 		model.addAttribute("cartList", cartService.selectCart(cust_id));
-		//Àå¹Ù±¸´Ï jsp ÆäÀÌÁö
+		//ì¥ë°”êµ¬ë‹ˆ í™”ë©´ jsp
 		return "";
 	}
 	
