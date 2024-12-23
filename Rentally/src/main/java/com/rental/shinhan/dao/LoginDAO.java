@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rental.shinhan.daointerface.LoginInterfce;
-import com.rental.shinhan.dto.LoginDTO;
+import com.rental.shinhan.dto.LoginJoinDTO;
 
 @Repository
 public class LoginDAO  implements LoginInterfce{
@@ -13,7 +13,7 @@ public class LoginDAO  implements LoginInterfce{
 	SqlSession sqlSession;
 	
 	
-	String namespace = "com.rental.shinhan.customerlogin.";
+	String namespace = "com.rental.shinhan.customer.";
 
 	
 
@@ -21,11 +21,8 @@ public class LoginDAO  implements LoginInterfce{
 
 
 	@Override
-	public LoginDTO login(String cust_id) {
+	public LoginJoinDTO login(String cust_id) {
 
-		
-	
-		
 		return sqlSession.selectOne(namespace+"customerLogin",cust_id);
 	}
 	

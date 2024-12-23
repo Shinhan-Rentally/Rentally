@@ -1,9 +1,9 @@
 package com.rental.shinhan.daointerface;
 
-import com.rental.shinhan.dto.LoginDTO;
+import com.rental.shinhan.dto.LoginJoinDTO;
 
 public interface LoginInterfce {
 
-	LoginDTO login(String cust_id);
+	LoginJoinDTO login(String cust_id);
 	
 }
