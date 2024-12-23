@@ -9,12 +9,14 @@
 <meta content="Codescandy" name="author">
 <!-- Favicon icon-->
 <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon/favicon.ico">
+<%@ include file="../common/headLinks.jsp"%>
+<%@ include file="../common/headMeta.jsp"%>
 <!-- Libs CSS -->
-<link href="resources/libs/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="${path}/resources/libs/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet">
 <link href="resources/libs/feather-webfont/dist/feather-icons.css" rel="stylesheet">
 <link href="resources/libs/simplebar/dist/simplebar.min.css" rel="stylesheet">
 <!-- Theme CSS -->
-<!-- build:css @@webRoot/assets/css/theme.min.css -->
+
 <link rel="stylesheet" href="resources/css/theme.css">
 <!-- endbuild -->
 <title>카테고리 상품</title>

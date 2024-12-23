@@ -46,4 +46,10 @@ public class HomeController {
 	public void test() {
 		testService.test();
 	}
+	
+	@GetMapping("/product/productlist")
+	public String product() {
+		return "product/productList";
+	}
+	
 }
