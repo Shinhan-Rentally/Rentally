@@ -208,6 +208,7 @@
                         </div>
                      </div>
                      <!-- row -->
+                     <c:forEach items="${productlist}" var="productlist">
                      <div class="row g-4 row-cols-xl-4 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
                         <!-- col -->
                         <div class="col">
@@ -221,7 +222,7 @@
                                     </div>
                                     <a href="shop-single.html">
                                        <!-- img -->
-                                       <img src="resources/images/products/product-img-1.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" />
+                                       <img src="resources/images/products/${productlist.product_img}" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" />
                                     </a>
                                     <!-- action btn -->
                                     <div class="card-product-action">
@@ -247,7 +248,7 @@
                                  <!-- price -->
                                  <div class="d-flex justify-content-between align-items-center mt-3">
                                     <div>
-                                       <span class="text-dark">$18</span>
+                                       <span class="text-dark">${productlist.product_pay}</span>
                                      
                                     </div>
                                     <!-- btn -->
@@ -277,6 +278,7 @@
                       
 
                       </div>
+                      </c:forEach>
                      <div class="row mt-8">
                         <div class="col">
                            <!-- nav -->
