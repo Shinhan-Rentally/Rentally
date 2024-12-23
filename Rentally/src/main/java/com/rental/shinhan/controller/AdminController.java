@@ -7,8 +7,7 @@ import com.rental.shinhan.dto.ReviewDTO;
 import com.rental.shinhan.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +17,8 @@ public class AdminController {
 
     @Autowired
     AdminService adminService;
+
+    private int productSeq = 1;
 
     @GetMapping("/product/list")
     public String getProducts() {
@@ -43,6 +44,12 @@ public class AdminController {
     public String getOrders() {
 
         List<OrderJoinDTO> orders = adminService.findOrders();
+        return "";
+    }
+
+    @PostMapping("/{productSeq}/delete")
+    public String deleteProduct(@PathVariable int productSeq){
+        int result = adminService.removeProduct(productSeq);
         return "";
     }
 }

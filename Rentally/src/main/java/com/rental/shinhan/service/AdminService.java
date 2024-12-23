@@ -35,4 +35,8 @@ public class AdminService {
 
         return adminDAO.selectOrders();
     }
+
+    public int removeProduct(int productSeq) {
+        return adminDAO.deleteProduct(productSeq);
+    }
 }

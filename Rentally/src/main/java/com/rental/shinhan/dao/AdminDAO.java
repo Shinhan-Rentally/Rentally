@@ -38,4 +38,9 @@ public class AdminDAO implements AdminInterface {
         List<CustomerDTO> customers = sqlSession.selectList(namespace + "selectCustomers");
         return customers;
     }
+
+    public int deleteProduct(int productSeq) {
+        int result = sqlSession.update(namespace + "deleteProduct", productSeq);
+        return result;
+    }
 }

@@ -36,4 +36,9 @@
         join
         product p on s.product_seq = p.product_seq;
     </select>
+    <update id="deleteProduct" parameterType="int">
+        update product
+        set product_grade = 'F'
+        where product_seq = #{product_seq}
+    </update>
 </mapper>
