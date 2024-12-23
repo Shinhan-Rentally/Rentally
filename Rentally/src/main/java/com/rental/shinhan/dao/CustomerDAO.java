@@ -16,8 +16,8 @@ public class CustomerDAO implements CustomerInterface {
     @Autowired
     SqlSession sqlSession;
 
-    public List<CustomerDTO> selectCustomer() {
-        List<CustomerDTO> customer = sqlSession.selectList(namespace + "selectCustomer");
+    public CustomerDTO selectCustomer(int cust_seq) {
+        CustomerDTO customer = sqlSession.selectOne(namespace + "selectCustomer", cust_seq);
         return customer;
     }
 
