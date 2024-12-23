@@ -5,12 +5,15 @@ import java.sql.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @Builder
 public class ProductListJoinDTO {
@@ -22,7 +25,7 @@ public class ProductListJoinDTO {
 	 */
 	
 	int product_seq ;
-    int product_serial;
+    String product_serial;
     String product_name;
     String product_img;
     String product_detail;
