@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rental.shinhan.cart">
+
+	<select id="selectCart" parameterType="String" resultType="CartVO">
+		select product_brand, product_name, product_img,
+		product_pay, cart_option
+		from cart
+		join product
+		on cart.product_seq =
+		product.product_seq
+		join customer
+		on customer.cust_seq = cart.cust_seq
+		where customer.cust_id = #{cust_id}
+	</select>
+	<delete id="deleteCart" parameterType="map">
+		DELETE FROM cart
+		USING customer c, product p
+		WHERE
+		cart.cust_seq = c.cust_seq
+		AND cart.product_seq = p.product_seq
+		AND
+		c.cust_id = #{cust_id}
+		AND p.product_seq = #{product_seq}
+	</delete>
+	<insert id="insertCart" parameterType="CartVO">
+		INSERT INTO cart(cart_seq, cust_seq, product_seq,
+		cart_option)
+		VALUES (nextval('cart_seq'), #{cust_seq}, #{product_seq}, #{cart_option})
+	</insert>
+</mapper>

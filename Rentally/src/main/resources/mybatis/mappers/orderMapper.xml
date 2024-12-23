@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.rental.shinhan">
+<mapper namespace="com.rental.shinhan.order">
 
-    <select id="selectOrders" parameterType="int" resultType="com.rental.shinhan.dto.SubscribeDTO">
+    <select id="selectOrders" parameterType="int" resultType="SubscribeVO">
         select *
         from subscribe
         where cust_seq = #{cust_seq}
