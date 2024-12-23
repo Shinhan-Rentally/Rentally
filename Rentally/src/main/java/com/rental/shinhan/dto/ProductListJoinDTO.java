@@ -13,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Builder
-public class ProductListDTO {
+public class ProductListJoinDTO {
 
 	/*상품+카테고리+상품정보 테이블 조인함
 	 * 
