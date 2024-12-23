@@ -64,4 +64,13 @@ public class CustomerController {
 		return "customer/login";
 	}
 
+    @PostMapping(value = "/password", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String updateCustPs(
+            @RequestBody CustomerDTO custInfo,
+            HttpSession session) {
+        custInfo.setCust_seq(cust_seq);
+        int result = custService.updateCustPw(custInfo);
+        return "";
+    }
+
 }
