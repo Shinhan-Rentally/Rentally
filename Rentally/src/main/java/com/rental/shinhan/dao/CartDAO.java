@@ -25,7 +25,7 @@ public class CartDAO implements CartDAOInterface{
 	}
 	public int insert(CartJoinDTO cart) {
     	int result = sqlSession.insert(namespace + "insertCart", cart);
-    	log.info(result + "건 추가 성공");
+    	log.info(result + "건 추가 성공!");
     	return result;
     }
 }
