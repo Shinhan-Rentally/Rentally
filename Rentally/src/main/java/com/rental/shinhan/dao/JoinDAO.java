@@ -15,17 +15,12 @@ public class JoinDAO {
 	@Autowired
 	SqlSession sqlSession;
 	
-	String namespace = "com.rental.shinhan.";
+	String namespace = "com.rental.shinhan.customer.";
 	
 	public int insert(CustomerDTO cust) {
-		//비밀번호 암호화해서 hashedPw에 저장
 		String hashedPw = BCrypt.withDefaults().hashToString(12, cust.getCust_pw().toCharArray());
-		
-		//암호화된 비밀번호를 DTO에 설정
 		cust.setCust_pw(hashedPw);
-		
-		//DB에저장
-		int result = sqlSession.insert(namespace + "insert", cust);
+		int result = sqlSession.insert(namespace + "insertCustomer", cust);
 		return result;
 	}
 }

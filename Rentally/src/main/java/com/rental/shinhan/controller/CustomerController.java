@@ -21,8 +21,7 @@ public class CustomerController {
 	@PostMapping("/customer/join")
 	public String insert(CustomerDTO cust) {
 		int result = jService.insertService(cust);
-		log.info("È¸¿ø°¡ÀÔ " +result+" °Ç");
-		//¸ŞÀÎ È­¸é jsp ¼öÁ¤
-		return "/customer/login";
+		log.info("íšŒì›ê°€ì…" +result+ "ê±´ ì„±ê³µ");
+		return "customer/login";
 	}
 }
