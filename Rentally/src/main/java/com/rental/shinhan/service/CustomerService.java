@@ -13,8 +13,8 @@ public class CustomerService {
     @Autowired
     CustomerDAO custDAO;
 
-    public List<CustomerDTO> customerInfo() {
-        return custDAO.selectCustomer();
+    public CustomerDTO customerInfo(int cust_seq) {
+        return custDAO.selectCustomer(cust_seq);
     }
 
     public int deleteCustomer(int cust_seq) {
