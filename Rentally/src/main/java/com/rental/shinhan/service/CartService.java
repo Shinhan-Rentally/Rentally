@@ -21,4 +21,8 @@ public class CartService {
 		log.info(cartlist.toString());
 		return cartlist;
 	}
+	
+	public int insertCart(CartJoinDTO cart) {
+		return cartDAO.insert(cart);
+	}
 }
