@@ -3,11 +3,14 @@ package com.rental.shinhan.controller;
 import com.rental.shinhan.dto.CustomerDTO;
 import com.rental.shinhan.dto.OrderJoinDTO;
 import com.rental.shinhan.dto.ProductDTO;
-import com.rental.shinhan.dto.ReviewDTO;
 import com.rental.shinhan.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -28,10 +31,9 @@ public class AdminController {
     }
 
     @GetMapping("/review/list")
-    public String getReviews() {
-      
-        List<ReviewDTO> reviews = adminService.findReviews();
-        return "";
+    public String getReviews(Model model) {
+        model.addAttribute("reviews", adminService.findProducts());
+        return "/admin/reviews";
     }
 
     @GetMapping("/customer/list")
