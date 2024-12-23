@@ -3,9 +3,9 @@
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rental.shinhan.productlist">
 
-	<!-- 베스트상품 불러오기 각 카테고리마다 1개씩 -->
-	<select id="bestProduct" resultType="com.rental.shinhan.dto.ProductListDTO" parameterType="int">
-		SELECT DISTINCT ON (C.category_seq)
+	<!-- 상품 리스트 -->
+	<select id="selectProductList" parameterType="int" resultType="ProductListVO">
+		SELECT
 		P.product_seq,
 		P.product_serial,
 		P.product_name,
@@ -26,153 +26,8 @@
 		PRODUCT P
 		LEFT JOIN
 		CATEGORY C ON P.category_seq = C.category_seq
-		ORDER BY
-		C.category_seq, P.product_date DESC
-
+		WHERE P.category_seq = #{category_seq}
+		ORDER BY P.product_date DESC
 	</select>
-
-
-	<!-- 상품 리스트 -->
-
- <select id="selectProductList2" resultType="Product">
-    SELECT
-        P.product_seq,
-        P.product_serial,
-        P.product_name,
-        P.product_img,
-        P.product_detail,
-        P.product_pay,
-        P.product_brand,
-        P.product_grade,
-        P.product_date,
-        C.category_name,
-        C.category_seq,
-        PI.proinfo_height,
-        PI.proinfo_weight,
-        PI.proinfo_wh,
-        PI.proinfo_color,
-        PI.proinfo_features
-    FROM
-        PRODUCT P
-    LEFT JOIN
-        CATEGORY C ON P.category_seq = C.category_seq
-    
-    <where>
-        P.category_seq = #{categorySeq}
-        <if test="brand != null and brand != ''">
-            AND P.product_brand = #{brand}
-        </if>
-        <if test="minPrice != null">
-            AND P.product_pay &gt;= #{minPrice}
-        </if>
-        <if test="maxPrice != null">
-            AND P.product_pay &lt;= #{maxPrice}
-        </if>
-    </where>
-    ORDER BY P.product_date DESC
-    LIMIT #{pageSize} OFFSET #{offset}
-</select>
-
-	<!-- 상품 리스트 -->
-
- <select id="selectProductList" resultType="com.rental.shinhan.dto.ProductListDTO" parameterType="int">
-    SELECT
-     P.product_seq,
-		P.product_serial,
-		P.product_name,
-		P.product_img,
-		P.product_detail,
-		P.product_pay,
-		P.product_brand,
-		P.product_grade,
-		P.product_date,
-		P.product_height,
-		P.product_weight,
-		P.product_wh,
-		P.product_color,
-		P.product_features,
-		C.category_name,
-		C.category_seq
-    FROM
-        PRODUCT P
-    LEFT JOIN
-        CATEGORY C ON P.category_seq = C.category_seq
-     WHERE  P.category_seq = #{category_seq}
-    ORDER BY P.product_date DESC
-   
-</select>
- 
-
-
-
-	<!-- 상품 상세 정보 -->
-	<select id="productDetail" resultType="">
-		SELECT
-		P.product_seq,
-		P.product_serial,
-		P.product_name,
-		P.product_img,
-		P.product_detail,
-		P.product_pay,
-		P.product_brand,
-		P.product_grade,
-		P.product_date,
-		C.category_name,
-		C.category_seq,
-		PI.proinfo_height,
-		PI.proinfo_weight,
-		PI.proinfo_wh,
-		PI.proinfo_color,
-		PI.proinfo_features
-		FROM
-		PRODUCT P
-		LEFT JOIN
-		CATEGORY C ON P.category_seq = C.category_seq
-		LEFT JOIN
-		PRODUCTINFO PI ON P.product_seq = PI.product_seq
-		WHERE
-		PI.product_seq = #{product_seq}
-
-
-	</select>
-
-	<!-- 상품검색 -->
-	<select id="searchProducts" resultType="map">
-		SELECT
-		P.product_seq,
-		P.product_name,
-		P.product_pay,
-		P.product_brand,
-		C.category_name
-		FROM
-		PRODUCT P
-		LEFT JOIN
-		CATEGORY C ON P.category_seq = C.category_seq
-		WHERE
-		1=1
-		<if test="keyword != null and keyword != ''">
-			AND P.product_name ILIKE CONCAT('%', #{keyword}, '%')
-		</if>
-		<if test="categoryId != null">
-			AND P.category_seq = #{categoryId}
-		</if>
-		<if test="minPrice != null">
-			AND P.product_pay >= #{minPrice}
-		</if>
-
-		<if test="brand != null and brand != ''">
-			AND P.product_brand = #{brand}
-		</if>
-		ORDER BY
-		<choose>
-			<when test="orderBy == 'price'"> P.product_pay ASC </when>
-			<when test="orderBy == 'date'"> P.product_date DESC </when>
-			<otherwise> P.product_seq ASC </otherwise>
-		</choose>
-
-
-	</select>
-
-
 
 </mapper>

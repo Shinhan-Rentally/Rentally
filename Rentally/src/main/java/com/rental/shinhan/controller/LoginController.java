@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.rental.shinhan.dto.LoginDTO;
+import com.rental.shinhan.dto.LoginJoinDTO;
 import com.rental.shinhan.service.LoginService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class LoginController {
 		
 		
 		  // 로그인 처리
-        LoginDTO loginUser = lService.login(cust_id, cust_pw);
+        LoginJoinDTO loginUser = lService.login(cust_id, cust_pw);
 
         // 로그인 실패: 아이디 없음 또는 비밀번호 불일치
         if (loginUser == null) {

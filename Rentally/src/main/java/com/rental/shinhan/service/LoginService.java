@@ -1,20 +1,22 @@
 package com.rental.shinhan.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.rental.shinhan.dao.LoginDAO;
-import com.rental.shinhan.dto.LoginDTO;
+import com.rental.shinhan.dto.LoginJoinDTO;
 
+@Service
 public class LoginService {
 	@Autowired
 	LoginDAO loginDAO;
 
 	
 	
-	public LoginDTO login(String cust_id , String cust_pw) {
+	public LoginJoinDTO login(String cust_id , String cust_pw) {
 		
 		
-		LoginDTO user = loginDAO.login(cust_id);
+		LoginJoinDTO user = loginDAO.login(cust_id);
 		
 		
 		//사용자 정보가 없으면 null 반환

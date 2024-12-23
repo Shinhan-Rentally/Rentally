@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rental.shinhan.dao.ProductListDAO;
-import com.rental.shinhan.dto.ProductListDTO;
+import com.rental.shinhan.dto.ProductListJoinDTO;
 
 
 
@@ -16,7 +16,7 @@ public class ProductListService {
 	  @Autowired
 	    ProductListDAO productlistDAO;
 	  
-	  public List<ProductListDTO> productList(int category_seq) {
+	  public List<ProductListJoinDTO> productList(int category_seq) {
 
 	        return productlistDAO.selectProductList(category_seq);
 	    }
