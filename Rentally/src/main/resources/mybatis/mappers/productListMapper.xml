@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rental.shinhan.productlist">
+
+	<!-- 상품 리스트 -->
+	<select id="selectProductList" parameterType="int" resultType="ProductListVO">
+		SELECT
+		P.product_seq,
+		P.product_serial,
+		P.product_name,
+		P.product_img,
+		P.product_detail,
+		P.product_pay,
+		P.product_brand,
+		P.product_grade,
+		P.product_date,
+		P.product_height,
+		P.product_weight,
+		P.product_wh,
+		P.product_color,
+		P.product_features,
+		C.category_name,
+		C.category_seq
+		FROM
+		PRODUCT P
+		LEFT JOIN
+		CATEGORY C ON P.category_seq = C.category_seq
+		WHERE P.category_seq = #{category_seq}
+		ORDER BY P.product_date DESC
+	</select>
+
+	<select id="selectProductDetail" parameterType="int" resultType="ProductListVO">
+		SELECT
+		P.*,
+		C.category_name,
+		C.category_seq
+		FROM
+		PRODUCT P
+		LEFT JOIN
+		CATEGORY C ON P.category_seq = C.category_seq
+		where P.product_seq = #{product_seq}
+	</select>
+</mapper>
