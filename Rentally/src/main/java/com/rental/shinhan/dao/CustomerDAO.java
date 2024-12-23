@@ -1,10 +1,7 @@
 package com.rental.shinhan.dao;
 
-import com.rental.shinhan.daointerface.AdminInterface;
 import com.rental.shinhan.daointerface.CustomerInterface;
 import com.rental.shinhan.dto.CustomerDTO;
-import com.rental.shinhan.dto.ProductDTO;
-import com.rental.shinhan.dto.ReviewDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -28,5 +25,10 @@ public class CustomerDAO implements CustomerInterface {
         int result = sqlSession.update(namespace + "deleteCustomer", cust_seq);
         return result;
     }
+
+    public int updateCustInfo(CustomerDTO customer){
+        int result = sqlSession.update(namespace + "updateCustInfo", customer);
+        return result;
+    };
 
 }
