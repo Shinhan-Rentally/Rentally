@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rental.shinhan.subscribe">
+
+	<!-- 구독 현황 조회 -->
+	<select id="selectSubscribeList" parameterType="int" resultType="SubscribeListVO">
+		select *
+		from subscribe join customer using (cust_seq)
+					   join product using (product_seq)
+		where cust_seq = #{cust_seq} and sub_date + sub_period >= current_date 
+		and sub_cancel = false
+	</select>
+
+	<!-- 구독 취소 -->
+	<update id="cancelSubscibe" parameterType="int" >
+		update subscribe
+		set subdetail_cancel = true
+		where sub_seq = #{sub_seq}
+	</update>
+
+	<!-- 구독 상품 정보 등록 -->
+	<insert id="insertSubscribe" parameterType="SubscribeVO">
+		insert into subscribe
+		values ( nextval('sub_seq'), #{cust_seq}, #{sub_date}, #{sub_total}, 
+		#{sub_addrT}, #{sub_addrD}, #{sub_name}, #{sub_phone}, #{sub_card},
+		#{sub_period}, #{sub_upgrade}, #{sub_cancel}, #{product_seq} )
+	</insert>
+
+	<!-- 구독 상품 정보 업데이트 -->
+	<update id="updateSubscribe" parameterType="SubscribeVO">
+		update subscribe
+		set sub_total = #{sub_total}, sub_addrT = #{sub_addrT}, sub_addrD = #{sub_addrD},
+			sub_name = #{sub_name}, sub_phone = #{sub_phone}, sub_card = #{sub_card},
+			sub_upgrade = true, product_seq = #{product_seq}
+		where sub_seq = #{sub_seq}
+	</update>
+</mapper>
