@@ -24,7 +24,7 @@ public class ProductListController {
 	    ProductListService productlistService;
 	
 	 //카테고리별 상품리스트 출력
-	@GetMapping
+	@GetMapping("/list")
 	public String productlist(int category_seq ,Model model) {
 		
 		List<ProductListJoinDTO> productlist = productlistService.productList(category_seq);
@@ -32,6 +32,6 @@ public class ProductListController {
 		model.addAttribute("productlist", productlist);
 		
 		
-		return "/productList";
+		return "product/productList";
 	}
 }
