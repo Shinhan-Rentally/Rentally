@@ -26,4 +26,7 @@ public class WishListService {
                 .build();
         return wishListDAO.insertWishList(wishlist);
     }
+    public int deleteWish(int wishSeq) {
+        return wishListDAO.deleteWish(wishSeq);
+    }
 }
