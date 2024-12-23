@@ -46,5 +46,15 @@
 		cust_phone = #{cust_phone}
 		where cust_seq = #{cust_seq}
 	</update>
+	
+	<insert id="insertCustomer" parameterType="CustomerVO">
+		INSERT INTO CUSTOMER
+			(CUST_SEQ, CUST_ID, CUST_PW, CUST_PHONE,
+			CUST_EMAIL, CUST_NAME, CUST_STATUS)
+		VALUES
+			(nextval('customer_seq'), #{cust_id},
+			#{cust_pw}, #{cust_phone}, #{cust_email},
+			#{cust_name}, 'true')
+	</insert>
 
 </mapper>
