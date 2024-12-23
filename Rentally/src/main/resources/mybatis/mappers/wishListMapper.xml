@@ -23,4 +23,9 @@
         on conflict (cust_seq, product_seq) do nothing;
     </insert>
 
+    <delete id="deleteWish" parameterType="int">
+        DELETE FROM wishlist
+        where wish_seq = #{wish_seq}
+    </delete>
+
 </mapper>
