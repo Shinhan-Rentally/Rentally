@@ -9,4 +9,5 @@ import java.util.List;
 public interface CustomerInterface {
 
     public List<CustomerDTO> selectCustomer();
+    public int deleteCustomer(int cust_seq);
 }

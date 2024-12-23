@@ -19,4 +19,8 @@ public class CustomerService {
     public List<CustomerDTO> customerInfo() {
         return custDAO.selectCustomer();
     }
+
+    public int deleteCustomer(int cust_seq) {
+        return custDAO.deleteCustomer(cust_seq);
+    }
 }
