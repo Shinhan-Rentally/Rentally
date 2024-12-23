@@ -23,4 +23,10 @@ public class CustomerDAO implements CustomerInterface {
         List<CustomerDTO> customer = sqlSession.selectList(namespace + "selectCustomer");
         return customer;
     }
+
+    public int deleteCustomer(int cust_seq) {
+        int result = sqlSession.update(namespace + "deleteCustomer", cust_seq);
+        return result;
+    }
+
 }
