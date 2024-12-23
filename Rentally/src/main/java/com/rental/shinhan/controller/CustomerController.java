@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.rental.shinhan.dto.CustomerDTO;
 import com.rental.shinhan.service.CustomerService;
@@ -19,7 +20,7 @@ import com.rental.shinhan.service.JoinService;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Controller
+@RestController
 @Slf4j
 @RequestMapping("/customer")
 public class CustomerController {
