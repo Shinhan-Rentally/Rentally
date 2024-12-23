@@ -279,14 +279,13 @@
 	<script src="${path}/resources/js/vendors/inputmask.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-	<script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 	
 	<script>
 	let merchantUid;
 	
 	$.ajax({
 		  url: `${path}/payment/getSubseq`,
-		  type: "GET", // 요청 유형
+		  type: "GET",
 		  success: function(data) {
 			merchantUid = data+1;
 		  },
@@ -296,7 +295,6 @@
 		});
     
     $("#subscribe").click(payment);
-    //$("#subscribe").click(payment2);
 
     function pad(number) {
         return number < 10 ? '0' + number : number;
@@ -339,13 +337,13 @@
 				      alert("빌링키 발급 성공");
 				      let subTotal = rsp.paid_amount;
 				      let subCard = rsp.card_name;
-				      console.log(rsp);
 				      
 					    const paymentData = {
 				                billingKey: rsp.customer_uid,  
 				                merchantUid: rsp.merchant_uid,
 				                //amount: rsp.paid_amount // 실제 요청할 금액
-				                amount: 100 // 테스트용 금액
+				                amount: 100, // 테스트용 금액
+				                name: `${custName}`
 				            };
 
 				            fetch(`${path}/payment/process`, { // 서버로 결제 요청 전송
@@ -358,9 +356,7 @@
 				            .then(response => response.json())
 				            .then(data => {
 				                if (data.success) {
-				                    console.log(data);
-				                	alert("결제 성공");
-				                    
+
 				                    const paymentResultData = {
 				                    	sub_total: subTotal,
 				                    	sub_card: subCard,
@@ -383,31 +379,21 @@
 	}
 	
 	function getSelectedAddress() {
-		// 선택된 라디오 버튼을 찾습니다.
-		const selectedRadio = document.querySelector('input[name="flexRadioDefault"]:checked');
 
-		// 선택된 라디오 버튼을 포함하는 가장 가까운 .card 요소를 찾습니다.
-		const selectedCard = selectedRadio.closest('.card');
+	    const $selectedRadio = $('input[name="flexRadioDefault"]:checked');
+	    const $selectedCard = $selectedRadio.closest('.card');
+	    const $addressElement = $selectedCard.find('address');
+	    const addressLines = $addressElement.text().split('\n').map(line => $.trim(line)).filter(line => line !== '');
 
-		// .card 요소 내의 <address> 요소를 찾습니다.
-		const addressElement = selectedCard.querySelector('address');
+	    const addressTitle = addressLines[0];
+	    const addressDetail = addressLines[1];
 
-		// <address> 요소 내의 텍스트를 줄 단위로 분리합니다.
-		const addressLines = addressElement.innerText.split('\n').map(line => line.trim()).filter(line => line !== '');
+	    const subName = $selectedCard.find('.form-check-label').text();
+	    const subPhone = $selectedCard.find('address abbr[title="Phone"]').text().replace('P: ', '');
 
-		// addressTitle과 addressDetail을 추출합니다.
-		const addressTitle = addressLines[0];
-		const addressDetail = addressLines[1];
-
-		// 사람 이름을 추출합니다.
-		const subName = selectedCard.querySelector('.form-check-label').innerText;
-
-		// 전화번호를 추출합니다.
-		const subPhone = selectedCard.querySelector('address abbr[title="Phone"]').innerText.replace('P: ', '');
-
-		return { subName, subPhone, addressTitle, addressDetail };
-
+	    return { subName, subPhone, addressTitle, addressDetail };
 	}
+
 	
 	function redirectToCompletePage(paymentResultData) {
 	    const selectedAddress = getSelectedAddress();
@@ -416,93 +402,41 @@
 	        return;
 	    }
 
-	    const form = document.createElement('form');
-	    form.method = 'POST';
-	    form.action = `${path}/subscribe/product`;
+	    const $form = $('<form></form>');
+	    $form.attr('method', 'POST');
+	    $form.attr('action', `${path}/subscribe/product`);
 
-	    // Add payment data to form
 	    for (const key in paymentResultData) {
 	        if (paymentResultData.hasOwnProperty(key)) {
-	            const input = document.createElement('input');
-	            input.type = 'hidden';
-	            input.name = key;
-	            input.value = paymentResultData[key];
-	            form.appendChild(input);
+	            const $input = $('<input type="hidden">');
+	            $input.attr('name', key);
+	            $input.val(paymentResultData[key]);
+	            $form.append($input);
 	        }
 	    }
 
-	    // Add selected address to form
-	    const nameInput = document.createElement('input');
-	    nameInput.type = 'hidden';
-	    nameInput.name = 'sub_name';
-	    nameInput.value = selectedAddress.subName;
-	    form.appendChild(nameInput);
+	    const $nameInput = $('<input type="hidden" name="sub_name">').val(selectedAddress.subName);
+	    $form.append($nameInput);
 
-	    const addressTitleInput = document.createElement('input');
-	    addressTitleInput.type = 'hidden';
-	    addressTitleInput.name = 'sub_addrT';
-	    addressTitleInput.value = selectedAddress.addressTitle;
-	    form.appendChild(addressTitleInput);
-	    
-	    const addressDetailInput = document.createElement('input');
-	    addressDetailInput.type = 'hidden';
-	    addressDetailInput.name = 'sub_addrD';
-	    addressDetailInput.value = selectedAddress.addressDetail;
-	    form.appendChild(addressDetailInput);
-	    
-	    const phoneInput = document.createElement('input');
-	    phoneInput.type = 'hidden';
-	    phoneInput.name = 'sub_phone';
-	    phoneInput.value = selectedAddress.subPhone;
-	    form.appendChild(phoneInput);
-	    
-	    const productSeqInput = document.createElement('input');
-	    productSeqInput.type = 'hidden';
-	    productSeqInput.name = 'product_seq';
-	    productSeqInput.value = ${productSeq};
-	    form.appendChild(productSeqInput);
-	    
-	    const subPeriodInput = document.createElement('input');
-	    subPeriodInput.type = 'hidden';
-	    subPeriodInput.name = 'sub_period';
-	    subPeriodInput.value = ${productPeriod};
-	    form.appendChild(subPeriodInput);
-	    
-	    document.body.appendChild(form);
-	    form.submit();
+	    const $addressTitleInput = $('<input type="hidden" name="sub_addrT">').val(selectedAddress.addressTitle);
+	    $form.append($addressTitleInput);
+
+	    const $addressDetailInput = $('<input type="hidden" name="sub_addrD">').val(selectedAddress.addressDetail);
+	    $form.append($addressDetailInput);
+
+	    const $phoneInput = $('<input type="hidden" name="sub_phone">').val(selectedAddress.subPhone);
+	    $form.append($phoneInput);
+
+	    const $productSeqInput = $('<input type="hidden" name="product_seq">').val(${productSeq});
+	    $form.append($productSeqInput);
+
+	    const $subPeriodInput = $('<input type="hidden" name="sub_period">').val(${productPeriod});
+	    $form.append($subPeriodInput);
+
+	    $('body').append($form);
+	    $form.submit();
 	}
 
-	
-    async function payment2(){
-    	const issueResponse = PortOne.requestIssueBillingKey({
-    	    storeId: "store-df220412-2eec-4989-8173-fdc3bfb8f541", // 고객사 storeId로 변경해주세요.
-    	    channelKey: "channel-key-9dc1fb15-6f45-4b0f-8ced-8c35e312efa6", // 콘솔 결제 연동 화면에서 채널 연동 시 생성된 채널 키를 입력해주세요.
-    	    billingKeyMethod: "CARD",
-    	    issueId: "1",
-    	    issueName: "테스트결제",
-    	    customer: {
-    	      fullName: "포트원",
-    	      phoneNumber: "010-0000-1234",
-    	      email: "test@portone.io",
-    	    }
-    	});
-
-    	// 빌링키가 제대로 발급되지 않은 경우 에러 코드가 존재합니다
-    	if (issueResponse.code !== undefined) {
-    	  return alert(issueResponse.message);
-    	}
-
-    	// 고객사 서버에 빌링키를 전달합니다
-    	const response = await fetch(`${path}/make-payment`, {
-    	  method: "POST",
-    	  header: { "Content-Type": "application/json" },
-    	  body: JSON.stringify({
-    	    billingKey: issueResponse.billingKey,
-    	    // ...
-    	  }),
-    	});
-    	if (!response.ok) throw new Error(`response: \${await response.json()}`);
-    }
 	</script>
 </body>
 </html>
