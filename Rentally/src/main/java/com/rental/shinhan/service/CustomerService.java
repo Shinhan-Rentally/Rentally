@@ -24,4 +24,8 @@ public class CustomerService {
     public int updateCustInfo(CustomerDTO cust) {
         return custDAO.updateCustInfo(cust);
     }
+
+    public int updateCustPw(CustomerDTO cust) {
+        return custDAO.updateCustPw(cust);
+    }
 }
