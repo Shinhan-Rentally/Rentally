@@ -26,6 +26,8 @@
                                  <div class="text-small mb-1">
                                     <a href="#!" class="text-decoration-none text-muted"><small>Snack & Munchies</small></a>
                           <!-- 헤더부분 include -->
+      <%@ include file="../common/header.jsp"%>
+      
       <main>
          <!-- section-->
          <div class="mt-4">
