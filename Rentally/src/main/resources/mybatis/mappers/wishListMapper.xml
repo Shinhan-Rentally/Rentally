@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.rental.shinhan">
+<mapper namespace="com.rental.shinhan.wish">
 
     <select id="selectWishLists" parameterType="int" resultType="com.rental.shinhan.dto.WishListJoinDTO">
         select w.wish_seq, w.cust_seq, w.product_seq,
@@ -12,5 +12,15 @@
         on w.product_seq = p.product_seq
         where w.cust_seq = #{cust_seq};
     </select>
+
+    <insert id="insertWishList" parameterType="com.rental.shinhan.dto.WishListDTO">
+        insert into wishlist (cust_seq, product_seq)
+        select c.cust_seq, p.product_seq
+        from customer c
+        join product p
+        on p.product_seq = #{product_seq}
+        where c.cust_seq = #{cust_seq}
+        on conflict (cust_seq, product_seq) do nothing;
+    </insert>
 
 </mapper>
