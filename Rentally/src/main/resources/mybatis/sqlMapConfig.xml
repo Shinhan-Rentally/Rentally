@@ -23,8 +23,8 @@
 		<typeAlias type="com.rental.shinhan.dto.ReviewDTO" alias="ReviewVO"/>
 		
 		<!-- bestMapper -->
-		<typeAlias type="com.retanl.shinhan.dto.BestProductJoinDTO" alias="BestProductVO"/>
-		<typeAlias type="com.retanl.shinhan.dto.BestReviewJoinDTO" alias="BestReviewVO"/>
+		<typeAlias type="com.rental.shinhan.dto.BestProductJoinDTO" alias="BestProductVO"/>
+		<typeAlias type="com.rental.shinhan.dto.BestReviewJoinDTO" alias="BestReviewVO"/>
 		
 		<!-- cartMapper -->
 		<typeAlias type="com.rental.shinhan.dto.CartJoinDTO" alias="CartVO"/>
@@ -36,7 +36,7 @@
 		<!-- paymentMapper -->
 		
 		<!-- productFilterMapper -->
-		<typeAlias type="com.retanl.shinhan.dto.ProductFilterJoinDTO" alias="ProductFilterVO"/>
+		<typeAlias type="com.rental.shinhan.dto.ProductFilterJoinDTO" alias="ProductFilterVO"/>
 		
 		<!-- productListMapper -->
 		<typeAlias type="com.rental.shinhan.dto.ProductListJoinDTO" alias="ProductListVO"/>
