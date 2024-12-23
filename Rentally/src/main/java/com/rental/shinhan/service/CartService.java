@@ -21,4 +21,9 @@ public class CartService {
 		log.info(cartlist.toString());
 		return cartlist;
 	}
+	
+	public int deleteCart(int product_seq) {
+		return cartDAO.deleteCart(product_seq);
+	}
+	
 }
