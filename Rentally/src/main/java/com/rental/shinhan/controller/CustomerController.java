@@ -48,9 +48,9 @@ public class CustomerController {
             @RequestBody CustomerDTO custInfo,
             HttpSession session) {
        //custInfo.setCust_seq(cust_seq);
-        Integer cust_seq = (Integer) session.getAttribute("cust_seq");
-        custInfo.setCust_seq(cust_seq);
+        session.setAttribute("cust_seq", 1);
         int result = custService.updateCustInfo(custInfo);
+        log.info("업데이트" +result+ "건 성공");
         return "redirect:/customer/list";
     }
     
