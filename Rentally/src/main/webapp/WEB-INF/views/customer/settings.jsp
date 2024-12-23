@@ -8,7 +8,7 @@
   <title>Settings eCommerce HTML Template - FreshCart</title>
   @@include("../partials/head/head-links.html") @@include("../partials/head/analytics-code.html") @@include("../partials/head/clarity.html")
 </head>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <body>
 <%@ include file="../common/headMeta.jsp" %>
 <main>
@@ -235,37 +235,5 @@
 <!-- Javascript-->
 @@include("../partials/scripts.html")
 </body>
-<script>
-  document.getElementById('saveDetails').addEventListener('click', function () {
-    // Get form data
-    const custInfo = {
-      cust_seq: 1,
-      cust_name: document.getElementById('cust_name').value,
-      cust_email: document.getElementById('cust_email').value,
-      cust_phone: document.getElementById('cust_phone').value
-    };
 
-    // Send data to the server via AJAX
-    fetch('/update', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(custInfo)
-    })
-            .then(response => {
-              if (!response.ok) {
-                throw new Error('Network response was not ok');
-              }
-              return response.text();
-            })
-            .then(data => {
-              alert('Details updated successfully: ' + data);
-              // Optionally reload or redirect
-            })
-            .catch(error => {
-              alert('Error updating details: ' + error.message);
-            });
-  });
-</script>
 </html>
