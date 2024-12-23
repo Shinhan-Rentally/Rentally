@@ -81,7 +81,7 @@ public class PaymentRestController {
     public ResponseEntity<?> processPayment(@RequestBody PaymentRequestDTO paymentRequest) {
         String accessToken = getAccessToken();
         
-        // IAMPORT API °áÁ¦
+        // IAMPORT API ìˆ˜ì •
         String url = "https://api.iamport.kr/subscribe/payments/again";
 
         HttpHeaders headers = new HttpHeaders();
@@ -90,10 +90,11 @@ public class PaymentRestController {
         
         // Prepare the request body (JSON format)
         String requestBody = String.format(
-            "{\"customer_uid\":\"%s\", \"merchant_uid\":\"%s\", \"amount\":%d, \"name\":\"Á¤±â°áÁ¦\", \"currency\":\"KRW\"}",
+            "{\"customer_uid\":\"%s\", \"merchant_uid\":\"%s\", \"amount\":%d, \"name\":\"%s\", \"currency\":\"KRW\"}",
             paymentRequest.getBillingKey(),
             paymentRequest.getMerchantUid(),
-            paymentRequest.getAmount()
+            paymentRequest.getAmount(),
+            paymentRequest.getName()
         );
         System.out.println("requestBody:"+requestBody);
 
