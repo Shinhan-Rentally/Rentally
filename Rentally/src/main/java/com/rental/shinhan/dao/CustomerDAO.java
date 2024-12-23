@@ -31,4 +31,9 @@ public class CustomerDAO implements CustomerInterface {
         return result;
     };
 
+    public int updateCustPw(CustomerDTO customer){
+        int result = sqlSession.update(namespace + "updateCustPw", customer);
+        return result;
+    };
+
 }
