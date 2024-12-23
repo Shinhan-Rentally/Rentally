@@ -16,4 +16,7 @@ public class WishListService {
     public List<WishListJoinDTO> findWishLists(int custSeq) {
         return wishListDAO.selectWishLists(custSeq);
     }
+    public int deleteWish(int wishSeq) {
+        return wishListDAO.deleteWish(wishSeq);
+    }
 }
