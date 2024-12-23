@@ -9,4 +9,5 @@ public interface CustomerInterface {
     public List<CustomerDTO> selectCustomer();
     public int deleteCustomer(int cust_seq);
     public int updateCustInfo(CustomerDTO customer);
+    public int updateCustPw(CustomerDTO customer);
 }
