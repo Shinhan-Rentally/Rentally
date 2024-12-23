@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginDTO {
+public class LoginJoinDTO {
 	int cust_seq;
 	String cust_id;
 	String cust_pw;

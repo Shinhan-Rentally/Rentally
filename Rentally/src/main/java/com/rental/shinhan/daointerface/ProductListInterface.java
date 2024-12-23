@@ -2,9 +2,9 @@ package com.rental.shinhan.daointerface;
 
 import java.util.List;
 
-import com.rental.shinhan.dto.ProductListDTO;
+import com.rental.shinhan.dto.ProductListJoinDTO;
 
 public interface ProductListInterface {
 
-	 public List<ProductListDTO> selectProductList(int category_seq);
+	 public List<ProductListJoinDTO> selectProductList(int category_seq);
 }
