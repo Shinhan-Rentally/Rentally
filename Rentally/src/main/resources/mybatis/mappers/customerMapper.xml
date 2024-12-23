@@ -47,4 +47,11 @@
 		where cust_seq = #{cust_seq}
 	</update>
 
+	<update id="updateCustPw" parameterType="CustomerVO">
+		update customer
+		set
+		cust_pw = #{cust_pw}
+		where cust_seq = #{cust_seq}
+	</update>
+
 </mapper>
