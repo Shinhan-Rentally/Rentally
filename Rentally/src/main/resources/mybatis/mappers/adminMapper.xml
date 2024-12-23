@@ -9,9 +9,19 @@
     </select>
 
     <select id="selectReviews" resultType="ReviewVO">
-        select *
-        from review
-        order by review_date desc
+        select
+        r.review_seq,
+        c.cust_id,
+        p.product_seq,
+        p.product_serial,
+        p.product_name,
+        r.review_content,
+        r.review_rate,
+        r.review_date
+        from
+        review r
+        join customer c using (cust_seq)
+        join product p using (product_seq);
     </select>
 
     <select id="selectCustomers" resultType="com.rental.shinhan.dto.CustomerDTO">
