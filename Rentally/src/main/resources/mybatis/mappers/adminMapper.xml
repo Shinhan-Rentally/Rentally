@@ -20,4 +20,20 @@
         where cust_status = true
     </select>
 
+    <select id="selectOrders" resultType="com.rental.shinhan.dto.OrderJoinDTO">
+        select
+        p.product_img,
+        p.product_serial,
+        c.cust_name,
+        s.sub_date,
+        s.sub_card,
+        s.sub_total,
+        s.sub_period
+        from
+        subscribe s
+        join
+        customer c on s.cust_seq = c.cust_seq
+        join
+        product p on s.product_seq = p.product_seq;
+    </select>
 </mapper>

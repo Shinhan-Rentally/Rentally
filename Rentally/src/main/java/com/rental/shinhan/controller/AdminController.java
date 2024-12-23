@@ -1,6 +1,7 @@
 package com.rental.shinhan.controller;
 
 import com.rental.shinhan.dto.CustomerDTO;
+import com.rental.shinhan.dto.OrderJoinDTO;
 import com.rental.shinhan.dto.ProductDTO;
 import com.rental.shinhan.dto.ReviewDTO;
 import com.rental.shinhan.service.AdminService;
@@ -35,6 +36,13 @@ public class AdminController {
     @GetMapping("/customer/list")
     public String getCustomers() {
         List<CustomerDTO> customers = adminService.findCustomers();
+        return "";
+    }
+
+    @GetMapping("/order/list")
+    public String getOrders() {
+
+        List<OrderJoinDTO> orders = adminService.findOrders();
         return "";
     }
 }

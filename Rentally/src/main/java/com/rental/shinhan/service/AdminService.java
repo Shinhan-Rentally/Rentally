@@ -1,6 +1,7 @@
 package com.rental.shinhan.service;
 
 import com.rental.shinhan.dao.AdminDAO;
+import com.rental.shinhan.dto.OrderJoinDTO;
 import com.rental.shinhan.dto.CustomerDTO;
 import com.rental.shinhan.dto.ProductDTO;
 import com.rental.shinhan.dto.ReviewDTO;
@@ -28,5 +29,10 @@ public class AdminService {
     public List<CustomerDTO> findCustomers() {
 
         return adminDAO.selectCustomers();
+    }
+
+    public List<OrderJoinDTO> findOrders() {
+
+        return adminDAO.selectOrders();
     }
 }
