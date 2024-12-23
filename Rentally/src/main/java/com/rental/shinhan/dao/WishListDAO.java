@@ -20,4 +20,9 @@ public class WishListDAO implements WishListInterface {
         List<WishListJoinDTO> wishList = sqlSession.selectList(namespace + "selectWishLists", custSeq);
         return wishList;
     }
+
+    public int deleteWish(int wishSeq) {
+        int result = sqlSession.delete(namespace + "deleteWish", wishSeq);
+        return result;
+    };
 }
