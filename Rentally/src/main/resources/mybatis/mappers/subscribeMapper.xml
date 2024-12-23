@@ -29,7 +29,7 @@
 	</insert>
 
 	<!-- 구독 상품 정보 업데이트 -->
-	<update id="" parameterType="SubscribeVO">
+	<update id="updateSubscribe" parameterType="SubscribeVO">
 		update subscribe
 		set sub_total = #{sub_total}, sub_addrT = #{sub_addrT}, sub_addrD = #{sub_addrD},
 			sub_name = #{sub_name}, sub_phone = #{sub_phone}, sub_card = #{sub_card},
