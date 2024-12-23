@@ -25,7 +25,7 @@ public class ProductListJoinDTO {
 	 */
 	
 	int product_seq ;
-    int product_serial;
+    String product_serial;
     String product_name;
     String product_img;
     String product_detail;
