@@ -4,8 +4,8 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rental.shinhan.customer">
 
-	<select id="selectCustomer" resultType="CustomerVO">
-		select * from customer
+	<select id="selectCustomer" parameterType="int" resultType="CustomerVO">
+		select * from customer where cust_seq=#{cust_seq}
 	</select>
 	
 	<!-- 로그인 기능 -->
@@ -30,5 +30,38 @@
 		c.cust_seq, c.cust_id, c.cust_name, c.cust_phone, c.cust_email
 	</select>
 
+
+    <update id="deleteCustomer" parameterType="int">
+        update customer
+        set
+        cust_status = false
+        where cust_seq = #{cust_seq}
+    </update>
+
+	<update id="updateCustInfo" parameterType="CustomerVO">
+		update customer
+		set
+		cust_name = #{cust_name},
+		cust_email = #{cust_email},
+		cust_phone = #{cust_phone}
+		where cust_seq = #{cust_seq}
+	</update>
+	
+	<insert id="insertCustomer" parameterType="CustomerVO">
+		INSERT INTO CUSTOMER
+			(CUST_SEQ, CUST_ID, CUST_PW, CUST_PHONE,
+			CUST_EMAIL, CUST_NAME, CUST_STATUS)
+		VALUES
+			(nextval('customer_seq'), #{cust_id},
+			#{cust_pw}, #{cust_phone}, #{cust_email},
+			#{cust_name}, 'true')
+	</insert>
+
+	<update id="updateCustPw" parameterType="CustomerVO">
+		update customer
+		set
+		cust_pw = #{cust_pw}
+		where cust_seq = #{cust_seq}
+	</update>
 
 </mapper>
