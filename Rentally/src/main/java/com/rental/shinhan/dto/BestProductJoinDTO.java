@@ -31,5 +31,4 @@ public class BestProductJoinDTO {
     String category_name;
     int wish_count;
     
-  
 }
