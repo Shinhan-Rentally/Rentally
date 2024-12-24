@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rental.shinhan.dto.CustomerDTO;
 import com.rental.shinhan.service.CustomerService;
@@ -53,11 +54,22 @@ public class CustomerController {
     @Autowired
 	JoinService jService;
 	
-	@PostMapping("/customer/join")
-	public String insert(CustomerDTO cust) {
+	@PostMapping("/join")
+	public String insert(CustomerDTO cust, RedirectAttributes attr) {
 		int result = jService.insertService(cust);
-		log.info("회원가입" +result+ "건 성공");
-		return "customer/login";
+		if(result>0) {
+			log.info("회원가입" +result+ "건 성공");
+			return "customer/login";
+		}else {
+			log.error("회원가입실패");
+			attr.addFlashAttribute("errorMessage", "회원가입에 실패했습니다. 다시 시도해주세요.");
+			return "redirect:/customer/join";
+		}
+	}
+	
+	@GetMapping("customer/join")
+	public String insert() {
+		return "customer/join";
 	}
 
 }
