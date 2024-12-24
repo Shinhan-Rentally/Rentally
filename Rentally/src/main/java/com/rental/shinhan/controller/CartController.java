@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.rental.shinhan.service.CartService;
 
@@ -22,4 +22,10 @@ public class CartController {
 		return "cart/cart";
 	}
 	
+	@RequestMapping("/cart/product/delete")
+	public String delete(int product_seq) {
+		int result = cartService.deleteCart(product_seq);
+		log.info(result+"건 삭제 완료");
+		return "redirect:cart/cart";
+	}
 }

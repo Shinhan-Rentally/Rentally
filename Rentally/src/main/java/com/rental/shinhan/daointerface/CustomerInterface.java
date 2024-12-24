@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface CustomerInterface {
 
-    public List<CustomerDTO> selectCustomer();
+    public CustomerDTO selectCustomer(int cust_seq);
     public int deleteCustomer(int cust_seq);
     public int updateCustInfo(CustomerDTO customer);
+    public int updateCustPw(CustomerDTO customer);
 }

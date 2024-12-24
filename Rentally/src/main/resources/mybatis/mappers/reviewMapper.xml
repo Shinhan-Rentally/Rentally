@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rental.shinhan.review">
+
+    <insert id="insertReview">
+        insert into review
+        (cust_seq, product_seq, review_content, review_rate, review_date)
+        VALUES
+        (#{cust_seq}, #{product_seq}, #{review_content}, #{review_rate}, CURRENT_TIMESTAMP)
+    </insert>
+
+</mapper>
