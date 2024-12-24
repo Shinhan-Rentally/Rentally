@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.rental.shinhan.dto.AddressDTO;
-import com.rental.shinhan.service.AddressService;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
