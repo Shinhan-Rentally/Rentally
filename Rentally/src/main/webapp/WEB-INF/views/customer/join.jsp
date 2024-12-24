@@ -158,6 +158,16 @@
 		    	$("#formSignupPhone").val(value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7, 11));
 		    }
 		});
+		$('#formSignupName').on('submit', function () {
+		    const nameValue = $('#formSignupName').val().trim();
+		    if (/^[ㄱ-ㅎ]+$/.test(nameValue) || nameValue === '') {
+		      e.preventDefault();
+		      $('.invalid-feedback').show();
+		      $('#formSignupName').focus();
+		    } else {
+		      $('.invalid-feedback').hide();
+		    }
+		  });
 		
 	</script>
 </body>
