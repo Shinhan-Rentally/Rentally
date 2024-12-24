@@ -21,7 +21,7 @@ import com.rental.shinhan.service.JoinService;
 
 import lombok.extern.slf4j.Slf4j;
 
-@RestController
+@Controller
 @Slf4j
 @RequestMapping("/customer")
 public class CustomerController {
@@ -67,7 +67,7 @@ public class CustomerController {
 		}
 	}
 	
-	@GetMapping("customer/join")
+	@GetMapping("/join")
 	public String insert() {
 		return "customer/join";
 	}
