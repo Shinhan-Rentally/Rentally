@@ -295,6 +295,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		<script src="${path}/resources/js/main.js"></script>
 		<!-- endbuild -->
->>>>>>> branch 'develop' of https://github.com/Shinhan-Rentally/Rentally.git
 </body>
 </html>
