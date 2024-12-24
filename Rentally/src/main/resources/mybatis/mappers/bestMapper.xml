@@ -5,7 +5,8 @@
 
 	<!-- 베스트상품조회 -->
 	<select id="bestProduct" resultType="BestProductVO">
-		SELECT DISTINCT ON (C.category_seq)
+		SELECT DISTINCT ON
+		(C.category_seq)
 		P.product_seq,
 		P.product_name,
 		P.product_brand,
@@ -19,14 +20,24 @@
 		P.product_color,
 		P.product_features,
 		C.category_name,
-		C.category_seq
+		C.category_seq,
+		COALESCE(WL.wishlist_count, 0) AS wishlist_count
 		FROM
 		PRODUCT P
 		LEFT JOIN
 		CATEGORY C ON P.category_seq = C.category_seq
+		LEFT JOIN (
+		SELECT
+		product_seq,
+		COUNT(*) AS wishlist_count
+		FROM
+		WISHLIST
+		GROUP BY
+		product_seq
+		) WL ON P.product_seq = WL.product_seq
 		ORDER BY
 		C.category_seq,
-		P.product_date DESC
+		WL.wishlist_count DESC NULLS LAST
 
 	</select>
 
@@ -47,18 +58,21 @@
 		FROM
 		PRODUCT P
 		LEFT JOIN
-		REVIEW R ON P.product_seq = R.product_seq
+		REVIEW R ON P.product_seq =
+		R.product_seq
 		LEFT JOIN
 		CUSTOMER C ON R.cust_seq = C.cust_seq
 		WHERE
 		R.review_seq IN (
 		SELECT review_seq
 		FROM REVIEW
-		WHERE product_seq = P.product_seq
+		WHERE product_seq =
+		P.product_seq
 		ORDER BY review_rate DESC, review_date DESC
 		LIMIT 3
 		)
-		ORDER BY
+		ORDER
+		BY
 		P.product_seq, R.review_rate DESC
 	</select>
 
