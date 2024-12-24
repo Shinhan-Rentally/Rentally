@@ -28,6 +28,7 @@ public class BestProductJoinDTO {
     String product_color;
     String product_features;
     int category_seq;
-   String category_name;
-  
+    String category_name;
+    int wish_count;
+    
 }
