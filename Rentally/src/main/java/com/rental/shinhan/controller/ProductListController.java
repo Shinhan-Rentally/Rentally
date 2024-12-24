@@ -26,18 +26,14 @@ public class ProductListController {
 	    ProductListService productlistService;
 	
 	 //카테고리별 상품리스트 출력
+
 	 //필터기능 추가 
 	@GetMapping("/list")
 	public String productlist(@RequestParam("category_seq") int category_seq ,Model model,   
 			  @RequestParam(value = "brand", required = false) String product_brand,
 			  @RequestParam(value = "priceRange", required = false) String priceRange,
 	            @RequestParam(value = "sort", defaultValue = "popular") String sort) {
-        
-       
-
-
-
-		 // 서비스 호출
+       	 // 서비스 호출
         List<ProductListJoinDTO> productlist = productlistService.selectProductList(category_seq,priceRange, product_brand, sort);
 
 	    // 로그로 상품 수 출력
@@ -53,7 +49,8 @@ public class ProductListController {
 
 	    // 상품 목록 페이지로 반환
 	    return "product/productList";
-	}
+
+
 	
 	
 }
