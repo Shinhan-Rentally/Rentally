@@ -30,4 +30,10 @@ public class WishListController {
         int result = wishListService.addWishList(request);
         return "";
     }
+
+    @DeleteMapping("/delete")
+    public String deleteWish(int wishSeq) {
+        int result = wishListService.deleteWish(wishSeq);
+        return "";
+    }
 }
