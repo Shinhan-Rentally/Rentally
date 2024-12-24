@@ -1,12 +1,12 @@
 package com.rental.shinhan.controller;
 
+import com.rental.shinhan.dto.WishListDTO;
 import com.rental.shinhan.dto.WishListJoinDTO;
 import com.rental.shinhan.service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +22,18 @@ public class WishListController {
     @GetMapping("/{custSeq}/list")
     public String getWishLists(@PathVariable("custSeq") int custSeq) {
         List<WishListJoinDTO> wishList = wishListService.findWishLists(custSeq);
+        return "";
+    }
+
+    @PostMapping(value="/add",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String createWishList(@RequestBody final WishListDTO request) {
+        int result = wishListService.addWishList(request);
+        return "";
+    }
+
+    @DeleteMapping("/delete")
+    public String deleteWish(int wishSeq) {
+        int result = wishListService.deleteWish(wishSeq);
         return "";
     }
 }

@@ -9,9 +9,46 @@
     </select>
 
     <select id="selectReviews" resultType="ReviewVO">
-        select *
-        from review
-        order by review_date desc
+        select
+        r.review_seq,
+        c.cust_id,
+        p.product_seq,
+        p.product_serial,
+        p.product_name,
+        r.review_content,
+        r.review_rate,
+        r.review_date
+        from
+        review r
+        join customer c using (cust_seq)
+        join product p using (product_seq);
     </select>
 
+    <select id="selectCustomers" resultType="com.rental.shinhan.dto.CustomerDTO">
+        select cust_id, cust_name, cust_email, cust_phone
+        from customer
+        where cust_status = true
+    </select>
+
+    <select id="selectOrders" resultType="com.rental.shinhan.dto.OrderJoinDTO">
+        select
+        p.product_img,
+        p.product_serial,
+        c.cust_name,
+        s.sub_date,
+        s.sub_card,
+        s.sub_total,
+        s.sub_period
+        from
+        subscribe s
+        join
+        customer c on s.cust_seq = c.cust_seq
+        join
+        product p on s.product_seq = p.product_seq;
+    </select>
+    <update id="deleteProduct" parameterType="int">
+        update product
+        set product_grade = 'F'
+        where product_seq = #{product_seq}
+    </update>
 </mapper>
