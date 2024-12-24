@@ -43,6 +43,9 @@
 		
 		<!-- wishListMapper -->
 		<typeAlias type="com.rental.shinhan.dto.WishListJoinDTO" alias="WishListVO" />
+
+		<!-- faqMapper -->
+		<typeAlias type="com.rental.shinhan.dto.FaqDTO" alias="FaqVO" />
 	</typeAliases>
 
 </configuration>
