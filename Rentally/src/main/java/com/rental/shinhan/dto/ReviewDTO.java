@@ -11,7 +11,9 @@ public class ReviewDTO {
 
     int review_seq;
     int cust_seq;
+    String cust_id;
     int product_seq;
+    String product_serial;
     String review_content;
     int review_rate;
     Date review_date;
