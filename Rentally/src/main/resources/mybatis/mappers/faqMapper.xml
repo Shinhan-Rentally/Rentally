@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rental.shinhan.faq">
 
-	<select id="select" resultType="com.rental.shinhan.dto.FaqDTO">
+	<select id="select" resultType="FaqVO">
 		SELECT * FROM faq
 	</select>
 
