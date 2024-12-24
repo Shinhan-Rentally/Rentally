@@ -1,5 +1,6 @@
 package com.rental.shinhan.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class AddressController {
-	
-	// AddressService 생성
+	// AddressService 넣어라
+	@Autowired
 	private AddressService addressService;
 	
 	// AddressPage 페이지 이동
@@ -28,26 +29,31 @@ public class AddressController {
 	
 	// 주소 저장 요청 처리
 	@RequestMapping(value = "/saveAddress", method = RequestMethod.POST)
-	public String saveAddress(
+	public ModelAndView saveAddress(
 				@RequestParam("postcode") String postcode,
 				@RequestParam("address") String address,
 				@RequestParam("detailAddress") String detailAddress,
 				@RequestParam("extraAddress") String extraAddress,
 				@RequestParam("recipName") String recipName,
-				@RequestParam("recipPhone") String recipPhone) {
+				@RequestParam("recipPhone") String recipPhone,
+				@RequestParam("addrDefault") String addrDefault) {
+		
+		// 데이터 출력 로그
+		log.info("Postcode: {},", 
+		         postcode);
 		
 		// DB에 보낼 정보 저장
 		AddressDTO addressData = new AddressDTO();
 		addressData.setAddr_name(recipName);
 		addressData.setAddr_phone(recipPhone);
 		addressData.setAddr_detail(address + " " + detailAddress + " " + extraAddress + "(" + postcode + ")");
-		log.info("dto저장 완료");
+		
 		
 		// addressDTO에 데이터 정보 저장
 		addressService.saveAddress(addressData);
-		log.info("service 저장완료");
+		System.out.println("service 저장완료");
 		
-		return null;
+		return new ModelAndView("redirect:/create");
 	}
 		
 	
