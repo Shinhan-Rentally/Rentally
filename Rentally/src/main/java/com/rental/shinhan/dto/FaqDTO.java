@@ -13,5 +13,4 @@ public class FaqDTO {
 	int faq_seq;
 	String faq_question;
 	String faq_answer;
-	int admin_seq;
 }
