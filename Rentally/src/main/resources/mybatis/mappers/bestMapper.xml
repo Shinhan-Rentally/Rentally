@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rental.shinhan.best">
+
+	<!-- 베스트상품조회 -->
+	<select id="bestProduct" resultType="BestProductVO">
+		SELECT DISTINCT ON
+		(C.category_seq)
+		P.product_seq,
+		P.product_name,
+		P.product_brand,
+		P.product_img,
+		P.product_detail,
+		P.product_serial,
+		P.product_pay,
+		P.product_date,
+		P.product_height,
+		P.product_weight,
+		P.product_color,
+		P.product_features,
+		C.category_name,
+		C.category_seq,
+		COALESCE(WL.wishlist_count, 0) AS wishlist_count
+		FROM
+		PRODUCT P
+		LEFT JOIN
+		CATEGORY C ON P.category_seq = C.category_seq
+		LEFT JOIN (
+		SELECT
+		product_seq,
+		COUNT(*) AS wishlist_count
+		FROM
+		WISHLIST
+		GROUP BY
+		product_seq
+		) WL ON P.product_seq = WL.product_seq
+		ORDER BY
+		C.category_seq,
+		WL.wishlist_count DESC NULLS LAST
+
+	</select>
+
+	<!-- 베스트 리뷰 조회 -->
+	<select id="bestReview" resultType="BestReviewVO">
+		SELECT
+		P.product_seq,
+		P.product_name,
+		P.product_brand,
+		P.product_img,
+		P.product_serial ,
+		R.review_content,
+		R.review_rate,
+		R.review_date,
+		C.cust_name,
+		C.cust_id,
+		C.cust_seq
+		FROM
+		PRODUCT P
+		LEFT JOIN
+		REVIEW R ON P.product_seq =
+		R.product_seq
+		LEFT JOIN
+		CUSTOMER C ON R.cust_seq = C.cust_seq
+		WHERE
+		R.review_seq IN (
+		SELECT review_seq
+		FROM REVIEW
+		WHERE product_seq =
+		P.product_seq
+		ORDER BY review_rate DESC, review_date DESC
+		LIMIT 3
+		)
+		ORDER
+		BY
+		P.product_seq, R.review_rate DESC
+	</select>
+
+
+</mapper>

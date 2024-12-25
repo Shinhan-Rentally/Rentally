@@ -10,9 +10,42 @@
 			 이 설정이 없으면 #{email,jdbcType=VARCHAR}), #{salary, jdbcType=INTEGER} -->
 		<setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
-	<typeAliases>
-		<!-- <typeAlias type="com.shinhan.myapp.vo.DeptDTO" alias="deptVO" /> -->
-		<typeAlias type="com.rental.shinhan.test.TestDTO" alias="TestVO" />
+	<typeAliases>		
+		<!-- addressMapper -->
+
+		
+		<!-- adminMapper -->
+		<typeAlias type="com.rental.shinhan.dto.ProductDTO" alias="ProductVO"/>
+		<typeAlias type="com.rental.shinhan.dto.ReviewDTO" alias="ReviewVO"/>
+		
+		<!-- bestMapper -->
+		<typeAlias type="com.rental.shinhan.dto.BestProductJoinDTO" alias="BestProductVO"/>
+		<typeAlias type="com.rental.shinhan.dto.BestReviewJoinDTO" alias="BestReviewVO"/>
+		
+		<!-- cartMapper -->
+		<typeAlias type="com.rental.shinhan.dto.CartJoinDTO" alias="CartVO"/>
+
+		<!-- customerMapper -->
+		<typeAlias type="com.rental.shinhan.dto.CustomerDTO" alias="CustomerVO"/>
+		<typeAlias type="com.rental.shinhan.dto.LoginJoinDTO" alias="LoginVO"/>
+		
+		<!-- paymentMapper -->
+		
+		<!-- productFilterMapper -->
+		<typeAlias type="com.rental.shinhan.dto.ProductFilterJoinDTO" alias="ProductFilterVO"/>
+		
+		<!-- productListMapper -->
+		<typeAlias type="com.rental.shinhan.dto.ProductListJoinDTO" alias="ProductListVO"/>
+		
+		<!-- subscribeMapper -->
+		<typeAlias type="com.rental.shinhan.dto.SubscribeListJoinDTO" alias="SubscribeListVO"/>
+		<typeAlias type="com.rental.shinhan.dto.SubscribeDTO" alias="SubscribeVO"/>
+		
+		<!-- wishListMapper -->
+		<typeAlias type="com.rental.shinhan.dto.WishListJoinDTO" alias="WishListVO" />
+
+		<!-- faqMapper -->
+		<typeAlias type="com.rental.shinhan.dto.FaqDTO" alias="FaqVO" />
 	</typeAliases>
 
 </configuration>
