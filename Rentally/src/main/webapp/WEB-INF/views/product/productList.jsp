@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,12 +18,11 @@
 </head>
 <body>
 	<!-- heading -->
-	<div class="text-small mb-1">
-		<a href="#!" class="text-decoration-none text-muted"><small>Snack
-				& Munchies</small></a>
-		<!-- 헤더부분 include -->
-		<%@ include file="../common/header.jsp"%>
-		<main>
+
+	<!-- 헤더부분 include -->
+	<%@ include file="../common/header.jsp"%>
+	<main>
+		<c:if test="${not empty productlist}">
 			<!-- section-->
 			<div class="mt-4">
 				<div class="container">
@@ -34,130 +34,101 @@
 							<nav aria-label="breadcrumb">
 								<ol class="breadcrumb mb-0">
 									<li class="breadcrumb-item"><a href="#!">Home</a></li>
-									<li class="breadcrumb-item"><a href="#!">Shop</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Snacks
-										& Munchies</li>
+									<li class="breadcrumb-item active" aria-current="page">${productlist[0].category_name}</li>
 								</ol>
 							</nav>
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- section -->
-			<div class="mt-8 mb-lg-14 mb-8">
-				<!-- container -->
-				<div class="container">
-					<!-- row -->
-					<div class="row gx-10">
-						<!-- 필터 섹션 -->
-						<!-- 필터 섹션 -->
-						<aside class="col-lg-3 col-md-4 mb-6 mb-md-0">
-							<div class="offcanvas offcanvas-start offcanvas-collapse w-md-50"
-								tabindex="-1" id="offcanvasCategory"
-								aria-labelledby="offcanvasCategoryLabel">
-								<div class="offcanvas-header d-lg-none">
-									<h5 class="offcanvas-title" id="offcanvasCategoryLabel">Filter</h5>
-									<button type="button" class="btn-close"
-										data-bs-dismiss="offcanvas" aria-label="Close"></button>
-								</div>
-								<div class="offcanvas-body ps-lg-2 pt-lg-0">
+		</c:if>
+		<!-- section -->
+		<div class="mt-8 mb-lg-14 mb-8">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row gx-10">
+					<!-- 필터 섹션 -->
+<aside class="col-lg-3 col-md-4 mb-6 mb-md-0">
+    <div class="offcanvas offcanvas-start offcanvas-collapse w-md-50" tabindex="-1" id="offcanvasCategory" aria-labelledby="offcanvasCategoryLabel">
+        <div class="offcanvas-header d-lg-none">
+            <h5 class="offcanvas-title" id="offcanvasCategoryLabel">Filter</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body ps-lg-2 pt-lg-0">
+            <!-- 브랜드 필터 -->
+            <div class="mb-8">
+                <h5 class="mb-3">브랜드</h5>
+                <div class="btn-group" role="group" aria-label="Brand Filter">
+                    <!-- 삼성 버튼 -->
+                    <button type="button" class="btn btn-outline-primary" id="filterSamsung" onclick="toggleBrandFilter(this)">삼성</button>
+                    <!-- LG 버튼 -->
+                    <button type="button" class="btn btn-outline-primary" id="filterLG" onclick="toggleBrandFilter(this)">LG</button>
+                </div>
+            </div>
 
-									<!-- 브랜드 필터 -->
-									<div class="mb-8">
-										<h5 class="mb-3">Brand</h5>
-										<div class="form-check form-switch">
-											<input class="form-check-input" type="checkbox"
-												id="brandFilterEnable" /> <label class="form-check-label"
-												for="brandFilterEnable">삼성</label> <label
-												class="form-check-label" for="brandFilterEnable">LG</label>
-										</div>
-									</div>
+            <!-- 가격대 필터 -->
+            <div class="mb-8">
+                <h5 class="mb-3">가격대</h5>
+                <div id="priceRangeToggle" class="btn-group-vertical w-100" role="group">
+                    <button type="button" class="btn btn-outline-primary" data-value="below10k" onclick="togglePriceRangeFilter(this)">0 ~ 10,000</button>
+                    <button type="button" class="btn btn-outline-primary" data-value="10kTo20k" onclick="togglePriceRangeFilter(this)">10,001 ~ 20,000</button>
+                    <button type="button" class="btn btn-outline-primary" data-value="20kTo30k" onclick="togglePriceRangeFilter(this)">20,001 ~ 30,000</button>
+                    <button type="button" class="btn btn-outline-primary" data-value="30kTo40k" onclick="togglePriceRangeFilter(this)">30,001 ~ 40,000</button>
+                    <button type="button" class="btn btn-outline-primary" data-value="40kTo50k" onclick="togglePriceRangeFilter(this)">40,001 ~ 50,000</button>
+                    <button type="button" class="btn btn-outline-primary" data-value="50kTo70k" onclick="togglePriceRangeFilter(this)">50,001 ~ 70,000</button>
+                    <button type="button" class="btn btn-outline-primary" data-value="80kTo100k" onclick="togglePriceRangeFilter(this)">80,001 ~ 100,000</button>
+                    <button type="button" class="btn btn-outline-primary" data-value="above100k" onclick="togglePriceRangeFilter(this)">100,000+</button>
+                </div>
+                <input type="hidden" id="selectedPriceRange" name="priceRange" value="">
+            </div>
+        </div>
+    </div>
+</aside>
+					
 
-									<!-- 가격대 필터 -->
-									<div class="mb-8">
-										<h5 class="mb-3">Price Range</h5>
-										<div id="priceRangeToggle" class="btn-group" role="group">
-											<button type="button" class="btn btn-outline-primary"
-												data-value="below10k">0 ~ 10,000</button>
-											<button type="button" class="btn btn-outline-primary"
-												data-value="10kTo20k">10,001 ~ 20,000</button>
-											<button type="button" class="btn btn-outline-primary"
-												data-value="20kTo30k">20,001 ~ 30,000</button>
-											<button type="button" class="btn btn-outline-primary"
-												data-value="30kTo40k">30,001 ~ 40,000</button>
-											<button type="button" class="btn btn-outline-primary"
-												data-value="40kTo50k">40,001 ~ 50,000</button>
-											<button type="button" class="btn btn-outline-primary"
-												data-value="50kTo70k">50,001 ~ 70,000</button>
-											<button type="button" class="btn btn-outline-primary"
-												data-value="80kTo100k">80,001 ~ 100,000</button>
-											<button type="button" class="btn btn-outline-primary"
-												data-value="above100k">100,000+</button>
-										</div>
-										<input type="hidden" id="selectedPriceRange" name="priceRange"
-											value="">
-									</div>
-
-
-									<!-- 인기 상품 필터 -->
-									<div class="mb-8">
-										<h5 class="mb-3">Popularity</h5>
-										<div class="form-check">
-											<input class="form-check-input" type="checkbox"
-												value="popular" id="popularFilter" /> <label
-												class="form-check-label" for="popularFilter"> Show
-												only popular items </label>
-										</div>
-									</div>
-
-									<!-- 필터 적용 버튼 -->
-									<div>
-										<button class="btn btn-primary w-100" onclick="applyFilters()">Apply
-											Filters</button>
-									</div>
-								</div>
-							</div>
-						</aside>
-
-						<section class="col-lg-9 col-md-12">
-							<!-- card -->
-							<div class="card mb-4 bg-light border-0">
+					<section class="col-lg-9 col-md-12">
+						<!-- card -->
+						<div class="card mb-4 bg-light border-0">
+							<c:if test="${not empty productlist}">
 								<!-- card body -->
 								<div class="card-body p-9">
-									<h2 class="mb-0 fs-1">Snacks & Munchies</h2>
+									<h2 class="mb-0 fs-1">${productlist[0].category_name}</h2>
 								</div>
+							</c:if>
+						</div>
+
+						<!-- list icon -->
+						<div class="d-lg-flex justify-content-between align-items-center">
+
+							<div class="mb-3 mb-lg-0">
+								<p class="mb-0">
+									<span class="text-dark">전체</span> ${fn:length(productlist)}
+								</p>
 							</div>
-							<!-- list icon -->
-							<div class="d-lg-flex justify-content-between align-items-center">
-								<div class="mb-3 mb-lg-0">
-									<p class="mb-0">
-										<span class="text-dark">24</span> Products found
-									</p>
-								</div>
+							<!-- 리스트의 크기를 출력 -->
 
-								<!-- icon -->
-								<div
-									class="d-md-flex justify-content-between align-items-center">
-
-
-									<div class="d-flex mt-2 mt-lg-0">
-										<div>
-											<!-- select option -->
-											<select class="form-select">
-												<option selected>Sort by: Featured</option>
-												<option value="Low to High">Price: Low to High</option>
-												<option value="High to Low">Price: High to Low</option>
-												<option value="Release Date">Release Date</option>
-												<option value="Avg. Rating">Avg. Rating</option>
-											</select>
-										</div>
+							<!-- icon -->
+							<div class="d-md-flex justify-content-between align-items-center">
+			<div class="d-flex mt-2 mt-lg-0">
+									<div>
+										<!-- select option -->
+										<select class="form-select">
+											<option selected>정렬기준</option>
+											<option value="Low to High">낮은 가격순</option>
+											<option value="High to Low">높은 가격순</option>
+											<option value="Release Date">출시일</option>
+											<option value="Avg. Rating">인기상품</option>
+										</select>
 									</div>
 								</div>
 							</div>
-							<!-- row -->
+						</div>
+						<!-- row -->
+
+						<div
+							class="row g-4 row-cols-xl-4 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
 							<c:forEach items="${productlist}" var="productlist">
-							<div
-								class="row g-4 row-cols-xl-4 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
 								<!-- col -->
 								<div class="col">
 									<!-- card -->
@@ -165,30 +136,15 @@
 										<div class="card-body">
 											<!-- badge -->
 											<div class="text-center position-relative">
-												<div class="position-absolute top-0 start-0">
-													<span class="badge bg-danger">Sale</span>
-												</div>
+												
 												<a href="#"> <!-- img --> <img
 													src="${path}/resources/images/products/product-img-1.jpg"
 													alt="Grocery Ecommerce Template" class="mb-3 img-fluid" />
 												</a>
-												<!-- action btn -->
-												<div class="card-product-action">
-													<a href="#!" class="btn-action" data-bs-toggle="modal"
-														data-bs-target="#quickViewModal"> <i class="bi bi-eye"
-														data-bs-toggle="tooltip" data-bs-html="true"
-														title="Quick View"></i>
-													</a> <a href="shop-wishlist.html" class="btn-action"
-														data-bs-toggle="tooltip" data-bs-html="true"
-														title="Wishlist"><i class="bi bi-heart"></i></a> <a
-														href="#!" class="btn-action" data-bs-toggle="tooltip"
-														data-bs-html="true" title="Compare"><i
-														class="bi bi-arrow-left-right"></i></a>
-												</div>
+												
 											</div>
 											<h2 class="fs-6">
-												<a href="#"
-													class="text-inherit text-decoration-none">${productlist.product_name}</a>
+												<a href="#" class="text-inherit text-decoration-none">${productlist.product_name}</a>
 											</h2>
 											<div>
 												<!-- rating -->
@@ -201,100 +157,145 @@
 											<!-- price -->
 											<div
 												class="d-flex justify-content-between align-items-center mt-3">
+
 												<div>
-													<span class="text-dark">$18</span>
+													월<span class="text-dark">${productlist.product_pay}원</span>
 
 												</div>
 												<!-- btn -->
 												<div>
-													<a href="#!" class="btn btn-primary btn-sm"> <svg
-															xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-															viewBox="0 0 24 24" fill="none" stroke="currentColor"
-															stroke-width="2" stroke-linecap="round"
-															stroke-linejoin="round" class="feather feather-plus">
-                                             <line x1="12" y1="5"
-																x2="12" y2="19"></line>
-                                             <line x1="5" y1="12"
-																x2="19" y2="12"></line>
-                                          </svg> Add
-													</a>
+													<a href="#!" class="btn btn-primary btn-sm"> 구독 </a>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 
-
-							</div>
 							</c:forEach>
-							<div class="row mt-8">
-								<div class="col">
-									<!-- nav -->
-									<nav>
-										<ul class="pagination">
-											<li class="page-item disabled"><a class="page-link mx-1"
-												href="#" aria-label="Previous"> <i
-													class="feather-icon icon-chevron-left"></i>
-											</a></li>
-											<li class="page-item"><a class="page-link mx-1 active"
-												href="#">1</a></li>
-											<li class="page-item"><a class="page-link mx-1" href="#">2</a></li>
+						</div>
 
-											<li class="page-item"><a class="page-link mx-1" href="#">...</a></li>
-											<li class="page-item"><a class="page-link mx-1" href="#">12</a></li>
-											<li class="page-item"><a class="page-link mx-1" href="#"
-												aria-label="Next"> <i
-													class="feather-icon icon-chevron-right"></i>
-											</a></li>
-										</ul>
-									</nav>
-								</div>
+						<div class="row mt-8">
+							<div class="col">
+								<!-- nav -->
+								<nav>
+									<ul class="pagination">
+										<li class="page-item disabled"><a class="page-link mx-1"
+											href="#" aria-label="Previous"> <i
+												class="feather-icon icon-chevron-left"></i>
+										</a></li>
+										<li class="page-item"><a class="page-link mx-1 active"
+											href="#">1</a></li>
+										<li class="page-item"><a class="page-link mx-1" href="#">2</a></li>
+
+										<li class="page-item"><a class="page-link mx-1" href="#">...</a></li>
+										<li class="page-item"><a class="page-link mx-1" href="#">12</a></li>
+										<li class="page-item"><a class="page-link mx-1" href="#"
+											aria-label="Next"> <i
+												class="feather-icon icon-chevron-right"></i>
+										</a></li>
+									</ul>
+								</nav>
 							</div>
-						</section>
-					</div>
+						</div>
+					</section>
 				</div>
 			</div>
-		</main>
+		</div>
+	</main>
 
-		<!-- 상품 호버시 나오는 modal -->
-		<!--       @@include("../partials/modal-product.html") -->
+	<!-- 상품 호버시 나오는 modal -->
+	<!--       @@include("../partials/modal-product.html") -->
 
-		<!-- Footer -->
-		<!--   include file="../common/footer.jsp" %>  -->
-		<!-- 필터 스크립트 -->
-		<script>
-document.addEventListener("DOMContentLoaded", function () {
-	   const toggleButtons = document.querySelectorAll("#priceRangeToggle .btn");
-	   const hiddenInput = document.getElementById("selectedPriceRange");
+	<!-- Footer -->
+	  <%@include file="../common/footer.jsp" %> 
+	
 
-	   toggleButtons.forEach(button => {
-	      button.addEventListener("click", function () {
-	         // 이전 선택 버튼 초기화
-	         toggleButtons.forEach(btn => btn.classList.remove("active"));
-	         
-	         // 현재 버튼 활성화
-	         this.classList.add("active");
-	         
-	         // 선택한 값 저장
-	         hiddenInput.value = this.dataset.value;
-	      });
-	   });
+
+
+	<!-- Javascript-->
+	<script src="${path}/resources/libs/nouislider/dist/nouislider.min.js"></script>
+	<script src="${path}/resources/libs/wnumb/wNumb.min.js"></script>
+	<script
+		src="${path}/resources/libs/tiny-slider/dist/min/tiny-slider.js"></script>
+	<script src="${path}/resources/js/vendors/tns-slider.js"></script>
+	<script src="${path}/resources/js/vendors/zoom.js"></script>
+	<!-- Libs JS -->
+	<script
+		src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
+	<!-- Theme JS -->
+
+	<script src="${path}/resources/js/main.js"></script>
+	<script>
+	// 브랜드 필터 토글 (하나만 선택 가능)
+	function toggleBrandFilter(button) {
+	    // 모든 브랜드 버튼을 비활성화하고 선택된 버튼만 활성화
+	    var buttons = document.querySelectorAll('.btn-group button');
+	    buttons.forEach(function(btn) {
+	        btn.classList.remove('btn-primary');
+	        btn.classList.add('btn-outline-primary');
+	    });
+
+	    // 클릭된 버튼만 활성화
+	    button.classList.remove('btn-outline-primary');
+	    button.classList.add('btn-primary');
+	    
+	    let selectedBrand = button.textContent.trim();  // 선택된 브랜드 이름
+	    applyFilters(selectedBrand);  // 필터 적용 함수 호출
+	}
+
+	// 가격대 필터 다중 선택 가능
+	function togglePriceRangeFilter(button) {
+	    // 선택된 버튼 스타일 토글
+	    button.classList.toggle('btn-primary');
+	    button.classList.toggle('btn-outline-primary');
+
+	    // 선택된 가격대 값들을 배열로 저장
+	    let selectedRanges = [];
+	    document.querySelectorAll('#priceRangeToggle button.btn-primary').forEach(function(btn) {
+	        selectedRanges.push(btn.getAttribute('data-value'));
+	    });
+
+	    applyFilters(null, selectedRanges);  // 필터 적용 함수 호출
+	}
+
+	// 필터와 정렬을 적용하는 함수
+	function applyFilters(selectedBrand = null, selectedPriceRanges = []) {
+	    let sortBy = document.querySelector('select.form-select').value;  // 정렬 기준
+
+	    // Ajax로 필터 및 정렬된 결과 요청
+	    $.ajax({
+	        url: '/rentally/product/list',  // 필터를 적용한 상품 리스트를 가져오는 URL
+	        method: 'GET',
+	        data: {
+	            category_seq: categorySeq,  // URL에서 가져온 카테고리 정보
+	            filter_brand: selectedBrand ? [selectedBrand] : [],  // 선택된 브랜드 필터
+	            filter_ftval: selectedPriceRanges,  // 선택된 가격대 필터
+	            sort: sortBy,  // 정렬 기준
+	            sortodr: 'ASC'  // 정렬 순서 (기본값: 오름차순)
+	        },
+	        success: function(response) {
+	            // 상품 리스트를 업데이트
+	            $('#productListContainer').html(response);
+	        },
+	        error: function(error) {
+	            console.error('필터 적용 실패:', error);
+	        }
+	    });
+	}
+
+	// 정렬 기준 선택 시 적용
+	$('select.form-select').on('change', function() {
+	    let sortBy = $(this).val();
+	    let selectedBrand = document.querySelector('.btn-group .btn-primary')?.textContent.trim();
+	    let selectedRanges = [];
+	    document.querySelectorAll('#priceRangeToggle button.btn-primary').forEach(function(btn) {
+	        selectedRanges.push(btn.getAttribute('data-value'));
+	    });
+	    applyFilters(selectedBrand, selectedRanges);
 	});
 
-</script>
-
-		<!-- Javascript-->
-		<script src="${path}/resources/libs/nouislider/dist/nouislider.min.js"></script>
-		<script src="${path}/resources/libs/wnumb/wNumb.min.js"></script>
-		<script src="${path}/resources/libs/tiny-slider/dist/min/tiny-slider.js"></script>
-		<script src="${path}/resources/js/vendors/tns-slider.js"></script>
-		<script src="${path}/resources/js/vendors/zoom.js"></script>
-		<!-- Libs JS -->
-		<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
-		<!-- Theme JS -->
-
-		<script src="${path}/resources/js/main.js"></script>
-		<!-- endbuild -->
+	</script>
+	<!-- endbuild -->
 </body>
 </html>
