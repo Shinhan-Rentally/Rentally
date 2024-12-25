@@ -41,6 +41,7 @@ public class LoginController {
         // 로그인 성공: 세션에 사용자 정보 저장
         session.setAttribute("cust_id", loginUser.getCust_id());
         session.setAttribute("cust_seq", loginUser.getCust_seq());
+        session.setAttribute("cust_grade",loginUser.getCust_grade());
         session.setAttribute("cart_count", loginUser.getCart_count());
         session.setAttribute("wishlist_count", loginUser.getWishlist_count());
 
@@ -49,9 +50,9 @@ public class LoginController {
 		
 		
 	}
-	@GetMapping("/loginForm")
+	@GetMapping("/login")
 	public String longinForm() {
-		return "customer/";
+		return "customer/login";
 	}
 	
 	
