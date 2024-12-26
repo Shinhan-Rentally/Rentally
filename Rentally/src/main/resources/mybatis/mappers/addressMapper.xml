@@ -7,8 +7,8 @@
 
 	<!-- 주소 데이터 삽입 -->
     <insert id="insertAddress" parameterType="com.rental.shinhan.dto.AddressDTO">
-        INSERT INTO addresses ( addr_detail, addr_title, addr_name, addr_phone, addr_default)
-        VALUES (#{addr_detail}, #{addr_title}, #{addr_name}, #{addr_phone}, #{addr_default});
+        INSERT INTO address ( addr_detail, addr_title, addr_name, addr_phone, addr_default,cust_seq)
+        VALUES (#{addr_detail}, #{addr_title}, #{addr_name}, #{addr_phone}, #{addr_default}, #{cust_seq});
     </insert>
     
 </mapper>

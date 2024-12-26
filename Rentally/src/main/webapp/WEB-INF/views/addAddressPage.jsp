@@ -7,7 +7,7 @@
     <title>우편번호 찾기</title>
 </head>
 <body>
- <form action="saveAddress" method="post">
+ <form action="saveAddress" method="post" >
     <input type="text" id="postcode" name="postcode" placeholder="우편번호">
     <input type="button" onclick="findPostcode()" value="우편번호 찾기"><br>
     <input type="text" id="address" name="address" placeholder="주소"><br>
@@ -15,6 +15,9 @@
     <input type="text" id="extraAddress" name="extraAddress" placeholder="참고항목">
     <input type="text" id="recipName" name = "recipName" placeholder="받는이">
     <input type="text" id="recipPhone" name = "recipPhone" placeholder="연락처">
+    <br>
+    <input type="text" id="addressTitle" name = "addressTitle" placeholder="배송지명">
+    <br>
     <label>
     	<input type = "checkbox" id="addrDefault" name="addrDefault">기본 주소로 설정
     </label>
