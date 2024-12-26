@@ -63,5 +63,10 @@
 		cust_pw = #{cust_pw}
 		where cust_seq = #{cust_seq}
 	</update>
+	
+	<select id="checkId" parameterType="String" resultType="Integer">
+		select count(*) from customer
+		where cust_id = #{cust_id}
+	</select>
 
 </mapper>
