@@ -28,7 +28,7 @@
 				<div class="row justify-content-center align-items-center">
 					<div class="col-12 col-md-6 col-lg-4 order-lg-1 order-2">
 						<!-- img -->
-						<img src="../resources/images/svg-graphics/signup-g.svg"
+						<img src="${path }/resources/images/svg-graphics/signup-g.svg"
 							alt="joinImg" class="img-fluid" />
 					</div>
 					<!-- col -->
@@ -140,10 +140,10 @@
 	<!-- Footer -->
 	<!-- @@include("../partials/footer.html") -->
 	<!-- Javascript-->
-	<script src="resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="resources/js/vendors/password.js"></script>
-	<script src="resources/libs/simplebar/dist/simplebar.min.js"></script>
-	<script src="resources/js/vendors/validation.js"></script>
+	<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="${path}/resources/js/vendors/password.js"></script>
+	<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
+	<script src="${path}/resources/js/vendors/validation.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
 		//이메일 유효성검사
