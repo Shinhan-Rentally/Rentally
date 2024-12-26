@@ -57,6 +57,7 @@
 										</tr>
 									</thead>
 									<tbody>
+										
 										<c:forEach items="${cartList }" var="cart" varStatus="status">
 										<tr>
 											<td class="align-middle">
@@ -88,6 +89,9 @@
 											</td>
 										</tr>
 										</c:forEach>
+										<c:if test="${empty cartList}">
+   											 <p>장바구니에 항목이 없습니다.</p>
+										</c:if>
 									</tbody>
 								</table>
 							</div>
