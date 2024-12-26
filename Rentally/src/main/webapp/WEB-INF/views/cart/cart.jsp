@@ -1,12 +1,16 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
-   <head>
-      @@include("../partials/head/head-meta.html")
-      <title>Shop Wishlist eCommerce HTML Template - FreshCart</title>
-      @@include("../partials/head/head-links.html") @@include("../partials/head/analytics-code.html") @@include("../partials/head/clarity.html")
-   </head>
-
-   <body>
+<html>
+<head>
+@@include("../partials/head/head-meta.html")
+<meta charset="UTF-8">
+<title>Shop Wishlist eCommerce HTML Template - FreshCart</title>
+@@include("../partials/head/head-links.html")
+@@include("../partials/head/analytics-code.html")
+@@include("../partials/head/clarity.html")
+</head>
+<body>
       @@include("../partials/navbar.html")
       <main>
          <!-- section-->
