@@ -1,12 +1,12 @@
 package com.rental.shinhan.controller;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -51,6 +51,18 @@ public class ProductListController {
 	    return "product/productList";
 
 
+	}
+	
+	@GetMapping("/upgrade/list")
+	public String getUpgradeListPage(Model model, @RequestParam String product_brand,
+									 @RequestParam String product_grade,
+									 @RequestParam Date product_date,
+									 @RequestParam int category_seq) {
+		List<ProductListJoinDTO> upgradeProductlist = productlistService.selectUpgradeProductList(product_brand, product_grade, product_date, category_seq);
+		
+		model.addAttribute("upgradeProductlist", upgradeProductlist);
+		
+		return "product/upgradeProductList";
 	}
 	
 }
