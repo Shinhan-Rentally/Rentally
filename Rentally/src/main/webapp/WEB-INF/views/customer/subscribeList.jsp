@@ -136,11 +136,12 @@
 	                                    </form>
 	                                    </td>
 	                                    <td class="align-middle border-top-0">
-	                                    <form action="" method="post" name="upgradeForm">
+	                                    <form action="${path}/product/upgrade/list" method="get" name="upgradeForm">
 											<input type="hidden" name="product_brand" value="${sub.product_brand}">
 											<input type="hidden" name="product_grade" value="${sub.product_grade}">
 											<input type="hidden" name="product_date" value="${sub.product_date}">
-											<button class="btn btn-primary btn-sm" id="upgrade">업그레이드</button>
+											<input type="hidden" name="category_seq" value="${sub.category_seq}">
+											<button class="btn btn-primary btn-sm" id="upgrade" <c:if test="${sub.sub_isUpgrade != true}">disabled</c:if>>업그레이드</button>
 										</form>
 	                                    </td>
 	                                    <td class="align-middle border-top-0">
