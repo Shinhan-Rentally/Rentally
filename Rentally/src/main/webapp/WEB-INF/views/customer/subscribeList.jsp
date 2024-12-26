@@ -8,9 +8,14 @@
 <%@ include file="../common/headMeta.jsp"%>
 <title>Orders eCommerce HTML Template - FreshCart</title>
 <%@ include file="../common/headLinks.jsp"%>
+<style>
+	.product-name {
+		white-space: pre-wrap; /* 줄바꿈 문자를 인식하도록 설정 */
+	}
+</style>
 </head>
    <body>
-      <%-- <%@ include file="../partials/navbar.html"%> --%>
+      <%@ include file="../common/header.jsp"%>
       <main>
          <!-- section -->
          <section>
@@ -72,7 +77,7 @@
                            </li>
                            <!-- nav item -->
                            <li class="nav-item">
-                              <a class="nav-link" href="../index.html">
+                              <a class="nav-link" href="">
                                  <i class="feather-icon icon-log-out me-2"></i>
                                  Log out
                               </a>
@@ -108,7 +113,7 @@
 	                                    </td>
 	                                    <td class="align-middle border-top-0">
 	                                       <a href="#" class="fw-semibold text-inherit">
-	                                          <h6 class="mb-0">${sub.product_name}</h6>
+	                                          <h6 class="mb-0 product-name">${sub.product_name}</h6>
 	                                       </a>
 	                                       <span>
 	                                       	<small class="text-muted">
@@ -123,17 +128,19 @@
 	                                    </td>
 	                                    <td class="align-middle border-top-0">${sub.sub_enddate}</td>
 	                                    <td class="align-middle border-top-0">
-	                                    <form action="" method="post">
+	                                    <form action="${path}/subscribe/cancel" method="post" name="cancelForm">
+	                                    	<input type="hidden" name="sub_name" value="${sub.product_name}">
 											<input type="hidden" name="sub_seq" value="${sub.sub_seq}">
-	                                       	<button class="btn btn-danger">해지신청</button>
+											<input type="hidden" name="sub_penalty" value="${sub.sub_penalty}">
+	                                       	<button class="btn btn-danger btn-sm" id="cancel">해지신청</button>
 	                                    </form>
 	                                    </td>
 	                                    <td class="align-middle border-top-0">
-	                                    <form action="" method="post">
+	                                    <form action="" method="post" name="upgradeForm">
 											<input type="hidden" name="product_brand" value="${sub.product_brand}">
 											<input type="hidden" name="product_grade" value="${sub.product_grade}">
 											<input type="hidden" name="product_date" value="${sub.product_date}">
-											<button class="btn btn-primary">업그레이드</button>
+											<button class="btn btn-primary btn-sm" id="upgrade">업그레이드</button>
 										</form>
 	                                    </td>
 	                                    <td class="align-middle border-top-0">
@@ -150,10 +157,54 @@
             </div>
          </section>
       </main>
-
+	  <!-- Modal -->
+	  <div id="confirmationModal" class="modal" tabindex="-1" role="dialog">
+	    <div class="modal-dialog" role="document">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <h5 class="modal-title">해지 신청</h5>
+	        </div>
+	        <div class="modal-body">
+	          <p>아래와 같이 해지하시겠습니까? <br>
+	          	 상품명: <span id="productNameValue"></span><br>
+	          	 위약금: <span id="penaltyValue"></span></p>
+	        </div>
+	        <div class="modal-footer">
+	          <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal">취소</button>
+	          <button type="button" id="confirmCancel" class="btn btn-primary">해지</button>
+	        </div>
+	      </div>
+	    </div>
+	  </div>	
       <!-- Footer -->
       <%-- <%@ include file="../partials/footer.html"%> --%>
       <!-- Javascript-->
-      <%-- <%@ include file="../partials/scripts.html"%> --%>
+      <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	  <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
+	  <script src="${path}/resources/js/main.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+      <script>
+      var formToSubmit;
+      
+      $('form[name="cancelForm"]').on('submit', function(e) {
+    	  e.preventDefault(); 
+    	  var penaltyValue = $(this).find('input[name="sub_penalty"]').val();
+    	  var productNameValue = $(this).find('input[name="sub_name"]').val();
+    	  var formattedPenaltyValue = new Intl.NumberFormat('en-US').format(penaltyValue);
+    	  $('#penaltyValue').text(formattedPenaltyValue);
+    	  $('#productNameValue').text(productNameValue);
+    	  $('#confirmationModal').modal('show');
+    	  formToSubmit = this;
+          });
+      
+      $('#confirmCancel').on('click', function() {
+          $('#confirmationModal').modal('hide');
+          formToSubmit.submit();
+        });
+
+      $('#closeModal').on('click', function() {
+    	  $('#confirmationModal').modal('hide');
+    	  });
+      </script>
    </body>
 </html>
