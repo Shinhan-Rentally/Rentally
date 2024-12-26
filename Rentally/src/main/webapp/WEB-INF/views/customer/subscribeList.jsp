@@ -109,7 +109,8 @@
                                  <c:forEach items="${subscribeList}" var="sub" varStatus="status">
 	                                 <tr>
 	                                    <td class="align-middle border-top-0 w-0">
-	                                       <a href="#"><img src="${path}/resources/images/products/product-img-1.jpg" alt="Ecommerce" class="icon-shape icon-xl" /></a>
+	                                    
+	                                       <a href="#"><img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${sub.category_seq}/${sub.product_img}" alt="${sub.product_name}" class="icon-shape icon-xl" /></a>
 	                                    </td>
 	                                    <td class="align-middle border-top-0">
 	                                       <a href="#" class="fw-semibold text-inherit">
