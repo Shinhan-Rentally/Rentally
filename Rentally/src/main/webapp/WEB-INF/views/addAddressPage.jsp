@@ -26,14 +26,12 @@
                 oncomplete: function(data) {
                     var addr = ''; // 주소 변수
                     var extraAddr = ''; // 참고항목 변수
-
                     //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
                     if (data.userSelectedType === 'R') {
                         addr = data.roadAddress;
                     } else {
                         addr = data.jibunAddress;
                     }
-
                     // 참고항목 조합
                     // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
                     if (data.userSelectedType === 'R') {
@@ -50,7 +48,6 @@
                     } else {
                         document.getElementById("extraAddress").value = '';
                     }
-
                     document.getElementById('postcode').value = data.zonecode;
                     document.getElementById("address").value = addr;
                     document.getElementById("detailAddress").focus();
