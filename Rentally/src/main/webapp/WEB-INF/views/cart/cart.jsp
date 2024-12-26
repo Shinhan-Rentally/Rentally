@@ -57,33 +57,37 @@
 										</tr>
 									</thead>
 									<tbody>
+										<c:forEach items="${cartList }" var="cart" varStatus="status">
 										<tr>
 											<td class="align-middle">
 												<a href="#">
 													<img
-													src="../assets/images/products/product-img-18.jpg"
-													class="icon-shape icon-xxl" alt="" />
+													src="${cart.product_img}"
+													class="icon-shape icon-xxl" alt="상품이미지" />
 												</a>
 											</td>
 											<td class="align-middle">
 												<div>
 													<h5 class="fs-6 mb-0">
-														<a href="#" class="text-inherit">Organic Banana</a>
+														<a href="#" class="text-inherit">${cart.product_name }</a>
 													</h5>
-													<small>$.98 / lb</small>
+													<small>${cart.cart_option }개월</small>
 												</div>
 											</td>
-											<td class="align-middle">$35.00</td>
+											<td class="align-middle">${cart.product_pay }</td>
 											
 											<td class="align-middle">
 												<div class="btn btn-primary btn-sm">Subscribe</div>
 											</td>
-											<td class="align-middle"><a href="#" class="text-muted"
+											<td class="align-middle">
+												<a href="#" class="text-muted"
 												data-bs-toggle="tooltip" data-bs-placement="top"
-												title="Delete"> <i class="feather-icon icon-trash-2"></i>
-											</a></td>
+												title="Delete">
+												<i class="feather-icon icon-trash-2"></i>
+												</a>
+											</td>
 										</tr>
-										
+										</c:forEach>
 									</tbody>
 								</table>
 							</div>
@@ -97,6 +101,6 @@
 	<!-- Footer -->
 	<%@include file="../common/footer.jsp"%>
 	<!-- Javascript-->
-	@@include("../partials/scripts.html")
+	<%--@include file="../partials/scripts.html"--%>
 </body>
 </html>
