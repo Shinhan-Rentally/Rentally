@@ -25,7 +25,6 @@ public class AddressController {
 	// AddressService 넣어라
 	@Autowired
 	private AddressService addressService;
-	HttpServletRequest request;
 	
 	// 임의의 cust_seq
 	int testCustseq = 1;
