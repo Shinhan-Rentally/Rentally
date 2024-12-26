@@ -29,10 +29,6 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-<<<<<<< HEAD
-	
-	
-=======
 
 	<!-- filter 등록 -->
 	<filter>
@@ -51,5 +47,4 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
->>>>>>> refs/heads/develop
 </web-app>
