@@ -7,17 +7,23 @@
     <title>우편번호 찾기</title>
 </head>
 <body>
-    <input type="text" id="postcode" placeholder="우편번호">
+ <form action="saveAddress" method="post" >
+    <input type="text" id="postcode" name="postcode" placeholder="우편번호">
     <input type="button" onclick="findPostcode()" value="우편번호 찾기"><br>
-    <input type="text" id="address" placeholder="주소"><br>
-    <input type="text" id="detailAddress" placeholder="상세주소">
-    <input type="text" id="extraAddress" placeholder="참고항목">
-    <input type="text" id="recipName" placeholder="받는이">
-    <input type="text" id="recipPhone" placeholder="연락처">
+    <input type="text" id="address" name="address" placeholder="주소"><br>
+    <input type="text" id="detailAddress" name ="detailAddress" placeholder="상세주소">
+    <input type="text" id="extraAddress" name="extraAddress" placeholder="참고항목">
+    <input type="text" id="recipName" name = "recipName" placeholder="받는이">
+    <input type="text" id="recipPhone" name = "recipPhone" placeholder="연락처">
+    <br>
+    <input type="text" id="addressTitle" name = "addressTitle" placeholder="배송지명">
+    <br>
     <label>
-    	<input type = "checkbox" name="addrDefault">기본 주소로 설정
+    	<input type = "checkbox" id="addrDefault" name="addrDefault">기본 주소로 설정
     </label>
-    <button type="submit">저장하기</button>
+    <br>
+    <button type="submit" >저장하기</button>
+  </form>
 	
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>

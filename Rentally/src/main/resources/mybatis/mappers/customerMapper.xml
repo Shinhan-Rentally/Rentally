@@ -27,7 +27,7 @@
 		WHERE
 		c.cust_id = #{cust_id} AND CUST_STATUS = TRUE
 		GROUP BY
-		c.cust_seq, c.cust_id, c.cust_name, c.cust_phone, c.cust_email
+		c.cust_seq, c.cust_id, c.cust_name, c.cust_phone, c.cust_email,c.cust_grade
 	</select>
 
 
@@ -63,5 +63,10 @@
 		cust_pw = #{cust_pw}
 		where cust_seq = #{cust_seq}
 	</update>
+	
+	<select id="checkId" parameterType="String" resultType="Integer">
+		select count(*) from customer
+		where cust_id = #{cust_id}
+	</select>
 
 </mapper>
