@@ -43,7 +43,7 @@
 					<div class="list-inline">
 						<c:if test="${cust_id ne null}">
 							<div class="list-inline-item me-5">
-								<a href="#" class="text-muted position-relative"> <svg
+								<a href="${path}/wishlist/list/" class="text-muted position-relative"> <svg
 										xmlns="http://www.w3.org/2000/svg" width="20" height="20"
 										viewBox="0 0 24 24" fill="none" stroke="currentColor"
 										stroke-width="2" stroke-linecap="round"
@@ -114,7 +114,7 @@
 							<div class="list-inline-item me-5 me-lg-0">
 								<a class="text-muted position-relative"
 									data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-									href="" role="button" aria-controls="offcanvasRight"> <svg
+									href="${path}/cart/list" role="button" aria-controls="offcanvasRight"> <svg
 										xmlns="http://www.w3.org/2000/svg" width="20" height="20"
 										viewBox="0 0 24 24" fill="none" stroke="currentColor"
 										stroke-width="2" stroke-linecap="round"
@@ -164,7 +164,7 @@
 				id="navbar-default" aria-labelledby="navbar-defaultLabel">
 				<div class="offcanvas-header pb-1">
 					<a href="./index.html"><img
-						src="resources/images/logo/freshcart-logo.svg"
+						src="${path}/resources/images/logo/freshcart-logo.svg"
 						alt="eCommerce HTML Template" /></a>
 					<button type="button" class="btn-close" data-bs-dismiss="offcanvas"
 						aria-label="Close"></button>
@@ -229,4 +229,4 @@
 
 
 
-<script src="resources/js/vendors/validation.js"></script>
+<script src="${path}/resources/js/vendors/validation.js"></script>
