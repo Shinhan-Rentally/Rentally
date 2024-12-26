@@ -4,8 +4,8 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rental.shinhan.customer">
 
-	<select id="selectCustomer" resultType="CustomerVO">
-		select * from customer
+	<select id="selectCustomer" parameterType="int" resultType="CustomerVO">
+		select * from customer where cust_seq=#{cust_seq}
 	</select>
 	
 	<!-- 로그인 기능 -->
@@ -56,5 +56,12 @@
 			#{cust_pw}, #{cust_phone}, #{cust_email},
 			#{cust_name}, 'true')
 	</insert>
+
+	<update id="updateCustPw" parameterType="CustomerVO">
+		update customer
+		set
+		cust_pw = #{cust_pw}
+		where cust_seq = #{cust_seq}
+	</update>
 
 </mapper>

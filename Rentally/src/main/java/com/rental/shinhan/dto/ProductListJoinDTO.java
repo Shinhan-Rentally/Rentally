@@ -41,6 +41,7 @@ public class ProductListJoinDTO {
     String category_name;
     int category_seq; 
     
+    
 	
 	
 }

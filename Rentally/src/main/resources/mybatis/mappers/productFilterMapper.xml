@@ -3,171 +3,125 @@
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rental.shinhan.filter">
 
-	<!-- 상품 브랜드 필터링 -->
+	<!-- 상품 브랜드/월임대료 별  필터링 -->
 	<select id="productBrandFilter" resultType="ProductFilterVO">
-		SELECT
-		p.*,
-		c.category_name,
-		COUNT(ca.product_seq) AS product_count
-		FROM
-		PRODUCT p
-		LEFT JOIN
-		CATEGORY c ON p.category_seq = c.category_seq
-		LEFT JOIN
-		CART ca ON p.product_seq = ca.product_seq
-		<where>
-			<if test="brand != null and brand != ''">
-				AND p.product_brand = #{brand}
-			</if>
-			<if test="popularity != null and popularity == 'popular'">
-				AND COUNT(ca.product_seq) > 0
-			</if>
-		</where>
-		<choose>
-			<when test="priceOrder == 'asc'">
-				ORDER BY p.product_pay ASC
-			</when>
-			<otherwise>
-				ORDER BY p.product_pay DESC
-			</otherwise>
-		</choose>
-		ORDER BY p.product_date DESC
+	  SELECT
+      p.*,
+      c.category_name,
+      COUNT(ca.product_seq) AS product_count
+   FROM
+      PRODUCT p
+   LEFT JOIN
+      CATEGORY c ON p.category_seq = c.category_seq
+   LEFT JOIN
+      CART ca ON p.product_seq = ca.product_seq
+   <where>
+      <!-- 브랜드 조건 -->
+      <if test="brand != null and brand != ''">
+         p.product_brand = #{brand}
+      </if>
+
+      <!-- 가격대 조건 -->
+      <if test="priceRange != null">
+         <if test="brand != null and brand != ''">
+            AND
+         </if>
+         <choose>
+            <when test="priceRange == 'below10k'">
+               p.product_pay &lt;= 10000
+            </when>
+            <when test="priceRange == '10kRange'">
+               p.product_pay BETWEEN 10001 AND 20000
+            </when>
+            <when test="priceRange == '20kRange'">
+               p.product_pay BETWEEN 20001 AND 30000
+            </when>
+            <when test="priceRange == '30kRange'">
+               p.product_pay BETWEEN 30001 AND 40000
+            </when>
+            <when test="priceRange == '40kRange'">
+               p.product_pay BETWEEN 40001 AND 50000
+            </when>
+            <when test="priceRange == '50kTo70kRange'">
+               p.product_pay BETWEEN 50001 AND 70000
+            </when>
+            <when test="priceRange == '80kTo100kRange'">
+               p.product_pay BETWEEN 80001 AND 100000
+            </when>
+            <when test="priceRange == 'above100k'">
+               p.product_pay > 100000
+            </when>
+         </choose>
+      </if>
+   </where>
+   <choose>
+      <when test="priceOrder == 'asc'">
+         ORDER BY p.product_pay ASC
+      </when>
+      <otherwise>
+         ORDER BY p.product_pay DESC
+      </otherwise>
+   </choose>
+		
 	</select>
 
+<!-- 통합상품조회쿼리 가격순(낮은/높은)/인기상품/출시일 sorting -->
+	<select id="productFilter" resultType="ProductFilterVO">
+   SELECT
+      p.*,
+      c.category_name,
+      COUNT(ca.product_seq) AS product_count,
+      COUNT(w.product_seq) AS wishlist_count
+   FROM
+      PRODUCT p
+   LEFT JOIN
+      CATEGORY c ON p.category_seq = c.category_seq
+   LEFT JOIN
+      CART ca ON p.product_seq = ca.product_seq
+   LEFT JOIN
+      WISHLIST w ON p.product_seq = w.product_seq
+   <where>
+      1=1
+      <!-- 인기상품 필터링 -->
+      <if test="popularity != null and popularity == 'popular'">
+         AND COUNT(ca.product_seq) > 0
+      </if>
+   </where>
 
-	<!-- 상품조회 가격(가격대별) -->
-	<select id="productPayFilter" resultType="ProductFilterVO">
-		SELECT
-		p.*,
-		c.category_name,
-		COUNT(ca.product_seq) AS product_count
-		FROM
-		PRODUCT p
-		LEFT JOIN
-		CATEGORY c ON p.category_seq = c.category_seq
-		LEFT JOIN
-		CART ca ON p.product_seq = ca.product_seq
-		<where>
-			<if test="priceRange != null">
-				<choose>
-					<when test="priceRange == 'below10k'">
-						AND p.product_pay &lt;= 10000
-					</when>
-					<when test="priceRange == '10kRange'">
-						AND p.product_pay BETWEEN 10001 AND 20000
-					</when>
-					<when test="priceRange == '20kRange'">
-						AND p.product_pay BETWEEN 20001 AND 30000
-					</when>
-					<when test="priceRange == '30kRange'">
-						AND p.product_pay BETWEEN 30001 AND 40000
-					</when>
-					<when test="priceRange == '40kRange'">
-						AND p.product_pay BETWEEN 40001 AND 50000
-					</when>
-					<when test="priceRange == '50kTo70kRange'">
-						AND p.product_pay BETWEEN 50001 AND 70000
-					</when>
-					<when test="priceRange == '80kTo100kRange'">
-						AND p.product_pay BETWEEN 80001 AND 100000
-					</when>
-					<when test="priceRange == 'above100k'">
-						AND p.product_pay > 100000
-					</when>
-				</choose>
-			</if>
-		</where>
-		ORDER BY p.product_pay ASC
-	</select>
+   <!-- 정렬 조건 -->
+   <choose>
+      <!-- 가격 낮은순 -->
+      <when test="sortBy == 'lowPrice'">
+         ORDER BY p.product_pay ASC
+      </when>
 
-	<!-- 상품 조회 -가격 (낮은가격순) -->
-	<select id="productLowPayFilter" resultType="ProductFilterVO">
-		SELECT
-		p.*,
-		c.category_name,
-		COUNT(ca.product_seq) AS product_count
-		FROM
-		PRODUCT p
-		LEFT JOIN
-		CATEGORY c ON p.category_seq = c.category_seq
-		LEFT JOIN
-		CART ca ON p.product_seq = ca.product_seq
-		GROUP BY
-		p.product_seq, c.category_name
-		ORDER BY
-		p.product_pay ASC;
-	</select>
+      <!-- 가격 높은순 -->
+      <when test="sortBy == 'highPrice'">
+         ORDER BY p.product_pay DESC
+      </when>
 
-	<!-- 상품조회 -가격(높은가격순) -->
-	<select id="productHighPayFilter" resultType="ProductFilterVO">
-		SELECT
-		p.*,
-		c.category_name,
-		COUNT(ca.product_seq) AS product_count
-		FROM
-		PRODUCT p
-		LEFT JOIN
-		CATEGORY c ON p.category_seq = c.category_seq
-		LEFT JOIN
-		CART ca ON p.product_seq = ca.product_seq
-		GROUP BY
-		p.product_seq, c.category_name
-		ORDER BY
-		p.product_pay DESC;
-	</select>
+      <!-- 인기상품순 -->
+      <when test="sortBy == 'popular'">
+         ORDER BY wishlist_count DESC, p.product_date DESC
+      </when>
 
-	<!-- 상품조회 - 인기상품 -->
-	<select id="productPopularFilter" resultType="ProductFilterVO">
-		SELECT
-		p.*,
-		c.category_name,
-		COUNT(w.product_seq) AS wishlist_count
-		FROM
-		PRODUCT p
-		LEFT JOIN
-		CATEGORY c ON p.category_seq = c.category_seq
-		LEFT JOIN
-		WISHLIST w ON p.product_seq = w.product_seq
-		GROUP BY
-		p.product_seq, c.category_name
-		ORDER BY
-		wishlist_count DESC, p.product_date DESC
-	</select>
+      <!-- 출시일순 (최신순/오래된순) -->
+      <when test="sortBy == 'date'">
+         <if test="orderByDate == 'desc'">
+            ORDER BY p.product_date DESC
+         </if>
+         <if test="orderByDate == 'asc'">
+            ORDER BY p.product_date ASC
+         </if>
+      </when>
 
-	<!-- 상품조회 - 출시일 -->
-	<select id="productDateFilter" resultType="ProductFilterVO">
-		SELECT
-		p.*,
-		c.category_name,
-		COUNT(ca.product_seq) AS product_count
-		FROM
-		PRODUCT p
-		LEFT JOIN
-		CATEGORY c ON p.category_seq = c.category_seq
-		LEFT JOIN
-		CART ca ON p.product_seq = ca.product_seq
-		<where>
-			1=1
-			<if test="brand != null and brand != ''">
-				AND p.product_brand = #{brand}
-			</if>
-			<if test="popularity != null and popularity == 'popular'">
-				AND COUNT(ca.product_seq) > 0
-			</if>
-			<choose>
-				<when test="priceOrder == 'asc'">
-					ORDER BY p.product_pay ASC
-				</when>
-				<otherwise>
-					ORDER BY p.product_pay DESC
-				</otherwise>
-			</choose>
-			<if test="orderByDate == 'desc'">
-				ORDER BY p.product_date DESC -- 최신순
-			</if>
-			<if test="orderByDate == 'asc'">
-				ORDER BY p.product_date ASC -- 오래된순
-			</if>
-		</where>
-	</select>
+      <!-- 기본 정렬 (기본은 최신순) -->
+      <otherwise>
+         ORDER BY p.product_date DESC
+      </otherwise>
+   </choose>
+</select>
+	
+	
+	
 </mapper>

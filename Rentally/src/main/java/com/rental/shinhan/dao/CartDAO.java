@@ -23,4 +23,17 @@ public class CartDAO implements CartDAOInterface{
 		log.info(cartlist.size()+"건");
 		return cartlist;
 	}
+
+	public int insert(CartJoinDTO cart) {
+    	int result = sqlSession.insert(namespace + "insertCart", cart);
+    	log.info(result + "건 추가 성공!");
+    	return result;
+    }
+
+	public int deleteCart(int product_seq) {
+		int result = sqlSession.delete(namespace + "deleteCart", product_seq);
+		log.info(result + "건 삭제 완료");
+		return result;
+	}
+
 }
