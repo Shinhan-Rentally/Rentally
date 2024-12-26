@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,25 +15,6 @@
 <body>
       <%@ include file="../common/header.jsp"%>
       <main>
-         <!-- section-->
-         <div class="mt-4">
-            <div class="container">
-               <!-- row -->
-               <div class="row">
-                  <!-- col -->
-                  <div class="col-12">
-                     <!-- breadcrumb -->
-                     <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb mb-0">
-                           <li class="breadcrumb-item"><a href="#!">Home</a></li>
-                           <li class="breadcrumb-item"><a href="#!">Shop</a></li>
-                           <li class="breadcrumb-item active" aria-current="page">Snacks & Munchies</li>
-                        </ol>
-                     </nav>
-                  </div>
-               </div>
-            </div>
-         </div>
          <!-- section -->
          <div class="mt-8 mb-lg-14 mb-8">
             <!-- container -->
@@ -50,7 +32,7 @@
                      <div class="d-lg-flex justify-content-between align-items-center">
                         <div class="mb-3 mb-lg-0">
                            <p class="mb-0">
-                              <span class="text-dark">24</span>
+                              <span class="text-dark">${fn:length(upgradeProductlist)}</span>
                               Products found
                            </p>
                         </div>
@@ -78,13 +60,21 @@
                                        <div>
                                           <!-- rating -->
                                           <small class="text-warning">
-                                             <i class="bi bi-star-fill"></i>
-                                             <i class="bi bi-star-fill"></i>
-                                             <i class="bi bi-star-fill"></i>
-                                             <i class="bi bi-star-fill"></i>
-                                             <i class="bi bi-star-half"></i>
+			                                <c:forEach var="i" begin="1" end="5">
+			                                    <c:choose>
+			                                        <c:when test="${i <= (upgrade.review_avg)}">
+			                                            <i class="bi bi-star-fill"></i>
+			                                        </c:when>
+			                                        <c:when test="${i - 0.5 <= upgrade.review_avg}">
+			                                            <i class="bi bi-star-half"></i>
+			                                        </c:when>
+			                                        <c:otherwise>
+			                                            <i class="bi bi-star"></i>
+			                                        </c:otherwise>
+			                                    </c:choose>
+			                                </c:forEach>
                                           </small>
-                                          <span class="text-muted small">4.5(149)</span>
+                                          <span class="text-muted small"><fmt:formatNumber value="${upgrade.review_avg}" type="number" maxFractionDigits="2" />(${upgrade.review_count})</span>
                                        </div>
                                        <div class="mt-6">
                                           <!-- price -->
