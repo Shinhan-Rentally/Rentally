@@ -73,6 +73,19 @@ public class SubscribeController {
 
 	        double cancellationFee = sub.getSub_total() * remainingMonths * 0.2;
 	        sub.setSub_penalty(cancellationFee);
+	        
+	        if(sub.getSub_period() >= 12) {
+	        											// 2024-12-26		2024-06-22 + 6달
+	        	long usingMonths = ChronoUnit.DAYS.between(LocalDate.now(), subDate.plusMonths(6));
+	        	
+	        	System.out.println(usingMonths);
+	        	
+	        	if(usingMonths < 0) {
+	        		sub.setSub_isUpgrade(true);
+	        	} else {
+	        		sub.setSub_isUpgrade(false);
+	        	}
+	        }
 
 	        return sub;
 	    }).collect(Collectors.toList());
