@@ -32,4 +32,10 @@ public class JoinDAO {
 		}
 		return result;
 	}
+	
+	//아이디 중복체크
+	public boolean checkId(String cust_id) {
+		Integer count = sqlSession.selectOne(namespace+"checkId", cust_id);
+		return count>0;
+	}
 }
