@@ -22,4 +22,8 @@ public class SubscribeService {
 	public List<SubscribeListJoinDTO> selectSubscribeList(int custSeq) {
 		return subscribeDAO.selectSubscribeList(custSeq);
 	}
+	
+	public int cancelSubscribe(int subSeq) {
+		return subscribeDAO.cancelSubscribe(subSeq);
+	}
 }
