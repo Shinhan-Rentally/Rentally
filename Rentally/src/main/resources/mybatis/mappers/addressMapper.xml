@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rental.shinhan.address">
+
+	<!-- 주소 데이터 삽입 -->
+    <insert id="insertAddress" parameterType="com.rental.shinhan.dto.AddressDTO">
+        INSERT INTO address ( addr_detail, addr_title, addr_name, addr_phone, addr_default,cust_seq)
+        VALUES (#{addr_detail}, #{addr_title}, #{addr_name}, #{addr_phone}, #{addr_default}, #{cust_seq});
+    </insert>
+    
+</mapper>
