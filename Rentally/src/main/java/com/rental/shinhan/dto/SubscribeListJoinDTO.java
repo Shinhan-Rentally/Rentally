@@ -17,6 +17,7 @@ public class SubscribeListJoinDTO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     Date sub_enddate; // 만료일(새로 만든 필드)
     double sub_penalty; // 위약금(새로 만든 필드)
+    boolean sub_isUpgrade; // 업그레이드 가능여부(새로 만든 필드)
     int sub_total;
     String sub_addrT;
     String sub_addrD;
