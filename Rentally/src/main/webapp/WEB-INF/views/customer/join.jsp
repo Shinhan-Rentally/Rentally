@@ -55,6 +55,7 @@
 										required />
 									<div class="invalid-feedback">ID를 입력해주세요.</div>
 									<div class="success-feedback hide">사용할 수 있는 ID 입니다.</div>
+									<div class="check-feedback hide">이미 사용하는 ID 입니다.</div>
 									<div class="failure-feedback hide">아이디는 4~12글자 입니다.</div>
 									<div class="failure2-feedback hide">영어 또는 숫자만 가능합니다.</div>
 								</div>
@@ -213,7 +214,27 @@
 				failureMessageTwo.classList.add('hide');
 			}
 		};
-		
+		//아이디 중복체크
+		$("#formSignupId").on("input", function(){
+			let custId = $(this).val();
+			$.ajax({
+				url: "/customer/join/id.check",
+				type: "get",
+				data: {cust_id : custId},
+				success: function(response){
+					if(response){
+						$(".check-feedback").removeClass("hide");
+						$(".success-feedback").addClass("hide");
+					} else {
+						$(".check-feedback").addClass("hide");
+						$(".success-feedback").removeClass("hide");
+					}
+				},
+				error: function(err){
+					alert('id중복체크 실패');
+				}
+			});
+		});
 	</script>
 </body>
 </html>
