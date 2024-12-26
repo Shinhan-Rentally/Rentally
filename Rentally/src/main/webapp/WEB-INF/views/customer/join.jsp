@@ -216,11 +216,15 @@
 		};
 		//아이디 중복체크
 		$("#formSignupId").on("input", function(){
-			let custId = $(this).val();
+			let custId = $(this).val().trim();
+			if(custId.length < 3){
+				$(".success-feedback, .check-feedback").addClass("hide");
+				return;
+			}
 			$.ajax({
-				url: "/customer/join/id.check",
+				url: "customer/id.check",
 				type: "get",
-				data: {cust_id : custId},
+				data: {cust_id : cust_id},
 				success: function(response){
 					if(response){
 						$(".check-feedback").removeClass("hide");
