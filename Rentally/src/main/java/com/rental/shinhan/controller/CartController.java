@@ -1,5 +1,7 @@
 package com.rental.shinhan.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +22,8 @@ public class CartController {
 	CartService cartService;
 	
 	@GetMapping("/cart/list")
-	public String cartList(String cust_id, Model model) {
+	public String cartList(HttpSession session, Model model) {
+		String cust_id = (String) session.getAttribute("cust_id");
 		model.addAttribute("cartList", cartService.selectCart(cust_id));
 		return "cart/cart";
 	}
