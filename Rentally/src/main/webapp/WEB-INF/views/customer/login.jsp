@@ -14,7 +14,7 @@
   <nav class="navbar navbar-light py-2">
     <div class="container justify-content-center justify-content-lg-between">
       <a class="navbar-brand" href="main">
-        <img src="resources/images/logo/freshcart-logo.svg" alt="" class="d-inline-block align-text-top">
+        <img src="${path}/resources/images/logo/freshcart-logo.svg" alt="" class="d-inline-block align-text-top">
       </a>
       <span class="navbar-text">
         이미 계정을 갖고계신가요? <a href="#">Sign in</a>
@@ -42,7 +42,7 @@
             <!-- Form with action and method -->
          <form
    class="needs-validation"
-   action="/rentally/customer/login"
+   action="${path}/customer/login"
    method="post"
    id="loginForm"
    novalidate
@@ -98,7 +98,7 @@
       <!-- Sign Up Link -->
       <div>
          Don’t have an account?
-         <a href="/customer/join">Sign Up</a>
+         <a href="${path}/customer/join">Sign Up</a>
       </div>
    </div>
 </form>
@@ -113,11 +113,11 @@
      <%@ include file="../common/footer.jsp" %>
     
       
-      <script src="resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="resources/libs/simplebar/dist/simplebar.min.js"></script>
+      <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
       
-      <script src="resources/js/vendors/password.js"></script>
-      <script src="resources/js/vendors/validation.js"></script>
+      <script src="${path}/resources/js/vendors/password.js"></script>
+      <script src="${path}/resources/js/vendors/validation.js"></script>
 
 
 <script>
