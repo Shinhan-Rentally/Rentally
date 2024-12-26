@@ -1,5 +1,6 @@
 package com.rental.shinhan.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,15 @@ public class LoginController {
 	public String longinForm() {
 		return "customer/login";
 	}
+	//로그아웃 기능
+	 @GetMapping("/logout")
+	    public String logout(HttpServletRequest request) {
+	        HttpSession session = request.getSession(false); // 세션 가져오기 (존재하면)
+	        if (session != null) {
+	            session.invalidate(); // 세션 무효화
+	        }
+	        return "redirect:/main"; // 로그인 페이지로 리다이렉션
+	    }
 	
 	
 }
