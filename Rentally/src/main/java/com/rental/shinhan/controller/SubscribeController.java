@@ -78,7 +78,7 @@ public class SubscribeController {
 
 	        	long usingMonths = ChronoUnit.DAYS.between(LocalDate.now(), subDate.plusMonths(6));
 	        	
-	        	if(usingMonths < 0) {
+	        	if(usingMonths <= 0) {
 	        		sub.setSub_isUpgrade(true);
 	        	} else {
 	        		sub.setSub_isUpgrade(false);
