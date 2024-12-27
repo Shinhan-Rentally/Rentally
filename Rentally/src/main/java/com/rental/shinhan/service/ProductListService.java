@@ -23,7 +23,7 @@ public class ProductListService {
 	  public List<ProductListJoinDTO> selectProductList(int category_seq, String brand, String priceRange, String sort) {
 		    Map<String, Object> params = new HashMap<>();
 	        params.put("category_seq", category_seq);
-	        params.put("brand", brand);
+	        params.put("product_brand", brand);
 	        params.put("priceRange", priceRange);
 	        params.put("sort", sort);
 
