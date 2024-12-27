@@ -289,14 +289,15 @@ function toggleBrandFilter(button) {
 		applyFilters(); 
 	});
 	// 정렬 기준 선택 시 적용
-	$('select.form-select').on('change', function () {
-	    const sortBy = $(this).val(); // 정렬 기준
+	document.querySelector('select.form-select').addEventListener('change', function () {
+	    const sortBy = this.value; // 정렬 기준
 	    const selectedBrand = document.querySelector('.btn-group .btn-primary')?.getAttribute('data-brand');
 	    const selectedRanges = Array.from(document.querySelectorAll('#priceRangeToggle button.btn-primary'))
 	        .map(btn => btn.getAttribute('data-value'));
 
 	    applyFilters(selectedBrand, selectedRanges.join(','));
 	});
+
 	
 	</script>
 	<!-- endbuild -->
