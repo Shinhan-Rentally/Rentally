@@ -9,14 +9,15 @@
 		select *
 		from subscribe join customer using (cust_seq)
 					   join product using (product_seq)
-		where cust_seq = #{cust_seq} and sub_date + sub_period >= current_date 
+		where cust_seq = #{cust_seq} and sub_date + (sub_period || ' month')::INTERVAL >= current_date
 		and sub_cancel = false
+		order by sub_date + (sub_period || ' month')::INTERVAL
 	</select>
 
 	<!-- 구독 취소 -->
 	<update id="cancelSubscibe" parameterType="int" >
 		update subscribe
-		set subdetail_cancel = true
+		set sub_cancel = true
 		where sub_seq = #{sub_seq}
 	</update>
 

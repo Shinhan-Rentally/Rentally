@@ -3,90 +3,86 @@
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rental.shinhan.productlist">
 
-	
-	
+
+
 	<!-- 상품리스트 필터 적용 -->
 
 	<select id="selectProductList" parameterType="map" resultType="ProductListVO">
-    SELECT
-            P.product_seq,
-            P.product_serial,
-            P.product_name,
-            P.product_img,
-            P.product_detail,
-            P.product_pay,
-            P.product_brand,
-            P.product_grade,
-            P.product_date,
-            P.product_height,
-            P.product_weight,
-            P.product_wh,
-            P.product_color,
-            P.product_features,
-            C.category_name,
-            C.category_seq,
-            COUNT(cart.product_seq) AS product_popularity
-        FROM
-            PRODUCT P
-        LEFT JOIN
-            CATEGORY C ON P.category_seq = C.category_seq
-        LEFT JOIN
-            cart ON P.product_seq = cart.product_seq
-        WHERE
-            P.category_seq = #{category_seq}
-            <if test="brand != null and brand != ''">
-                AND P.product_brand = #{brand}
-            </if>
-            <choose>
-                <when test="priceRange == 'below10k'">
-                    AND P.product_pay &lt;= 10000
-                </when>
-                <when test="priceRange == '10kRange'">
-                    AND P.product_pay BETWEEN 10001 AND 20000
-                </when>
-                <when test="priceRange == '20kRange'">
-                    AND P.product_pay BETWEEN 20001 AND 30000
-                </when>
-                <when test="priceRange == '30kRange'">
-                    AND P.product_pay BETWEEN 30001 AND 40000
-                </when>
-                <when test="priceRange == '40kRange'">
-                    AND P.product_pay BETWEEN 40001 AND 50000
-                </when>
-                <when test="priceRange == '50kTo70kRange'">
-                    AND P.product_pay BETWEEN 50001 AND 70000
-                </when>
-                <when test="priceRange == '80kTo100kRange'">
-                    AND P.product_pay BETWEEN 80001 AND 100000
-                </when>
-                <when test="priceRange == 'above100k'">
-                    AND P.product_pay &gt; 100000
-                </when>
-            </choose>
-        GROUP BY 
-            P.product_seq, P.product_serial, P.product_name, P.product_img, 
-            P.product_detail, P.product_pay, P.product_brand, P.product_grade, 
-            P.product_date, P.product_height, P.product_weight, P.product_wh, 
-            P.product_color, P.product_features, C.category_name, C.category_seq
-        <choose>
-            <when test="sort == 'price_asc'">
-                ORDER BY P.product_pay ASC
-            </when>
-            <when test="sort == 'price_desc'">
-                ORDER BY P.product_pay DESC
-            </when>
-            <when test="sort == 'newest'">
-                ORDER BY P.product_date DESC
-            </when>
-            <otherwise>
-                ORDER BY product_popularity DESC
-            </otherwise>
-        </choose>
-</select>
-	
-	
-
-	
+		SELECT
+		P.product_seq,
+		P.product_serial,
+		P.product_name,
+		P.product_img,
+		P.product_detail,
+		P.product_pay,
+		P.product_brand,
+		P.product_grade,
+		P.product_date,
+		P.product_height,
+		P.product_weight,
+		P.product_wh,
+		P.product_color,
+		P.product_features,
+		C.category_name,
+		C.category_seq,
+		COUNT(cart.product_seq) AS product_popularity
+		FROM
+		PRODUCT P
+		LEFT JOIN
+		CATEGORY C ON P.category_seq = C.category_seq
+		LEFT JOIN
+		cart ON P.product_seq = cart.product_seq
+		WHERE
+		P.category_seq = #{category_seq}
+		<if test="brand != null and brand != ''">
+			AND P.product_brand = #{brand}
+		</if>
+		<choose>
+			<when test="priceRange == 'below10k'">
+				AND P.product_pay &lt;= 10000
+			</when>
+			<when test="priceRange == '10kRange'">
+				AND P.product_pay BETWEEN 10001 AND 20000
+			</when>
+			<when test="priceRange == '20kRange'">
+				AND P.product_pay BETWEEN 20001 AND 30000
+			</when>
+			<when test="priceRange == '30kRange'">
+				AND P.product_pay BETWEEN 30001 AND 40000
+			</when>
+			<when test="priceRange == '40kRange'">
+				AND P.product_pay BETWEEN 40001 AND 50000
+			</when>
+			<when test="priceRange == '50kTo70kRange'">
+				AND P.product_pay BETWEEN 50001 AND 70000
+			</when>
+			<when test="priceRange == '80kTo100kRange'">
+				AND P.product_pay BETWEEN 80001 AND 100000
+			</when>
+			<when test="priceRange == 'above100k'">
+				AND P.product_pay &gt; 100000
+			</when>
+		</choose>
+		GROUP BY
+		P.product_seq, P.product_serial, P.product_name, P.product_img,
+		P.product_detail, P.product_pay, P.product_brand, P.product_grade,
+		P.product_date, P.product_height, P.product_weight, P.product_wh,
+		P.product_color, P.product_features, C.category_name, C.category_seq
+		<choose>
+			<when test="sort == 'price_asc'">
+				ORDER BY P.product_pay ASC
+			</when>
+			<when test="sort == 'price_desc'">
+				ORDER BY P.product_pay DESC
+			</when>
+			<when test="sort == 'newest'">
+				ORDER BY P.product_date DESC
+			</when>
+			<otherwise>
+				ORDER BY product_popularity DESC
+			</otherwise>
+		</choose>
+	</select>
 
 	<select id="selectProductDetail" parameterType="int" resultType="ProductListVO">
 		SELECT
@@ -95,8 +91,57 @@
 		C.category_seq
 		FROM
 		PRODUCT P
-		LEFT JOIN
+		LEFT
+		JOIN
 		CATEGORY C ON P.category_seq = C.category_seq
-		where P.product_seq = #{product_seq}
+		where P.product_seq =
+		#{product_seq}
+	</select>
+	
+	<!-- 업그레이드 가능 리스트 조회 -->
+	<select id="selectUpgradeProductList" parameterType="map" resultType="ProductListVO">
+		SELECT 
+		    p.product_seq,
+		    p.product_name,
+		    p.product_brand,
+		    p.category_seq,
+		    p.product_grade,
+		    p.product_date,
+		    p.product_serial,
+		    p.product_img,
+		    p.product_detail,
+		    p.product_pay,
+		    p.product_height,
+		    p.product_weight,
+		    p.product_wh,
+		    p.product_color,
+		    p.product_features,
+		    COUNT(r.product_seq) AS review_count,
+		    avg(r.review_rate) AS review_avg
+		FROM 
+		    product p
+		LEFT JOIN 
+		    review r USING (product_seq)
+		WHERE 
+		    p.product_brand = #{product_brand} 
+		    AND p.category_seq = #{category_seq} 
+		    AND p.product_grade = #{product_grade} 
+		    AND p.product_date >= #{product_date}
+		GROUP BY 
+		    p.product_seq,
+		    p.product_name,
+		    p.product_brand,
+		    p.category_seq,
+		    p.product_grade,
+		    p.product_date,
+		    p.product_serial,
+		    p.product_img,
+		    p.product_detail,
+		    p.product_pay,
+		    p.product_height,
+		    p.product_weight,
+		    p.product_wh,
+		    p.product_color,
+		    p.product_features
 	</select>
 </mapper>
