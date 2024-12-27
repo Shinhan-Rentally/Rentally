@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +42,7 @@
 							<!-- heading -->
 							<h1 class="mb-1">My Cart</h1>
 							<!-- 숫자 카운팅 -->
-							<p class="cart-count">장바구니에 0개의 상품이 담겨있습니다.</p>
+							<p class="cart-count">${cartList.size()}개의 상품이 장바구니에 담겨있습니다.</p>
 						</div>
 						<div>
 							<!-- table -->
@@ -63,7 +64,7 @@
 											<td class="align-middle">
 												<a href="#">
 													<img
-													src="https://rentally.s3.ap-northeast-2.amazonaws.com/${cart.product_img}"
+													src="https://rentally.s3.ap-northeast-2.amazonaws.com/${cart.category_seq}/${cart.product_img}" alt="${cart.product_name}"
 													class="icon-shape icon-xxl" alt="${cart.product_name}" />
 												</a>
 											</td>
@@ -119,18 +120,7 @@
 	<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 	<script src="${path}/resources/js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-	<script>
-		//장바구니 카운팅
-		fetch('/cart/list')
-		.then(response => response.json())
-    	.then(data => {
-     		const count = data.length;
-      		document.getElementById('.cart-count').innerHTML = `There are ${count} products in this cart.`;
-    	})
-    	.catch(error => console.error('Error fetching cart data:', error));
-		
 
-	</script>
 	<!-- Footer -->
 	<%@include file="../common/footer.jsp"%>
 </body>
