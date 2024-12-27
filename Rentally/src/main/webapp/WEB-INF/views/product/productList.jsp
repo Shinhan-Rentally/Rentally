@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,7 +34,7 @@
 							<!-- breadcrumb -->
 							<nav aria-label="breadcrumb">
 								<ol class="breadcrumb mb-0">
-									<li class="breadcrumb-item"><a href="#!">Home</a></li>
+									<li class="breadcrumb-item"><a href="${path}/main">Home</a></li>
 									<li class="breadcrumb-item active" aria-current="page">${productlist[0].category_name}</li>
 								</ol>
 							</nav>
@@ -42,52 +43,73 @@
 				</div>
 			</div>
 		</c:if>
-				<!-- section -->
+		<!-- section -->
 		<div class="mt-8 mb-lg-14 mb-8">
 			<!-- container -->
 			<div class="container">
 				<!-- row -->
 				<div class="row gx-10">
 					<!-- 필터 섹션 -->
-<aside class="col-lg-3 col-md-4 mb-6 mb-md-0">
-    <div class="offcanvas offcanvas-start offcanvas-collapse w-md-50" tabindex="-1" id="offcanvasCategory" aria-labelledby="offcanvasCategoryLabel">
-        <div class="offcanvas-header d-lg-none">
-            <h5 class="offcanvas-title" id="offcanvasCategoryLabel">Filter</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body ps-lg-2 pt-lg-0">
-            <!-- 브랜드 필터 -->
-            <div class="mb-8">
-                <h5 class="mb-3">브랜드</h5>
-                <div class="btn-group" role="group" aria-label="Brand Filter">
-                    <!-- 삼성 버튼 -->
-                    <button type="button" class="btn btn-outline-primary" id="filterSamsung" onclick="toggleBrandFilter(this)" data-brand="삼성">삼성</button>
-                    <!-- LG 버튼 -->
-                    <button type="button" class="btn btn-outline-primary" id="filterLG" onclick="toggleBrandFilter(this)" data-brand="LG">LG</button>
-                </div>
-            </div>
+					<aside class="col-lg-3 col-md-4 mb-6 mb-md-0">
+						<div class="offcanvas offcanvas-start offcanvas-collapse w-md-50"
+							tabindex="-1" id="offcanvasCategory"
+							aria-labelledby="offcanvasCategoryLabel">
+							<div class="offcanvas-header d-lg-none">
+								<h5 class="offcanvas-title" id="offcanvasCategoryLabel">Filter</h5>
+								<button type="button" class="btn-close"
+									data-bs-dismiss="offcanvas" aria-label="Close"></button>
+							</div>
+							<div class="offcanvas-body ps-lg-2 pt-lg-0">
+								<!-- 브랜드 필터 -->
+								<div class="mb-8">
+									<h5 class="mb-3">브랜드</h5>
+									<div class="btn-group" role="group" aria-label="Brand Filter">
+										<!-- 삼성 버튼 -->
+										<button type="button" class="btn btn-outline-info"
+											id="filterSamsung" onclick="toggleBrandFilter(this)"
+											data-brand="삼성">삼성</button>
+										<!-- LG 버튼 -->
+										<button type="button" class="btn btn-outline-info"
+											id="filterLG" onclick="toggleBrandFilter(this)"
+											data-brand="LG">LG</button>
+									</div>
+								</div>
 
-            <!-- 가격대 필터 -->
-            <div class="mb-8">
-                <h5 class="mb-3">가격대</h5>
-                <div id="priceRangeToggle" class="btn-group-vertical w-100" role="group">
-                    <button type="button" class="btn btn-outline-primary" data-value="below10k" onclick="togglePriceRangeFilter(this)">0 ~ 10,000</button>
-                    <button type="button" class="btn btn-outline-primary" data-value="10kTo20k" onclick="togglePriceRangeFilter(this)">10,001 ~ 20,000</button>
-                    <button type="button" class="btn btn-outline-primary" data-value="20kTo30k" onclick="togglePriceRangeFilter(this)">20,001 ~ 30,000</button>
-                    <button type="button" class="btn btn-outline-primary" data-value="30kTo40k" onclick="togglePriceRangeFilter(this)">30,001 ~ 40,000</button>
-                    <button type="button" class="btn btn-outline-primary" data-value="40kTo50k" onclick="togglePriceRangeFilter(this)">40,001 ~ 50,000</button>
-                    <button type="button" class="btn btn-outline-primary" data-value="50kTo70k" onclick="togglePriceRangeFilter(this)">50,001 ~ 70,000</button>
-                    <button type="button" class="btn btn-outline-primary" data-value="80kTo100k" onclick="togglePriceRangeFilter(this)">80,001 ~ 100,000</button>
-                    <button type="button" class="btn btn-outline-primary" data-value="above100k" onclick="togglePriceRangeFilter(this)">100,000+</button>
-                </div>
-                <input type="hidden" id="selectedPriceRange" name="priceRange" value="">
-            </div>
-        </div>
-    </div>
-</aside>
-
-					
-
+								<!-- 가격대 필터 -->
+								<div class="mb-8">
+									<h5 class="mb-3">가격대</h5>
+									<div id="priceRangeToggle" class="btn-group-vertical w-100"
+										role="group">
+										<button type="button" class="btn btn-outline-info"
+											data-value="below10k" onclick="togglePriceRangeFilter(this)">0
+											~ 10,000</button>
+										<button type="button" class="btn btn-outline-info"
+											data-value="10kTo20k" onclick="togglePriceRangeFilter(this)">10,001
+											~ 20,000</button>
+										<button type="button" class="btn btn-outline-info"
+											data-value="20kTo30k" onclick="togglePriceRangeFilter(this)">20,001
+											~ 30,000</button>
+										<button type="button" class="btn btn-outline-info"
+											data-value="30kTo40k" onclick="togglePriceRangeFilter(this)">30,001
+											~ 40,000</button>
+										<button type="button" class="btn btn-outline-info"
+											data-value="40kTo50k" onclick="togglePriceRangeFilter(this)">40,001
+											~ 50,000</button>
+										<button type="button" class="btn btn-outline-info"
+											data-value="50kTo70k" onclick="togglePriceRangeFilter(this)">50,001
+											~ 70,000</button>
+										<button type="button" class="btn btn-outline-info"
+											data-value="80kTo100k" onclick="togglePriceRangeFilter(this)">80,001
+											~ 100,000</button>
+										<button type="button" class="btn btn-outline-info"
+											data-value="above100k" onclick="togglePriceRangeFilter(this)">100,000+</button>
+									</div>
+									<input type="hidden" id="selectedPriceRange" name="priceRange"
+										value="">
+								</div>
+							</div>
+						</div>
+					</aside>
 					<section class="col-lg-9 col-md-12">
 						<!-- card -->
 						<div class="card mb-4 bg-light border-0">
@@ -98,51 +120,31 @@
 								</div>
 							</c:if>
 						</div>
-<!-- card -->
-					<!-- list icon -->
+						<!-- card -->
+						<!-- list icon -->
 						<div class="d-lg-flex justify-content-between align-items-center">
 
-							<div class="mb-3 mb-lg-0">
-								<p class="mb-0">
-									<span class="text-dark">전체</span> ${productlistsize}
-								</p>
+							<div class="mb-3 mb-lg-0" id="productlistsize">
+								
 							</div>
-							
-							
-											
-   <div class="d-lg-flex justify-content-between align-items-center">
-        <!-- 정렬 기준 -->
-        <div class="d-flex mt-2 mt-lg-0">
-            <div>
-                <!-- select option -->
-                <select class="form-select">
-                    <option selected>정렬기준</option>
-                    <option value="Low to High">낮은 가격순</option>
-                    <option value="High to Low">높은 가격순</option>
-                    <option value="Release Date">출시일</option>
-                    <option value="Avg. Rating">인기상품</option>
-                </select>
-            </div>
-        </div>
-  </div>
-					
+							<div class="d-lg-flex justify-content-between align-items-center">
+								<!-- 정렬 기준 -->
+								<div class="d-flex mt-2 mt-lg-0">
+									<div>
+										<!-- select option -->
+										<select class="form-select">
+											<option selected>정렬기준</option>
+											<option value="Low to High">낮은 가격순</option>
+											<option value="High to Low">높은 가격순</option>
+											<option value="Release Date">출시일</option>
+											<option value="Avg. Rating">인기상품</option>
+										</select>
+									</div>
+								</div>
+							</div>
 						</div>
-  
-
-
-
-
-	
-				<div id="productListContainer">
-
-    </div>
-
-
- 
-					
-
-
-				<div class="row mt-8">
+			<div id="productListContainer"></div>
+		<div class="row mt-8">
 							<div class="col">
 								<!-- nav -->
 								<nav>
@@ -165,7 +167,7 @@
 								</nav>
 							</div>
 						</div>
-						
+
 					</section>
 				</div>
 			</div>
@@ -175,8 +177,8 @@
 
 
 	<!-- Footer -->
-	  <%@include file="../common/footer.jsp" %> 
-	
+	<%@include file="../common/footer.jsp"%>
+
 
 
 
@@ -192,7 +194,8 @@
 		src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 	<!-- Theme JS -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="${path}/resources/js/main.js"></script>
 	<script>
 	// URL에서 category_seq 값을 추출하는 함수
@@ -271,7 +274,8 @@ function toggleBrandFilter(button) {
 	        },
 	        success: function (response) {
 	            $('#productListContainer').html(response);
-	         
+	            $("#productlistsize").text($("#size").text()) ;
+
                
 	        
 	        
