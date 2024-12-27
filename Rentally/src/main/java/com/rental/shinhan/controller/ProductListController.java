@@ -1,8 +1,7 @@
 package com.rental.shinhan.controller;
 
-import java.util.HashMap;
+import java.sql.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rental.shinhan.dto.ProductListJoinDTO;
 import com.rental.shinhan.service.ProductListService;
@@ -81,6 +80,18 @@ public class ProductListController {
 
 	}
 
-	 
-
+	@PostMapping("/upgrade/list")
+	public String getUpgradeListPage(Model model, @RequestParam String product_brand,
+									 @RequestParam String product_grade,
+									 @RequestParam Date product_date,
+									 @RequestParam int category_seq,
+									 @RequestParam int sub_seq,
+									 @RequestParam int product_seq) {
+		List<ProductListJoinDTO> upgradeProductlist = productlistService.selectUpgradeProductList(product_brand, product_grade, product_date, category_seq, product_seq);
+		
+		model.addAttribute("upgradeProductlist", upgradeProductlist);
+		model.addAttribute("subSeq",sub_seq);
+		
+		return "product/upgradeProductList";
+	}
 }
