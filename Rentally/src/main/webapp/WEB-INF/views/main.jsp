@@ -1021,8 +1021,9 @@
 				</div>
 			</section>
 		</main>
-
+<!-- Footer -->
 	
+	<%@include file="./common/footer.jsp"%>
 
 		<!-- Javascript-->
 
