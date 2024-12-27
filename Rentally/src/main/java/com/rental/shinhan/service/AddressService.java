@@ -20,9 +20,5 @@ public class AddressService {
 		addressInterface.insertAddress(address);
 	}
 	
-	
-	// 고객별 주소 호출
-	public List<AddressDTO> getAddressList(int custSeq){
-		return addressInterface.getAddressByCustSeq(custSeq);
-	}
+
 }
