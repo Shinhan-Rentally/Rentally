@@ -12,6 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CartJoinDTO {
+	int product_seq;
 	String product_name;
 	String product_img;
 	int product_pay;

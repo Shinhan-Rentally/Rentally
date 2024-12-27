@@ -5,7 +5,7 @@
 <mapper namespace="com.rental.shinhan.cart">
 
 	<select id="selectCart" parameterType="String" resultType="CartVO">
-		select product_brand, product_name, product_img,
+		select product_seq, product_brand, product_name, product_img,
 		product_pay, cart_option
 		from cart
 		join product
