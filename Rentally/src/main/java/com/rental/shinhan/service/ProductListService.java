@@ -39,4 +39,19 @@ public class ProductListService {
 	        
 		  return productlistDAO.selectUpgradeProductList(params);
 	  }
+	  
+	  public List<ProductListJoinDTO> selectUpgradeProductList(String product_brand, String product_grade, Date product_date, int category_seq, int product_seq){
+		  Map<String, Object> params = new HashMap<>();
+	        params.put("product_brand", product_brand);
+	        params.put("product_grade", product_grade);
+	        params.put("product_date", product_date);
+	        params.put("category_seq", category_seq);
+	        params.put("product_seq", product_seq);
+	        
+		  return productlistDAO.selectUpgradeProductList(params);
+	  }
+	  
+	  public ProductListJoinDTO selectProductDetail(int product_seq){
+		  return productlistDAO.selectProductDetail(product_seq);
+	  }
 }

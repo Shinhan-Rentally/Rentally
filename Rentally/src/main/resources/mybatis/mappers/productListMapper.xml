@@ -118,6 +118,7 @@ GROUP BY
 		    AND p.category_seq = #{category_seq} 
 		    AND p.product_grade = #{product_grade} 
 		    AND p.product_date >= #{product_date}
+		    AND p.product_seq <![CDATA[ <> ]]> #{product_seq}
 		GROUP BY 
 		    p.product_seq,
 		    p.product_name,

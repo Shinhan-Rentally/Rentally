@@ -23,22 +23,6 @@
                <!-- row -->
                <div class="row">
                   <!-- col -->
-<!--                   <div class="col-12">
-                     <div class="d-flex justify-content-between align-items-center d-md-none py-4">
-                        heading
-                        <h3 class="fs-5 mb-0">Account Setting</h3>
-                        button
-                        <button
-                           class="btn btn-outline-gray-400 text-muted d-md-none btn-icon btn-sm ms-3"
-                           type="button"
-                           data-bs-toggle="offcanvas"
-                           data-bs-target="#offcanvasAccount"
-                           aria-controls="offcanvasAccount">
-                           <i class="bi bi-text-indent-left fs-3"></i>
-                        </button>
-                     </div>
-                  </div> -->
-                  <!-- col -->
                   <div class="col-lg-3 col-md-4 col-12 border-end d-none d-md-block">
                      <div class="pt-10 pe-lg-10">
                         <!-- nav -->
@@ -137,12 +121,17 @@
 	                                    </form>
 	                                    </td>
 	                                    <td class="align-middle border-top-0">
-	                                    <form action="${path}/product/upgrade/list" method="get" name="upgradeForm">
+	                                    <form action="${path}/product/upgrade/list" method="post" name="upgradeForm">
+	                                    	<input type="hidden" name="sub_seq" value="${sub.sub_seq}">
+	                                    	<input type="hidden" name="product_seq" value="${sub.product_seq}">
 											<input type="hidden" name="product_brand" value="${sub.product_brand}">
 											<input type="hidden" name="product_grade" value="${sub.product_grade}">
 											<input type="hidden" name="product_date" value="${sub.product_date}">
 											<input type="hidden" name="category_seq" value="${sub.category_seq}">
-											<button class="btn btn-primary btn-sm" id="upgrade" <c:if test="${sub.sub_isUpgrade != true}">disabled</c:if>>업그레이드</button>
+											<button class="btn btn-info btn-sm" id="upgrade" <c:if test="${sub.sub_isUpgrade != true}">disabled</c:if>>
+												<c:if test="${sub.sub_upgrade == true}">업그레이드 완료</c:if>
+												<c:if test="${sub.sub_upgrade != true}">업그레이드</c:if>
+											</button>
 										</form>
 	                                    </td>
 	                                    <td class="align-middle border-top-0">
@@ -179,7 +168,7 @@
 	    </div>
 	  </div>	
       <!-- Footer -->
-      <%-- <%@ include file="../partials/footer.html"%> --%>
+      <%@ include file="../common/footer.jsp"%>
       <!-- Javascript-->
       <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	  <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
