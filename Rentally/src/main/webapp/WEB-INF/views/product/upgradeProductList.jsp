@@ -20,7 +20,7 @@
             <!-- container -->
             <div class="container">
                <div class="row gx-10">
-                  <section class="col-lg-12">
+                  <section class="col-lg-9 col-md-12">
                      <!-- card -->
                      <div class="card mb-4 bg-light border-0">
                         <!-- card body -->
@@ -51,7 +51,7 @@
                                        <div class="text-center position-relative">
                                              <!-- img -->
                                              <img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${upgrade.category_seq}/${upgrade.product_img}" 
-                                             alt="${upgrade.product_name}" class="mb-3 img-fluid" />
+                                             alt="Grocery Ecommerce Template" class="mb-3 img-fluid" />
                                        </div>
                                     </div>
                                     <div class="col-md-8 col-12 flex-grow-1">
@@ -88,7 +88,6 @@
                                           <form action="${path}/payment" method="post">
 	                                    	<input type="hidden" name="product_seq" value="${upgrade.product_seq}">
 											<input type="hidden" name="sub_seq" value="${subSeq}">
-											<input type="hidden" name="sub_total" value="${subTotal}">
 											<input type="hidden" name="isUpgrade" value="true">
 	                                       	<button class="btn btn-info btn-sm" id="upgrade">업그레이드</button>
 	                                      </form>
