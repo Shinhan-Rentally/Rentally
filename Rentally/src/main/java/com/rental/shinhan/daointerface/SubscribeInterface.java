@@ -12,4 +12,6 @@ public interface SubscribeInterface {
 	public List<SubscribeListJoinDTO> selectSubscribeList(int custSeq);
 
 	public int cancelSubscribe(int subSeq);
+	
+	public int updateSubscribe(SubscribeDTO subscribeDTO);
 }

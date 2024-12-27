@@ -34,4 +34,10 @@ public class SubscribeDAO implements SubscribeInterface {
 
 		return result;
 	}
+	
+	public int updateSubscribe(SubscribeDTO subscribeDTO){
+		int result = sqlSession.update(namespace + "updateSubscribe", subscribeDTO);
+		
+		return result;
+	}
 }
