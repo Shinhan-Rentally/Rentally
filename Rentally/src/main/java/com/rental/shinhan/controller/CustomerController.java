@@ -43,10 +43,8 @@ public class CustomerController {
     public String updateCustInfo(
             CustomerDTO custInfo,
             HttpSession session) {
-        log.info(custInfo.toString());
         custInfo.setCust_seq(cust_seq); // 객체에 cust_seq 설정
         int result = custService.updateCustInfo(custInfo);
-        log.info("업데이트" +result+ "건 성공");
         return result+"";
     }
     
