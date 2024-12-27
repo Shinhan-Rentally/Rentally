@@ -1,29 +1,19 @@
 package com.rental.shinhan.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
+import com.rental.shinhan.dao.JoinDAO;
+import com.rental.shinhan.dto.CustomerDTO;
+import com.rental.shinhan.service.CustomerService;
+import com.rental.shinhan.service.JoinService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.rental.shinhan.dao.JoinDAO;
-import com.rental.shinhan.dto.CustomerDTO;
-import com.rental.shinhan.service.CustomerService;
-import com.rental.shinhan.service.JoinService;
-
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @Slf4j
@@ -48,15 +38,16 @@ public class CustomerController {
         return "";
     }
 
-    @PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody //page가 아닌 값을 가져감
+    @PostMapping(value = "/update")
     public String updateCustInfo(
-            @RequestBody CustomerDTO custInfo,
+            CustomerDTO custInfo,
             HttpSession session) {
-       //custInfo.setCust_seq(cust_seq);
-        session.setAttribute("cust_seq", 1);
+        log.info(custInfo.toString());
+        custInfo.setCust_seq(cust_seq); // 객체에 cust_seq 설정
         int result = custService.updateCustInfo(custInfo);
         log.info("업데이트" +result+ "건 성공");
-        return "redirect:/customer/list";
+        return result+"";
     }
     
     @Autowired
