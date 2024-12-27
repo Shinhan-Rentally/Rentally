@@ -17,4 +17,5 @@ public class CartJoinDTO {
 	String product_img;
 	int product_pay;
 	String cart_option;
+	int category_seq;
 }
