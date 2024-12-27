@@ -23,4 +23,11 @@ public class ProductListDAO implements ProductListInterface {
 	        List<ProductListJoinDTO> productList = sqlSession.selectList(namespace + "selectProductList",params);
 	        return productList;
 	    }
+	 
+	 public List<ProductListJoinDTO> selectUpgradeProductList(Map<String ,Object> params){
+		 
+		 List<ProductListJoinDTO> upgradeProductList = sqlSession.selectList(namespace + "selectUpgradeProductList", params);
+		 
+		 return upgradeProductList;
+	 }
 }

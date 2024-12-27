@@ -27,7 +27,7 @@
 		WHERE
 		c.cust_id = #{cust_id} AND CUST_STATUS = TRUE
 		GROUP BY
-		c.cust_seq, c.cust_id, c.cust_name, c.cust_phone, c.cust_email
+		c.cust_seq, c.cust_id, c.cust_name, c.cust_phone, c.cust_email,c.cust_grade
 	</select>
 
 
