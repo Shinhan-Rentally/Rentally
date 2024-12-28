@@ -45,7 +45,6 @@
 					
 				</div>
 			</section>
-
 			<!-- Category Section Start-->
 			<section class="mb-lg-10 mt-lg-14 my-8">
 				<div class="container">
