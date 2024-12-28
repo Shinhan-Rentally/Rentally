@@ -8,7 +8,6 @@
   <title>Settings eCommerce HTML Template - FreshCart</title>
   @@include("../partials/head/head-links.html") @@include("../partials/head/analytics-code.html") @@include("../partials/head/clarity.html")
 </head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <body>
 <%@ include file="../common/headMeta.jsp" %>
 <main>
@@ -103,21 +102,21 @@
                     <!-- input -->
                     <div class="mb-3">
                       <label class="form-label">Name</label>
-                      <input type="text" class="form-control" value="${custInfo.cust_name}" />
+                      <input type="text" id="cust_name" class="form-control" value="${custInfo.cust_name}" />
                     </div>
                     <!-- input -->
                     <div class="mb-3">
                       <label class="form-label">Email</label>
-                      <input type="email" class="form-control" value="${custInfo.cust_email}" />
+                      <input type="email" id="cust_email" class="form-control" value="${custInfo.cust_email}" />
                     </div>
                     <!-- input -->
                     <div class="mb-5">
                       <label class="form-label">Phone</label>
-                      <input type="text" class="form-control" value="${custInfo.cust_phone}" />
+                      <input type="text" id="cust_phone" class="form-control" value="${custInfo.cust_phone}" />
                     </div>
                     <!-- button -->
                     <div class="mb-3">
-                      <button class="btn btn-primary">Save Details</button>
+                      <button id="saveDetails" class="btn btn-primary">Save Details</button>
                     </div>
                   </form>
                 </div>
@@ -235,5 +234,25 @@
 <!-- Javascript-->
 @@include("../partials/scripts.html")
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+  $('#saveDetails').on("click", function (event){
+    event.preventDefault();
+    cust_seq = ${custInfo.cust_seq};
+    $.ajax({
+      url: "update",
+      type: 'post',
+      data: {
+        cust_seq:cust_seq,
+        cust_name : $('#cust_name').val(),
+        cust_email : $('#cust_email').val(),
+        cust_phone : $('#cust_phone').val()
+      },
+      success: function (response){
+        alert("updateInfo success"+ response);
+      }
+    })
 
+  })
+</script>
 </html>

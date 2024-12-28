@@ -26,4 +26,8 @@ public class SubscribeService {
 	public int cancelSubscribe(int subSeq) {
 		return subscribeDAO.cancelSubscribe(subSeq);
 	}
+	
+	public int updateSubscribe(SubscribeDTO subscribeDTO){
+		return subscribeDAO.updateSubscribe(subscribeDTO);
+	}
 }
