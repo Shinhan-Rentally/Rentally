@@ -6,9 +6,25 @@
 <mapper namespace="com.rental.shinhan.address">
 
 	<!-- 주소 데이터 삽입 -->
-    <insert id="insertAddress" parameterType="com.rental.shinhan.dto.AddressDTO">
-        INSERT INTO address ( addr_detail, addr_title, addr_name, addr_phone, addr_default,cust_seq)
-        VALUES (#{addr_detail}, #{addr_title}, #{addr_name}, #{addr_phone}, #{addr_default}, #{cust_seq});
-    </insert>
-    
+	<insert id="insertAddress"
+		parameterType="com.rental.shinhan.dto.AddressDTO">
+		INSERT INTO address ( addr_detail, addr_title,
+		addr_name, addr_phone,
+		addr_default,cust_seq)
+		VALUES (#{addr_detail},
+		#{addr_title}, #{addr_name}, #{addr_phone},
+		#{addr_default},
+		#{cust_seq});
+	</insert>
+
+	<!-- 등록된 주소 불러오기 -->
+	<select id="getAddressesByCustSeq" parameterType="int"
+		resultType="com.rental.shinhan.dto.AddressDTO">
+		SELECT addr_seq, addr_detail, addr_title, addr_name,
+		addr_phone,
+		addr_default
+		FROM address
+		WHERE cust_seq = #{custSeq};
+	</select>
+
 </mapper>

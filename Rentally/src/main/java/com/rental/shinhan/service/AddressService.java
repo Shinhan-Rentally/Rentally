@@ -13,11 +13,16 @@ import com.rental.shinhan.dto.AddressDTO;
 public class AddressService {
 	
 	@Autowired
-	AddressInterface addressInterface;
+	AddressDAO addressDAO; 
 	
 	// 주소 저장
 	public void saveAddress(AddressDTO address) {
-		addressInterface.insertAddress(address);
+		addressDAO.insertAddress(address);
+	}
+	
+	// 주소 조회
+	public List<AddressDTO> getAddressesByCustSeq(int custSeq){
+		return addressDAO.getAddressesByCustSeq(custSeq);
 	}
 	
 
