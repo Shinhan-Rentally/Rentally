@@ -120,19 +120,21 @@
 								</div>
 							</c:if>
 						</div>
-						<!-- card -->
-						<!-- list icon -->
-						<div class="d-lg-flex justify-content-between align-items-center">
+					<div class="d-lg-flex justify-content-between align-items-center">
+                        <div class="mb-3 mb-lg-0">
+                           <p class="mb-0">
+                              <span class="text-dark" id="productlistsize"></span>
+                              Products found
+                           </p>
+                        </div>
+							<!-- icon -->
+							<div class="d-md-flex justify-content-between align-items-center">
+ 					
 
-							<div class="mb-3 mb-lg-0" id="productlistsize">
-								
-							</div>
-							<div class="d-lg-flex justify-content-between align-items-center">
-								<!-- 정렬 기준 -->
-								<div class="d-flex mt-2 mt-lg-0">
-									<div>
-										<!-- select option -->
-										<select class="form-select">
+							<div class="d-flex mt-2 mt-lg-0">
+									<div class="d-flex align-items-center mb-3 mb-lg-0">
+										<select class="form-select" id="sortOption"
+											onchange="performAjaxSearch()">
 											<option selected>정렬기준</option>
 											<option value="Low to High">낮은 가격순</option>
 											<option value="High to Low">높은 가격순</option>
@@ -141,10 +143,10 @@
 										</select>
 									</div>
 								</div>
+								</div>
 							</div>
-						</div>
 			<div id="productListContainer"></div>
-		<div class="row mt-8">
+						<div class="row mt-8">
 							<div class="col">
 								<!-- nav -->
 								<nav>
@@ -173,15 +175,8 @@
 			</div>
 		</div>
 	</main>
-
-
-
 	<!-- Footer -->
 	<%@include file="../common/footer.jsp"%>
-
-
-
-
 	<!-- Javascript-->
 	<script src="${path}/resources/libs/nouislider/dist/nouislider.min.js"></script>
 	<script src="${path}/resources/libs/wnumb/wNumb.min.js"></script>
@@ -275,10 +270,6 @@ function toggleBrandFilter(button) {
 	        success: function (response) {
 	            $('#productListContainer').html(response);
 	            $("#productlistsize").text($("#size").text()) ;
-
-               
-	        
-	        
 	        },
 	        error: function (error) {
 	            console.error('필터 적용 실패:', error);
@@ -300,6 +291,60 @@ function toggleBrandFilter(button) {
 
 	
 	</script>
+	<script>
+//검색기능
+// Enter 키 처리 함수
+function handleEnter(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // 기본 폼 제출 동작 방지
+        const query = event.target.value.trim(); // 입력값에서 공백 제거
+        console.log('Search query:', query); // 디버깅용 로그
+        if (query) {
+            f_search(query); // 검색 함수 호출
+        } else {
+            console.warn('검색어를 입력해주세요.');
+        }
+    }
+}
+
+// 검색 처리 함수
+function f_search(query) {
+    if (query.trim() === "") {
+        alert("검색어를 입력해주세요.");
+        return;
+    }
+
+    // AJAX 요청을 통해 검색
+    performAjaxSearch(query);
+}
+
+// AJAX로 검색 수행
+function performAjaxSearch() {
+    const query = $('#searchInput').val().trim();
+
+    if (query === "") {
+        alert("검색어를 입력해주세요.");
+        return;
+    }
+
+    // contextPath 가져오기
+    const path = '${pageContext.request.contextPath}';
+
+    $.ajax({
+        url: `${path}/product/search`,  // 검색 처리할 URL
+        method: 'GET',
+        data: { query: query },  // 검색어 전달
+        success: function(response) {
+            // 검색 결과를 DOM에 표시
+            $('#productListContainer').html(response);  // 반환된 결과로 DOM 업데이트
+        },
+        error: function(error) {
+            console.error('검색 요청 실패:', error);
+        }
+    });
+}
+	</script>
+
 	<!-- endbuild -->
 </body>
 </html>
