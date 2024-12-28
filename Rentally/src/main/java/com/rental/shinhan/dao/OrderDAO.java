@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public class OrderDAO implements OrderInterface {
 
-    String namespace ="com.rental.shinhan.";
+    String namespace ="com.rental.shinhan.subscribe.";
 
     @Autowired
     SqlSession sqlSession;
