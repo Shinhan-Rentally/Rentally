@@ -15,7 +15,6 @@
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         /* 기본 아코디언 버튼 스타일 */
         .accordion-button {
@@ -118,6 +117,8 @@
 <script src="resources/libs/tiny-slider/dist/min/tiny-slider.js"></script>
 <script src="resources/js/vendors/tns-slider.js"></script>
 <script src="resources/js/vendors/zoom.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <!-- Footer -->
 <%@ include file="../common/footer.jsp" %>
 <!-- Javascript-->
