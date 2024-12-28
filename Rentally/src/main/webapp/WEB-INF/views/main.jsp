@@ -1035,7 +1035,59 @@
 	 	<script src="resources/libs/tiny-slider/dist/min/tiny-slider.js"></script>
 		<script src="resources/js/vendors/tns-slider.js"></script>
 		<script src="resources/js/vendors/zoom.js"></script>
+<script>
+//검색기능
+// Enter 키 처리 함수
+function handleEnter(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // 기본 폼 제출 동작 방지
+        const query = event.target.value.trim(); // 입력값에서 공백 제거
+        console.log('Search query:', query); // 디버깅용 로그
+        if (query) {
+            f_search(query); // 검색 함수 호출
+        } else {
+            console.warn('검색어를 입력해주세요.');
+        }
+    }
+}
 
+// 검색 처리 함수
+function f_search(query) {
+    if (query.trim() === "") {
+        alert("검색어를 입력해주세요.");
+        return;
+    }
+
+    // AJAX 요청을 통해 검색
+    performAjaxSearch(query);
+}
+
+// AJAX로 검색 수행
+function performAjaxSearch() {
+    const query = $('#searchInput').val().trim();
+
+    if (query === "") {
+        alert("검색어를 입력해주세요.");
+        return;
+    }
+
+    // contextPath 가져오기
+    const path = '${pageContext.request.contextPath}';
+
+    $.ajax({
+        url: `${path}/product/search`,  // 검색 처리할 URL
+        method: 'GET',
+        data: { query: query },  // 검색어 전달
+        success: function(response) {
+            // 검색 결과를 DOM에 표시
+            $('#productListContainer').html(response);  // 반환된 결과로 DOM 업데이트
+        },
+        error: function(error) {
+            console.error('검색 요청 실패:', error);
+        }
+    });
+}
+	</script>
 
 </body>
 </html>
