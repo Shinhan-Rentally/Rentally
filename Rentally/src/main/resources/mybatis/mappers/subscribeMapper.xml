@@ -3,7 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rental.shinhan.subscribe">
-
+	<!-- 주문내역 조회 -->
+	<select id="selectMyOrders" parameterType="int" resultType="SubscribeListVO">
+		select *
+		from subscribe join customer using (cust_seq)
+		join product using (product_seq)
+		where cust_seq = #{cust_seq}
+		and sub_cancel = false
+	</select>
 	<!-- 구독 현황 조회 -->
 	<select id="selectSubscribeList" parameterType="int" resultType="SubscribeListVO">
 		select *
