@@ -342,15 +342,6 @@
             reviewContent = document.getElementById("reviewText").value;
             reviewRate = document.querySelectorAll(".bi-star-fill").length;
 
-            // Ajax 요청 데이터
-            // const reviewData = {
-            //     cust_seq: custSeq,
-            //     product_seq: productSeq,
-            //     review_content: reviewContent,
-            //     review_rate: reviewRate
-            // };
-
-            // Ajax 요청
             $.ajax({
                 url: `/shinhan_war_exploded/review/${custSeq}/add`,
                 type: "POST",
