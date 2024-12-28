@@ -11,31 +11,33 @@
 			<div class="row w-100 align-items-center gx-lg-2 gx-0">
 				<div class="col-xxl-2 col-lg-3 col-md-6 col-5">
 					<a class="navbar-brand d-none d-lg-block" href="${path}/main">
-						<img src="resources/images/logo/freshcart-logo.svg"
+						<img src="${path}/resources/images/logo/freshcart-logo.svg"
 						alt="eCommerce HTML Template" />
 					</a>
 
 				</div>
 				<div class="col-xxl-5 col-lg-5 d-none d-lg-block">
-					<form action="/product/search" method="get">
-						<div class="input-group">
-							<input class="form-control rounded" type="search" name="query"
-								placeholder="Search for products" /> <span
-								class="input-group-append">
-								<button
-									class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end"
-									type="button">
-									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-										viewBox="0 0 24 24" fill="none" stroke="currentColor"
-										stroke-width="2" stroke-linecap="round"
-										stroke-linejoin="round" class="feather feather-search">
-										<circle cx="11" cy="11" r="8"></circle>
-										<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-									</svg>
-								</button>
-							</span>
-						</div>
-					</form>
+
+					<div class="input-group">
+						<input class="form-control rounded" type="search" name="query"
+							id="searchInput" placeholder="Search for products"
+							onkeydown="handleEnter(event)" /> <span
+							class="input-group-append">
+							<button onclick="performAjaxSearch()"
+								class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end"
+								type="button">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+									viewBox="0 0 24 24" fill="none" stroke="currentColor"
+									stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+									class="feather feather-search">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+							</button>
+						</span>
+					</div>
+
+
 				</div>
 
 				<!-- 위시리스트-->
@@ -43,7 +45,8 @@
 					<div class="list-inline">
 						<c:if test="${cust_id ne null}">
 							<div class="list-inline-item me-5">
-								<a href="${path}/wishlist/list/" class="text-muted position-relative"> <svg
+								<a href="${path}/wishlist/list/"
+									class="text-muted position-relative"> <svg
 										xmlns="http://www.w3.org/2000/svg" width="20" height="20"
 										viewBox="0 0 24 24" fill="none" stroke="currentColor"
 										stroke-width="2" stroke-linecap="round"
@@ -114,7 +117,8 @@
 							<div class="list-inline-item me-5 me-lg-0">
 								<a class="text-muted position-relative"
 									data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-									href="${path}/cart/list" role="button" aria-controls="offcanvasRight"> <svg
+									href="${path}/cart/list" role="button"
+									aria-controls="offcanvasRight"> <svg
 										xmlns="http://www.w3.org/2000/svg" width="20" height="20"
 										viewBox="0 0 24 24" fill="none" stroke="currentColor"
 										stroke-width="2" stroke-linecap="round"
@@ -192,7 +196,8 @@
 						</form>
 					</div>
 					<div>
-						<ul class="navbar-nav align-items-center">
+						<ul class="navbar-nav align-items-center d-flex">
+							<!-- 기존 메뉴 -->
 							<li class="nav-item w-100 w-lg-auto"><a class="nav-link"
 								href="${path}/product/list?category_seq=1">TV</a></li>
 							<li class="nav-item w-100 w-lg-auto"><a class="nav-link"
@@ -211,12 +216,20 @@
 								href="${path}/product/list?category_seq=8">에어컨</a></li>
 							<li class="nav-item w-100 w-lg-auto"><a class="nav-link"
 								href="${path}/product/list?category_seq=9">스타일러</a></li>
-							<c:if test="${cust_id ne null and cust_grade==1}">
-								<li class="nav-item w-100 w-lg-auto"><a class="nav-link"
-									href="${path}/admin/product/list">DashBoard</a></li>
+
+							<!-- 조건부 DashBoard -->
+							<c:if test="${cust_id ne null and cust_grade == 1}">
+								<li class="nav-item w-100 w-lg-auto ml-auto"><a
+									class="nav-link" href="${path}/admin/product/list">DashBoard</a></li>
 							</c:if>
+
+							<!-- 고객지원 -->
+							<li class="nav-item w-100 w-lg-auto ml-auto"><a
+								class="nav-link" href="#">고객지원</a></li>
 						</ul>
 					</div>
+
+
 				</div>
 			</div>
 		</div>
@@ -230,3 +243,60 @@
 
 
 <script src="${path}/resources/js/vendors/validation.js"></script>
+<script>
+	//검색기능
+	// Enter 키 처리 함수
+	function handleEnter(event) {
+		if (event.key === "Enter") {
+			event.preventDefault(); // 기본 폼 제출 동작 방지
+			const query = event.target.value.trim(); // 입력값에서 공백 제거
+			console.log('Search query:', query); // 디버깅용 로그
+			if (query) {
+				f_search(query); // 검색 함수 호출
+			} else {
+				console.warn('검색어를 입력해주세요.');
+			}
+		}
+	}
+
+	// 검색 처리 함수
+	function f_search(query) {
+		if (query.trim() === "") {
+			alert("검색어를 입력해주세요.");
+			return;
+		}
+
+		// AJAX 요청을 통해 검색
+		performAjaxSearch(query);
+	}
+
+	// AJAX로 검색 수행
+	function performAjaxSearch() {
+		const query = $('#searchInput').val().trim();
+
+		if (query === "") {
+			alert("검색어를 입력해주세요.");
+			return;
+		}
+
+		// contextPath 가져오기
+		const path = '${pageContext.request.contextPath}';
+
+		$.ajax({
+			url : `${path}/product/search`, // 검색 처리할 URL
+			method : 'GET',
+			data : {
+				query : query
+			}, // 검색어 전달
+			success : function(response) {
+				// 검색 결과를 DOM에 표시
+				$('#productListContainer').html(response); // 반환된 결과로 DOM 업데이트
+			},
+			error : function(error) {
+				console.error('검색 요청 실패:', error);
+			}
+		});
+	}
+</script>
+
+
