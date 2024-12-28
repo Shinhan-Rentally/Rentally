@@ -54,4 +54,9 @@ public class ProductListService {
 	  public ProductListJoinDTO selectProductDetail(int product_seq){
 		  return productlistDAO.selectProductDetail(product_seq);
 	  }
+	  //검색기능
+		
+	  public List<ProductListJoinDTO> searchProduct(String query) { // DAO를 호출하여
+	 return productlistDAO.searchProduct(query); 
+	 }
 }
