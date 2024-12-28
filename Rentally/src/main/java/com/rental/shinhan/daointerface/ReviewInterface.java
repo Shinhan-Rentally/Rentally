@@ -1,9 +1,9 @@
 package com.rental.shinhan.daointerface;
 
 
-import com.rental.shinhan.dto.ReviewDTO;
+import com.rental.shinhan.dto.AddReviewDTO;
 
 public interface ReviewInterface {
 
-    public int insertReview(ReviewDTO review);
+    public int insertReview(AddReviewDTO review);
 }
