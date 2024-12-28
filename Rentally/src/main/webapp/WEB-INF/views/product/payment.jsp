@@ -8,11 +8,9 @@
 <%@ include file="../common/headMeta.jsp"%>
 <title>Shop Checkout eCommerce HTML Template - FreshCart</title>
 <%@ include file="../common/headLinks.jsp"%>
-
 </head>
-
 <body>
-<%-- <%@ include file="../partials/navbar.html"%> --%>
+<%@ include file="../common/header.jsp"%>
 <main>
 		<!-- section-->
 		<div class="mt-4">
@@ -267,10 +265,9 @@
 	</div>
 
 	<!-- Footer -->
-	<%-- <%@ include file="../partials/footer.html"%> --%>
+	<%@ include file="../common/footer.jsp"%>
 	<!-- Javascript-->
  	<script src="${path}/resources/libs/flatpickr/dist/flatpickr.min.js"></script>
-	<%-- <%@ include file="../partials/scripts.html"%> --%>
 	<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 	<script src="${path}/resources/js/main.js"></script>
@@ -282,7 +279,7 @@
 	
 	<script>
 	let merchantUid;
-	
+	console.log("isUpgrade:"+${isUpgrade});
 	$.ajax({
 		  url: `${path}/payment/getSubseq`,
 		  type: "GET",
@@ -327,7 +324,7 @@
 				    merchant_uid: `\${merchantUid}_\${nowDateStr}`, 
 				    name: $('#productName').text(),
 				    amount: $('#productPay').text().replace(/[^\d]/g, ''), 
-				    customer_uid: `${custSeq}_\${nowDateStr}`, 
+				    customer_uid: `${cust_seq}_\${nowDateStr}`, 
 				    buyer_email: `${custEmail}`,
 				    buyer_name: `${custName}`,
 				    buyer_tel: `${custPhone}`
@@ -341,8 +338,7 @@
 					    const paymentData = {
 				                billingKey: rsp.customer_uid,  
 				                merchantUid: rsp.merchant_uid,
-				                //amount: rsp.paid_amount // 실제 요청할 금액
-				                amount: 100, // 테스트용 금액
+				                amount: rsp.paid_amount,
 				                name: `${custName}`
 				            };
 
@@ -404,7 +400,6 @@
 
 	    const $form = $('<form></form>');
 	    $form.attr('method', 'POST');
-	    $form.attr('action', `${path}/subscribe/product`);
 
 	    for (const key in paymentResultData) {
 	        if (paymentResultData.hasOwnProperty(key)) {
@@ -430,8 +425,17 @@
 	    const $productSeqInput = $('<input type="hidden" name="product_seq">').val(${productSeq});
 	    $form.append($productSeqInput);
 
-	    const $subPeriodInput = $('<input type="hidden" name="sub_period">').val(${productPeriod});
-	    $form.append($subPeriodInput);
+	    if(${isUpgrade}){
+	    	const $subSeqInput = $('<input type="hidden" name="sub_seq">').val(${subSeq});
+		    $form.append($subSeqInput);
+	    	
+		    $form.attr('action', `${path}/subscribe/product/update`);
+	    } else {
+	    	const $subPeriodInput = $('<input type="hidden" name="sub_period">').val(${productPeriod});
+		    $form.append($subPeriodInput);
+		    
+		    $form.attr('action', `${path}/subscribe/product`);
+	    }
 
 	    $('body').append($form);
 	    $form.submit();

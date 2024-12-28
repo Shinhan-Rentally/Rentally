@@ -1,26 +1,19 @@
 package com.rental.shinhan.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import com.rental.shinhan.dao.JoinDAO;
 import com.rental.shinhan.dto.CustomerDTO;
 import com.rental.shinhan.service.CustomerService;
 import com.rental.shinhan.service.JoinService;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @Slf4j
@@ -50,14 +43,8 @@ public class CustomerController {
     public String updateCustInfo(
             CustomerDTO custInfo,
             HttpSession session) {
-       //custInfo.setCust_seq(cust_seq);
-//        session.setAttribute("cust_seq", 1);
-//        custInfo.setCust_seq(cust_
-//        int result = custService.updateCustInfo(custInfo);
-        log.info(custInfo.toString());
         custInfo.setCust_seq(cust_seq); // 객체에 cust_seq 설정
         int result = custService.updateCustInfo(custInfo);
-        log.info("업데이트" +result+ "건 성공");
         return result+"";
     }
     
@@ -89,6 +76,16 @@ public class CustomerController {
         custInfo.setCust_seq(cust_seq);
         int result = custService.updateCustPw(custInfo);
         return "";
+    }
+    
+    @Autowired
+    JoinDAO jDAO;
+    
+    //아이디중복체크
+    @GetMapping("/id.check")
+    public ResponseEntity<Boolean> checkId(@RequestParam String cust_id){
+    	boolean isDuplicate = jDAO.checkId(cust_id);
+    	return ResponseEntity.ok(isDuplicate);
     }
 
 }
