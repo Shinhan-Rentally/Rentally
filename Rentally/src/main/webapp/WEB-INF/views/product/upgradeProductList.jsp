@@ -33,7 +33,7 @@
                         <div class="mb-3 mb-lg-0">
                            <p class="mb-0">
                               <span class="text-dark">${fn:length(upgradeProductlist)}</span>
-                              Products found
+                              개 상품
                            </p>
                         </div>
                      </div>
@@ -85,7 +85,12 @@
                                           </div>
                                           <!-- btn -->
                                           <div class="mt-2">
-                                             <a href="#!" class="btn btn-primary">업그레이드</a>
+                                          <form action="${path}/payment" method="post">
+	                                    	<input type="hidden" name="product_seq" value="${upgrade.product_seq}">
+											<input type="hidden" name="sub_seq" value="${subSeq}">
+											<input type="hidden" name="isUpgrade" value="true">
+	                                       	<button class="btn btn-info btn-sm" id="upgrade">업그레이드</button>
+	                                      </form>
                                           </div>
                                        </div>
                                     </div>
@@ -126,11 +131,13 @@
          </div>
       </main>
       <!-- Footer -->
-      <!-- @@include("../partials/footer.html") -->
+      <%@ include file="../common/footer.jsp"%>
       <!-- Javascript-->
       <script src="${path}/resources/libs/nouislider/dist/nouislider.min.js"></script>
       <script src="${path}/resources/libs/wnumb/wNumb.min.js"></script>
-      <!-- @@include("../partials/scripts.html") -->
+      <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	  <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
+	  <script src="${path}/resources/js/main.js"></script>
       <script src="${path}/resources/libs/tiny-slider/dist/min/tiny-slider.js"></script>
       <script src="${path}/resources/js/vendors/tns-slider.js"></script>
       <script src="${path}/resources/js/vendors/zoom.js"></script>
