@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -23,24 +25,26 @@ public class CustomerController {
     @Autowired
     CustomerService custService;
 
-    int cust_seq=1;
-    @GetMapping("/list")
-    public String getCustomer(int cust_seq, Model model) {
+    @GetMapping("/{cust_seq}/list")
+    public String getCustomer(@PathVariable int cust_seq, Model model) {
 
         CustomerDTO custInfo = custService.customerInfo(cust_seq);
         model.addAttribute("custInfo",custInfo);
         return "/customer/settings";
     }
 
+    @ResponseBody
     @PostMapping("/{cust_seq}/delete")
     public String deleteCustomer(@PathVariable int cust_seq) {
+        log.info("cust_seq: "+cust_seq);
         int result = custService.deleteCustomer(cust_seq);
-        return "";
+        return result+"";
     }
 
     @ResponseBody //page가 아닌 값을 가져감
-    @PostMapping(value = "/update")
+    @PostMapping(value = "/{cust_seq}/update")
     public String updateCustInfo(
+            @PathVariable int cust_seq,
             CustomerDTO custInfo,
             HttpSession session) {
         custInfo.setCust_seq(cust_seq); // 객체에 cust_seq 설정
@@ -69,15 +73,27 @@ public class CustomerController {
 		return "customer/join";
 	}
 
-    @PostMapping(value = "/password", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String updateCustPs(
-            @RequestBody CustomerDTO custInfo,
-            HttpSession session) {
-        custInfo.setCust_seq(cust_seq);
-        int result = custService.updateCustPw(custInfo);
-        return "";
+    @PostMapping(value = "/{cust_seq}/updatepw")
+    @ResponseBody
+    public Map<String, Object> updateCustPw(
+            @PathVariable int cust_seq,
+            @RequestParam String currentPW,
+            @RequestParam String newPW) {
+
+        Map<String, Object> response = new HashMap<>();
+        boolean isUpdated = custService.updatePW(cust_seq, currentPW, newPW);
+
+        if (isUpdated) {
+            response.put("success", true);
+        } else {
+            response.put("success", false);
+            response.put("error", "incorrect_password");
+        }
+
+        return response;
     }
-    
+
+
     @Autowired
     JoinDAO jDAO;
     
