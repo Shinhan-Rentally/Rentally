@@ -67,10 +67,16 @@ public class AddressController {
 	
 	///getAddress/{custSeq}
 	// 계정 내 등록된 계정 조회 처리
-	@GetMapping("/getAddress")
+	@GetMapping("/getAddress/{custSeq}")
 	public String getAddressesByCustSeq(@PathVariable("custSeq") int custSeq, Model model) {
-		custSeq = testCustseq;
 		List<AddressDTO> addressList = addressService.getAddressesByCustSeq(custSeq);
+		
+		 if (addressList.isEmpty()) {
+		        log.warn("No addresses found for custSeq: {}", custSeq);
+		    } else {
+		        log.info("Addresses loaded for custSeq {}: {}", custSeq, addressList);
+		    }
+		
 		model.addAttribute("addressList",addressList);
 		return "address/addAddressPage";
 	}

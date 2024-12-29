@@ -38,7 +38,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="getAddress" items="${addressList}">
+			<c:forEach var="address" items="${addressList}">
 				<tr>
 					<td>${address.postcode}</td>
 					<td>${address.address}</td>
@@ -49,9 +49,11 @@
 					<td>${address.addressTitle}</td>
 					<td><c:if test="${address.addrDefault}">
                             기본 주소
-                        </c:if> <c:if test="${!address.addrDefault}">
+                        </c:if> 
+                        <c:if test="${!address.addrDefault}">
                             -
-                        </c:if></td>
+                        </c:if>
+                     </td>
 				</tr>
 			</c:forEach>
 		</tbody>
