@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,42 +24,6 @@
 		</label> <br>
 		<button type="submit">저장하기</button>
 	</form>
-
-	<h1>고객 ID: ${custSeq} - 주소 목록</h1>
-	<table border="1">
-		<thead>
-			<tr>
-				<th>우편번호</th>
-				<th>주소</th>
-				<th>상세주소</th>
-				<th>참고항목</th>
-				<th>받는이</th>
-				<th>연락처</th>
-				<th>배송지명</th>
-				<th>기본주소 여부</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="address" items="${addressList}">
-				<tr>
-					<td>${address.postcode}</td>
-					<td>${address.address}</td>
-					<td>${address.detailAddress}</td>
-					<td>${address.extraAddress}</td>
-					<td>${address.recipName}</td>
-					<td>${address.recipPhone}</td>
-					<td>${address.addressTitle}</td>
-					<td><c:if test="${address.addrDefault}">
-                            기본 주소
-                        </c:if> 
-                        <c:if test="${!address.addrDefault}">
-                            -
-                        </c:if>
-                     </td>
-				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
 
 
 	<script
