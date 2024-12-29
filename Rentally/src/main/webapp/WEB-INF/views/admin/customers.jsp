@@ -765,21 +765,21 @@
                   <!-- Previous Button -->
                   <c:if test="${currentPage > 1}">
                     <li class="page-item">
-                      <a class="page-link" href="../order/list?page=${currentPage - 1}&size=10">Previous</a>
+                      <a class="page-link" href="../customers/list?page=${currentPage - 1}&size=10">Previous</a>
                     </li>
                   </c:if>
 
                   <!-- Page Numbers -->
                   <c:forEach var="i" begin="1" end="${totalPages}">
                     <li class="page-item ${currentPage == i ? 'active' : ''}">
-                      <a class="page-link" href="../order/list?page=${i}&size=10">${i}</a>
+                      <a class="page-link" href="../customers/list?page=${i}&size=10">${i}</a>
                     </li>
                   </c:forEach>
 
                   <!-- Next Button -->
                   <c:if test="${currentPage < totalPages}">
                     <li class="page-item">
-                      <a class="page-link" href="../order/list?page=${currentPage + 1}&size=10">Next</a>
+                      <a class="page-link" href="../customers/list?page=${currentPage + 1}&size=10">Next</a>
                     </li>
                   </c:if>
                 </ul>
@@ -792,12 +792,12 @@
   </main>
 
   <!-- Libs JS -->
-<!-- <script src="../assets/libs/jquery/dist/jquery.min.js"></script> -->
-<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
+  <!-- <script src="../assets/libs/jquery/dist/jquery.min.js"></script> -->
+  <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 
-<!-- Theme JS -->
-<script src="${path}/resources/css/theme.min.js"></script>
+  <!-- Theme JS -->
+  <script src="${path}/resources/css/theme.min.js"></script>
 
 </body>
 </html>
