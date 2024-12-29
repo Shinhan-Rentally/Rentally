@@ -86,12 +86,14 @@ public class ProductListController {
 									 @RequestParam Date product_date,
 									 @RequestParam int category_seq,
 									 @RequestParam int sub_seq,
-									 @RequestParam int product_seq) {
+									 @RequestParam int product_seq,
+									 @RequestParam int sub_total) {
 		List<ProductListJoinDTO> upgradeProductlist = productlistService.selectUpgradeProductList(product_brand, product_grade, product_date, category_seq, product_seq);
 		
 		model.addAttribute("upgradeProductlist", upgradeProductlist);
 		model.addAttribute("subSeq",sub_seq);
+		model.addAttribute("subTotal",sub_total);
 		
-		return "product/upgradeProductList";
+		return "product/upgrade";
 	}
 }
