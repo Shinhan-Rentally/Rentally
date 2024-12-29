@@ -1,6 +1,6 @@
 package com.rental.shinhan.controller;
 
-import com.rental.shinhan.dto.AddReviewDTO;
+import com.rental.shinhan.dto.ReviewDTO;
 import com.rental.shinhan.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ public class ReviewController {
     @ResponseBody
     @PostMapping(value = "/{cust_seq}/add")
     public String insertReview(@PathVariable int cust_seq,
-                               @RequestBody AddReviewDTO review,
+                               @RequestBody ReviewDTO review,
                                HttpSession session ) {
         review.setCust_seq(cust_seq);
         int result = reviewService.insertReview(review);
