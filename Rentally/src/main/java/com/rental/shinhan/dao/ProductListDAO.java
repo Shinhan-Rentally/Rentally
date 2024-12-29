@@ -1,6 +1,7 @@
 package com.rental.shinhan.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,21 @@ public class ProductListDAO implements ProductListInterface {
 	@Autowired
     SqlSession sqlSession;
 	
-	 public List<ProductListJoinDTO> selectProductList(int category_seq) {
-	        List<ProductListJoinDTO> productList = sqlSession.selectList(namespace + "selectProductList",category_seq);
+	 public List<ProductListJoinDTO> selectProductList(Map<String ,Object> params) {
+	        List<ProductListJoinDTO> productList = sqlSession.selectList(namespace + "selectProductList",params);
 	        return productList;
 	    }
+	 
+	 public List<ProductListJoinDTO> selectUpgradeProductList(Map<String ,Object> params){
+		 
+		 List<ProductListJoinDTO> upgradeProductList = sqlSession.selectList(namespace + "selectUpgradeProductList", params);
+		 
+		 return upgradeProductList;
+	 }
+	 
+	 public ProductListJoinDTO selectProductDetail(int product_seq){
+		 ProductListJoinDTO productDetail = sqlSession.selectOne(namespace + "selectProductDetail", product_seq);
+		 
+		 return productDetail;
+	 }
 }

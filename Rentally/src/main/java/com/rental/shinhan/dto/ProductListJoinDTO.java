@@ -40,7 +40,9 @@ public class ProductListJoinDTO {
     String product_features;
     String category_name;
     int category_seq; 
-    
+    int product_popularity;
+    int review_count;
+    double review_avg;   
 	
 	
 }

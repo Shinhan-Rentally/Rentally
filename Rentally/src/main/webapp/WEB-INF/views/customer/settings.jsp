@@ -1,16 +1,26 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Favicon icon-->
+  <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon/favicon.ico">
+  <!-- Theme CSS -->
+  <!-- build:css @@webRoot/assets/css/theme.min.css -->
+  <link rel="stylesheet" href="resources/css/theme.css">
+  <link href="resources/libs/slick-carousel/slick/slick.css" rel="stylesheet" />
+  <link href="resources/libs/slick-carousel/slick/slick-theme.css" rel="stylesheet" />
+  <link href="resources/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet" />
+
+  <meta charset="UTF-8">
+  <%@ include file="../common/headMeta.jsp" %>
+  <title>설정</title>
   <%@ include file="../common/headLinks.jsp" %>
-  <title>Settings eCommerce HTML Template - FreshCart</title>
-  @@include("../partials/head/head-links.html") @@include("../partials/head/analytics-code.html") @@include("../partials/head/clarity.html")
+  <!-- @@include("../partials/head/head-links.html") @@include("../partials/head/analytics-code.html") @@include("../partials/head/clarity.html") -->
 </head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <body>
-<%@ include file="../common/headMeta.jsp" %>
+<%@ include file="../common/header.jsp" %>
 <main>
   <!-- section -->
   <section>
@@ -42,35 +52,27 @@
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="account-orders.html">
                   <i class="feather-icon icon-shopping-bag me-2"></i>
-                  Your Orders
+                  주문내역
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="account-orders.html">
+                  <i class="feather-icon icon-shopping-bag me-2"></i>
+                  구독현황
                 </a>
               </li>
               <!-- nav item -->
               <li class="nav-item">
                 <a class="nav-link active" href="account-settings.html">
                   <i class="feather-icon icon-settings me-2"></i>
-                  Settings
+                  설정
                 </a>
               </li>
               <!-- nav item -->
               <li class="nav-item">
                 <a class="nav-link" href="account-address.html">
                   <i class="feather-icon icon-map-pin me-2"></i>
-                  Address
-                </a>
-              </li>
-              <!-- nav item -->
-              <li class="nav-item">
-                <a class="nav-link" href="account-payment-method.html">
-                  <i class="feather-icon icon-credit-card me-2"></i>
-                  Payment Method
-                </a>
-              </li>
-              <!-- nav item -->
-              <li class="nav-item">
-                <a class="nav-link" href="account-notification.html">
-                  <i class="feather-icon icon-bell me-2"></i>
-                  Notification
+                  주소
                 </a>
               </li>
               <!-- nav item -->
@@ -103,21 +105,21 @@
                     <!-- input -->
                     <div class="mb-3">
                       <label class="form-label">Name</label>
-                      <input type="text" class="form-control" value="${custInfo.cust_name}" />
+                      <input type="text" id="cust_name" class="form-control" value="${custInfo.cust_name}" />
                     </div>
                     <!-- input -->
                     <div class="mb-3">
                       <label class="form-label">Email</label>
-                      <input type="email" class="form-control" value="${custInfo.cust_email}" />
+                      <input type="email" id="cust_email" class="form-control" value="${custInfo.cust_email}" />
                     </div>
                     <!-- input -->
                     <div class="mb-5">
                       <label class="form-label">Phone</label>
-                      <input type="text" class="form-control" value="${custInfo.cust_phone}" />
+                      <input type="text" id="cust_phone" class="form-control" value="${custInfo.cust_phone}" />
                     </div>
                     <!-- button -->
                     <div class="mb-3">
-                      <button class="btn btn-primary">Save Details</button>
+                      <button id="saveDetails" class="btn btn-primary">회원정보 수정</button>
                     </div>
                   </form>
                 </div>
@@ -131,12 +133,12 @@
                 <!-- input -->
                 <div class="mb-3 col">
                   <label class="form-label">New Password</label>
-                  <input type="password" class="form-control" placeholder="**********" />
+                  <input id="newPW" type="password" class="form-control" placeholder="**********" />
                 </div>
                 <!-- input -->
                 <div class="mb-3 col">
                   <label class="form-label">Current Password</label>
-                  <input type="password" class="form-control" placeholder="**********" />
+                  <input id="currentPW" type="password" class="form-control" placeholder="**********" />
                 </div>
                 <!-- input -->
                 <div class="col-12">
@@ -144,7 +146,7 @@
                     Can’t remember your current password?
                     <a href="#">Reset your password.</a>
                   </p>
-                  <a href="#" class="btn btn-primary">Save Password</a>
+                  <button id="updatePW" class="btn btn-primary">비밀번호 수정</button>
                 </div>
               </form>
             </div>
@@ -155,7 +157,9 @@
               <p class="mb-2">Would you like to delete your account?</p>
               <p class="mb-5">This account contain 12 orders, Deleting your account will remove all the order details associated with it.</p>
               <!-- btn -->
-              <a href="#" class="btn btn-outline-danger">I want to delete my account</a>
+              <div class="mb-3">
+                <button id="deleteAccount" class="btn btn-outline-danger">회원 탈퇴</button>
+              </div>
             </div>
           </div>
         </div>
@@ -230,10 +234,128 @@
   </div>
 </div>
 
-<!-- Footer -->
-<%--<%@ include file="../common/footer.jsp" %>--%>
 <!-- Javascript-->
-@@include("../partials/scripts.html")
+<!-- @@include("../partials/scripts.html") -->
+<script src="resources/js/vendors/jquery.min.js"></script>
+<script src="resources/js/vendors/countdown.js"></script>
+<script src="resources/libs/slick-carousel/slick/slick.min.js"></script>
+<script src="resources/js/vendors/slick-slider.js"></script>
+<script src="resources/libs/tiny-slider/dist/min/tiny-slider.js"></script>
+<script src="resources/js/vendors/tns-slider.js"></script>
+<script src="resources/js/vendors/zoom.js"></script>
+<!-- Footer -->
+<%@ include file="../common/footer.jsp" %>
+<!-- Javascript-->
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+  $('#saveDetails').on("click", function (event){
+    event.preventDefault();
+    cust_seq = ${custInfo.cust_seq};
+    $.ajax({
+      url: "update",
+      type: 'post',
+      data: {
+        cust_seq:cust_seq,
+        cust_name : $('#cust_name').val(),
+        cust_email : $('#cust_email').val(),
+        cust_phone : $('#cust_phone').val()
+      },
+      success: function (response){
+        alert("updateInfo success"+ response);
+      }
+    })
 
+  })
+  $("#deleteAccount").on("click", function (event) {
+    event.preventDefault();
+    cust_seq = ${custInfo.cust_seq};
+
+    $.ajax({
+      url: `delete`,
+      type: 'post',
+      data: {cust_seq:cust_seq},
+      success: function(response) {
+        alert('탈퇴 성공');
+      },
+      error: function (err) {
+        alert('탈퇴 실패');
+      }
+    })
+  })
+</script>
+<script>
+  $('#saveDetails').on("click", function (event){
+    event.preventDefault();
+    cust_seq = ${custInfo.cust_seq};
+    $.ajax({
+      url: "update",
+      type: 'post',
+      data: {
+        cust_seq:cust_seq,
+        cust_name : $('#cust_name').val(),
+        cust_email : $('#cust_email').val(),
+        cust_phone : $('#cust_phone').val()
+      },
+      success: function (response){
+        alert("updateInfo success"+ response);
+      }
+    })
+
+  })
+  $("#deleteAccount").on("click", function (event) {
+    event.preventDefault();
+    cust_seq = ${custInfo.cust_seq};
+
+    $.ajax({
+      url: `\${cust_seq}/delete`,
+      type: 'POST',
+      success: function(response) {
+        alert('탈퇴 성공');
+      },
+      error: function (err) {
+        alert('탈퇴 실패');
+      }
+    })
+  })
+</script>
+<script>
+  $("#updatePW").on("click", function (event) {
+    event.preventDefault(); // 기본 동작 방지
+
+    cust_seq = ${custInfo.cust_seq}; // 고객 고유 번호
+    currentPW = $("#currentPW").val(); // 사용자가 입력한 현재 비밀번호
+    newPW = $("#newPW").val(); // 사용자가 입력한 새로운 비밀번호
+
+    // 필드 검증
+    if (!currentPW || !newPW) {
+      alert("모든 필드를 입력해주세요.");
+      return;
+    }
+
+    // 비밀번호 확인과 변경 요청을 한 번에 처리
+    $.ajax({
+      url: "updatepw", // 단일 요청 처리 API
+      type: "post",
+      data: {
+        cust_seq:cust_seq,
+        currentPW: currentPW,
+        newPW: newPW,
+      },
+      success: function (response) {
+        if (response.success) {
+          alert("비밀번호가 성공적으로 변경되었습니다.");
+        } else if (response.error === "incorrect_password") {
+          alert("현재 비밀번호가 일치하지 않습니다.");
+        } else {
+          alert("비밀번호 변경 실패");
+        }
+      },
+      error: function (err) {
+        alert("서버 오류로 비밀번호 변경에 실패했습니다.");
+        console.log(err);
+      },
+    });
+  });
+</script>
 </html>
