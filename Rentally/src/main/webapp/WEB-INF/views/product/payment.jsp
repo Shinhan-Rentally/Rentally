@@ -61,7 +61,7 @@
 											배송지
 										</a>
 										<!-- btn -->
-										<a href="#" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addAddressModal">주소지 추가</a>
+										<a href="#" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#addAddressModal">주소지 추가</a>
 										<!-- collapse -->
 									</div>
 									<div id="flush-collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushExample">
@@ -128,6 +128,26 @@
 										</div>
 									</div>
 								</div>
+								<div>
+									<div class="card card-bordered shadow-none mb-2 mt-2">
+										<!-- card body -->
+										<div class="card-body p-6">
+											<div class="d-flex">
+												<div>
+													<!-- title -->
+													<h5 class="mb-1 h6">※ 배송 유의사항</h5>
+													<ul>
+														<li class="small">제주도/도서산간 지역 및 특정 요일만 설치 가능한 지역은 배송 일정이 변경될 수 있으며, 일부 지역은 실제 배송이 되지 않아 주문 취소가 될 수 있습니다.</li>
+														<li class="small">제주 지역은 금요일 오후 3시 이후 결제 시, 차주 화요일부터 배송이 가능합니다.</li>
+														<li class="small">제품은 배송 전에 등록하신 번호로 배송 당일에 설치기사가 연락 드립니다.</li>
+														<li class="small">설치 관련 자세한 문의는 고객센터로 연락 부탁드립니다.</li>
+														<li class="small">전문기사설치 제품은 대면설치가 기본이며, 고객 요청에 의한 비대면 설치에 따른 책임은 당사에 있지 않습니다.</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 						<!-- sidebar -->
@@ -144,7 +164,18 @@
 											<li class="list-group-item d-flex justify-content-between align-items-start">
 												<span id="productName">${productName}</span>
 											</li>
-
+											<c:if test="${isUpgrade}">
+												<!-- list group item -->
+												<li class="list-group-item d-flex justify-content-between align-items-start">
+													<div class="me-auto">
+														<div>이전 매달 이용요금</div>
+													</div>
+													<span>
+														<fmt:formatNumber value="${subTotal}" type="number" pattern="#,###"/>원
+													</span>
+												</li>
+											</c:if>
+											
 											<!-- list group item -->
 											<li class="list-group-item d-flex justify-content-between align-items-start">
 												<div class="me-auto">
@@ -158,19 +189,19 @@
 									</div>
 									<div class="d-grid mb-1 mt-4">
 										<!-- btn -->
-										<button class="btn btn-primary btn-lg d-flex justify-content-center align-items-center" id="subscribe">
-											구독하기
+										<button class="btn btn-info btn-lg d-flex justify-content-center align-items-center" id="subscribe">
+											<c:if test="${isUpgrade}">
+											</c:if>
+											<c:choose>
+											    <c:when test="${isUpgrade}">
+											        업그레이드 신청하기
+											    </c:when>
+											    <c:otherwise>
+											        구독하기
+											    </c:otherwise>
+											</c:choose>
 										</button>
 									</div>
-									<!-- text -->
-									<p>
-										<small>
-											By placing your order, you agree to be bound by the Freshcart
-											<a href="#!">Terms of Service</a>
-											and
-											<a href="#!">Privacy Policy.</a>
-										</small>
-									</p>
 								</div>
 							</div>
 						</div>
