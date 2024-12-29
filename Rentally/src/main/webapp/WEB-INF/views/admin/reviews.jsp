@@ -709,38 +709,31 @@
         </div>
     </nav>
 
-    <!-- main -->
     <main class="main-content-wrapper">
         <div class="container">
-            <div class="row mb-8">
+            <div class="row mb-4">
                 <div class="col-md-12">
-                    <div>
-                        <!-- page header -->
-                        <h2>Reviews</h2>
-                        <!-- breacrumb -->
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Reviews</li>
-                            </ol>
-                        </nav>
-                    </div>
+                    <h2>Reviews</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Reviews</li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
-            <!-- row -->
+
+            <!-- Review Filter & Table -->
             <div class="row">
                 <div class="col-xl-12 col-12 mb-5">
-                    <!-- card -->
                     <div class="card h-100 card-lg">
-                        <div class="p-6">
-                            <div class="row justify-content-between">
-                                <div class="col-md-4 col-12 mb-2 mb-md-0">
-
-                                </div>
-                                <div class="col-lg-2 col-md-4 col-12">
-                                    <!-- main -->
-                                    <select class="form-select">
-                                        <option selected>Select Rating</option>
+                        <!-- Card Header with Filter -->
+                        <div class="card-header p-4">
+                            <div class="row justify-content-end">
+                                <div class="col-md-4 col-12">
+                                    <!-- Filter by Rating -->
+                                    <select class="form-select" onchange="filterByRating(this)">
+                                        <option selected value="">Select Rating</option>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -750,11 +743,11 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- card body -->
+
+                        <!-- Card Body with Table -->
                         <div class="card-body p-0">
-                            <!-- table -->
                             <div class="table-responsive">
-                                <table class="table table-centered table-hover table-borderless mb-0 table-with-checkbox text-nowrap">
+                                <table class="table table-centered table-hover table-borderless mb-0 text-nowrap">
                                     <thead class="bg-light">
                                     <tr>
                                         <th>Product</th>
@@ -762,58 +755,77 @@
                                         <th>Reviews</th>
                                         <th>Rating</th>
                                         <th>Date</th>
-                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach items="${reviews}" var="reviews">
+                                    <c:forEach items="${reviews}" var="review">
                                         <tr class="table">
-                                            <td>${reviews.product_seq}</td>
-                                            <td>${reviews.}</td>
-                                            <td>${dept.manager_id}</td>
-                                            <td>${dept.location_id}</td>
+                                            <td>${review.product_seq}</td>
+                                            <td>${review.cust_id}</td>
+                                            <td>${review.review_content}</td>
+                                            <td>
+                                                <div class="star-rating">
+                                                    <c:forEach begin="1" end="5" var="i">
+                                                        <span class="${i <= review.review_rate ? 'text-warning' : 'text-light'}">
+                                                            <i class="bi bi-star-fill"></i>
+                                                        </span>
+                                                    </c:forEach>
+                                                </div>
+                                            </td>
+                                            <td>${review.review_date}</td>
                                         </tr>
                                     </c:forEach>
-
-                                    <td><a href="#" class="text-reset">Haldiram's Sev Bhujia</a></td>
-                                    <td>Barry McKenzie</td>
-                                    <td>
-                                        <span class="text-truncate">Nice & fresh oranges with value for money..</span>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <span><i class="bi bi-star-fill text-warning"></i></span>
-                                            <span><i class="bi bi-star-fill text-warning"></i></span>
-                                            <span><i class="bi bi-star-fill text-warning"></i></span>
-                                            <span><i class="bi bi-star-fill text-warning"></i></span>
-                                            <span><i class="bi bi-star-fill text-light"></i></span>
-                                        </div>
-                                    </td>
-                                    <td>23 Nov,2022</td>
-                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
 
-                            <div class="border-top d-md-flex justify-content-between align-items-center p-6">
-                                <span>Showing 1 to 8 of 12 entries</span>
-                                <nav class="mt-2 mt-md-0">
-                                    <ul class="pagination mb-0">
-                                        <li class="page-item disabled"><a class="page-link" href="#!">Previous</a></li>
-                                        <li class="page-item"><a class="page-link active" href="#!">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#!">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#!">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#!">Next</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
+                        <!-- Pagination -->
+                        <div class="card-footer d-flex justify-content-between align-items-center p-4">
+                            <span>Showing ${currentPage * 10 - 9} to ${currentPage * 10 > totalReviews ? totalReviews : currentPage * 10} of ${totalReviews} entries</span>
+                            <nav>
+                                <ul class="pagination mb-0">
+                                    <!-- Previous Button -->
+                                    <c:if test="${currentPage > 1}">
+                                        <li class="page-item">
+                                            <a class="page-link" href="../review/list?page=${currentPage - 1}&size=10">Previous</a>
+                                        </li>
+                                    </c:if>
+
+                                    <!-- Page Numbers -->
+                                    <c:forEach var="i" begin="1" end="${totalPages}">
+                                        <li class="page-item ${currentPage == i ? 'active' : ''}">
+                                            <a class="page-link" href="../review/list?page=${i}&size=10">${i}</a>
+                                        </li>
+                                    </c:forEach>
+
+                                    <!-- Next Button -->
+                                    <c:if test="${currentPage < totalPages}">
+                                        <li class="page-item">
+                                            <a class="page-link" href="../review/list?page=${currentPage + 1}&size=10">Next</a>
+                                        </li>
+                                    </c:if>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-</div>
+
+    <script>
+        // 평점을 선택하면 URL을 갱신하여 필터링된 리뷰만 가져오기
+        function filterByRating(select) {
+            var rating = select.value;
+            var url = '../review/list';
+            if (rating) {
+                url += '?rating=' + rating;
+            }
+            window.location.href = url;
+        }
+    </script>
+
 
 <!-- Libs JS -->
 <!-- <script src="../assets/libs/jquery/dist/jquery.min.js"></script> -->
