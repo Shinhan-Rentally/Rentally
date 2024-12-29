@@ -1,12 +1,16 @@
 package com.rental.shinhan.dao;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.rental.shinhan.daointerface.CustomerInterface;
 import com.rental.shinhan.dto.CustomerDTO;
+import com.rental.shinhan.dto.LoginJoinDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class CustomerDAO implements CustomerInterface {
@@ -31,9 +35,9 @@ public class CustomerDAO implements CustomerInterface {
         return result;
     };
 
-    public int updateCustPw(CustomerDTO customer){
-        int result = sqlSession.update(namespace + "updateCustPw", customer);
-        return result;
-    };
+    public int updatePW(CustomerDTO customer) {
+        return sqlSession.update(namespace+"updateCustPw",customer);
+    }
+
 
 }
