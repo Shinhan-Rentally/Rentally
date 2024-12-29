@@ -3,16 +3,15 @@ package com.rental.shinhan.controller;
 import com.rental.shinhan.dto.CustomerDTO;
 import com.rental.shinhan.dto.OrderJoinDTO;
 import com.rental.shinhan.dto.ProductDTO;
+import com.rental.shinhan.dto.ReviewDTO;
 import com.rental.shinhan.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -31,9 +30,33 @@ public class AdminController {
     }
 
     @GetMapping("/review/list")
-    public String getReviews(Model model) {
-        model.addAttribute("reviews", adminService.findProducts());
-        return "/admin/reviews";
+    public String getReviews(
+            @RequestParam(value = "page", defaultValue = "1") int page,  // 페이지 번호 (1부터 시작)
+            @RequestParam(value = "size", defaultValue = "10") int size,  // 한 페이지에 표시할 항목 수
+            @RequestParam(value = "rating", required = false) Integer rating,  // 선택된 평점 값
+            Model model) {
+
+        List<ReviewDTO> reviews = adminService.findReviews(); 
+        if (rating != null) {
+            reviews = reviews.stream()
+                    .filter(review -> review.getReview_rate() == rating)
+                    .collect(Collectors.toList());
+        }
+
+        int start = (page - 1) * size;
+        int end = Math.min(start + size, reviews.size());
+
+        // 해당 페이지의 리뷰 목록
+        List<ReviewDTO> pagedReviews = reviews.subList(start, end);
+        int totalPages = (int) Math.ceil((double) reviews.size() / size);
+
+        model.addAttribute("reviews", pagedReviews);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalReviews", reviews.size());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("rating", rating);
+
+        return "admin/reviews";
     }
 
     @GetMapping("/customer/list")
