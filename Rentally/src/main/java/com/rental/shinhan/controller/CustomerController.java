@@ -23,24 +23,30 @@ public class CustomerController {
     @Autowired
     CustomerService custService;
 
-    int cust_seq=1;
-    @GetMapping("/list")
-    public String getCustomer(int cust_seq, Model model) {
+    @GetMapping("/{cust_seq}/list")
+    public String getCustomer(@PathVariable int cust_seq, Model model) {
 
         CustomerDTO custInfo = custService.customerInfo(cust_seq);
         model.addAttribute("custInfo",custInfo);
         return "/customer/settings";
     }
 
+    @ResponseBody
     @PostMapping("/{cust_seq}/delete")
     public String deleteCustomer(@PathVariable int cust_seq) {
+        log.info("cust_seq: "+cust_seq);
         int result = custService.deleteCustomer(cust_seq);
-        return "";
+        return result+"";
     }
 
     @ResponseBody //page가 아닌 값을 가져감
     @PostMapping(value = "/update")
+    @PostMapping(value = "/{cust_seq}/update")
+
     public String updateCustInfo(
+
+            @PathVariable int cust_seq,
+
             CustomerDTO custInfo,
             HttpSession session) {
         custInfo.setCust_seq(cust_seq); // 객체에 cust_seq 설정
@@ -73,7 +79,7 @@ public class CustomerController {
     public String updateCustPs(
             @RequestBody CustomerDTO custInfo,
             HttpSession session) {
-        custInfo.setCust_seq(cust_seq);
+        //custInfo.setCust_seq(cust_seq);
         int result = custService.updateCustPw(custInfo);
         return "";
     }

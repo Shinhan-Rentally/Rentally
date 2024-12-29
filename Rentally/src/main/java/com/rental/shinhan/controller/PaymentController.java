@@ -6,6 +6,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
+
+import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.rental.shinhan.dto.CustomerDTO;
@@ -40,6 +44,8 @@ public class PaymentController {
 
     	if(request.getParameter("isUpgrade") != null && Boolean.parseBoolean(request.getParameter("isUpgrade"))) {
     		model.addAttribute("subSeq", request.getParameter("sub_seq"));
+
+    		model.addAttribute("subTotal", request.getParameter("sub_total"));
     	} else {
     		productPeriod = Integer.parseInt(request.getParameter("product_period"));
         	
@@ -71,4 +77,9 @@ public class PaymentController {
     	return "product/payment";
     }
 
+    @GetMapping("/payment/result")
+    public String getPaymentResultPage() {
+    	
+    	return "product/paymentResult";
+    }
 }
