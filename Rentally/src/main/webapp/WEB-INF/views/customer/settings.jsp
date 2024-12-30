@@ -4,15 +4,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Favicon icon-->
-  <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon/favicon.ico">
-  <!-- Theme CSS -->
-  <!-- build:css @@webRoot/assets/css/theme.min.css -->
-  <link rel="stylesheet" href="resources/css/theme.css">
-  <link href="resources/libs/slick-carousel/slick/slick.css" rel="stylesheet" />
-  <link href="resources/libs/slick-carousel/slick/slick-theme.css" rel="stylesheet" />
-  <link href="resources/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet" />
-
   <meta charset="UTF-8">
   <%@ include file="../common/headMeta.jsp" %>
   <title>설정</title>
@@ -234,19 +225,14 @@
 </div>
 
 <!-- Javascript-->
-<!-- @@include("../partials/scripts.html") -->
-<script src="resources/js/vendors/jquery.min.js"></script>
-<script src="resources/js/vendors/countdown.js"></script>
-<script src="resources/libs/slick-carousel/slick/slick.min.js"></script>
-<script src="resources/js/vendors/slick-slider.js"></script>
-<script src="resources/libs/tiny-slider/dist/min/tiny-slider.js"></script>
-<script src="resources/js/vendors/tns-slider.js"></script>
-<script src="resources/js/vendors/zoom.js"></script>
+<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
+<script src="${path}/resources/js/main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <!-- Footer -->
 <%@ include file="../common/footer.jsp" %>
 <!-- Javascript-->
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
   $('#saveDetails').on("click", function (event){
     event.preventDefault();
