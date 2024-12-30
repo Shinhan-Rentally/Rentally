@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rental.shinhan.productDeatil">
+
+	<select id="selectDetail" parameterType="String" resultType="ProductListVO">
+		SELECT
+		P.*,
+		C.category_name,
+		C.category_seq
+		FROM
+		PRODUCT P
+		LEFT JOIN
+		CATEGORY C ON
+		P.category_seq = C.category_seq
+		where P.product_seq = #{product_seq}
+	</select>
+</mapper>
