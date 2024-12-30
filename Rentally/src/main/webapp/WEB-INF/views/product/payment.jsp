@@ -87,21 +87,6 @@
 													</div>
 												</div>
 											</c:forEach>
-											
-												<!-- <div class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
-													input
-													<div class="card card-body p-6">
-														<div class="form-check mb-4">
-															<input class="form-check-input" type="radio" name="flexRadioDefault" id="officeRadio" />
-															<label class="form-check-label text-dark" for="officeRadio">사람이름2</label>
-														</div>
-														<address>
-															3853 Coal Road<br>
-															Tannersville, Pennsylvania, 18372, USA<br>
-															<abbr title="Phone">P: 402-776-1106</abbr>
-														</address>
-													</div>
-												</div> -->
 											</div>
 										</div>
 									</div>
