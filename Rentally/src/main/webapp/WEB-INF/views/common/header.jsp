@@ -240,7 +240,8 @@
 
 
 
-
+<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <script src="${path}/resources/js/vendors/validation.js"></script>
 <script>
@@ -283,7 +284,7 @@
 		const path = '${pageContext.request.contextPath}';
 
 		$.ajax({
-			url : `${path}/product/search`, // 검색 처리할 URL
+			url : '${path}/product/list', // 검색 처리할 URL
 			method : 'GET',
 			data : {
 				query : query
