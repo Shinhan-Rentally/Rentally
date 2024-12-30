@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <c:set var="path" value="${pageContext.servletContext.contextPath}" scope="application"></c:set>
 
@@ -747,10 +748,10 @@
                   <tbody>
                   <c:forEach items="${products}" var="product">
                     <tr class="table">
-                      <td>${product.product_img}</td>
+                      <td><img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${product.category_seq}/${product.product_img}" width="48" height="48"></td>
                       <td>${product.product_name}</td>
                       <td>${product.category_seq}</td>
-                      <td>${product.product_pay}</td>
+                      <td><fmt:formatNumber value="${product.product_pay}" type="number" pattern="#,###"/>원</td>
                       <td>${product.product_date}</td>
                       <td class="text-center">
                         <button class="btn btn-link p-0" onclick="deleteProduct(${product.product_seq})">
