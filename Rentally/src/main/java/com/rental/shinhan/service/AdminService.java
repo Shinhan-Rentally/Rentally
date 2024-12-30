@@ -53,9 +53,10 @@ public class AdminService {
                 // S3에 이미지 업로드
                 String imgFile = s3Uploader.upload(images.get(0), categorySeq);
                 String detailFile = s3Uploader.upload(images.get(1), categorySeq);
-                // DTO에 저장된 URL 설정
-                product.setProduct_img(imgFile);
-                product.setProduct_detail(detailFile);
+
+                // 파일 이름만 추출하여 DTO에 저장
+                product.setProduct_img(imgFile.substring(imgFile.lastIndexOf("/") + 1));
+                product.setProduct_detail(detailFile.substring(detailFile.lastIndexOf("/") + 1));
             }
             return adminDAO.insertProduct(product);
         } catch (Exception e) {
