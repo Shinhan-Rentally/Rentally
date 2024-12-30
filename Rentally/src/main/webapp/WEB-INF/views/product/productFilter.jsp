@@ -3,7 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<input type="text" value="${productlistsize}" id="size" />
+
+<div class="mb-3 mb-lg-0">
+    <span class="text-white" id="size" style="display: none;">${productlistsize}</span>
+
+</div>
 <div
 	class="row g-4 row-cols-xl-4 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
 	<c:forEach items="${productlist}" var="productlist">
@@ -17,7 +21,7 @@
 
 						<a href="#"> <!-- img --> <img
 							src="https://rentally.s3.ap-northeast-2.amazonaws.com/${productlist.category_seq}/
-													${productlist.produt_img}"
+													${productlist.product_img}"
 							alt="Grocery Ecommerce Template" class="mb-3 img-fluid" />
 						</a>
 
