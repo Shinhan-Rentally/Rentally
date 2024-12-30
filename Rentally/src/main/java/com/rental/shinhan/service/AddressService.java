@@ -25,5 +25,10 @@ public class AddressService {
 		return addressDAO.getAddressesByCustSeq(custSeq);
 	}
 	
+	// 주소 삭제
+	public void deleteAddress(int addrSeq) {
+		addressDAO.deleteAddress(addrSeq);
+	}
+	
 
 }

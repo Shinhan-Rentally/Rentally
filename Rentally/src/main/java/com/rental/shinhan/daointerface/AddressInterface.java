@@ -15,5 +15,7 @@ public interface AddressInterface {
 	// 주소 조회
 	public List<AddressDTO> getAddressesByCustSeq(int custSeq);
 	
+	// 주소 삭제
+	public void deleteAddress(int addrSeq);
 	
 }
