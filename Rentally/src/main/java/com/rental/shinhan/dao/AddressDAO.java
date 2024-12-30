@@ -27,7 +27,13 @@ public class AddressDAO implements AddressInterface {
 	// custSeq로 주소 조회
 	@Override
 	public List<AddressDTO> getAddressesByCustSeq(int custSeq){
-		return sqlSession.selectList(namespace+"getAddressesByCustSeq", custSeq);
+		return sqlSession.selectList("com.rental.shinhan.address.getAddressesByCustSeq", custSeq);
+	}
+	
+	// addrSeq로 주소 삭제
+	@Override
+	public void deleteAddress(int addrSeq) {
+		sqlSession.delete(namespace + "deleteAddress", addrSeq);
 	}
 
 	
