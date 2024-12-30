@@ -27,8 +27,8 @@ public class WishListDAO implements WishListInterface {
         return result;
     }
 
-    public int deleteWish(int wishSeq) {
-        int result = sqlSession.delete(namespace + "deleteWish", wishSeq);
+    public int deleteWish(int wish_seq) {
+        int result = sqlSession.delete(namespace + "deleteWish", wish_seq);
         return result;
     };
 }
