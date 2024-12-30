@@ -4,11 +4,41 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rental.shinhan.review">
 
-    <insert id="insertReview">
-        insert into review
-        (cust_seq, product_seq, review_content, review_rate, review_date)
-        VALUES
-        (#{cust_seq}, #{product_seq}, #{review_content}, #{review_rate}, CURRENT_TIMESTAMP)
-    </insert>
+	<insert id="insertReview">
+		insert into review
+		(cust_seq, product_seq,
+		review_content, review_rate, review_date)
+		VALUES
+		(#{cust_seq},
+		#{product_seq}, #{review_content}, #{review_rate}, CURRENT_TIMESTAMP)
+	</insert>
+
+	<!-- 상품 상세보기 - 리뷰조회 -->
+	<select id="selectReview" parameterType="int" resultType="ReviewVO">
+		SELECT
+		P.product_seq ,
+		P.product_name,
+		P.product_brand,
+		P.product_img ,
+		P.product_serial,
+		R.review_content,
+		R.review_rate,
+		R.review_date,
+		C.cust_name,
+		C.cust_id,
+		C.cust_seq
+		FROM
+		PRODUCT P
+		LEFT JOIN
+		SUBSCRIBE S ON P.product_seq = S.product_seq
+		LEFT JOIN
+		REVIEW R ON S.sub_seq = R.sub_seq
+		LEFT JOIN
+		CUSTOMER C ON S.cust_seq = C.cust_seq
+		WHERE
+		P.product_seq = #{product_seq}
+		AND R.sub_seq IS NOT NULL
+		ORDER BY R.review_rate DESC
+	</select>
 
 </mapper>
