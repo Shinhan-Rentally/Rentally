@@ -112,12 +112,11 @@ GROUP BY
 		    p.product_wh,
 		    p.product_color,
 		    p.product_features,
-		    COUNT(r.product_seq) AS review_count,
+		    COUNT(r.review_rate) AS review_count, 
 		    avg(r.review_rate) AS review_avg
-		FROM 
-		    product p
-		LEFT JOIN 
-		    review r USING (product_seq)
+		FROM product p
+		LEFT OUTER JOIN  subscribe s USING(product_seq) 
+		LEFT JOIN review r USING(sub_seq)
 		WHERE 
 		    p.product_brand = #{product_brand} 
 		    AND p.category_seq = #{category_seq} 
