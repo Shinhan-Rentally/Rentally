@@ -98,10 +98,11 @@ public class CustomerController {
     JoinDAO jDAO;
     
     //아이디중복체크
+    @ResponseBody
     @GetMapping("/id.check")
-    public ResponseEntity<Boolean> checkId(@RequestParam String cust_id){
+    public String checkId(@RequestParam String cust_id){
     	boolean isDuplicate = jDAO.checkId(cust_id);
-    	return ResponseEntity.ok(isDuplicate);
+    	return String.valueOf(isDuplicate);
     }
 
 }
