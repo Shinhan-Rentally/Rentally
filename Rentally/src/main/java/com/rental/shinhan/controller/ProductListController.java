@@ -96,4 +96,20 @@ public class ProductListController {
 		
 		return "product/upgrade";
 	}
+	//검색기능
+	@GetMapping("search")
+	 public String searchProducts(@RequestParam("query") String query, Model model) {
+       // 서비스 호출하여 검색된 상품 리스트 가져오기
+       List<ProductListJoinDTO> productlist = productlistService.searchProduct(query);
+       
+       // 모델에 결과 추가
+       model.addAttribute("productlist", productlist);
+		model.addAttribute("productlistsize", productlist.size());
+		// 로그로 상품 수 출력
+		log.info("상품 목록 " + productlist.size() + "건");
+
+       // 검색 결과 페이지로 이동
+       return "product/productFilter"; // 검색 결과를 보여주는 JSP 페이지
+   }
+	
 }

@@ -6,7 +6,7 @@
 
     <select id="selectWishLists" parameterType="int" resultType="WishListVO">
         select w.wish_seq, w.cust_seq, w.product_seq,
-        p.product_serial, p.product_name, p.product_img, p.product_features
+        p.product_serial, p.product_pay, p.category_seq, p.product_name, p.product_img, p.product_features
         from wishlist w
         join product p
         on w.product_seq = p.product_seq

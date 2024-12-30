@@ -10,6 +10,8 @@ public class WishListJoinDTO {
     int wish_seq;
     int cust_seq;
     int product_seq;
+    int category_seq;
+    int product_pay;
     String product_serial;
     String product_name;
     String product_img;
