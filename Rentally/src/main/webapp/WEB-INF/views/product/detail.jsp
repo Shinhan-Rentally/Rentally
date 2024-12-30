@@ -57,7 +57,7 @@
 							<!-- content -->
 							<a href="#!" class="mb-4 d-block">${detail.product_brand}</a>
 							<!-- heading -->
-							<h1 class="mb-1">${detail.product_name }</h1>
+							<h1 class="mb-1">${detail.product_name}</h1>
 							<div class="mb-4">
 								<!-- rating -->
 								<!-- rating -->
