@@ -11,8 +11,8 @@
 			<div class="row w-100 align-items-center gx-lg-2 gx-0">
 				<div class="col-xxl-2 col-lg-3 col-md-6 col-5">
 					<a class="navbar-brand d-none d-lg-block" href="${path}/main">
-						<img src="${path}/resources/images/logo/freshcart-logo.svg"
-						alt="eCommerce HTML Template" />
+						<img src="https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_LOGO.png"
+						alt="eCommerce HTML Template" style="width:200px; height:64px;" />
 					</a>
 
 				</div>
