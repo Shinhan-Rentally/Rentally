@@ -63,7 +63,7 @@ public class AddressController {
 		// 데이터 출력 로그
 		log.info("데이터 저장 완료");
 
-		return new ModelAndView("redirect:"); // 저장 후 마이페이지 주소 목록 페이지로 리다이렉트
+		return new ModelAndView(""); // 저장 후 마이페이지 주소 목록 페이지로 리다이렉트
 	}
 	
 	///getAddress/{custSeq}
