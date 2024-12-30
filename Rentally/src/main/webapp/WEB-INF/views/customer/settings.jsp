@@ -8,7 +8,6 @@
   <%@ include file="../common/headMeta.jsp" %>
   <title>설정</title>
   <%@ include file="../common/headLinks.jsp" %>
-  <!-- @@include("../partials/head/head-links.html") @@include("../partials/head/analytics-code.html") @@include("../partials/head/clarity.html") -->
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
@@ -238,7 +237,7 @@
     event.preventDefault();
     cust_seq = ${custInfo.cust_seq};
     $.ajax({
-      url: "update",
+      url: '${path}/customer/update',
       type: 'post',
       data: {
         cust_seq:cust_seq,
@@ -257,13 +256,13 @@
     cust_seq = ${custInfo.cust_seq};
 
     $.ajax({
-      url: `delete`,
+      url: '${path}/customer/delete',
       type: 'post',
       data: {cust_seq:cust_seq},
       success: function(response) {
         alert('탈퇴 성공');
         if (response==="1") {
-          window.location.href = "${pageContext.servletContext.contextPath}/main";
+          window.location.href = "${path}/main";
         }
       },
       error: function (err) {
@@ -288,7 +287,7 @@
 
     // 비밀번호 확인과 변경 요청을 한 번에 처리
     $.ajax({
-      url: "updatepw", // 단일 요청 처리 API
+      url: '${path}/customer/updatepw', // 단일 요청 처리 API
       type: "post",
       data: {
         cust_seq:cust_seq,
