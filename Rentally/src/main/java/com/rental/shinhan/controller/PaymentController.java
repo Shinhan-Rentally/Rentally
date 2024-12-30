@@ -1,5 +1,7 @@
 package com.rental.shinhan.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -9,8 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.rental.shinhan.dto.AddressDTO;
 import com.rental.shinhan.dto.CustomerDTO;
 import com.rental.shinhan.dto.ProductListJoinDTO;
+import com.rental.shinhan.service.AddressService;
 import com.rental.shinhan.service.CustomerService;
 import com.rental.shinhan.service.ProductListService;
 
@@ -24,6 +28,9 @@ public class PaymentController {
 	
     @Autowired
     CustomerService custService;
+    
+    @Autowired
+	AddressService addressService;
 	
 
     @PostMapping("/payment")
@@ -49,9 +56,6 @@ public class PaymentController {
         		productPeriod = Integer.parseInt(request.getParameter("cart_option"));
         	}
     	}
-
-		log.info("product_seq:"+productSeq);
-		log.info("product_period:"+productPeriod);
 		ProductListJoinDTO productDetail = productlistService.selectProductDetail(productSeq);
 		CustomerDTO custInfo = custService.customerInfo(custSeq);
 		
@@ -69,6 +73,10 @@ public class PaymentController {
     	model.addAttribute("custPhone", custInfo.getCust_phone());
     	
     	model.addAttribute("isUpgrade", request.getParameter("isUpgrade"));
+    	
+    	List<AddressDTO> addressList = addressService.getAddressesByCustSeq(custSeq);
+    	
+    	model.addAttribute("addressList",addressList);
     	
     	return "product/payment";
     }
