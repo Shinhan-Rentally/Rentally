@@ -109,9 +109,6 @@
     wish_seq = $(this).data("wish-seq");
     cust_seq = $(this).data("cust-seq");
 
-    console.log("wish_seq:", wish_seq);
-    console.log("cust_seq:", cust_seq);
-
     if (!wish_seq || !cust_seq) {
       alert("필요한 데이터가 누락되었습니다.");
       return;
@@ -119,7 +116,7 @@
 
     // AJAX 요청
     $.ajax({
-      url: `../\${wish_seq}/delete`,
+      url: `${path}/wish/\${wish_seq}/delete`,
       type: 'delete',
       success: function (response) {
         alert('삭제 성공');
@@ -130,6 +127,5 @@
       }
     });
   });
-
 </script>
 </html>
