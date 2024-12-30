@@ -1,15 +1,20 @@
 package com.rental.shinhan.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.rental.shinhan.dto.AddressDTO;
 import com.rental.shinhan.dto.CustomerDTO;
 import com.rental.shinhan.dto.ProductListJoinDTO;
+import com.rental.shinhan.service.AddressService;
 import com.rental.shinhan.service.CustomerService;
 import com.rental.shinhan.service.ProductListService;
 
@@ -23,6 +28,9 @@ public class PaymentController {
 	
     @Autowired
     CustomerService custService;
+    
+    @Autowired
+	AddressService addressService;
 	
 
     @PostMapping("/payment")
@@ -40,6 +48,7 @@ public class PaymentController {
 
     	if(request.getParameter("isUpgrade") != null && Boolean.parseBoolean(request.getParameter("isUpgrade"))) {
     		model.addAttribute("subSeq", request.getParameter("sub_seq"));
+    		model.addAttribute("subTotal", request.getParameter("sub_total"));
     	} else {
     		productPeriod = Integer.parseInt(request.getParameter("product_period"));
         	
@@ -47,9 +56,6 @@ public class PaymentController {
         		productPeriod = Integer.parseInt(request.getParameter("cart_option"));
         	}
     	}
-
-		log.info("product_seq:"+productSeq);
-		log.info("product_period:"+productPeriod);
 		ProductListJoinDTO productDetail = productlistService.selectProductDetail(productSeq);
 		CustomerDTO custInfo = custService.customerInfo(custSeq);
 		
@@ -68,7 +74,16 @@ public class PaymentController {
     	
     	model.addAttribute("isUpgrade", request.getParameter("isUpgrade"));
     	
+    	List<AddressDTO> addressList = addressService.getAddressesByCustSeq(custSeq);
+    	
+    	model.addAttribute("addressList",addressList);
+    	
     	return "product/payment";
     }
 
+    @GetMapping("/payment/result")
+    public String getPaymentResultPage() {
+    	
+    	return "product/paymentResult";
+    }
 }

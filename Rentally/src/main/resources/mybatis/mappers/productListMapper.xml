@@ -26,7 +26,7 @@
     C.category_name,
     C.category_seq,
     COUNT(cart.product_seq) AS product_popularity,
-    COUNT(r.product_seq) AS review_count,
+    COUNT(r.review_rate) AS review_count,
     AVG(r.review_rate) AS review_avg
 FROM
     PRODUCT P
@@ -35,7 +35,9 @@ LEFT JOIN
 LEFT JOIN
     cart ON P.product_seq = cart.product_seq
 LEFT JOIN
-    review r ON P.product_seq = r.product_seq
+    subscribe s on P.product_seq = s.product_seq
+LEFT JOIN
+    review r on r.sub_seq = s.sub_seq
 WHERE
     P.category_seq = #{category_seq}
     <if test="product_brand != null and product_brand != ''">
@@ -60,19 +62,22 @@ GROUP BY
     P.product_date, P.product_height, P.product_weight, P.product_wh, 
     P.product_color, P.product_features, C.category_name, C.category_seq
 <choose>
-    <when test="sort == 'price_asc'">
-        ORDER BY P.product_pay ASC
-    </when>
-    <when test="sort == 'price_desc'">
-        ORDER BY P.product_pay DESC
-    </when>
-    <when test="sort == 'newest'">
-        ORDER BY P.product_date DESC
-    </when>
-    <otherwise>
-        ORDER BY product_popularity DESC
-    </otherwise>
-</choose>
+        <when test="sort == 'Low to High'">
+            ORDER BY P.product_pay ASC
+        </when>
+        <when test="sort == 'High to Low'">
+            ORDER BY P.product_pay DESC
+        </when>
+        <when test="sort == 'Release Date'">
+            ORDER BY P.product_date DESC
+        </when>
+        <when test="sort == 'Avg. Rating'">
+            ORDER BY product_popularity DESC
+        </when>
+        <otherwise>
+            ORDER BY product_popularity DESC  
+        </otherwise>
+    </choose>
 	</select>
 
 	<select id="selectProductDetail" parameterType="int" resultType="ProductListVO">
@@ -107,12 +112,11 @@ GROUP BY
 		    p.product_wh,
 		    p.product_color,
 		    p.product_features,
-		    COUNT(r.product_seq) AS review_count,
+		    COUNT(r.review_rate) AS review_count, 
 		    avg(r.review_rate) AS review_avg
-		FROM 
-		    product p
-		LEFT JOIN 
-		    review r USING (product_seq)
+		FROM product p
+		LEFT OUTER JOIN  subscribe s USING(product_seq) 
+		LEFT JOIN review r USING(sub_seq)
 		WHERE 
 		    p.product_brand = #{product_brand} 
 		    AND p.category_seq = #{category_seq} 
@@ -136,4 +140,57 @@ GROUP BY
 		    p.product_color,
 		    p.product_features
 	</select>
+	
+	<!-- 검색기능 -->
+	<select id="searchProducts" parameterType="string" resultType="ProductListVO">
+SELECT 
+    P.product_seq,
+    P.product_serial,
+    P.product_name,
+    P.product_img,
+    P.product_detail,
+    P.product_pay,
+    P.product_brand,
+    P.product_grade,
+    P.product_date,
+    P.product_height,
+    P.product_weight,
+    P.product_wh,
+    P.product_color,
+    P.product_features,
+    C.category_name,
+    C.category_seq,
+    COUNT(cart.product_seq) AS product_popularity,
+    COUNT(r.review_rate) AS review_count,
+    AVG(r.review_rate) AS review_avg
+FROM
+    PRODUCT P
+LEFT JOIN
+    CATEGORY C ON P.category_seq = C.category_seq
+LEFT JOIN
+    cart ON P.product_seq = cart.product_seq
+LEFT JOIN
+    subscribe s on P.product_seq = s.product_seq
+LEFT JOIN
+    review r on r.sub_seq = s.sub_seq
+<if test="query != null and query != ''">
+    WHERE 
+        P.product_name ILIKE '%' || #{query} || '%' 
+        OR P.product_serial ILIKE '%' || #{query} || '%' 
+        OR P.product_brand ILIKE '%' || #{query} || '%' 
+        OR C.category_name ILIKE '%' || #{query} || '%'
+</if>
+<if test="query == null or query == ''">
+    WHERE 1=1
+</if>
+GROUP BY 
+    P.product_seq, P.product_serial, P.product_name, P.product_img, 
+    P.product_detail, P.product_pay, P.product_brand, P.product_grade, 
+    P.product_date, P.product_height, P.product_weight, P.product_wh, 
+    P.product_color, P.product_features, C.category_name, C.category_seq
+ORDER BY P.product_date DESC;
+
+
+    </select>
+	
 </mapper>

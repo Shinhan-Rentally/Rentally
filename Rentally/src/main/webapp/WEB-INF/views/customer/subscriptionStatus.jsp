@@ -128,6 +128,7 @@
 											<input type="hidden" name="product_grade" value="${sub.product_grade}">
 											<input type="hidden" name="product_date" value="${sub.product_date}">
 											<input type="hidden" name="category_seq" value="${sub.category_seq}">
+											<input type="hidden" name="sub_total" value="${sub.sub_total}">
 											<button class="btn btn-info btn-sm" id="upgrade" <c:if test="${sub.sub_isUpgrade != true}">disabled</c:if>>
 												<c:if test="${sub.sub_upgrade == true}">업그레이드 완료</c:if>
 												<c:if test="${sub.sub_upgrade != true}">업그레이드</c:if>
