@@ -1,24 +1,21 @@
 package com.rental.shinhan.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
+import com.rental.shinhan.dao.JoinDAO;
 import com.rental.shinhan.dto.CustomerDTO;
 import com.rental.shinhan.service.CustomerService;
 import com.rental.shinhan.service.JoinService;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -28,49 +25,81 @@ public class CustomerController {
     @Autowired
     CustomerService custService;
 
-    int cust_seq=1;
-    @GetMapping("/list")
-    public String getCustomer(int cust_seq, Model model) {
+    @GetMapping("/{cust_seq}/list")
+    public String getCustomer(@PathVariable int cust_seq, Model model) {
 
         CustomerDTO custInfo = custService.customerInfo(cust_seq);
         model.addAttribute("custInfo",custInfo);
         return "/customer/settings";
     }
 
+    @ResponseBody
     @PostMapping("/{cust_seq}/delete")
     public String deleteCustomer(@PathVariable int cust_seq) {
+        log.info("cust_seq: "+cust_seq);
         int result = custService.deleteCustomer(cust_seq);
-        return "";
+        return result+"";
     }
 
-    @PostMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody //page가 아닌 값을 가져감
+    @PostMapping(value = "/{cust_seq}/update")
     public String updateCustInfo(
-            @RequestBody CustomerDTO custInfo,
+            @PathVariable int cust_seq,
+            CustomerDTO custInfo,
             HttpSession session) {
-       //custInfo.setCust_seq(cust_seq);
-        session.setAttribute("cust_seq", 1);
+        custInfo.setCust_seq(cust_seq); // 객체에 cust_seq 설정
         int result = custService.updateCustInfo(custInfo);
-        log.info("업데이트" +result+ "건 성공");
-        return "redirect:/customer/list";
+        return result+"";
     }
     
     @Autowired
 	JoinService jService;
 	
-	@PostMapping("/customer/join")
-	public String insert(CustomerDTO cust) {
+	@PostMapping("/join")
+	public String insert(CustomerDTO cust, RedirectAttributes attr) {
 		int result = jService.insertService(cust);
-		log.info("회원가입" +result+ "건 성공");
-		return "customer/login";
+		if(result>0) {
+			log.info("회원가입" +result+ "건 성공");
+			return "customer/login";
+		}else {
+			log.error("회원가입실패");
+			attr.addFlashAttribute("errorMessage", "회원가입에 실패했습니다. 다시 시도해주세요.");
+			return "redirect:/customer/join";
+		}
+	}
+	
+	@GetMapping("/join")
+	public String insert() {
+		return "customer/join";
 	}
 
-    @PostMapping(value = "/password", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String updateCustPs(
-            @RequestBody CustomerDTO custInfo,
-            HttpSession session) {
-        custInfo.setCust_seq(cust_seq);
-        int result = custService.updateCustPw(custInfo);
-        return "";
+    @PostMapping(value = "/{cust_seq}/updatepw")
+    @ResponseBody
+    public Map<String, Object> updateCustPw(
+            @PathVariable int cust_seq,
+            @RequestParam String currentPW,
+            @RequestParam String newPW) {
+
+        Map<String, Object> response = new HashMap<>();
+        boolean isUpdated = custService.updatePW(cust_seq, currentPW, newPW);
+
+        if (isUpdated) {
+            response.put("success", true);
+        } else {
+            response.put("success", false);
+            response.put("error", "incorrect_password");
+        }
+
+        return response;
+    }
+    
+    
+    //아이디중복체크
+    @ResponseBody
+    @GetMapping("/id.check")
+    public String checkId(@RequestParam String cust_id){
+    	boolean isDuplicate = jService.checkIdService(cust_id);
+    	return String.valueOf(isDuplicate);
     }
 
 }

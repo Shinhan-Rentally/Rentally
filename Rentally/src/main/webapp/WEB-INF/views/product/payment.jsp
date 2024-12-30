@@ -8,11 +8,9 @@
 <%@ include file="../common/headMeta.jsp"%>
 <title>Shop Checkout eCommerce HTML Template - FreshCart</title>
 <%@ include file="../common/headLinks.jsp"%>
-
 </head>
-
 <body>
-<%-- <%@ include file="../partials/navbar.html"%> --%>
+<%@ include file="../common/header.jsp"%>
 <main>
 		<!-- section-->
 		<div class="mt-4">
@@ -63,42 +61,32 @@
 											배송지
 										</a>
 										<!-- btn -->
-										<a href="#" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addAddressModal">주소지 추가</a>
+										<a href="#" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#addAddressModal">주소지 추가</a>
 										<!-- collapse -->
 									</div>
 									<div id="flush-collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushExample">
 										<div class="mt-5">
 											<div class="row">
+											<c:forEach items="${addressList}" var="addr">
 												<div class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
 													<!-- form -->
 													<div class="card card-body p-6">
 														<div class="form-check mb-4">
-															<input class="form-check-input" type="radio" name="flexRadioDefault" id="homeRadio" checked />
-															<label class="form-check-label text-dark" for="homeRadio">사람이름1</label>
+															<input class="form-check-input" type="radio" name="flexRadioDefault" id="homeRadio" <c:if test="${addr.addr_default == true}">checked</c:if> />
+															<label class="form-check-label text-dark" for="homeRadio">${addr.addr_name}</label>
 														</div>
 														<!-- address -->
 														<address>
-															4450 North Avenue Oakland,<br>
-															Nebraska, United States<br>
-															<abbr title="Phone">P: 402-776-1106</abbr>
+															${addr.addr_title}<br>
+															${addr.addr_detail}<br>
+															<abbr title="Phone">P: ${addr.addr_phone}</abbr>
 														</address>
-														<span class="text-danger">Default address</span>
+														<c:if test="${addr.addr_default == true}">
+															<span class="text-danger">Default address</span>
+														</c:if>
 													</div>
 												</div>
-												<div class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
-													<!-- input -->
-													<div class="card card-body p-6">
-														<div class="form-check mb-4">
-															<input class="form-check-input" type="radio" name="flexRadioDefault" id="officeRadio" />
-															<label class="form-check-label text-dark" for="officeRadio">사람이름2</label>
-														</div>
-														<address>
-															3853 Coal Road<br>
-															Tannersville, Pennsylvania, 18372, USA<br>
-															<abbr title="Phone">P: 402-776-1106</abbr>
-														</address>
-													</div>
-												</div>
+											</c:forEach>
 											</div>
 										</div>
 									</div>
@@ -130,6 +118,26 @@
 										</div>
 									</div>
 								</div>
+								<div>
+									<div class="card card-bordered shadow-none mb-2 mt-2">
+										<!-- card body -->
+										<div class="card-body p-6">
+											<div class="d-flex">
+												<div>
+													<!-- title -->
+													<h5 class="mb-1 h6">※ 배송 유의사항</h5>
+													<ul>
+														<li class="small">제주도/도서산간 지역 및 특정 요일만 설치 가능한 지역은 배송 일정이 변경될 수 있으며, 일부 지역은 실제 배송이 되지 않아 주문 취소가 될 수 있습니다.</li>
+														<li class="small">제주 지역은 금요일 오후 3시 이후 결제 시, 차주 화요일부터 배송이 가능합니다.</li>
+														<li class="small">제품은 배송 전에 등록하신 번호로 배송 당일에 설치기사가 연락 드립니다.</li>
+														<li class="small">설치 관련 자세한 문의는 고객센터로 연락 부탁드립니다.</li>
+														<li class="small">전문기사설치 제품은 대면설치가 기본이며, 고객 요청에 의한 비대면 설치에 따른 책임은 당사에 있지 않습니다.</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 						<!-- sidebar -->
@@ -146,7 +154,18 @@
 											<li class="list-group-item d-flex justify-content-between align-items-start">
 												<span id="productName">${productName}</span>
 											</li>
-
+											<c:if test="${isUpgrade}">
+												<!-- list group item -->
+												<li class="list-group-item d-flex justify-content-between align-items-start">
+													<div class="me-auto">
+														<div>이전 매달 이용요금</div>
+													</div>
+													<span>
+														<fmt:formatNumber value="${subTotal}" type="number" pattern="#,###"/>원
+													</span>
+												</li>
+											</c:if>
+											
 											<!-- list group item -->
 											<li class="list-group-item d-flex justify-content-between align-items-start">
 												<div class="me-auto">
@@ -160,19 +179,19 @@
 									</div>
 									<div class="d-grid mb-1 mt-4">
 										<!-- btn -->
-										<button class="btn btn-primary btn-lg d-flex justify-content-center align-items-center" id="subscribe">
-											구독하기
+										<button class="btn btn-info btn-lg d-flex justify-content-center align-items-center" id="subscribe">
+											<c:if test="${isUpgrade}">
+											</c:if>
+											<c:choose>
+											    <c:when test="${isUpgrade}">
+											        업그레이드 신청하기
+											    </c:when>
+											    <c:otherwise>
+											        구독하기
+											    </c:otherwise>
+											</c:choose>
 										</button>
 									</div>
-									<!-- text -->
-									<p>
-										<small>
-											By placing your order, you agree to be bound by the Freshcart
-											<a href="#!">Terms of Service</a>
-											and
-											<a href="#!">Privacy Policy.</a>
-										</small>
-									</p>
 								</div>
 							</div>
 						</div>
@@ -267,10 +286,9 @@
 	</div>
 
 	<!-- Footer -->
-	<%-- <%@ include file="../partials/footer.html"%> --%>
+	<%@ include file="../common/footer.jsp"%>
 	<!-- Javascript-->
  	<script src="${path}/resources/libs/flatpickr/dist/flatpickr.min.js"></script>
-	<%-- <%@ include file="../partials/scripts.html"%> --%>
 	<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 	<script src="${path}/resources/js/main.js"></script>
@@ -282,7 +300,7 @@
 	
 	<script>
 	let merchantUid;
-	
+	console.log("isUpgrade:"+${isUpgrade});
 	$.ajax({
 		  url: `${path}/payment/getSubseq`,
 		  type: "GET",
@@ -327,7 +345,7 @@
 				    merchant_uid: `\${merchantUid}_\${nowDateStr}`, 
 				    name: $('#productName').text(),
 				    amount: $('#productPay').text().replace(/[^\d]/g, ''), 
-				    customer_uid: `${custSeq}_\${nowDateStr}`, 
+				    customer_uid: `${cust_seq}_\${nowDateStr}`, 
 				    buyer_email: `${custEmail}`,
 				    buyer_name: `${custName}`,
 				    buyer_tel: `${custPhone}`
@@ -341,8 +359,7 @@
 					    const paymentData = {
 				                billingKey: rsp.customer_uid,  
 				                merchantUid: rsp.merchant_uid,
-				                //amount: rsp.paid_amount // 실제 요청할 금액
-				                amount: 100, // 테스트용 금액
+				                amount: rsp.paid_amount,
 				                name: `${custName}`
 				            };
 
@@ -404,7 +421,6 @@
 
 	    const $form = $('<form></form>');
 	    $form.attr('method', 'POST');
-	    $form.attr('action', `${path}/subscribe/product`);
 
 	    for (const key in paymentResultData) {
 	        if (paymentResultData.hasOwnProperty(key)) {
@@ -430,8 +446,17 @@
 	    const $productSeqInput = $('<input type="hidden" name="product_seq">').val(${productSeq});
 	    $form.append($productSeqInput);
 
-	    const $subPeriodInput = $('<input type="hidden" name="sub_period">').val(${productPeriod});
-	    $form.append($subPeriodInput);
+	    if(${isUpgrade}){
+	    	const $subSeqInput = $('<input type="hidden" name="sub_seq">').val(${subSeq});
+		    $form.append($subSeqInput);
+	    	
+		    $form.attr('action', `${path}/subscribe/product/update`);
+	    } else {
+	    	const $subPeriodInput = $('<input type="hidden" name="sub_period">').val(${productPeriod});
+		    $form.append($subPeriodInput);
+		    
+		    $form.attr('action', `${path}/subscribe/product`);
+	    }
 
 	    $('body').append($form);
 	    $form.submit();

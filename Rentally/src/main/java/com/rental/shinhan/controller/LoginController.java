@@ -1,13 +1,20 @@
 package com.rental.shinhan.controller;
 
+import javax.naming.AuthenticationException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.rental.shinhan.dao.LoginDAO;
 import com.rental.shinhan.dto.LoginJoinDTO;
 import com.rental.shinhan.service.LoginService;
 
@@ -23,36 +30,82 @@ public class LoginController {
 	
 	@Autowired
 	LoginService lService;
+	@Autowired
+	LoginDAO loginDAO;
+	
 	
 	@PostMapping("/login")
-	public String login(String cust_id , String cust_pw, HttpSession session) {
+	public String login(String cust_id , String cust_pw, 
+			@RequestParam(value = "rememberMe", required = false) String rememberMe,HttpSession session,
+			HttpServletResponse response,Model model) {
 		
 		
 		  // 로그인 처리
-        LoginJoinDTO loginUser = lService.login(cust_id, cust_pw);
+        LoginJoinDTO loginUser;
+		try {
+			loginUser = lService.login(cust_id, cust_pw);
+			 session.setAttribute("cust_id", loginUser.getCust_id());
+		        session.setAttribute("cust_seq", loginUser.getCust_seq());
+		        session.setAttribute("cust_grade",loginUser.getCust_grade());
+		        session.setAttribute("cart_count", loginUser.getCart_count());
+		        session.setAttribute("wishlist_count", loginUser.getWishlist_count());
+		        // "아이디 기억하기" 처리
+		        if (rememberMe != null) { // 체크박스가 체크된 경우
+		            Cookie cookie = new Cookie("rememberedCustId", loginUser.getCust_id());
+		            cookie.setMaxAge(60 * 60 * 24 * 30); // 30일 동안 유지
+		            cookie.setPath("/");
+		            response.addCookie(cookie);
+		        } else { // 체크박스가 체크되지 않은 경우 (쿠키 삭제)
+		            Cookie cookie = new Cookie("rememberedCustId", null);
+		            cookie.setMaxAge(0); // 즉시 삭제
+		            cookie.setPath("/");
+		            response.addCookie(cookie);
+		        }
+		        return "redirect:/main";
+		} catch (AuthenticationException e) {
+		    // 비밀번호 불일치 예외 처리
+		    log.info(e.getMessage());
+		    return "redirect:/customer/login?error=wrongPassword"; // 비밀번호 불일치 처리
+		} catch (Exception e) {
+		    // 아이디 없음 등의 다른 예외 처리
+		    log.error("로그인 처리 중 오류 발생", e);
+		    return "redirect:/customer/login?error=userNotFound";  // 아이디 없음 처리
+		}
 
-        // 로그인 실패: 아이디 없음 또는 비밀번호 불일치
-        if (loginUser == null) {
-        	log.info(loginUser+"로그인 유저");
-        	return "redirect:/login?error=true"; // 로그인 실패 시 에러 파라미터 전달
-       
-        }
-
-        // 로그인 성공: 세션에 사용자 정보 저장
-        session.setAttribute("cust_id", loginUser.getCust_id());
-        session.setAttribute("cust_seq", loginUser.getCust_seq());
-        session.setAttribute("cart_count", loginUser.getCart_count());
-        session.setAttribute("wishlist_count", loginUser.getWishlist_count());
-
-        // 메인 페이지로 리다이렉트
-        return "redirect:/main"; // 로그인 성공 시 메인 페이지로 리다이렉트
 		
+	        
+	}
+	@GetMapping("/login")
+	public String longinForm(HttpServletRequest request, Model model) {
 		
+		 // 쿠키에서 rememberedCustId 값 읽기
+	    Cookie[] cookies = request.getCookies();
+	    String rememberedCustId = null;
+
+	    if (cookies != null) {
+	        for (Cookie cookie : cookies) {
+	            if ("rememberedCustId".equals(cookie.getName())) {
+	                rememberedCustId = cookie.getValue();
+	                break;
+	            }
+	        }
+	    }
+	    // 디버깅용 로그 출력
+	    System.out.println("쿠키에서 읽은 rememberedCustId: " + rememberedCustId);
+	    // 모델에 rememberedCustId 전달
+	    model.addAttribute("rememberedCustId", rememberedCustId);
+		
+		return "customer/login";
 	}
-	@GetMapping("/loginForm")
-	public String longinForm() {
-		return "customer/";
-	}
+	//로그아웃 기능
+	 @GetMapping("/logout")
+	    public String logout(HttpServletRequest request) {
+	        HttpSession session = request.getSession(false); // 세션 가져오기 (존재하면)
+	        if (session != null) {
+	            session.invalidate(); // 세션 무효화
+	        }
+	        return "redirect:/main"; // 로그인 페이지로 리다이렉션
+	    }
 	
 	
 }

@@ -23,4 +23,22 @@ public class ProductListDAO implements ProductListInterface {
 	        List<ProductListJoinDTO> productList = sqlSession.selectList(namespace + "selectProductList",params);
 	        return productList;
 	    }
+	 
+	 public List<ProductListJoinDTO> selectUpgradeProductList(Map<String ,Object> params){
+		 
+		 List<ProductListJoinDTO> upgradeProductList = sqlSession.selectList(namespace + "selectUpgradeProductList", params);
+		 
+		 return upgradeProductList;
+	 }
+	 
+	 public ProductListJoinDTO selectProductDetail(int product_seq){
+		 ProductListJoinDTO productDetail = sqlSession.selectOne(namespace + "selectProductDetail", product_seq);
+		 
+		 return productDetail;
+	 }
+	 //검색기능
+	 public List<ProductListJoinDTO> searchProduct(String query) {
+		 List<ProductListJoinDTO> searchProductlist = sqlSession.selectList(namespace + "searchProducts",query);
+		return searchProductlist;
+	}
 }

@@ -12,6 +12,7 @@ public class CustomerDTO {
     String cust_pw;
     String cust_phone;
     String cust_email;
+    String cust_email2;
     String cust_name;
     boolean cust_status;
 }

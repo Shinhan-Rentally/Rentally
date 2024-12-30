@@ -19,6 +19,7 @@ public class LoginJoinDTO {
 	String cust_email;
 	String cust_name;
 	boolean cust_status;
+	int cust_grade;
 	int cart_count;
 	int wishlist_count;
 }
