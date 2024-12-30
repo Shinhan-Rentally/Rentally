@@ -67,24 +67,29 @@
 									<div id="flush-collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushExample">
 										<div class="mt-5">
 											<div class="row">
+											<c:forEach items="${addressList}" var="addr">
 												<div class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
 													<!-- form -->
 													<div class="card card-body p-6">
 														<div class="form-check mb-4">
-															<input class="form-check-input" type="radio" name="flexRadioDefault" id="homeRadio" checked />
-															<label class="form-check-label text-dark" for="homeRadio">사람이름1</label>
+															<input class="form-check-input" type="radio" name="flexRadioDefault" id="homeRadio" <c:if test="${addr.addr_default == true}">checked</c:if> />
+															<label class="form-check-label text-dark" for="homeRadio">${addr.addr_name}</label>
 														</div>
 														<!-- address -->
 														<address>
-															4450 North Avenue Oakland,<br>
-															Nebraska, United States<br>
-															<abbr title="Phone">P: 402-776-1106</abbr>
+															${addr.addr_title}<br>
+															${addr.addr_detail}<br>
+															<abbr title="Phone">P: ${addr.addr_phone}</abbr>
 														</address>
-														<span class="text-danger">Default address</span>
+														<c:if test="${addr.addr_default == true}">
+															<span class="text-danger">Default address</span>
+														</c:if>
 													</div>
 												</div>
-												<div class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
-													<!-- input -->
+											</c:forEach>
+											
+												<!-- <div class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
+													input
 													<div class="card card-body p-6">
 														<div class="form-check mb-4">
 															<input class="form-check-input" type="radio" name="flexRadioDefault" id="officeRadio" />
@@ -96,7 +101,7 @@
 															<abbr title="Phone">P: 402-776-1106</abbr>
 														</address>
 													</div>
-												</div>
+												</div> -->
 											</div>
 										</div>
 									</div>
