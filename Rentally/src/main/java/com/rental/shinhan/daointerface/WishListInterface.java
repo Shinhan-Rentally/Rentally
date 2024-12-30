@@ -8,5 +8,5 @@ import java.util.List;
 public interface WishListInterface {
     public List<WishListJoinDTO> selectWishLists(int custSeq);
     public int insertWishList(WishListDTO request);
-    public int deleteWish(int wishSeq);
+    public int deleteWish(int wish_seq);
 }
