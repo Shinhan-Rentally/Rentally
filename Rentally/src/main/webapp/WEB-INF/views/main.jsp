@@ -3,23 +3,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- Favicon icon-->
-<link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon/favicon.ico">
-<!-- Theme CSS -->
-<!-- build:css @@webRoot/assets/css/theme.min.css -->
-<link rel="stylesheet" href="resources/css/theme.css">
-<link href="resources/libs/slick-carousel/slick/slick.css" rel="stylesheet" />
-		<link href="resources/libs/slick-carousel/slick/slick-theme.css" rel="stylesheet" />
-		<link href="resources/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet" />
-	
-		
-		
-		
-
 <meta charset="UTF-8">
 <%@ include file="./common/headMeta.jsp" %>
 <title>Rentally</title>
 <%@ include file="./common/headLinks.jsp" %>
+<!-- Favicon icon-->
+<link rel="shortcut icon" type="image/x-icon" href="${path}/resources/images/favicon/favicon.ico">
+<!-- Theme CSS -->
+<!-- build:css @@webRoot/assets/css/theme.min.css -->
+<link rel="stylesheet" href="${path}/resources/css/theme.css">
+<link href="${path}/resources/libs/slick-carousel/slick/slick.css" rel="stylesheet" />
+		<link href="${path}/resources/libs/slick-carousel/slick/slick-theme.css" rel="stylesheet" />
+		<link href="${path}/resources/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet" />
 </head>
 <body>
 <!-- 헤더화면 임포트 -->
@@ -29,16 +24,11 @@
 			<section class="mt-8">
 				<div class="container">
 					
-						<div style="background: url(resources/images/slider/slide-1.jpg) no-repeat; background-size: cover; border-radius: 0.5rem; background-position: center">
+						<div style="background: url(https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_LOGO-title.png) no-repeat; 
+						background-size: cover; border-radius: 0.5rem; background-position: center;
+						width:1200px; height:628px;">
 							<div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
-								<span class="badge text-bg-warning">Opening Sale Discount 510%</span>
-
-								<h2 class="text-dark display-5 fw-bold mt-4">SuperMarket For Fresh Grocery</h2>
-								<p class="lead">Introduced a new model for online grocery shopping and convenient home delivery.</p>
-								<a href="#!" class="btn btn-dark mt-3">
-									Shop Now
-									<i class="feather-icon icon-arrow-right ms-1"></i>
-								</a>
+								
 							</div>
 						</div>
 				
