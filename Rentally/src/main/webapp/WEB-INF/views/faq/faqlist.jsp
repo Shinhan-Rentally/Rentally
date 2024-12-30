@@ -84,12 +84,6 @@
                                             <c:out value="${faq.faq_answer}"/>
                                         </div>
                                     </div>
-                                        <%--                                    <div id="collapse${status.index}"--%>
-                                        <%--                                         class="accordion-collapse collapse <c:if test='${status.first}'>show</c:if>">--%>
-                                        <%--                                        <div class="accordion-body">--%>
-                                        <%--                                                A. ${faq.faq_answer}--%>
-                                        <%--                                        </div>--%>
-                                        <%--                                    </div>--%>
                                 </div>
                             </c:forEach>
                         </div>
