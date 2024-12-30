@@ -136,4 +136,51 @@ GROUP BY
 		    p.product_color,
 		    p.product_features
 	</select>
+	
+	<!-- 검색기능 -->
+	<select id="searchProducts" parameterType="string" resultType="ProductListVO">
+SELECT 
+    P.product_seq,
+    P.product_serial,
+    P.product_name,
+    P.product_img,
+    P.product_detail,
+    P.product_pay,
+    P.product_brand,
+    P.product_grade,
+    P.product_date,
+    P.product_height,
+    P.product_weight,
+    P.product_wh,
+    P.product_color,
+    P.product_features,
+    C.category_name,
+    C.category_seq,
+    COUNT(cart.product_seq) AS product_popularity,
+    COUNT(r.product_seq) AS review_count,
+    AVG(r.review_rate) AS review_avg
+FROM product P
+LEFT JOIN CATEGORY C ON P.category_seq = C.category_seq
+LEFT JOIN cart ON P.product_seq = cart.product_seq
+LEFT JOIN review r ON P.product_seq = r.product_seq
+<if test="query != null and query != ''">
+    WHERE 
+        P.product_name ILIKE '%' || #{query} || '%' 
+        OR P.product_serial ILIKE '%' || #{query} || '%' 
+        OR P.product_brand ILIKE '%' || #{query} || '%' 
+        OR C.category_name ILIKE '%' || #{query} || '%'
+</if>
+<if test="query == null or query == ''">
+    WHERE 1=1
+</if>
+GROUP BY 
+    P.product_seq, P.product_serial, P.product_name, P.product_img, 
+    P.product_detail, P.product_pay, P.product_brand, P.product_grade, 
+    P.product_date, P.product_height, P.product_weight, P.product_wh, 
+    P.product_color, P.product_features, C.category_name, C.category_seq
+ORDER BY P.product_date DESC;
+
+
+    </select>
+	
 </mapper>
