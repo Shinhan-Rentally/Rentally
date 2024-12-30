@@ -18,9 +18,16 @@ public class AddressDAO implements AddressInterface {
 	SqlSession sqlSession;
 
 	// 새로운 주소 삽입
+	@Override
 	public void insertAddress(AddressDTO addressData) {
 		// DB 삽입
 		sqlSession.insert(namespace + "insertAddress", addressData);
+	}
+	
+	// custSeq로 주소 조회
+	@Override
+	public List<AddressDTO> getAddressesByCustSeq(int custSeq){
+		return sqlSession.selectList("com.rental.shinhan.address.getAddressesByCustSeq", custSeq);
 	}
 
 	
