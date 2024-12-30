@@ -39,7 +39,7 @@ public class AddressController {
 	}
 
 	// 주소 저장 요청 처리
-	@RequestMapping(value = "/saveAddress", method = RequestMethod.POST)
+	@RequestMapping(value = "/address/add", method = RequestMethod.POST)
 	public ModelAndView saveAddress(@RequestParam("postcode") String postcode, @RequestParam("address") String address,
 			@RequestParam("detailAddress") String detailAddress, @RequestParam("extraAddress") String extraAddress,
 			@RequestParam("recipName") String recipName, @RequestParam("recipPhone") String recipPhone,
@@ -68,7 +68,7 @@ public class AddressController {
 	
 	///getAddress/{custSeq}
 	// 계정 내 등록된 계정 조회 처리
-	@GetMapping("/getAddress")
+	@GetMapping("/address/list")
 	public String getAddressesByCustSeq(Model model) {
 		int custSeq = 1;
 		List<AddressDTO> addressList = addressService.getAddressesByCustSeq(custSeq);
@@ -85,7 +85,7 @@ public class AddressController {
 	
 	
 	// 계정 내 등록된 계정 중 선택한 계정 삭제
-	@PostMapping("/deleteAddress")
+	@PostMapping("/address/delete")
 	public String deleteAddress(@RequestParam("selectedAddress") int addrSeq, Model model) {
 	    try {
 	        addressService.deleteAddress(addrSeq);
