@@ -94,7 +94,7 @@ public class AddressController {
 	        model.addAttribute("message", "주소 삭제 중 오류가 발생했습니다.");
 	        log.error("Error deleting address with addrSeq: {}", addrSeq, e);
 	    }
-	    return "redirect:/getAddress"; // 삭제 후 주소 목록 페이지로 리다이렉트
+	    return "redirect:/address/delete"; // 삭제 후 주소 목록 페이지로 리다이렉트
 	}
 
 }
