@@ -144,7 +144,6 @@ GROUP BY
 	<!-- 검색기능 -->
 	<select id="searchProducts" parameterType="string" resultType="ProductListVO">
 SELECT 
-   SELECT
     P.product_seq,
     P.product_serial,
     P.product_name,
