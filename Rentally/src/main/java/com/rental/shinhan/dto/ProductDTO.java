@@ -11,6 +11,7 @@ public class ProductDTO {
 
     int product_seq;
     int category_seq;
+    String category_name;
     String product_serial;
     String product_name;
     String product_img;
