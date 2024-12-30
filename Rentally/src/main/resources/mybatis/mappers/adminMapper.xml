@@ -6,6 +6,7 @@
 
     <select id="selectProducts" resultType="ProductVO">
         select * from product
+        join category using (category_seq)
     </select>
 
     <select id="selectReviews" resultType="ReviewVO">
