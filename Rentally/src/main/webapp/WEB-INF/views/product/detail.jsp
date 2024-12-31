@@ -81,6 +81,9 @@
 							<!-- hr -->
 							<hr class="my-6" />
 							<h6>구독 기간 선택</h6>
+							<span>평균 별점: <span id="review_avg">0</span></span> <!-- 평균 별점 -->
+<span>리뷰 수: <span id="review_count">0</span></span> <!-- 리뷰 수 -->
+						
 							<div class="mb-5">
 								<button type="button" class="btn btn-outline-secondary"
 									value="6">6개월</button>
@@ -327,5 +330,21 @@
 		src="${path}/resources/libs/tiny-slider/dist/min/tiny-slider.js"></script>
 	<script src="${path}/resources/js/vendors/tns-slider.js"></script>
 	<script src="${path}/resources/js/vendors/zoom.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script>
+	$.ajax({
+	    url: '/review/ratehigh',  // Controller에서 정의한 URL
+	    type: 'GET',
+	    data: { product_seq: 8 },  // 요청할 상품의 product_seq 값
+	    success: function(response) {
+	        // 응답받은 review_avg와 review_count를 화면에 업데이트
+	        $('#review_avg').text(response.review_avg);  // 평균 별점 표시
+	        $('#review_count').text(response.review_count);  // 리뷰 카운트 표시
+	    },
+	    error: function(xhr, status, error) {
+	        console.error("AJAX 요청 실패:", error);
+	    }
+	});
+	</script>
 </body>
 </html>

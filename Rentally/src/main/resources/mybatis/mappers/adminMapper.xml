@@ -12,6 +12,7 @@
     <select id="selectReviews" resultType="ReviewVO">
         select
         r.review_seq,
+        s.sub_seq,
         c.cust_id,
         p.product_seq,
         p.product_serial,
@@ -21,8 +22,9 @@
         r.review_date
         from
         review r
-        join customer c using (cust_seq)
-        join product p using (product_seq);
+        join subscribe s on r.sub_seq = s.sub_seq
+        join product p on s.product_seq = p.product_seq
+        join customer c on s.cust_seq = c.cust_seq
     </select>
 
     <select id="selectCustomers" resultType="com.rental.shinhan.dto.CustomerDTO">
