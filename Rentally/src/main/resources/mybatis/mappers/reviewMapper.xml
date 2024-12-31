@@ -14,9 +14,10 @@
 	</insert>
 
 	<!-- 상품 상세보기 - 리뷰조회 -->
-	<select id="selectReview" parameterType="int" resultType="ReviewVO">
+	<select id="selectReview" parameterType="int"
+		resultType="ReviewVO">
 		SELECT
-		P.product_seq ,
+		P.product_seq,
 		P.product_name,
 		P.product_brand,
 		P.product_img ,
@@ -26,17 +27,36 @@
 		R.review_date,
 		C.cust_name,
 		C.cust_id,
-		C.cust_seq
+		C.cust_seq,
+		RA.review_avg
+		FROM
+		PRODUCT P
+		LEFT JOIN
+		SUBSCRIBE S ON P.product_seq = S.product_seq
+		LEFT
+		JOIN
+		REVIEW R ON S.sub_seq = R.sub_seq
+		LEFT JOIN
+		CUSTOMER C ON S.cust_seq
+		= C.cust_seq
+		LEFT JOIN (
+		SELECT
+		P.product_seq,
+		AVG(R.review_rate) AS review_avg
 		FROM
 		PRODUCT P
 		LEFT JOIN
 		SUBSCRIBE S ON P.product_seq = S.product_seq
 		LEFT JOIN
 		REVIEW R ON S.sub_seq = R.sub_seq
-		LEFT JOIN
-		CUSTOMER C ON S.cust_seq = C.cust_seq
 		WHERE
-		P.product_seq = #{product_seq}
+		R.sub_seq IS NOT NULL
+		GROUP BY
+		P.product_seq
+		) RA ON P.product_seq = RA.product_seq
+		WHERE
+		P.product_seq =
+		#{product_seq}
 		AND R.sub_seq IS NOT NULL
 		ORDER BY R.review_rate DESC
 	</select>
