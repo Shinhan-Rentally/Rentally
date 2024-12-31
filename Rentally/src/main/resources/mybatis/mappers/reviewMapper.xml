@@ -6,9 +6,9 @@
 
     <insert id="insertReview">
         insert into review
-        (cust_seq, product_seq, review_content, review_rate, review_date)
+        (sub_seq, review_content, review_rate, review_date)
         VALUES
-        (#{cust_seq}, #{product_seq}, #{review_content}, #{review_rate}, CURRENT_TIMESTAMP)
+        (#{sub_seq}, #{review_content}, #{review_rate}, CURRENT_TIMESTAMP)
     </insert>
 
 </mapper>
