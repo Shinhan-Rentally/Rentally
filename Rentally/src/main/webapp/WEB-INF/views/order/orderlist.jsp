@@ -5,14 +5,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- BootStrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <meta charset="UTF-8">
     <%@ include file="../common/headMeta.jsp" %>
     <title>주문내역</title>
     <%@ include file="../common/headLinks.jsp" %>
-    <!-- @@include("../partials/head/head-links.html") @@include("../partials/head/analytics-code.html") @@include("../partials/head/clarity.html") -->
     <!-- star style -->
     <style>
         .product-name {
@@ -235,8 +231,6 @@
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="${path}/resources/js/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Footer -->
 <%@ include file="../common/footer.jsp" %>
