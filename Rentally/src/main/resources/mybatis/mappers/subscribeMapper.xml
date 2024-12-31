@@ -3,13 +3,26 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rental.shinhan.subscribe">
-	<!-- 주문내역 조회 -->
 	<select id="selectMyOrders" parameterType="int" resultType="SubscribeListVO">
-		select *
-		from subscribe join customer using (cust_seq)
-		join product using (product_seq)
-		where cust_seq = #{cust_seq}
-		and sub_cancel = false
+		SELECT
+			s.sub_seq,
+			p.product_name,
+			p.product_seq,
+			s.sub_date,
+			s.sub_total,
+			c.cust_seq,
+			p.product_img,
+			p.category_seq,
+			CASE
+				WHEN r.review_seq IS NOT NULL THEN TRUE
+				ELSE FALSE
+			END AS review_written
+		FROM subscribe s
+		JOIN customer c USING (cust_seq)
+		JOIN product p USING (product_seq)
+		LEFT JOIN review r USING (sub_seq)
+		WHERE c.cust_seq = #{cust_seq} AND s.sub_cancel = false;
+
 	</select>
 	<!-- 구독 현황 조회 -->
 	<select id="selectSubscribeList" parameterType="int" resultType="SubscribeListVO">
