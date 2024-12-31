@@ -1,5 +1,6 @@
 package com.rental.shinhan.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.sql.Date;
@@ -11,6 +12,7 @@ public class ProductDTO {
 
     int product_seq;
     int category_seq;
+    String category_name;
     String product_serial;
     String product_name;
     String product_img;
@@ -18,6 +20,7 @@ public class ProductDTO {
     int product_pay;
     String product_brand;
     String product_grade;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Date product_date;
     String product_height;
     String product_weight;
@@ -25,3 +28,4 @@ public class ProductDTO {
     String product_color;
     String product_features;
 }
+
