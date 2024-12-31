@@ -13,6 +13,7 @@
 			c.cust_seq,
 			p.product_img,
 			p.category_seq,
+			s.sub_period,
 			CASE
 				WHEN r.review_seq IS NOT NULL THEN TRUE
 				ELSE FALSE
