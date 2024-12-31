@@ -12,25 +12,7 @@
 <body>
 <%@ include file="../common/header.jsp"%>
 <main>
-		<!-- section-->
-		<div class="mt-4">
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-					<!-- col -->
-					<div class="col-12">
-						<!-- breadcrumb -->
-						<nav aria-label="breadcrumb">
-							<ol class="breadcrumb mb-0">
-								<li class="breadcrumb-item"><a href="#!">Home</a></li>
-								<li class="breadcrumb-item"><a href="#!">Shop</a></li>
-								<li class="breadcrumb-item active" aria-current="page">Shop Checkout</li>
-							</ol>
-						</nav>
-					</div>
-				</div>
-			</div>
-		</div>
+
 		<!-- section -->
 		<section class="mb-lg-14 mb-8 mt-8">
 			<div class="container">
@@ -180,8 +162,6 @@
 									<div class="d-grid mb-1 mt-4">
 										<!-- btn -->
 										<button class="btn btn-info btn-lg d-flex justify-content-center align-items-center" id="subscribe">
-											<c:if test="${isUpgrade}">
-											</c:if>
 											<c:choose>
 											    <c:when test="${isUpgrade}">
 											        업그레이드 신청하기
