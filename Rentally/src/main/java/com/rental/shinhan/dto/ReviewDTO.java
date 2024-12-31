@@ -18,4 +18,5 @@ public class ReviewDTO {
     int review_rate;
     Date review_date;
     double review_avg;
+    int review_count;
 }
