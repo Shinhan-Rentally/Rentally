@@ -4,20 +4,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Favicon icon-->
-  <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon/favicon.ico">
-  <!-- Theme CSS -->
-  <!-- build:css @@webRoot/assets/css/theme.min.css -->
-  <link rel="stylesheet" href="resources/css/theme.css">
-  <link href="resources/libs/slick-carousel/slick/slick.css" rel="stylesheet" />
-  <link href="resources/libs/slick-carousel/slick/slick-theme.css" rel="stylesheet" />
-  <link href="resources/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet" />
-
   <meta charset="UTF-8">
   <%@ include file="../common/headMeta.jsp" %>
   <title>설정</title>
   <%@ include file="../common/headLinks.jsp" %>
-  <!-- @@include("../partials/head/head-links.html") @@include("../partials/head/analytics-code.html") @@include("../partials/head/clarity.html") -->
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
@@ -32,7 +22,7 @@
         <div class="col-12">
           <div class="d-flex justify-content-between align-items-center d-md-none py-4">
             <!-- heading -->
-            <h3 class="fs-5 mb-0">Account Setting</h3>
+            <h3 class="fs-5 mb-0">설정</h3>
             <!-- button -->
             <button
                     class="btn btn-outline-gray-400 text-muted d-md-none btn-icon btn-sm ms-3"
@@ -93,28 +83,28 @@
           <div class="py-6 p-md-6 p-lg-10">
             <div class="mb-6">
               <!-- heading -->
-              <h2 class="mb-0">Account Setting</h2>
+              <h2 class="mb-0">설정</h2>
             </div>
             <div>
               <!-- heading -->
-              <h5 class="mb-4">Account details</h5>
+              <h5 class="mb-4">회원정보</h5>
               <div class="row">
                 <div class="col-lg-5">
                   <!-- form -->
                   <form>
                     <!-- input -->
                     <div class="mb-3">
-                      <label class="form-label">Name</label>
+                      <label class="form-label">이름</label>
                       <input type="text" id="cust_name" class="form-control" value="${custInfo.cust_name}" />
                     </div>
                     <!-- input -->
                     <div class="mb-3">
-                      <label class="form-label">Email</label>
+                      <label class="form-label">이메일</label>
                       <input type="email" id="cust_email" class="form-control" value="${custInfo.cust_email}" />
                     </div>
                     <!-- input -->
                     <div class="mb-5">
-                      <label class="form-label">Phone</label>
+                      <label class="form-label">전화번</label>
                       <input type="text" id="cust_phone" class="form-control" value="${custInfo.cust_phone}" />
                     </div>
                     <!-- button -->
@@ -128,23 +118,22 @@
             <hr class="my-10" />
             <div class="pe-lg-14">
               <!-- heading -->
-              <h5 class="mb-4">Password</h5>
+              <h5 class="mb-4">비밀번호</h5>
               <form class="row row-cols-1 row-cols-lg-2">
                 <!-- input -->
                 <div class="mb-3 col">
-                  <label class="form-label">New Password</label>
+                  <label class="form-label">새로운 비밀번호</label>
                   <input id="newPW" type="password" class="form-control" placeholder="**********" />
                 </div>
                 <!-- input -->
                 <div class="mb-3 col">
-                  <label class="form-label">Current Password</label>
+                  <label class="form-label">현재 비밀번호</label>
                   <input id="currentPW" type="password" class="form-control" placeholder="**********" />
                 </div>
                 <!-- input -->
                 <div class="col-12">
-                  <p class="mb-4">
-                    Can’t remember your current password?
-                    <a href="#">Reset your password.</a>
+                  <p class="mb-4 text-nowrap">
+                    새로운 비밀번호와 현재 비밀번호를 입력해주세요.
                   </p>
                   <button id="updatePW" class="btn btn-primary">비밀번호 수정</button>
                 </div>
@@ -153,9 +142,9 @@
             <hr class="my-10" />
             <div>
               <!-- heading -->
-              <h5 class="mb-4">Delete Account</h5>
-              <p class="mb-2">Would you like to delete your account?</p>
-              <p class="mb-5">This account contain 12 orders, Deleting your account will remove all the order details associated with it.</p>
+              <h5 class="mb-4">계정 삭제</h5>
+              <p class="mb-2">계정을 삭제하시겠습니까?</p>
+              <p class="mb-5">계정을 삭제하면 해당 계정과 연관된 모든 주문 정보가 삭제됩니다.</p>
               <!-- btn -->
               <div class="mb-3">
                 <button id="deleteAccount" class="btn btn-outline-danger">회원 탈퇴</button>
@@ -168,92 +157,21 @@
   </section>
 </main>
 
-<!-- modal -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasAccount" aria-labelledby="offcanvasAccountLabel">
-  <!-- offcanvas header -->
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasAccountLabel">Offcanvas</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <!-- offcanvas body -->
-  <div class="offcanvas-body">
-    <ul class="nav flex-column nav-pills nav-pills-dark">
-      <!-- nav item -->
-      <li class="nav-item">
-        <a class="nav-link" aria-current="page" href="account-orders.html">
-          <i class="feather-icon icon-shopping-bag me-2"></i>
-          Your Orders
-        </a>
-      </li>
-      <!-- nav item -->
-
-      <li class="nav-item">
-        <a class="nav-link active" href="account-settings.html">
-          <i class="feather-icon icon-settings me-2"></i>
-          Settings
-        </a>
-      </li>
-      <!-- nav item -->
-
-      <li class="nav-item">
-        <a class="nav-link" href="account-address.html">
-          <i class="feather-icon icon-map-pin me-2"></i>
-          Address
-        </a>
-      </li>
-      <!-- nav item -->
-
-      <li class="nav-item">
-        <a class="nav-link" href="account-payment-method.html">
-          <i class="feather-icon icon-credit-card me-2"></i>
-          Payment Method
-        </a>
-      </li>
-      <!-- nav item -->
-
-      <li class="nav-item">
-        <a class="nav-link" href="account-notification.html">
-          <i class="feather-icon icon-bell me-2"></i>
-          Notification
-        </a>
-      </li>
-    </ul>
-    <hr class="my-6" />
-    <div>
-      <!-- navs -->
-      <ul class="nav flex-column nav-pills nav-pills-dark">
-        <!-- nav item -->
-        <li class="nav-item">
-          <a class="nav-link" href="../index.html">
-            <i class="feather-icon icon-log-out me-2"></i>
-            Log out
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-
 <!-- Javascript-->
-<!-- @@include("../partials/scripts.html") -->
-<script src="resources/js/vendors/jquery.min.js"></script>
-<script src="resources/js/vendors/countdown.js"></script>
-<script src="resources/libs/slick-carousel/slick/slick.min.js"></script>
-<script src="resources/js/vendors/slick-slider.js"></script>
-<script src="resources/libs/tiny-slider/dist/min/tiny-slider.js"></script>
-<script src="resources/js/vendors/tns-slider.js"></script>
-<script src="resources/js/vendors/zoom.js"></script>
+<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
+<script src="${path}/resources/js/main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <!-- Footer -->
 <%@ include file="../common/footer.jsp" %>
 <!-- Javascript-->
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
   $('#saveDetails').on("click", function (event){
     event.preventDefault();
     cust_seq = ${custInfo.cust_seq};
     $.ajax({
-      url: "update",
+      url: `${path}/customer/\${cust_seq}/update`,
       type: 'post',
       data: {
         cust_seq:cust_seq,
@@ -263,6 +181,7 @@
       },
       success: function (response){
         alert("updateInfo success"+ response);
+        location.reload();
       }
     })
 
@@ -272,46 +191,14 @@
     cust_seq = ${custInfo.cust_seq};
 
     $.ajax({
-      url: `delete`,
+      url: `${path}/customer/\${cust_seq}/delete`,
       type: 'post',
       data: {cust_seq:cust_seq},
       success: function(response) {
         alert('탈퇴 성공');
-      },
-      error: function (err) {
-        alert('탈퇴 실패');
-      }
-    })
-  })
-</script>
-<script>
-  $('#saveDetails').on("click", function (event){
-    event.preventDefault();
-    cust_seq = ${custInfo.cust_seq};
-    $.ajax({
-      url: "update",
-      type: 'post',
-      data: {
-        cust_seq:cust_seq,
-        cust_name : $('#cust_name').val(),
-        cust_email : $('#cust_email').val(),
-        cust_phone : $('#cust_phone').val()
-      },
-      success: function (response){
-        alert("updateInfo success"+ response);
-      }
-    })
-
-  })
-  $("#deleteAccount").on("click", function (event) {
-    event.preventDefault();
-    cust_seq = ${custInfo.cust_seq};
-
-    $.ajax({
-      url: `\${cust_seq}/delete`,
-      type: 'POST',
-      success: function(response) {
-        alert('탈퇴 성공');
+        if (response==="1") {
+          window.location.href = "${path}/main";
+        }
       },
       error: function (err) {
         alert('탈퇴 실패');
@@ -335,7 +222,7 @@
 
     // 비밀번호 확인과 변경 요청을 한 번에 처리
     $.ajax({
-      url: "updatepw", // 단일 요청 처리 API
+      url: `${path}/customer/\${cust_seq}/updatepw`, // 단일 요청 처리 API
       type: "post",
       data: {
         cust_seq:cust_seq,
@@ -345,6 +232,7 @@
       success: function (response) {
         if (response.success) {
           alert("비밀번호가 성공적으로 변경되었습니다.");
+          location.reload();
         } else if (response.error === "incorrect_password") {
           alert("현재 비밀번호가 일치하지 않습니다.");
         } else {
