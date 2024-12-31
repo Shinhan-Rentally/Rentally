@@ -6,9 +6,7 @@
 <head>
 <%@include file="../common/headMeta.jsp"%>
 <title>Product Detail - Rentally</title>
-<link href="@@webRoot/node_modules/dropzone/dist/min/dropzone.min.css"
-	rel="stylesheet" />
-<link href="@@webRoot/node_modules/tiny-slider/dist/tiny-slider.css"
+<link href="${path}/resources/libs/tiny-slider/dist/tiny-slider.css"
 	rel="stylesheet" />
 
 <%@include file="../common/headLinks.jsp"%>
@@ -75,30 +73,31 @@
 											</c:otherwise>
 										</c:choose>
 									</c:forEach>
-								</small>
-								<span class="text-muted small">
-									<fmt:formatNumber
+								</small> <span class="text-muted small"> <fmt:formatNumber
 										value="${detail.review_avg}" type="number"
-										maxFractionDigits="2" />
-									(${detail.review_count})
+										maxFractionDigits="2" /> (${detail.review_count})
 								</span>
 							</div>
-							
+
 							<!-- hr -->
 							<hr class="my-6" />
 							<div class="mb-5">
-								<button type="button" class="btn btn-outline-secondary" value="6">6개월</button>
+								<button type="button" class="btn btn-outline-secondary"
+									value="6">6개월</button>
 								<!-- btn -->
-								<button type="button" class="btn btn-outline-secondary" value="12">1년</button>
+								<button type="button" class="btn btn-outline-secondary"
+									value="12">1년</button>
 								<!-- btn -->
-								<button type="button" class="btn btn-outline-secondary" value="24">2년</button>
+								<button type="button" class="btn btn-outline-secondary"
+									value="24">2년</button>
 							</div>
 							<!-- hr -->
 							<hr class="my-6" />
 							<div class="fs-4">
 								<!-- price -->
-								<span class="fw-bold text-dark">
-									월 <fmt:formatNumber value="${detail.product_pay}" type="number" pattern="#,###"/> 원
+								<span class="fw-bold text-dark"> 월 <fmt:formatNumber
+										value="${detail.product_pay}" type="number" pattern="#,###" />
+									원
 								</span>
 							</div>
 							<!-- hr -->
@@ -165,8 +164,8 @@
 								<div class="my-8">
 									<!-- 상품 디테일 이미지 불러오기 ~~~~ -->
 									<img
-									src="https://rentally.s3.ap-northeast-2.amazonaws.com/${detail.category_seq}/${detail.product_detail}"
-									alt="상품상세설명이미지" />
+										src="https://rentally.s3.ap-northeast-2.amazonaws.com/${detail.category_seq}/${detail.product_detail}"
+										alt="상품상세설명이미지" />
 								</div>
 							</div>
 							<!-- tab pane -->
@@ -217,7 +216,7 @@
 								<div class="my-8">
 									<!-- row -->
 									<div class="row">
-										
+
 										<!-- col -->
 										<div class="col-md-12">
 											<div class="mb-10">
@@ -237,12 +236,13 @@
 												<div class="d-flex border-bottom pb-6 mb-6">
 
 													<div class="ms-5">
-														<h6 class="mb-1">Shankar Subbaraman</h6>
+														<h6 class="mb-1">${reviewList.cust_id}</h6>
 														<!-- select option -->
 														<!-- content -->
 														<p class="small">
 															<!-- 리뷰DTO가져와야함 -->
-															<span class="text-muted"> ${review_date} </span>
+															<span class="text-muted">
+																${reviewList.review_date} </span>
 														</p>
 														<!-- rating -->
 														<div class="mb-2">
@@ -250,11 +250,11 @@
 																class="bi bi-star-fill text-warning"></i> <i
 																class="bi bi-star-fill text-warning"></i> <i
 																class="bi bi-star-fill text-warning"></i> <i
-																class="bi bi-star-fill text-warning"></i> 
+																class="bi bi-star-fill text-warning"></i>
 														</div>
 														<!-- text-->
-														<p>${review_content }</p>
-														
+														<p>${reviewList.review_content}</p>
+
 														<!-- icon -->
 														<div class="d-flex justify-content-end mt-4">
 															<a href="#" class="text-muted"> <i
@@ -284,17 +284,48 @@
 		</section>
 
 	</main>
+	<!-- 장바구니 추가 확인 모달 -->
+	<div class="modal fade" id="cartModal" tabindex="-1"
+		aria-labelledby="reviewModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="reviewModalLabel">리뷰 작성</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<form action="review/add" method="post">
+					<div class="modal-body">
+						
+						
+						<!-- Textarea for Review -->
+						<div class="mb-4">
+							<label for="cartText" class="form-label">
+								장바구니에 상품이 성공적으로 담겼습니다.
+							</label>
+							
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">쇼핑 계속하기</button>
+						<button id="moveCart" type="button" class="btn btn-info">
+							장바구니 이동</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	<!-- Footer -->
 	<%@include file="../common/footer.jsp"%>
 
 
 	<!-- Javascript-->
 	<script src="${path}/resources/libs/rater-js/index.js"></script>
-	<script src="${path}/resources/libs/dropzone/dist/min/dropzone.min.js"></script>
 	<script src="${path}/resources/js/vendors/jquery.min.js"></script>
-	<script src="${path}/resources/libs/tiny-slider/dist/min/tiny-slider.js"></script>
+	<script
+		src="${path}/resources/libs/tiny-slider/dist/min/tiny-slider.js"></script>
 	<script src="${path}/resources/js/vendors/tns-slider.js"></script>
 	<script src="${path}/resources/js/vendors/zoom.js"></script>
-	<script src="${path}/resources/js/vendors/dropzone.js"></script>
 </body>
 </html>
