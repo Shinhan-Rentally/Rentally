@@ -237,7 +237,7 @@
     event.preventDefault();
     cust_seq = ${custInfo.cust_seq};
     $.ajax({
-      url: '${path}/customer/update',
+      url: `${path}/customer/\${cust_seq}/update`,
       type: 'post',
       data: {
         cust_seq:cust_seq,
@@ -247,6 +247,7 @@
       },
       success: function (response){
         alert("updateInfo success"+ response);
+        location.reload();
       }
     })
 
@@ -256,7 +257,7 @@
     cust_seq = ${custInfo.cust_seq};
 
     $.ajax({
-      url: '${path}/customer/delete',
+      url: `${path}/customer/\${cust_seq}/delete`,
       type: 'post',
       data: {cust_seq:cust_seq},
       success: function(response) {
@@ -287,7 +288,7 @@
 
     // 비밀번호 확인과 변경 요청을 한 번에 처리
     $.ajax({
-      url: '${path}/customer/updatepw', // 단일 요청 처리 API
+      url: `${path}/customer/\${cust_seq}/updatepw`, // 단일 요청 처리 API
       type: "post",
       data: {
         cust_seq:cust_seq,
@@ -297,6 +298,7 @@
       success: function (response) {
         if (response.success) {
           alert("비밀번호가 성공적으로 변경되었습니다.");
+          location.reload();
         } else if (response.error === "incorrect_password") {
           alert("현재 비밀번호가 일치하지 않습니다.");
         } else {
