@@ -111,5 +111,10 @@ public class ProductListController {
        // 검색 결과 페이지로 이동
        return "product/productFilter"; // 검색 결과를 보여주는 JSP 페이지
    }
-	
+
+	@GetMapping("/detail")
+	public String productDetail(int product_seq, Model model) {
+		model.addAttribute("detail", productlistService.selectProductDetail(product_seq));
+		return "product/detail";
+	}
 }
