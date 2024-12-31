@@ -58,22 +58,21 @@
 		FROM
 		PRODUCT P
 		LEFT JOIN
-		REVIEW R ON P.product_seq =
-		R.product_seq
+		SUBSCRIBE S ON P.product_seq = S.product_seq
 		LEFT JOIN
-		CUSTOMER C ON R.cust_seq = C.cust_seq
+		REVIEW R ON S.sub_seq = R.sub_seq
+		LEFT JOIN
+		CUSTOMER C ON S.cust_seq = C.cust_seq
 		WHERE
 		R.review_seq IN (
 		SELECT review_seq
 		FROM REVIEW
-		WHERE product_seq =
-		P.product_seq
+		WHERE sub_seq = S.sub_seq
 		ORDER BY review_rate DESC, review_date DESC
 		LIMIT 3
 		)
-		ORDER
-		BY
-		P.product_seq, R.review_rate DESC
+		ORDER BY
+		P.product_seq, R.review_rate DESC ;
 	</select>
 
 
