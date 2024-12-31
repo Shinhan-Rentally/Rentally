@@ -51,38 +51,6 @@
             </div>
           </a>
         </li>
-<%--        <li class="nav-item">--%>
-<%--          <a class="nav-link @@if(context.page === 'products'){active}" href="${path}/admin/product/list">--%>
-<%--            <div class="d-flex align-items-center">--%>
-<%--              <span class="nav-link-icon"><i class="bi bi-cart"></i></span>--%>
-<%--              <span class="nav-link-text">Products</span>--%>
-<%--            </div>--%>
-<%--          </a>--%>
-<%--        </li>--%>
-<%--        <li class="nav-item">--%>
-<%--          <a class="nav-link @@if(context.page === 'orders'){active}" href="${path}/admin/order/list">--%>
-<%--            <div class="d-flex align-items-center">--%>
-<%--              <span class="nav-link-icon"><i class="bi bi-bag"></i></span>--%>
-<%--              <span class="nav-link-text">Orders</span>--%>
-<%--            </div>--%>
-<%--          </a>--%>
-<%--        </li>--%>
-<%--        <li class="nav-item">--%>
-<%--          <a class="nav-link @@if(context.page === 'customers'){active}" href="${path}/admin/customer/list">--%>
-<%--            <div class="d-flex align-items-center">--%>
-<%--              <span class="nav-link-icon"><i class="bi bi-people"></i></span>--%>
-<%--              <span class="nav-link-text">Customers</span>--%>
-<%--            </div>--%>
-<%--          </a>--%>
-<%--        </li>--%>
-<%--        <li class="nav-item">--%>
-<%--          <a class="nav-link @@if(context.page === 'reviews'){active}" href="${path}/admin/review/list">--%>
-<%--            <div class="d-flex align-items-center">--%>
-<%--              <span class="nav-link-icon"><i class="bi bi-star"></i></span>--%>
-<%--              <span class="nav-link-text">Reviews</span>--%>
-<%--            </div>--%>
-<%--          </a>--%>
-<%--        </li>--%>
       </ul>
     </div>
   </div>
