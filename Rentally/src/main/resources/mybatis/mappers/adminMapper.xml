@@ -6,6 +6,7 @@
 
     <select id="selectProducts" resultType="ProductVO">
         select * from product
+        join category using (category_seq)
     </select>
 
     <select id="selectReviews" resultType="ReviewVO">
@@ -34,6 +35,7 @@
         select
         p.product_img,
         p.product_serial,
+        p.category_seq,
         c.cust_name,
         s.sub_date,
         s.sub_card,
@@ -46,9 +48,49 @@
         join
         product p on s.product_seq = p.product_seq;
     </select>
+
     <update id="deleteProduct" parameterType="int">
         update product
         set product_grade = 'F'
         where product_seq = #{product_seq}
     </update>
+
+    <insert id="insertProduct" parameterType="ProductVO">
+        insert into product
+        (
+        product_seq,
+        category_seq,
+        product_serial,
+        product_name,
+        product_img,
+        product_detail,
+        product_pay,
+        product_brand,
+        product_grade,
+        product_date,
+        product_height,
+        product_weight,
+        product_wh,
+        product_color,
+        product_features
+        )
+        values
+        (
+        nextval('product_seq'),
+        #{category_seq},
+        #{product_serial},
+        #{product_name},
+        #{product_img},
+        #{product_detail},
+        #{product_pay},
+        #{product_brand},
+        #{product_grade},
+        #{product_date},
+        #{product_height},
+        #{product_weight},
+        #{product_wh},
+        #{product_color},
+        #{product_features}
+        )
+    </insert>
 </mapper>

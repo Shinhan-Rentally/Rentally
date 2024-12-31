@@ -1,19 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- BootStrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Favicon icon-->
-    <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon/favicon.ico">
-    <!-- Theme CSS -->
-    <!-- build:css @@webRoot/assets/css/theme.min.css -->
-    <link rel="stylesheet" href="resources/css/theme.css">
-    <link href="resources/libs/slick-carousel/slick/slick.css" rel="stylesheet" />
-    <link href="resources/libs/slick-carousel/slick/slick-theme.css" rel="stylesheet" />
-    <link href="resources/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet" />
 
     <meta charset="UTF-8">
     <%@ include file="../common/headMeta.jsp" %>
@@ -22,6 +15,9 @@
     <!-- @@include("../partials/head/head-links.html") @@include("../partials/head/analytics-code.html") @@include("../partials/head/clarity.html") -->
     <!-- star style -->
     <style>
+        .product-name {
+            white-space: pre-wrap; /* 줄바꿈 문자를 인식하도록 설정 */
+        }
         .star-rating {
             font-size: 1.5rem;
             cursor: pointer;
@@ -109,7 +105,7 @@
                 <div class="col-lg-9 col-md-8 col-12">
                     <div class="py-6 p-md-6 p-lg-10">
                         <!-- heading -->
-                        <h2 class="mb-6">Your Orders</h2>
+                        <h2 class="mb-6">주문내역</h2>
 
                         <div class="table-responsive-xxl border-0">
                             <!-- Table -->
@@ -118,10 +114,9 @@
                                 <thead class="bg-light">
                                 <tr>
                                     <th>&nbsp;</th>
-                                    <th>Product</th>
-                                    <th>Order</th>
-                                    <th>Date</th>
-                                    <th>Amount</th>
+                                    <th>상품명</th>
+                                    <th>결제일</th>
+                                    <th>구독료</th>
                                     <th>리뷰등록</th>
 
                                     <th></th>
@@ -133,22 +128,28 @@
                                         <td class="align-middle border-top-0 w-0">
                                             <a href="#"><img
                                                     src="https://rentally.s3.ap-northeast-2.amazonaws.com/${order.category_seq}/${order.product_img}"
-                                                    width="64"
-                                                    height="64"
-                                                    style="object-fit: cover;"
+                                                    class="icon-shape icon-xl"
                                             /></a>
                                         </td>
                                         <td class="align-middle border-top-0">
                                             <a href="#" class="fw-semibold text-inherit">
-                                                <h6 class="mb-0">${order.product_name}</h6>
+                                                <h6 class="mb-0 product-name">${order.product_name}</h6>
                                             </a>
-                                            <span><small class="text-muted">${order.product_features}</small></span>
-                                        </td>
-                                        <td class="align-middle border-top-0">
-                                            <a href="#" class="text-inherit">${order.product_serial}</a>
+                                            <span>
+	                                       	<small class="text-muted">
+	                                       	<c:if test="${order.sub_period >= 12}">
+                                                <fmt:formatNumber value="${order.sub_period/12}" type="number"/>년
+                                            </c:if>
+	                                       	<c:if test="${order.sub_period < 12}">
+                                                ${order.sub_period}개월
+                                            </c:if>
+	                                       	</small>
+	                                       </span>
                                         </td>
                                         <td class="align-middle border-top-0">${order.sub_date}</td>
-                                        <td class="align-middle border-top-0">${order.product_pay}</td>
+                                        <td class="align-middle border-top-0">
+                                            <fmt:formatNumber value="${order.sub_total}" type="number" pattern="#,###"/>원
+                                        </td>
                                         <td class="align-middle border-top-0">
                                             <button type="button"
                                                     class="btn btn-info review-btn"
@@ -157,7 +158,7 @@
                                                     data-product="Haldiram's Nagpur Aloo Bhujia"
                                                     data-cust-seq="${order.cust_seq}"
                                                     data-product-name="${order.product_name}"
-                                                    data-product-seq="${order.product_seq}">
+                                                    data-sub-seq="${order.sub_seq}">
                                                 리뷰작성
                                             </button>
                                         </td>
@@ -172,74 +173,12 @@
         </div>
     </section>
 </main>
-<!-- modal -->
-
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasAccount" aria-labelledby="offcanvasAccountLabel">
-    <!-- offcanvas header -->
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasAccountLabel">Offcanvas</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <!-- offcanvas body -->
-    <div class="offcanvas-body">
-        <ul class="nav flex-column nav-pills nav-pills-dark">
-            <!-- nav item -->
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="account-orders.html">
-                    <i class="feather-icon icon-shopping-bag me-2"></i>
-                    Your Orders
-                </a>
-            </li>
-            <!-- nav item -->
-            <li class="nav-item">
-                <a class="nav-link" href="account-settings.html">
-                    <i class="feather-icon icon-settings me-2"></i>
-                    Settings
-                </a>
-            </li>
-            <!-- nav item -->
-            <li class="nav-item">
-                <a class="nav-link" href="account-address.html">
-                    <i class="feather-icon icon-map-pin me-2"></i>
-                    Address
-                </a>
-            </li>
-            <!-- nav item -->
-            <li class="nav-item">
-                <a class="nav-link" href="account-payment-method.html">
-                    <i class="feather-icon icon-credit-card me-2"></i>
-                    Payment Method
-                </a>
-            </li>
-            <!-- nav item -->
-            <li class="nav-item">
-                <a class="nav-link" href="account-notification.html">
-                    <i class="feather-icon icon-bell me-2"></i>
-                    Notification
-                </a>
-            </li>
-        </ul>
-        <hr class="my-6" />
-        <div>
-            <!-- nav  -->
-            <ul class="nav flex-column nav-pills nav-pills-dark">
-                <!-- nav item -->
-                <li class="nav-item">
-                    <a class="nav-link" href="../index.html">
-                        <i class="feather-icon icon-log-out me-2"></i>
-                        Log out
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
 <!-- 리뷰 등록 모달 -->
 <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="reviewModalLabel">Create Review</h5>
+                <h5 class="modal-title" id="reviewModalLabel">리뷰 작성</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="review/add" method="post">
@@ -250,7 +189,7 @@
                                readonly>
                     </div>
                     <div class="mb-4">
-                        <label class="form-label fw-bold">Overall rating</label>
+                        <label class="form-label fw-bold">별점을 매겨주세요</label>
                         <div class="star-rating">
                             <i class="bi bi-star" data-value="1"></i>
                             <i class="bi bi-star" data-value="2"></i>
@@ -261,7 +200,7 @@
                     </div>
                     <!-- Textarea for Review -->
                     <div class="mb-3">
-                        <label for="reviewText" class="form-label">Add a written review</label>
+                        <label for="reviewText" class="form-label">어떤 점이 좋았나요?</label>
                         <textarea class="form-control" id="reviewText" rows="3" placeholder="상품과 관련된 리뷰를 작성해주세요."></textarea>
                     </div>
                 </div>
@@ -275,20 +214,17 @@
 </div>
 
 <!-- Javascript-->
-<!--@@include("../partials/scripts.html")-->
-<script src="resources/js/vendors/jquery.min.js"></script>
-<script src="resources/js/vendors/countdown.js"></script>
-<script src="resources/libs/slick-carousel/slick/slick.min.js"></script>
-<script src="resources/js/vendors/slick-slider.js"></script>
-<script src="resources/libs/tiny-slider/dist/min/tiny-slider.js"></script>
-<script src="resources/js/vendors/tns-slider.js"></script>
-<script src="resources/js/vendors/zoom.js"></script>
+<!-- Javascript-->
+<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
+<script src="${path}/resources/js/main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Footer -->
 <%@ include file="../common/footer.jsp" %>
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
     // 별점 컨테이너 가져오기
     const stars = document.querySelectorAll('.star-rating .bi');
@@ -319,13 +255,13 @@
             button.addEventListener("click", function () {
                 // 버튼의 data-* 속성 값 가져오기
                 const custSeq = this.getAttribute("data-cust-seq");
-                const productSeq = this.getAttribute("data-product-seq");
+                const subSeq = this.getAttribute("data-sub-seq");
                 const productName = this.getAttribute("data-product-name");
 
                 // 모달에 데이터 설정
                 const reviewModal = document.getElementById("reviewModal");
                 reviewModal.setAttribute("data-cust-seq", custSeq);
-                reviewModal.setAttribute("data-product-seq", productSeq);
+                reviewModal.setAttribute("data-sub-seq", subSeq);
                 document.getElementById('productInfo').value = productName;
 
             });
@@ -338,18 +274,18 @@
             // 모달에서 설정된 데이터 가져오기
             reviewModal = document.getElementById("reviewModal");
             custSeq = reviewModal.getAttribute("data-cust-seq");
-            productSeq = reviewModal.getAttribute("data-product-seq");
+            subSeq = reviewModal.getAttribute("data-sub-seq");
             reviewContent = document.getElementById("reviewText").value;
             reviewRate = document.querySelectorAll(".bi-star-fill").length;
 
             $.ajax({
-                url: `/shinhan_war_exploded/review/${custSeq}/add`,
+                url: `${path}/review/${custSeq}/add`,
                 type: "POST",
                 contentType: "application/json",
                 //data: JSON.stringify(reviewData),
                 data: JSON.stringify({
                     cust_seq: custSeq,
-                    product_seq: productSeq,
+                    sub_seq: subSeq,
                     review_content: reviewContent,
                     review_rate: reviewRate
                 }),
