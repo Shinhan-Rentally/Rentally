@@ -24,9 +24,8 @@
 						<!-- breadcrumb -->
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb mb-0">
-								<li class="breadcrumb-item"><a href="#">Home</a></li>
-								<li class="breadcrumb-item"><a href="#">${detail.category_name}</a></li>
-
+								<li class="breadcrumb-item"><a href="${path}/main.jsp">Home</a></li>
+								<li class="breadcrumb-item"><a href="${path}/product/list?category_seq=${detail.category_seq}">${detail.category_name}</a></li>
 								<li class="breadcrumb-item active" aria-current="page">${detail.product_name}</li>
 							</ol>
 						</nav>
@@ -62,10 +61,10 @@
 								<small class="text-warning">
 									<c:forEach var="i" begin="1" end="5">
 										<c:choose>
-											<c:when test="${i <= (detail.review_avg)}">
+											<c:when test="${i <= (reviewList.review_avg)}">
 												<i class="bi bi-star-fill"></i>
 											</c:when>
-											<c:when test="${i - 0.5 <= detail.review_avg}">
+											<c:when test="${i - 0.5 <= reviewList.review_avg}">
 												<i class="bi bi-star-half"></i>
 											</c:when>
 											<c:otherwise>
@@ -74,13 +73,14 @@
 										</c:choose>
 									</c:forEach>
 								</small> <span class="text-muted small"> <fmt:formatNumber
-										value="${detail.review_avg}" type="number"
-										maxFractionDigits="2" /> (${detail.review_count})
+										value="${reviewList.review_avg}" type="number"
+										maxFractionDigits="2" /> (${reviewList.review_count})
 								</span>
 							</div>
 
 							<!-- hr -->
 							<hr class="my-6" />
+							<h6>구독 기간 선택</h6>
 							<div class="mb-5">
 								<button type="button" class="btn btn-outline-secondary"
 									value="6">6개월</button>
