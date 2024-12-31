@@ -4,15 +4,6 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rental.shinhan.review">
 
-	<insert id="insertReview">
-		insert into review
-		(cust_seq, product_seq,
-		review_content, review_rate, review_date)
-		VALUES
-		(#{cust_seq},
-		#{product_seq}, #{review_content}, #{review_rate}, CURRENT_TIMESTAMP)
-	</insert>
-
 	<!-- 상품 상세보기 - 리뷰조회 -->
 	<select id="selectReview" parameterType="int"
 		resultType="ReviewVO">
@@ -61,5 +52,12 @@
 		ORDER BY
 		R.review_rate DESC
 	</select>
+
+    <insert id="insertReview">
+        insert into review
+        (sub_seq, review_content, review_rate, review_date)
+        VALUES
+        (#{sub_seq}, #{review_content}, #{review_rate}, CURRENT_TIMESTAMP)
+    </insert>
 
 </mapper>
