@@ -14,4 +14,8 @@ public class JoinService {
 	public int insertService(CustomerDTO cust) {
 		return joinDAO.insert(cust);
 	}
+	
+	public boolean checkIdService(String cust_id) {
+		return joinDAO.checkId(cust_id);
+	}
 }

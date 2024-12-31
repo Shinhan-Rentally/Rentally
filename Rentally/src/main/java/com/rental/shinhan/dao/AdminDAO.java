@@ -43,4 +43,9 @@ public class AdminDAO implements AdminInterface {
         int result = sqlSession.update(namespace + "deleteProduct", productSeq);
         return result;
     }
+
+    public int insertProduct(ProductDTO product) {
+        int result = sqlSession.insert(namespace + "insertProduct", product);
+        return result;
+    }
 }
