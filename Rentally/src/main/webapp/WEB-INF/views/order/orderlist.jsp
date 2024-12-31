@@ -5,14 +5,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- BootStrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <meta charset="UTF-8">
     <%@ include file="../common/headMeta.jsp" %>
     <title>주문내역</title>
     <%@ include file="../common/headLinks.jsp" %>
-    <!-- @@include("../partials/head/head-links.html") @@include("../partials/head/analytics-code.html") @@include("../partials/head/clarity.html") -->
     <!-- star style -->
     <style>
         .product-name {
@@ -151,16 +147,32 @@
                                             <fmt:formatNumber value="${order.sub_total}" type="number" pattern="#,###"/>원
                                         </td>
                                         <td class="align-middle border-top-0">
-                                            <button type="button"
-                                                    class="btn btn-info review-btn"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#reviewModal"
-                                                    data-product="Haldiram's Nagpur Aloo Bhujia"
-                                                    data-cust-seq="${order.cust_seq}"
-                                                    data-product-name="${order.product_name}"
-                                                    data-sub-seq="${order.sub_seq}">
-                                                리뷰작성
-                                            </button>
+                                                <c:if test="${order.review_written == false}">
+                                                    <!-- 리뷰 작성 버튼 활성화 -->
+                                                    <button type="button"
+                                                            class="btn btn-info review-btn"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#reviewModal"
+                                                            data-product="${order.product_name}"
+                                                            data-cust-seq="${order.cust_seq}"
+                                                            data-product-name="${order.product_name}"
+                                                            data-sub-seq="${order.sub_seq}">
+                                                        리뷰 작성
+                                                    </button>
+                                                </c:if>
+
+                                                <c:if test="${order.review_written == true}">
+                                                    <!-- 리뷰 작성 버튼 비활성화 -->
+                                                    <button type="button"
+                                                            class="btn btn-secondary review-btn"
+                                                            disabled
+                                                            data-product="${order.product_name}"
+                                                            data-cust-seq="${order.cust_seq}"
+                                                            data-product-name="${order.product_name}"
+                                                            data-sub-seq="${order.sub_seq}">
+                                                        리뷰 완료
+                                                    </button>
+                                                </c:if>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -219,8 +231,6 @@
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="${path}/resources/js/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Footer -->
 <%@ include file="../common/footer.jsp" %>

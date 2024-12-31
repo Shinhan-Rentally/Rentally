@@ -4,6 +4,7 @@ import com.rental.shinhan.dto.ReviewDTO;
 import com.rental.shinhan.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -25,4 +26,9 @@ public class ReviewController {
         return result+"";
     }
 
+    @GetMapping("/ratehigh")
+    public String selectReview(int product_seq, Model model) {
+    	model.addAttribute("reviewList", reviewService.selectReview(product_seq));
+    	return "product/detail";
+    }
 }
