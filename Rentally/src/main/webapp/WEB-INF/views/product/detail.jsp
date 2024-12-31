@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +25,7 @@
 						<!-- breadcrumb -->
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb mb-0">
-								<li class="breadcrumb-item"><a href="${path}/main.jsp">Home</a></li>
+								<li class="breadcrumb-item"><a href="${path}/main">Home</a></li>
 								<li class="breadcrumb-item"><a href="${path}/product/list?category_seq=${detail.category_seq}">${detail.category_name}</a></li>
 								<li class="breadcrumb-item active" aria-current="page">${detail.product_name}</li>
 							</ol>
@@ -55,16 +56,17 @@
 							<a href="#!" class="mb-4 d-block">${detail.product_brand}</a>
 							<!-- heading -->
 							<h1 class="mb-1">${detail.product_name}</h1>
+<!-- -------------------------------------------------- -->
 							<div class="mb-4">
-								<!-- rating -->
+								
 								<!-- rating -->
 								<small class="text-warning">
 									<c:forEach var="i" begin="1" end="5">
 										<c:choose>
-											<c:when test="${i <= (reviewList.review_avg)}">
+											<c:when test="${i <= (reviewList[0].review_avg)}">
 												<i class="bi bi-star-fill"></i>
 											</c:when>
-											<c:when test="${i - 0.5 <= reviewList.review_avg}">
+											<c:when test="${i - 0.5 <= reviewList[0].review_avg}">
 												<i class="bi bi-star-half"></i>
 											</c:when>
 											<c:otherwise>
@@ -72,17 +74,17 @@
 											</c:otherwise>
 										</c:choose>
 									</c:forEach>
-								</small> <span class="text-muted small"> <fmt:formatNumber
-										value="${reviewList.review_avg}" type="number"
-										maxFractionDigits="2" /> (${reviewList.review_count})
+								</small>
+								<span class="text-muted small">
+									<fmt:formatNumber
+										value="${reviewList[0].review_avg}" type="number"
+										maxFractionDigits="2" /> (${fn:length(reviewList)})
 								</span>
 							</div>
 
 							<!-- hr -->
 							<hr class="my-6" />
 							<h6>구독 기간 선택</h6>
-							<span>평균 별점: <span id="review_avg">0</span></span> <!-- 평균 별점 -->
-<span>리뷰 수: <span id="review_count">0</span></span> <!-- 리뷰 수 -->
 						
 							<div class="mb-5">
 								<button type="button" class="btn btn-outline-secondary"
@@ -239,13 +241,13 @@
 												<div class="d-flex border-bottom pb-6 mb-6">
 
 													<div class="ms-5">
-														<h6 class="mb-1">${reviewList.cust_id}</h6>
+														<h6 class="mb-1">\${reviewList.cust_id}</h6>
 														<!-- select option -->
 														<!-- content -->
 														<p class="small">
 															<!-- 리뷰DTO가져와야함 -->
 															<span class="text-muted">
-																${reviewList.review_date} </span>
+																\${reviewList.review_date} </span>
 														</p>
 														<!-- rating -->
 														<div class="mb-2">
@@ -256,7 +258,7 @@
 																class="bi bi-star-fill text-warning"></i>
 														</div>
 														<!-- text-->
-														<p>${reviewList.review_content}</p>
+														<p>\${reviewList.review_content}</p>
 
 														<!-- icon -->
 														<div class="d-flex justify-content-end mt-4">
@@ -331,20 +333,5 @@
 	<script src="${path}/resources/js/vendors/tns-slider.js"></script>
 	<script src="${path}/resources/js/vendors/zoom.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-	<script>
-	$.ajax({
-	    url: '/review/ratehigh',  // Controller에서 정의한 URL
-	    type: 'GET',
-	    data: { product_seq: 8 },  // 요청할 상품의 product_seq 값
-	    success: function(response) {
-	        // 응답받은 review_avg와 review_count를 화면에 업데이트
-	        $('#review_avg').text(response.review_avg);  // 평균 별점 표시
-	        $('#review_count').text(response.review_count);  // 리뷰 카운트 표시
-	    },
-	    error: function(xhr, status, error) {
-	        console.error("AJAX 요청 실패:", error);
-	    }
-	});
-	</script>
 </body>
 </html>
