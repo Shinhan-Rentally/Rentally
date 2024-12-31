@@ -7,28 +7,28 @@
       <ul class="nav flex-column nav-pills nav-pills-dark">
          <!-- nav item -->
          <li class="nav-item">
-            <a class="nav-link ${page == 'order' ? 'active' : ''}" href="${path}/order/${cust_seq}/list">
+            <a class="nav-link ${page == 'order' ? 'active' : ''}" href="${path}/order/list">
                <i class="feather-icon icon-shopping-bag me-2"></i>
                주문내역
             </a>
          </li>
          <!-- nav item -->
          <li class="nav-item">
-            <a class="nav-link ${page == 'subscribe' ? 'active' : ''}" aria-current="page" href="${path}/subscribe/list">
+            <a class="nav-link ${page == 'subscribe' ? 'active' : ''}" href="${path}/subscribe/list">
                <i class="feather-icon icon-shopping-bag me-2"></i>
                구독현황
             </a>
          </li>
          <!-- nav item -->
          <li class="nav-item">
-            <a class="nav-link ${page == 'settings' ? 'active' : ''}" href="">
+            <a class="nav-link ${page == 'settings' ? 'active' : ''}" href="${path}/customer/list">
                <i class="feather-icon icon-settings me-2"></i>
                설정
             </a>
          </li>
          <!-- nav item -->
          <li class="nav-item">
-            <a class="nav-link ${page == 'address' ? 'active' : ''}" href="">
+            <a class="nav-link ${page == 'address' ? 'active' : ''}" href="${path}/address/list">
                <i class="feather-icon icon-map-pin me-2"></i>
                주소지
             </a>
@@ -39,9 +39,9 @@
          </li>
          <!-- nav item -->
          <li class="nav-item">
-            <a class="nav-link" href="">
+            <a class="nav-link" href="${path}/logout">
                <i class="feather-icon icon-log-out me-2"></i>
-               Log out
+               로그아웃
             </a>
          </li>
       </ul>
