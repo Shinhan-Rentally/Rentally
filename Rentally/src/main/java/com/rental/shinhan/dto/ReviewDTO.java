@@ -17,4 +17,5 @@ public class ReviewDTO {
     String review_content;
     int review_rate;
     Date review_date;
+    double review_avg;
 }
