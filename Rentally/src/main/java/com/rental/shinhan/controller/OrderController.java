@@ -24,6 +24,7 @@ public class OrderController {
     public String getOrders(@PathVariable int custSeq, Model model) {
         List<SubscribeListJoinDTO> orders = orderService.findOrders(custSeq);
         model.addAttribute("myOrders",orders);
+        System.out.println(orders);
         return "/order/orderlist";
     }
 }
