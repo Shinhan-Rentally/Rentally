@@ -38,11 +38,16 @@ LEFT JOIN
     subscribe s on P.product_seq = s.product_seq
 LEFT JOIN
     review r on r.sub_seq = s.sub_seq
-WHERE
-    P.category_seq = #{category_seq}
+<where>
+    <if test="category_seq != 0">
+        P.category_seq = #{category_seq}
+    </if>
+
+    <!-- 브랜드 필터 -->
     <if test="product_brand != null and product_brand != ''">
         AND P.product_brand = #{product_brand}
     </if>
+
     <!-- 가격대 필터 -->
     <if test="priceRange != null">
         AND (
@@ -56,27 +61,28 @@ WHERE
             OR #{priceRange} LIKE '%above100k%' AND P.product_pay > 100000
         )
     </if>
+</where>
 GROUP BY 
     P.product_seq, P.product_serial, P.product_name, P.product_img, 
     P.product_detail, P.product_pay, P.product_brand, P.product_grade, 
     P.product_date, P.product_height, P.product_weight, P.product_wh, 
     P.product_color, P.product_features, C.category_name, C.category_seq
 <choose>
-        <when test="sort == 'Low to High'">
-            ORDER BY P.product_pay ASC
-        </when>
-        <when test="sort == 'High to Low'">
-            ORDER BY P.product_pay DESC
-        </when>
-        <when test="sort == 'Release Date'">
-            ORDER BY P.product_date DESC
-        </when>
-        <when test="sort == 'Avg. Rating'">
-            ORDER BY product_popularity DESC
-        </when>
-        <otherwise>
-            ORDER BY product_popularity DESC  
-        </otherwise>
+    <when test="sort == 'Low to High'">
+        ORDER BY P.product_pay ASC
+    </when>
+    <when test="sort == 'High to Low'">
+        ORDER BY P.product_pay DESC
+    </when>
+    <when test="sort == 'Release Date'">
+        ORDER BY P.product_date DESC
+    </when>
+    <when test="sort == 'Avg. Rating'">
+        ORDER BY review_avg DESC
+    </when>
+    <otherwise>
+        ORDER BY product_popularity DESC  
+    </otherwise>
     </choose>
 	</select>
 
@@ -175,10 +181,15 @@ LEFT JOIN
     review r on r.sub_seq = s.sub_seq
 <if test="query != null and query != ''">
     WHERE 
-        P.product_name ILIKE '%' || #{query} || '%' 
-        OR P.product_serial ILIKE '%' || #{query} || '%' 
-        OR P.product_brand ILIKE '%' || #{query} || '%' 
-        OR C.category_name ILIKE '%' || #{query} || '%'
+        (P.product_serial ILIKE '%' || #{query} || '%')
+        OR (P.product_name ILIKE '%' || #{query} || '%')
+        OR (P.product_brand ILIKE '%' || #{query} || '%')
+        OR (P.product_height ILIKE '%' || #{query} || '%')
+        OR (P.product_weight ILIKE '%' || #{query} || '%')
+        OR (P.product_wh ILIKE '%' || #{query} || '%')
+        OR (P.product_color ILIKE '%' || #{query} || '%')
+        OR (P.product_features ILIKE '%' || #{query} || '%')
+        OR (C.category_name ILIKE '%' || #{query} || '%')
 </if>
 <if test="query == null or query == ''">
     WHERE 1=1
@@ -188,9 +199,7 @@ GROUP BY
     P.product_detail, P.product_pay, P.product_brand, P.product_grade, 
     P.product_date, P.product_height, P.product_weight, P.product_wh, 
     P.product_color, P.product_features, C.category_name, C.category_seq
-ORDER BY P.product_date DESC;
-
-
+ORDER BY P.product_date DESC
     </select>
 	
 </mapper>

@@ -32,19 +32,15 @@ public class ProductListController {
 
 	// 필터기능 추가
 	@GetMapping("/list")
-	public String productlist(@RequestParam("category_seq") int category_seq, Model model,
-			@RequestParam(value = "brand", required = false) String product_brand,
-			@RequestParam(value = "priceRange", required = false) String priceRange,
-			@RequestParam(value = "sort", defaultValue = "popular") String sort) {
-
+	public String productlist( ) {
 		// 모델에 상품 리스트 추가
-
-		model.addAttribute("category_seq", category_seq); // 선택된 카테고리 정보 전달
-
-		List<ProductListJoinDTO> productlist = productlistService.selectProductList(category_seq, product_brand,
-				priceRange, sort);
-		model.addAttribute("productlist", productlist);
-
+	
+		//model.addAttribute("category_seq", category_seq); // 선택된 카테고리 정보 전달
+	
+		//List<ProductListJoinDTO> productlist = productlistService.selectProductList(category_seq, product_brand,
+		//		priceRange, sort);
+		//model.addAttribute("productlist", productlist);
+		
 		return "product/productList"; // Return full page
 
 	}
@@ -74,7 +70,10 @@ public class ProductListController {
 		model.addAttribute("brand", product_brand); // 선택된 브랜드 정보 전달
 		model.addAttribute("priceRange", priceRange); // 선택된 가격 범위 전달
 		model.addAttribute("sort", sort); // 선택된 정렬 방식 전달
-
+		String category_name = productlist.isEmpty() ? "" : productlist.get(0).getCategory_name();
+		 // 모델에 가공된 데이터 추가
+        model.addAttribute("category_name", category_name);
+		
 		return "product/productFilter"; // Return partial view for AJAX
 
 	}
@@ -92,23 +91,6 @@ public class ProductListController {
 
 		return "product/upgrade";
 	}
-
-	// 검색기능
-	@GetMapping("search")
-	public String searchProducts(@RequestParam("query") String query, Model model) {
-		// 서비스 호출하여 검색된 상품 리스트 가져오기
-		List<ProductListJoinDTO> productlist = productlistService.searchProduct(query);
-
-		// 모델에 결과 추가
-		model.addAttribute("productlist", productlist);
-		model.addAttribute("productlistsize", productlist.size());
-		// 로그로 상품 수 출력
-		log.info("상품 목록 " + productlist.size() + "건");
-
-		// 검색 결과 페이지로 이동
-		return "product/productFilter"; // 검색 결과를 보여주는 JSP 페이지
-	}
-
 	@Autowired
 	ReviewService reviewService;
 
@@ -118,4 +100,20 @@ public class ProductListController {
 		model.addAttribute("reviewList", reviewService.selectReview(product_seq));
 		return "product/detail";
 	}
+	//검색기능 결과
+	@GetMapping("searchResult")
+	 public String searchProductResult( @RequestParam("query") String query,  Model model) {
+       // 서비스 호출하여 검색된 상품 리스트 가져오기
+      List<ProductListJoinDTO> productlist = productlistService.searchProduct(query);
+       //log.info(query);
+       // 모델에 결과 추가
+       model.addAttribute("query", query);
+       model.addAttribute("productlist", productlist);
+		model.addAttribute("productlistsize", productlist.size());
+		// 로그로 상품 수 출력
+		log.info("상품 목록 " + productlist.size() + "건");
+
+       // 검색 결과 페이지로 이동
+		return "product/productFilter"; // 검색 결과를 보여주는 JSP 페이지
+   }
 }
