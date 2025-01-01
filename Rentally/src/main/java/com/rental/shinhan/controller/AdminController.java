@@ -95,6 +95,7 @@ public class AdminController {
         return "";
     }
 
+    @ResponseBody
     @PostMapping(value = "/product/add",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<String> addProduct(
             @RequestPart(value= "product") ProductDTO product,
@@ -106,5 +107,10 @@ public class AdminController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/product/add")
+    public String addProduct() {
+        return "/admin/productAdd";
     }
 }
