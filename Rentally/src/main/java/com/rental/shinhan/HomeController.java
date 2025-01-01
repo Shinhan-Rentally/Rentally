@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.rental.shinhan.dto.BestProductJoinDTO;
+import com.rental.shinhan.dto.BestReviewJoinDTO;
 import com.rental.shinhan.dto.ProductListJoinDTO;
 import com.rental.shinhan.service.BestService;
 
@@ -36,9 +37,11 @@ public class HomeController {
 	public String home(Locale locale, Model model) {
 		
 		List<BestProductJoinDTO> bestproductlist= bService.selectBestProduct();
+		List<BestReviewJoinDTO> bestreviewlist = bService.selectBestReview();
 		
 		model.addAttribute("bestProduct", bestproductlist);
-				
+		model.addAttribute("bestReview", bestreviewlist);
+		
 		return "main";
 	}
 
@@ -48,8 +51,10 @@ public class HomeController {
 		
 		
 		List<BestProductJoinDTO> bestproductlist= bService.selectBestProduct();
+		List<BestReviewJoinDTO> bestreviewlist = bService.selectBestReview();
 		
 		model.addAttribute("bestProduct", bestproductlist);
+		model.addAttribute("bestReview", bestreviewlist);
 		
 		return "main";
 	}
