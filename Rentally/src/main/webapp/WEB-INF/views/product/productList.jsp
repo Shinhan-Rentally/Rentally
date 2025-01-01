@@ -132,13 +132,13 @@
 								<div class="d-flex mt-2 mt-lg-0">
 									<div>
 										<!-- select option -->
-										<select class="form-select">
-											<option selected>정렬기준</option>
-											<option value="Low to High">낮은 가격순</option>
-											<option value="High to Low">높은 가격순</option>
-											<option value="Release Date">출시일</option>
-											<option value="Avg. Rating">인기상품</option>
-										</select>
+			<!-- 정렬 기준 -->
+<select name="sort" class="form-select">
+    <option value="Low to High">낮은 가격순</option>
+    <option value="High to Low">높은 가격순</option>
+    <option value="Release Date">출시일</option>
+    <option value="Avg. Rating">인기상품</option>
+</select>
 									</div>
 								</div>
 							</div>
@@ -198,70 +198,70 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="${path}/resources/js/main.js"></script>
 	<script>
+	// 전역 변수로 선택된 브랜드와 가격대 저장
+	let selectedBrand = null;
+	let selectedPriceRanges = [];
+
 	// URL에서 category_seq 값을 추출하는 함수
 	function getCategorySeqFromURL() {
-    const params = new URLSearchParams(window.location.search); // URL의 쿼리스트링을 파싱
-    let category_seq = params.get('category_seq'); // URL에서 category_seq 값을 가져옴
+	    const params = new URLSearchParams(window.location.search); // URL의 쿼리스트링을 파싱
+	    let category_seq = params.get('category_seq'); // URL에서 category_seq 값을 가져옴
 
-    if (!category_seq) {
-        console.error('category_seq is missing in the URL'); // category_seq가 없을 경우 로그 출력
-    }
-    return category_seq; // category_seq 값을 반환
-}
-	
+	    if (!category_seq) {
+	        console.error('category_seq is missing in the URL'); // category_seq가 없을 경우 로그 출력
+	    }
+	    return category_seq; // category_seq 값을 반환
+	}
+
 	// 브랜드 필터 토글 (하나만 선택 가능)
-function toggleBrandFilter(button) {
-    // 선택된 브랜드 처리
-    if (button.classList.contains('btn-primary')) {
-        button.classList.remove('btn-primary');
-        button.classList.add('btn-outline-primary');
-    } else {
-        const buttons = document.querySelectorAll('.btn-group button');
-        buttons.forEach(btn => {
-            btn.classList.remove('btn-primary');
-            btn.classList.add('btn-outline-primary');
-        });
-        button.classList.remove('btn-outline-primary');
-        button.classList.add('btn-primary');
-    }
+	function toggleBrandFilter(button) {
+	    // 선택된 브랜드 처리
+	    if (button.classList.contains('btn-info')) {
+	        button.classList.remove('btn-info');
+	        button.classList.add('btn-outline-info');
+	        selectedBrand = null; // 선택 해제시 브랜드 필터 상태를 null로 설정
+	    } else {
+	        const buttons = document.querySelectorAll('.btn-group button');
+	        buttons.forEach(btn => {
+	            btn.classList.remove('btn-info');
+	            btn.classList.add('btn-outline-info');
+	        });
+	        button.classList.remove('btn-outline-info');
+	        button.classList.add('btn-info');
+	        selectedBrand = button.getAttribute('data-brand'); // 선택된 브랜드 업데이트
+	    }
 
-    // 선택된 브랜드 값
-    const selectedBrand = document.querySelector('.btn-group .btn-primary')?.getAttribute('data-brand');
-    
-    // 현재 가격대 필터 상태 확인
-    const selectedRanges = Array.from(document.querySelectorAll('#priceRangeToggle button.btn-primary'))
-        .map(btn => btn.getAttribute('data-value'));
+	    // 현재 가격대 필터 상태 확인
+	    selectedPriceRanges = Array.from(document.querySelectorAll('#priceRangeToggle button.btn-info'))
+	        .map(btn => btn.getAttribute('data-value'));
 
-    // 필터 적용
-    applyFilters(selectedBrand, selectedRanges.join(','));
-}
-
+	    // 필터 적용
+	    applyFilters();
+	}
 
 	// 가격대 필터 다중 선택 가능
 	function togglePriceRangeFilter(button) {
-    // 선택된 가격대 처리
-    button.classList.toggle('btn-primary');
-    button.classList.toggle('btn-outline-primary');
+	    // 선택된 가격대 처리
+	    button.classList.toggle('btn-info');
+	    button.classList.toggle('btn-outline-info');
 
-    // 선택된 가격대 필터 상태
-    const selectedRanges = Array.from(document.querySelectorAll('#priceRangeToggle button.btn-primary'))
-        .map(btn => btn.getAttribute('data-value'));
+	    // 선택된 가격대 필터 상태
+	    selectedPriceRanges = Array.from(document.querySelectorAll('#priceRangeToggle button.btn-info'))
+	        .map(btn => btn.getAttribute('data-value'));
 
-    // 현재 브랜드 필터 상태 확인
-    const selectedBrand = document.querySelector('.btn-group .btn-primary')?.getAttribute('data-brand');
-
-    // 필터 적용
-    applyFilters(selectedBrand, selectedRanges.join(','));
-}
-
+	    // 필터 적용
+	    applyFilters();
+	}
 
 	// 필터와 정렬을 적용하는 함수
-	function applyFilters(selectedBrand = null, selectedPriceRanges = null) {
-	    let sortBy = document.querySelector('select.form-select').value; // 정렬 기준
+	function applyFilters() {
+	    let sort = document.querySelector('.form-select').value; // 선택된 정렬 기준
 	    let category_seq = getCategorySeqFromURL(); // URL에서 category_seq 가져오기
-	    console.log(category_seq)
-	    console.log(selectedBrand)
-	    console.log(selectedPriceRanges)
+
+	    console.log("category_seq: " + category_seq);
+	    console.log("선택된 브랜드: " + selectedBrand);
+	    console.log("선택된 가격대: " + selectedPriceRanges);
+
 	    // Ajax로 필터 및 정렬된 결과 요청
 	    $.ajax({
 	        url: '${path}/product/filter', // 서버 URL (실제 URL로 변경 필요)
@@ -269,36 +269,28 @@ function toggleBrandFilter(button) {
 	        data: {
 	            category_seq: category_seq, // 카테고리 정보
 	            brand: selectedBrand || '', // 선택된 브랜드 필터
-	            priceRange: selectedPriceRanges || '', // 선택된 가격대 필터 (콤마로 구분된 문자열)
-	            sort: sortBy // 정렬 기준
+	            priceRange: selectedPriceRanges.join(',') || '', // 선택된 가격대 필터 (콤마로 구분된 문자열)
+	            sort: sort // 정렬 기준
 	        },
 	        success: function (response) {
 	            $('#productListContainer').html(response);
-	            $("#productlistsize").text($("#size").text()) ;
-
-               
-	        
-	        
+	            $("#productlistsize").text($("#size").text());
 	        },
 	        error: function (error) {
 	            console.error('필터 적용 실패:', error);
 	        }
 	    });
 	}
-	$(function(){
-		applyFilters(); 
-	});
-	// 정렬 기준 선택 시 적용
-	document.querySelector('select.form-select').addEventListener('change', function () {
-	    const sortBy = this.value; // 정렬 기준
-	    const selectedBrand = document.querySelector('.btn-group .btn-primary')?.getAttribute('data-brand');
-	    const selectedRanges = Array.from(document.querySelectorAll('#priceRangeToggle button.btn-primary'))
-	        .map(btn => btn.getAttribute('data-value'));
 
-	    applyFilters(selectedBrand, selectedRanges.join(','));
+	// 페이지 로딩 시 필터와 정렬 초기값 적용
+	$(function() {
+	    applyFilters(); // 페이지 로딩 후 초기 필터 및 정렬 적용
 	});
 
-	
+	// 'select'가 변경될 때마다 값 확인
+	document.querySelector('.form-select').addEventListener('change', function() {
+	    applyFilters(); // 정렬 기준이 바뀔 때마다 필터와 함께 요청
+	});
 	</script>
 	<!-- endbuild -->
 </body>

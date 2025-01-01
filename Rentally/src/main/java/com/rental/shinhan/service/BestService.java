@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.rental.shinhan.dao.BestProductDAO;
 import com.rental.shinhan.dto.BestProductJoinDTO;
+import com.rental.shinhan.dto.BestReviewJoinDTO;
 
 @Service
 public class BestService {
@@ -16,5 +17,9 @@ public class BestService {
 	
 	public List<BestProductJoinDTO> selectBestProduct(){
 		return bestProductDAO.selectBestProduct();
+	}
+	
+	public List<BestReviewJoinDTO> selectBestReview(){
+		return bestProductDAO.selectBestReview();
 	}
 }

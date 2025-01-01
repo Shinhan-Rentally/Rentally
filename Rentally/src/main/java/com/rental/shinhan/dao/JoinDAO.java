@@ -35,7 +35,11 @@ public class JoinDAO {
 	
 	//아이디 중복체크
 	public boolean checkId(String cust_id) {
-		Integer count = sqlSession.selectOne(namespace+"checkId", cust_id);
-		return count>0;
+		int count = sqlSession.selectOne(namespace+"checkId", cust_id);
+		if(count ==0) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 }
