@@ -42,6 +42,7 @@ public class HomeController {
 		model.addAttribute("bestProduct", bestproductlist);
 		model.addAttribute("bestReview", bestreviewlist);
 		
+		
 		return "main";
 	}
 
