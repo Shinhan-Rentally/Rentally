@@ -8,6 +8,7 @@
 <%@ include file="../common/headMeta.jsp"%>
 <title>Orders eCommerce HTML Template - FreshCart</title>
 <%@ include file="../common/headLinks.jsp"%>
+<c:set var="page" value="subscribe" />
 <style>
 	.product-name {
 		white-space: pre-wrap; /* 줄바꿈 문자를 인식하도록 설정 */
@@ -22,53 +23,7 @@
             <div class="container">
                <!-- row -->
                <div class="row">
-                  <!-- col -->
-                  <div class="col-lg-3 col-md-4 col-12 border-end d-none d-md-block">
-                     <div class="pt-10 pe-lg-10">
-                        <!-- nav -->
-                        <ul class="nav flex-column nav-pills nav-pills-dark">
-                           <!-- nav item -->
-                           <li class="nav-item">
-                              <a class="nav-link" href="">
-                                 <i class="feather-icon icon-shopping-bag me-2"></i>
-                                 주문내역
-                              </a>
-                           </li>
-                           <!-- nav item -->
-                           <li class="nav-item">
-                              <a class="nav-link active" aria-current="page" href="${path}/subscribe/list">
-                                 <i class="feather-icon icon-shopping-bag me-2"></i>
-                                 구독현황
-                              </a>
-                           </li>
-                           <!-- nav item -->
-                           <li class="nav-item">
-                              <a class="nav-link" href="">
-                                 <i class="feather-icon icon-settings me-2"></i>
-                                 설정
-                              </a>
-                           </li>
-                           <!-- nav item -->
-                           <li class="nav-item">
-                              <a class="nav-link" href="">
-                                 <i class="feather-icon icon-map-pin me-2"></i>
-                                 주소
-                              </a>
-                           </li>
-                           <!-- nav item -->
-                           <li class="nav-item">
-                              <hr />
-                           </li>
-                           <!-- nav item -->
-                           <li class="nav-item">
-                              <a class="nav-link" href="">
-                                 <i class="feather-icon icon-log-out me-2"></i>
-                                 Log out
-                              </a>
-                           </li>
-                        </ul>
-                     </div>
-                  </div>
+               <%@ include file="../common/myPageNavbar.jsp"%>
                   <div class="col-lg-9 col-md-8 col-12">
                      <div class="py-6 p-md-6 p-lg-10">
                         <!-- heading -->
@@ -128,6 +83,7 @@
 											<input type="hidden" name="product_grade" value="${sub.product_grade}">
 											<input type="hidden" name="product_date" value="${sub.product_date}">
 											<input type="hidden" name="category_seq" value="${sub.category_seq}">
+											<input type="hidden" name="sub_total" value="${sub.sub_total}">
 											<button class="btn btn-info btn-sm" id="upgrade" <c:if test="${sub.sub_isUpgrade != true}">disabled</c:if>>
 												<c:if test="${sub.sub_upgrade == true}">업그레이드 완료</c:if>
 												<c:if test="${sub.sub_upgrade != true}">업그레이드</c:if>

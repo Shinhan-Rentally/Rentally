@@ -222,9 +222,9 @@
 				return;
 			}
 			$.ajax({
-				url: "customer/id.check",
+				url: "${path}/customer/id.check",
 				type: "get",
-				data: {cust_id : cust_id},
+				data: {cust_id : custId},
 				success: function(response){
 					if(response){
 						$(".check-feedback").removeClass("hide");
