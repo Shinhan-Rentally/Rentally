@@ -9,6 +9,10 @@
 <title>로그인 페이지</title>
 </head>
 <body>
+
+  <!-- header -->
+     <%@ include file="../common/header.jsp" %>
+
       <main>
          <!-- section -->
     <section class="my-lg-14 my-8">
