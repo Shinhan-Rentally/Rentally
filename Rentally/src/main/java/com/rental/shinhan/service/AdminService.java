@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -35,8 +39,22 @@ public class AdminService {
     }
 
     public List<OrderJoinDTO> findOrders() {
+        List<OrderJoinDTO> orders = adminDAO.selectOrders();
 
-        return adminDAO.selectOrders();
+        for (OrderJoinDTO dto : orders) {
+            Timestamp subDate = dto.getSub_date();
+            LocalDateTime localDateTime = subDate.toLocalDateTime();
+
+            String formattedSubDate = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+            LocalDate endDate = localDateTime.toLocalDate().plusMonths(dto.getSub_period());
+            String formattedSubDateDate = formattedSubDate.split(" ")[0];  // "yyyy-MM-dd"
+
+            dto.setFormattedSubDate(formattedSubDate);
+            dto.setEnd_date(formattedSubDateDate + "~" + endDate);
+        }
+
+        return orders;
     }
 
     public int removeProduct(int productSeq) {
