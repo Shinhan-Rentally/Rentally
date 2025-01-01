@@ -57,6 +57,7 @@
                                     <div class="col-md-8 col-12 flex-grow-1">
                                        <!-- heading -->
                                        <h2 class="fs-6">${upgrade.product_name}</h2>
+                                       <small>${upgrade.product_features}</small>
                                        <div>
                                           <!-- rating -->
                                           <small class="text-warning">

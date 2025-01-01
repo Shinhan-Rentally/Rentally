@@ -18,4 +18,5 @@ public class OrderJoinDTO {
     String sub_card;
     int sub_total;
     int sub_period;
+    int category_seq;
 }

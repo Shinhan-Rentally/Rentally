@@ -14,4 +14,5 @@ public interface AdminInterface {
     public List<OrderJoinDTO> selectOrders();
     public List<CustomerDTO> selectCustomers();
     public int deleteProduct(int productSeq);
+    public int insertProduct(ProductDTO product);
 }
