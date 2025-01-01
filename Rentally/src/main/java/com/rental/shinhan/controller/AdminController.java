@@ -70,10 +70,23 @@ public class AdminController {
     }
 
     @GetMapping("/order/list")
-    public String getOrders() {
-
+    public String getOrders(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            Model model
+    ) {
         List<OrderJoinDTO> orders = adminService.findOrders();
-        return "";
+        int start = (page - 1) * size;
+        int end = Math.min(start + size, orders.size());
+
+        List<OrderJoinDTO> pagedOrders = orders.subList(start, end);
+        int totalPages = (int) Math.ceil((double) orders.size() / size);
+
+        model.addAttribute("orders", pagedOrders);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalOrders", orders.size());
+        model.addAttribute("currentPage", page);
+        return "/admin/orders";
     }
 
     @PostMapping("/{productSeq}/delete")
