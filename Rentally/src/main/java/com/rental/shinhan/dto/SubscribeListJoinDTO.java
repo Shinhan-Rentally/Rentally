@@ -12,6 +12,8 @@ public class SubscribeListJoinDTO {
     int sub_seq;
     int cust_seq;
     int product_seq;
+    int review_seq;
+    boolean review_written;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     Date sub_date;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
