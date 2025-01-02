@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <%@ include file="../common/headMeta.jsp"%>
 <%@ include file="../common/headLinks.jsp"%>
-<title>Rentally</title>
+<title>회원가입 - Rentally</title>
 <style>
 	#formSignupEmail2:read-only{
 		background-color: #EAEAEA;
@@ -18,7 +18,7 @@
 </head>
 <body>
 	<!-- header 화면 불러오기 -->
-
+	<%@ include file="../common/header.jsp" %>
 	<main>
 		<!-- section -->
 		<section class="my-lg-14 my-8">
@@ -35,7 +35,7 @@
 					<div
 						class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1">
 						<div class="mb-lg-9 mb-5">
-							<h1 class="mb-1 h2 fw-bold">Rentally 회원가입</h1>
+							<h1 class="mb-1 h2 fw-bold">회원가입</h1>
 							
 								<h6>Rentally에 오신 걸 환영합니다!</h6><br>
 								<p>Rentally는 가전 구독 플랫폼으로 최신 제품을 부담 없이 간편하게 제공합니다.</p>
@@ -120,15 +120,10 @@
 								</div>
 								<!-- btn -->
 								<div class="col-12 d-grid">
-									<button type="submit" class="btn btn-primary">회원가입</button>
+									<button type="submit" class="btn btn-info">회원가입</button>
 								</div>
 
-								<!-- text -->
-								<p>
-									<small> By continuing, you agree to our <a href="#!">Terms
-											of Service</a> &amp; <a href="#!">Privacy Policy</a>
-									</small>
-								</p>
+								
 							</div>
 						</form>
 					</div>
@@ -138,7 +133,8 @@
 	</main>
 
 	<!-- Footer -->
-	<!-- @@include("../partials/footer.html") -->
+	<%@ include file="../common/footer.jsp" %>
+	<%@ include file="../common/bottomKakao.jsp" %>
 	<!-- Javascript-->
 	<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="${path}/resources/js/vendors/password.js"></script>
