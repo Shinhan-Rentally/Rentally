@@ -38,10 +38,23 @@ LEFT JOIN
     subscribe s on P.product_seq = s.product_seq
 LEFT JOIN
     review r on r.sub_seq = s.sub_seq
-<where>
+WHERE 1=1
     <if test="category_seq != 0">
-        P.category_seq = #{category_seq}
+     AND   P.category_seq = #{category_seq}
     </if>
+    
+    <if test="query != null and query != ''">
+    AND   (  (P.product_serial ILIKE '%' || #{query} || '%')
+        OR (P.product_name ILIKE '%' || #{query} || '%')
+        OR (P.product_brand ILIKE '%' || #{query} || '%')
+        OR (P.product_height ILIKE '%' || #{query} || '%')
+        OR (P.product_weight ILIKE '%' || #{query} || '%')
+        OR (P.product_wh ILIKE '%' || #{query} || '%')
+        OR (P.product_color ILIKE '%' || #{query} || '%')
+        OR (P.product_features ILIKE '%' || #{query} || '%')
+        OR (C.category_name ILIKE '%' || #{query} || '%')
+)
+</if>
 
     <!-- 브랜드 필터 -->
     <if test="product_brand != null and product_brand != ''">
@@ -61,7 +74,7 @@ LEFT JOIN
             OR #{priceRange} LIKE '%above100k%' AND P.product_pay > 100000
         )
     </if>
-</where>
+
 GROUP BY 
     P.product_seq, P.product_serial, P.product_name, P.product_img, 
     P.product_detail, P.product_pay, P.product_brand, P.product_grade, 
@@ -190,9 +203,6 @@ LEFT JOIN
         OR (P.product_color ILIKE '%' || #{query} || '%')
         OR (P.product_features ILIKE '%' || #{query} || '%')
         OR (C.category_name ILIKE '%' || #{query} || '%')
-</if>
-<if test="query == null or query == ''">
-    WHERE 1=1
 </if>
 GROUP BY 
     P.product_seq, P.product_serial, P.product_name, P.product_img, 

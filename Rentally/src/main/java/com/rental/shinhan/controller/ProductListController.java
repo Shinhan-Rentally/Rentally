@@ -50,6 +50,8 @@ public class ProductListController {
 			@RequestParam(value = "brand", required = false) String product_brand,
 			@RequestParam(value = "priceRange", required = false) String priceRange,
 			@RequestParam(value = "sort", defaultValue = "popular") String sort,
+			@RequestParam(value = "query", required = false) String query,
+			
 			@RequestHeader(value = "X-Requested-With", required = false) String requestedWith, HttpSession session) {
 
 		// priceRange가 빈 값일 경우 null로 처리
@@ -59,7 +61,7 @@ public class ProductListController {
 
 		// 서비스 호출
 		List<ProductListJoinDTO> productlist = productlistService.selectProductList(category_seq, product_brand,
-				priceRange, sort);
+				priceRange, sort,query);
 
 		// 로그로 상품 수 출력
 		log.info("상품 목록 " + productlist.size() + "건");
