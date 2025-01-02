@@ -89,7 +89,7 @@
 		        const productSeq = $("#product_seq").val();
 
 		        $.ajax({
-		            url: "${path}/wish/add", // 요청 보낼 URL
+		            url: "${path}/wishlist/add", // 요청 보낼 URL
 		            type: "POST",
 		            data: {
 		                product_seq: productSeq
@@ -107,12 +107,3 @@
 		});
 
 		</script>
-
-
-
-
-
-
-
-
-
