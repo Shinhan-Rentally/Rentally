@@ -6,7 +6,7 @@
 
 	<select id="selectCart" parameterType="String" resultType="CartVO">
 		select product_brand, product_name, product_img,
-		product_pay, cart_option
+		product_pay, cart_option, category_seq, product.product_seq
 		from cart
 		join product
 		on cart.product_seq =
@@ -26,8 +26,7 @@
 		AND p.product_seq = #{product_seq}
 	</delete>
 	<insert id="insertCart" parameterType="CartVO">
-		INSERT INTO cart(cart_seq, cust_seq, product_seq,
-		cart_option)
+		INSERT INTO cart
 		VALUES (nextval('cart_seq'), #{cust_seq}, #{product_seq}, #{cart_option})
 	</insert>
 </mapper>
