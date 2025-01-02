@@ -50,7 +50,7 @@
                         </div>
                         <!-- button -->
                         <div>
-                            <a href="add-product.html" class="btn btn-primary">Add Product</a>
+                            <a href="../product/add" class="btn btn-primary">Add Product</a>
                         </div>
                     </div>
                 </div>
