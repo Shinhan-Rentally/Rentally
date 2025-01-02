@@ -6,7 +6,7 @@
 <head>
 <%@include file="../common/headMeta.jsp"%>
 <meta charset="UTF-8">
-<title>My Cart - Rentally</title>
+<title>장바구니 - Rentally</title>
 <%@include file="../common/headLinks.jsp"%>
 
 </head>
@@ -24,8 +24,7 @@
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb mb-0">
 								<li class="breadcrumb-item"><a href="${path}/main">Home</a></li>
-								<li class="breadcrumb-item"><a href="#!">Shop</a></li>
-								<li class="breadcrumb-item active" aria-current="page">My Cart</li>
+								<li class="breadcrumb-item active" aria-current="page">장바구니</li>
 							</ol>
 						</nav>
 					</div>
@@ -40,7 +39,7 @@
 					<div class="col-lg-12">
 						<div class="mb-8">
 							<!-- heading -->
-							<h1 class="mb-1">My Cart</h1>
+							<h1 class="mb-1">장바구니</h1>
 							<!-- 숫자 카운팅 -->
 							<p class="cart-count">${cartList.size()}개의 상품이 장바구니에 담겨있습니다.</p>
 						</div>
@@ -50,9 +49,9 @@
 								<table class="table text-nowrap table-with-checkbox">
 									<thead class="table-light">
 										<tr>
-											<th>이미지</th>
+											<th></th>
 											<th>상품명</th>
-											<th>월 구독료</th>										
+											<th>구독료</th>										
 											<th>구독</th>
 											<th>제거</th>
 										</tr>
@@ -92,7 +91,7 @@
 													<input type="hidden" name="sub_seq" value="${cart.product_seq}">
 													<input type="hidden" name="sub_name" value="${cart.product_name}">
 													<input type="hidden" name="sub_period" value="${cart.cart_option}">
-													<button class="btn btn-primary btn-sm" id="subscribe">Subscribe</button>
+													<button class="btn btn-primary btn-sm" id="subscribe">구독</button>
 												</form>
 											</td>
 											<td class="align-middle">
@@ -104,9 +103,7 @@
 											</td>
 										</tr>
 										</c:forEach>
-										<c:if test="${empty cartList}">
-   											 <p>장바구니에 항목이 없습니다.</p>
-										</c:if>
+										
 									</tbody>
 								</table>
 							</div>
@@ -123,5 +120,6 @@
 
 	<!-- Footer -->
 	<%@include file="../common/footer.jsp"%>
+	<%@ include file="../common/bottomKakao.jsp" %>
 </body>
 </html>
