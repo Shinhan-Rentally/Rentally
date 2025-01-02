@@ -2,13 +2,19 @@ package com.rental.shinhan.controller;
 
 import com.rental.shinhan.dto.ReviewDTO;
 import com.rental.shinhan.service.ReviewService;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
+@Slf4j
 @Controller
 @RequestMapping("/review")
 public class ReviewController {
@@ -26,9 +32,12 @@ public class ReviewController {
         return result+"";
     }
 
+    @ResponseBody
     @GetMapping("/ratehigh")
-    public String selectReview(int product_seq, Model model) {
-    	model.addAttribute("reviewList", reviewService.selectReview(product_seq));
-    	return "product/detail";
+    public List<ReviewDTO> selectReview(int product_seq) {
+    	log.info("상품번호>>"+product_seq);
+    	List<ReviewDTO> reviews = reviewService.selectReview(product_seq);
+    	log.info("리뷰리스트"+reviews);
+    	return reviews;
     }
 }
