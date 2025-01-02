@@ -27,10 +27,24 @@ public class AdminController {
     private int productSeq = 1;
 
     @GetMapping("/product/list")
-    public String getProducts() {
-
+    public String getProducts(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            Model model
+    ) {
+      
         List<ProductDTO> products = adminService.findProducts();
-        return "";
+        int start = (page - 1) * size;
+        int end = Math.min(start + size, products.size());
+
+        List<ProductDTO> pagedProducts = products.subList(start, end);
+        int totalPages = (int) Math.ceil((double) products.size() / size);
+
+        model.addAttribute("products", pagedProducts);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalOrders", products.size());
+        model.addAttribute("currentPage", page);
+        return "admin/products";
     }
 
     @GetMapping("/review/list")
