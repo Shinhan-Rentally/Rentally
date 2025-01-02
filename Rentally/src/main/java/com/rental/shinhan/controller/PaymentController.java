@@ -78,12 +78,12 @@ public class PaymentController {
     	
     	model.addAttribute("addressList",addressList);
     	
-    	return "product/payment";
+    	return "order/payment";
     }
 
     @GetMapping("/payment/result")
     public String getPaymentResultPage() {
     	
-    	return "product/paymentResult";
+    	return "order/paymentResult";
     }
 }
