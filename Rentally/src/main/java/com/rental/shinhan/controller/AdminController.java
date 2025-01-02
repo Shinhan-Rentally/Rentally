@@ -87,7 +87,7 @@ public class AdminController {
     @PostMapping("/{productSeq}/delete")
     public String deleteProduct(@PathVariable int productSeq) {
         int result = adminService.removeProduct(productSeq);
-        return "";
+        return "redirect:/admin/product/list";
     }
 
     @ResponseBody
