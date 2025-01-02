@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-<c:set var="page" value="order" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +8,7 @@
     <title>주문내역</title>
     <%@ include file="../common/headLinks.jsp" %>
     <!-- star style -->
+    <c:set var="page" value="order" />
     <style>
         .product-name {
             white-space: pre-wrap; /* 줄바꿈 문자를 인식하도록 설정 */
