@@ -89,8 +89,8 @@
 
       <!-- Sign Up Link -->
       <div>
-         Don’t have an account?
-         <a href="${path}/customer/join">아직 Rentally 회원가입을 안하셨나요? 회원가입</a>
+      아직 Rentally 회원가입을 안하셨나요? 
+         <a href="${path}/customer/join">회원가입</a>
       </div>
 </form>
    </div>
