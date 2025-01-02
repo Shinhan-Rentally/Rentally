@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<c:set var="page" value="order" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,67 +36,7 @@
         <div class="container">
             <!-- row -->
             <div class="row">
-                <!-- col -->
-                <div class="col-12">
-                    <div class="d-flex justify-content-between align-items-center d-md-none py-4">
-                        <!-- heading -->
-                        <h3 class="fs-5 mb-0">Account Setting</h3>
-                        <!-- button -->
-                        <button
-                                class="btn btn-outline-gray-400 text-muted d-md-none btn-icon btn-sm ms-3"
-                                type="button"
-                                data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasAccount"
-                                aria-controls="offcanvasAccount">
-                            <i class="bi bi-text-indent-left fs-3"></i>
-                        </button>
-                    </div>
-                </div>
-                <!-- col -->
-                <div class="col-lg-3 col-md-4 col-12 border-end d-none d-md-block">
-                    <div class="pt-10 pe-lg-10">
-                        <!-- nav item -->
-                        <ul class="nav flex-column nav-pills nav-pills-dark">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="account-orders.html">
-                                    <i class="feather-icon icon-shopping-bag me-2"></i>
-                                    주문내역
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="account-orders.html">
-                                    <i class="feather-icon icon-shopping-bag me-2"></i>
-                                    구독현황
-                                </a>
-                            </li>
-                            <!-- nav item -->
-                            <li class="nav-item">
-                                <a class="nav-link" href="account-settings.html">
-                                    <i class="feather-icon icon-settings me-2"></i>
-                                    설정
-                                </a>
-                            </li>
-                            <!-- nav item -->
-                            <li class="nav-item">
-                                <a class="nav-link" href="account-address.html">
-                                    <i class="feather-icon icon-map-pin me-2"></i>
-                                    주소
-                                </a>
-                            </li>
-                            <!-- nav item -->
-                            <li class="nav-item">
-                                <hr />
-                            </li>
-                            <!-- nav item -->
-                            <li class="nav-item">
-                                <a class="nav-link" href="../index.html">
-                                    <i class="feather-icon icon-log-out me-2"></i>
-                                    Log out
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                <%@ include file="../common/myPageNavbar.jsp" %>
                 <div class="col-lg-9 col-md-8 col-12">
                     <div class="py-6 p-md-6 p-lg-10">
                         <!-- heading -->
@@ -232,6 +171,7 @@
 <script src="${path}/resources/js/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+<%@ include file="../common/bottomKakao.jsp" %>
 <!-- Footer -->
 <%@ include file="../common/footer.jsp" %>
 </body>
@@ -289,7 +229,7 @@
             reviewRate = document.querySelectorAll(".bi-star-fill").length;
 
             $.ajax({
-                url: `${path}/review/${custSeq}/add`,
+                url: `${path}/review/\${custSeq}/add`,
                 type: "POST",
                 contentType: "application/json",
                 //data: JSON.stringify(reviewData),
