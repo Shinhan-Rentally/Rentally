@@ -1,11 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <%@ include file="../common/headMeta.jsp"%>
-<title>Shop Checkout eCommerce HTML Template - FreshCart</title>
+<title>결제 완료 - Rentally</title>
 <%@ include file="../common/headLinks.jsp"%>
 </head>
 <body>
@@ -37,7 +36,7 @@
                                        <div class="text-center position-relative">
                                              ${resultMessage}이 완료되었습니다.<br>
                                              상세 내역은 
-                                             <a href="#">주문내역</a> /
+                                             <a href="${path}/order/list">주문내역</a> /
                                              <a href="${path}/subscribe/list"> 구독현황</a>을 참고해주세요.
                                        </div>
                                     </div>
@@ -51,6 +50,7 @@
             </div>
          </div>
       </main>
+      <%@ include file="../common/bottomKakao.jsp" %>
       <%@ include file="../common/footer.jsp"%>
 </body>
 </html>
