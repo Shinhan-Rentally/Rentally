@@ -3,6 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<c:set var="path" value="${pageContext.servletContext.contextPath}" scope="application"></c:set>
+
+
+	
+ <span class="text-white" id="categoryname"style="display: none;">${category_name}</span>
+
 
 <div class="mb-3 mb-lg-0">
     <span class="text-white" id="size" style="display: none;">${productlistsize}</span>
@@ -18,16 +24,16 @@
 				<div class="card-body">
 					<!-- badge -->
 					<div class="text-center position-relative">
-
-						<a href="#"> <!-- img --> <img
+						<a href="${path}/product/detail?product_seq=${productlist.product_seq}"> <!-- img --> <img
 							src="https://rentally.s3.ap-northeast-2.amazonaws.com/${productlist.category_seq}/
 													${productlist.product_img}"
 							alt="Grocery Ecommerce Template" class="mb-3 img-fluid" />
 						</a>
 
 					</div>
+					
 					<h2 class="fs-6">
-						<a href="#" class="text-inherit text-decoration-none">${productlist.product_name}</a>
+						<a href="${path}/product/detail?product_seq=${productlist.product_seq}" class="text-inherit text-decoration-none">${productlist.product_name}</a>
 					</h2>
 					<div>
 						<!-- rating -->
@@ -59,19 +65,49 @@
 									pattern="#,###" />원
 							</span>
 						</div>
-
-
-
-					</div>
+	</div>
 					<!-- btn -->
-					<div>
-						<a href="#!" class="btn btn-info btn-sm"> 구독 </a>
-					</div>
+				<div>
+    <input type="hidden" id="product_seq" value="${productlist.product_seq}">
+    <button class="btn btn-info btn-sm" id="wishAdd">
+        <i class="bi bi-heart"></i>
+    </button>
+</div>
 				</div>
 			</div>
 		</div>
 	</c:forEach>
 </div>
+
+<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+		<script>
+		$(document).ready(function() {
+		    $("#wishAdd").on("click", function(event) {
+		        event.preventDefault(); // 기본 폼 제출 동작 방지
+
+		        const productSeq = $("#product_seq").val();
+
+		        $.ajax({
+		            url: "${path}/wish/add", // 요청 보낼 URL
+		            type: "POST",
+		            data: {
+		                product_seq: productSeq
+		            },
+		            success: function(response) {
+		                alert("위시리스트 추가!!!!");
+		                // 성공 후 처리
+		            },
+		            error: function(xhr, status, error) {
+		                console.error("Error:", error);
+		                alert("에러 발생!!");
+		            }
+		        });
+		    });
+		});
+
+		</script>
+
 
 
 
