@@ -10,30 +10,38 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Slf4j
 @Controller
-@RequestMapping("/wish")
+@RequestMapping("/wishlist")
 public class WishListController {
 
     @Autowired
     private WishListService wishListService;
 
-    @GetMapping("/{custSeq}/list")
-    public String getWishLists(@PathVariable int custSeq, Model model) {
+    @GetMapping("/list")
+    public String getWishLists(HttpSession session, Model model) {
+        int custSeq = (Integer)session.getAttribute("cust_seq");
         List<WishListJoinDTO> wishList = wishListService.findWishLists(custSeq);
         model.addAttribute("wishList",wishList);
         model.addAttribute("totalCount",wishList.size());
-        return "/wish/wishlist";
+        return "/wish/wishList";
     }
 
-    @PostMapping(value="/add",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String createWishList(@RequestBody final WishListDTO request) {
+    @ResponseBody
+    @PostMapping(value="/add")
+    public String createWishList(HttpSession session, @RequestParam("product_seq") int productSeq) {
+        // WishListDTO 객체를 생성하고, 폼 데이터를 설정
+        int custSeq = (Integer)session.getAttribute("cust_seq");
+        WishListDTO request = new WishListDTO();
+        request.setCust_seq(custSeq);
+        request.setProduct_seq(productSeq);
+        // 서비스 호출하여 위시리스트 추가
         int result = wishListService.addWishList(request);
-        return "";
+        return result+"";
     }
-
     @ResponseBody
     @DeleteMapping("/{wish_seq}/delete")
     public String deleteWish(@PathVariable int wish_seq) {

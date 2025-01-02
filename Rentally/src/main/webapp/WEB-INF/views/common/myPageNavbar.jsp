@@ -39,7 +39,7 @@
          </li>
          <!-- nav item -->
          <li class="nav-item">
-            <a class="nav-link" href="${path}/logout">
+            <a class="nav-link" href="${path}/customer/logout">
                <i class="feather-icon icon-log-out me-2"></i>
                로그아웃
             </a>

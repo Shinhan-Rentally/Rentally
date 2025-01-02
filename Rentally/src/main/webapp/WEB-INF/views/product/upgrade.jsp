@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <head>
 <%@ include file="../common/headMeta.jsp"%>
-<title>Shop List eCommerce HTML Template - FreshCart</title>
+<title>업그레이드 가능 상품 목록 - Rentally</title>
 <%@ include file="../common/headLinks.jsp"%>
 <link href="${path}/resources/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet" />
 <link href="${path}/resources/libs/nouislider/dist/nouislider.min.css" rel="stylesheet" />
@@ -107,6 +107,7 @@
             </div>
          </div>
       </main>
+      <%@ include file="../common/bottomKakao.jsp" %>
       <!-- Footer -->
       <%@ include file="../common/footer.jsp"%>
       <!-- Javascript-->
