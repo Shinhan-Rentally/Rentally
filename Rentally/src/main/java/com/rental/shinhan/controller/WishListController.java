@@ -23,8 +23,8 @@ public class WishListController {
 
     @GetMapping("/list")
     public String getWishLists(HttpSession session, Model model) {
-        int custSeq = (Integer)session.getAttribute("cust_seq");
-        List<WishListJoinDTO> wishList = wishListService.findWishLists(custSeq);
+        int cust_seq = (Integer)session.getAttribute("cust_seq");
+        List<WishListJoinDTO> wishList = wishListService.findWishLists(cust_seq);
         model.addAttribute("wishList",wishList);
         model.addAttribute("totalCount",wishList.size());
         return "/wish/wishList";
