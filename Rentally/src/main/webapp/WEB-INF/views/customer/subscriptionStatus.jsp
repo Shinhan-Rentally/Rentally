@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../common/headMeta.jsp"%>
-<title>Orders eCommerce HTML Template - FreshCart</title>
+<title>구독현황 - Rentally</title>
 <%@ include file="../common/headLinks.jsp"%>
 <c:set var="page" value="subscribe" />
 <style>
@@ -23,7 +23,7 @@
             <div class="container">
                <!-- row -->
                <div class="row">
-               <%@ include file="../common/myPageNavbar.jsp"%>
+				  <%@ include file="../common/myPageNavbar.jsp"%>
                   <div class="col-lg-9 col-md-8 col-12">
                      <div class="py-6 p-md-6 p-lg-10">
                         <!-- heading -->
@@ -35,7 +35,7 @@
                               <!-- Table Head -->
                               <thead class="bg-light">
                                  <tr>
-                                    <th>&nbsp;</th>
+                                    <th></th>
                                     <th>상품명</th>
                                     <th>만료일</th>
                                     <th>해지</th>
@@ -122,7 +122,8 @@
 	        </div>
 	      </div>
 	    </div>
-	  </div>	
+	  </div>
+	  <%@ include file="../common/bottomKakao.jsp" %>	
       <!-- Footer -->
       <%@ include file="../common/footer.jsp"%>
       <!-- Javascript-->
