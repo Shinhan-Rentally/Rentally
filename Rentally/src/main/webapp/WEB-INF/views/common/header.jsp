@@ -52,7 +52,7 @@
 					<div class="list-inline">
 						<c:if test="${cust_id ne null}">
 							<div class="list-inline-item me-5">
-								<a href="${path}/wishlist/list/" class="text-muted position-relative"> <svg
+								<a href="${path}/wishlist/list" class="text-muted position-relative"> <svg
 										xmlns="http://www.w3.org/2000/svg" width="20" height="20"
 										viewBox="0 0 24 24" fill="none" stroke="currentColor"
 										stroke-width="2" stroke-linecap="round"
@@ -67,6 +67,7 @@
 								</a>
 							</div>
 						</c:if>
+						<!-- 로그인 안한상태 -->
 						<c:if test="${cust_id eq null}">
 
 							<div class="list-inline-item me-5">
