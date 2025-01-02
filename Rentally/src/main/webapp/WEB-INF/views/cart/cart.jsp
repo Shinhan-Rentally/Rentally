@@ -95,9 +95,9 @@
 												</form>
 											</td>
 											<td class="align-middle">
-												<a href="#" class="text-muted"
+												<a id="deleteButton" href="#" class="text-muted"
 												data-bs-toggle="tooltip" data-bs-placement="top"
-												title="Delete">
+												>
 												<i class="feather-icon icon-trash-2"></i>
 												</a>
 											</td>
@@ -117,7 +117,25 @@
 	<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 	<script src="${path}/resources/js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
+	<script>
+		$('#deleteButton').click(function(){
+			var item = $(this).closest("tr").find("input[name='sub_seq']").val();
+			$.ajax({
+				url: "${path}/cart/product/delete",
+				type: "post",
+				data: {
+					product_seq: item
+					},
+				success: function(response){
+					$("tr").has("input[value='" + item + "']").remove();
+					alert("장바구니에서 상품이 삭제되었습니다.");
+				},
+				error: function(){
+					alert("장바구니 삭제 실패");
+				}
+			});
+		});
+	</script>
 	<!-- Footer -->
 	<%@include file="../common/footer.jsp"%>
 	<%@ include file="../common/bottomKakao.jsp" %>
