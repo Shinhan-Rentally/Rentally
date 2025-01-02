@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,6 +76,7 @@
                     <td class="align-middle">
                       <a class="text-muted deleteWish" href="#"
                          data-wish-seq="${wish.wish_seq}"
+                         data-cust-seq="${wish.cust_seq}"
                          data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
                         <i class="feather-icon icon-trash-2"></i>
                       </a>
@@ -108,10 +108,11 @@
   $(document).on("click", ".deleteWish", function (event) {
     event.preventDefault();
 
-    // 버튼에서 wish_seq가져오기
+    // 버튼에서 wish_seq와 cust_seq 가져오기
     wish_seq = $(this).data("wish-seq");
+    cust_seq = $(this).data("cust-seq");
 
-    if (!wish_seq) {
+    if (!wish_seq || !cust_seq) {
       alert("필요한 데이터가 누락되었습니다.");
       return;
     }
