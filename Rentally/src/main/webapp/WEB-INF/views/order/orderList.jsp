@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <%@ include file="../common/headMeta.jsp" %>
-    <title>주문내역</title>
+    <title>주문내역 - Rentally</title>
     <%@ include file="../common/headLinks.jsp" %>
     <!-- star style -->
     <c:set var="page" value="order" />
