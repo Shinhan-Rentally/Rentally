@@ -12,7 +12,16 @@
 <meta content="Codescandy" name="author">
 <%@ include file="../common/headLinks.jsp"%>
 
-<!-- endbuild -->
+<style>
+#searchColor {
+	color: blue;
+	font-weight: bold;
+}
+#home {
+	color: blue;
+	font-weight: bold;
+}
+</style>
 
 <title>카테고리 상품</title>
 <%@ include file="../common/headMeta.jsp"%>
@@ -23,26 +32,30 @@
 	<!-- 헤더부분 include -->
 	<%@ include file="../common/header.jsp"%>
 	<main>
-		<c:if test="${not empty productlist}">
-			<!-- section-->
-			<div class="mt-4">
-				<div class="container">
-					<!-- row -->
-					<div class="row">
-						<!-- col -->
-						<div class="col-12">
-							<!-- breadcrumb -->
-							<nav aria-label="breadcrumb">
-								<ol class="breadcrumb mb-0">
-									<li class="breadcrumb-item"><a href="${path}/main">Home</a></li>
-									<li class="breadcrumb-item active" aria-current="page">${productlist[0].category_name}</li>
-								</ol>
-							</nav>
-						</div>
+
+		<!-- section-->
+		<div class="mt-4">
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<!-- col -->
+					<div class="col-12">
+						<!-- breadcrumb -->
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0">
+								<li class="breadcrumb-item"><a href="${path}/main" id="home">Home</a>
+								</li>
+								<li class="breadcrumb-item active" 
+									id=category_name>
+										</li>
+									
+							</ol>
+						</nav>
 					</div>
 				</div>
 			</div>
-		</c:if>
+		</div>
+
 		<!-- section -->
 		<div class="mt-8 mb-lg-14 mb-8">
 			<!-- container -->
@@ -111,40 +124,46 @@
 						</div>
 					</aside>
 					<section class="col-lg-9 col-md-12">
+						<!-- section-->
 						<!-- card -->
 						<div class="card mb-4 bg-light border-0">
-							<c:if test="${not empty productlist}">
-								<!-- card body -->
-								<div class="card-body p-9">
-									<h2 class="mb-0 fs-1">${productlist[0].category_name}</h2>
-								</div>
-							</c:if>
+					
+							
+							<div class="card-body p-9">
+    <h2 class="mb-0 fs-1 category"></h2>
+</div>
+							
 						</div>
 						<!-- card -->
 						<!-- list icon -->
 						<div class="d-lg-flex justify-content-between align-items-center">
 
-							<div class="mb-3 mb-lg-0" id="productlistsize">
-								
+							<div class="mb-3 mb-lg-0">
+							
+							      <p class="mb-0">
+                              <span id="productlistsize"></span>
+                              제품
+                           </p>
+							
 							</div>
 							<div class="d-lg-flex justify-content-between align-items-center">
 								<!-- 정렬 기준 -->
 								<div class="d-flex mt-2 mt-lg-0">
 									<div>
 										<!-- select option -->
-			<!-- 정렬 기준 -->
-<select name="sort" class="form-select">
-    <option value="Low to High">낮은 가격순</option>
-    <option value="High to Low">높은 가격순</option>
-    <option value="Release Date">출시일</option>
-    <option value="Avg. Rating">인기상품</option>
-</select>
+										<!-- 정렬 기준 -->
+										<select name="sort" class="form-select">
+											<option value="Low to High">낮은 가격순</option>
+											<option value="High to Low">높은 가격순</option>
+											<option value="Release Date">출시일</option>
+											<option value="Avg. Rating">인기상품</option>
+										</select>
 									</div>
 								</div>
 							</div>
 						</div>
-			<div id="productListContainer"></div>
-		<div class="row mt-8">
+						<div id="productListContainer"></div>
+						<div class="row mt-8">
 							<div class="col">
 								<!-- nav -->
 								<nav>
@@ -197,6 +216,7 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="${path}/resources/js/main.js"></script>
+
 	<script>
 	// 전역 변수로 선택된 브랜드와 가격대 저장
 	let selectedBrand = null;
@@ -208,7 +228,7 @@
 	    let category_seq = params.get('category_seq'); // URL에서 category_seq 값을 가져옴
 
 	    if (!category_seq) {
-	        console.error('category_seq is missing in the URL'); // category_seq가 없을 경우 로그 출력
+	        console.log('category_seq is not'); // category_seq가 없을 경우 로그 출력
 	    }
 	    return category_seq; // category_seq 값을 반환
 	}
@@ -257,7 +277,12 @@
 	function applyFilters() {
 	    let sort = document.querySelector('.form-select').value; // 선택된 정렬 기준
 	    let category_seq = getCategorySeqFromURL(); // URL에서 category_seq 가져오기
-
+	    // category_seq = category_seq==null?1:category_seq;
+	    
+	 // category_seq가 없을 경우 0으로 설정 (서버에서 0을 전체 조회로 처리하도록 규칙 정의)
+	    category_seq = category_seq ? parseInt(category_seq, 10) : 0;
+	    
+	    const query = "${param.query}".trim(); // 검색어 확인
 	    console.log("category_seq: " + category_seq);
 	    console.log("선택된 브랜드: " + selectedBrand);
 	    console.log("선택된 가격대: " + selectedPriceRanges);
@@ -270,11 +295,14 @@
 	            category_seq: category_seq, // 카테고리 정보
 	            brand: selectedBrand || '', // 선택된 브랜드 필터
 	            priceRange: selectedPriceRanges.join(',') || '', // 선택된 가격대 필터 (콤마로 구분된 문자열)
-	            sort: sort // 정렬 기준
+	            sort: sort, // 정렬 기준
+	            query: query || '' // 검색어 (검색 상태인 경우에만 추가)
 	        },
 	        success: function (response) {
 	            $('#productListContainer').html(response);
 	            $("#productlistsize").text($("#size").text());
+	            $("#category_name").text($("#categoryname").text());
+	            $(".category").text($("#categoryname").text());
 	        },
 	        error: function (error) {
 	            console.error('필터 적용 실패:', error);
@@ -284,14 +312,83 @@
 
 	// 페이지 로딩 시 필터와 정렬 초기값 적용
 	$(function() {
-	    applyFilters(); // 페이지 로딩 후 초기 필터 및 정렬 적용
+		console.log(${category_name})
+		 var query = "${param.query}".trim(); // 검색어 확인
+		    if (query === '') {
+		        applyFilters(); // 검색어가 없으면 초기 필터 및 정렬 적용
+		        return;
+		    }
+		
+		$.ajax({
+			url : '${path}/product/searchResult', // 검색 처리할 URL
+			method : 'GET',
+			data : {
+				query : query
+			}, // 검색어 전달
+			success : function(response) {
+				// 검색 결과를 DOM에 표시			
+			$(".category").html("'"+`<span id="searchColor">`+`\${query}`+`</span>`+"'"+"검색결과");
+			$('#productListContainer').html(response); // 반환된 결과로 DOM 업데이트
+			$("#productlistsize").text($("#size").text());
+			 $("#category_name").text(`\${query}`).text();	 
+			},
+			error : function(error) {
+				console.error('검색 요청 실패:', error);
+			}
+		});
 	});
 
-	// 'select'가 변경될 때마다 값 확인
-	document.querySelector('.form-select').addEventListener('change', function() {
+	// 'select'가 변경될 때마다 정렬 적용
+	document.querySelector('.form-select').addEventListener('change', function () {
 	    applyFilters(); // 정렬 기준이 바뀔 때마다 필터와 함께 요청
 	});
+
+	// 필터 버튼 클릭 이벤트 처리 (이미 정의된 toggleBrandFilter, togglePriceRangeFilter 함수 사용)
+	document.querySelectorAll('.btn-info').forEach(button => {
+	    button.addEventListener('click', function () {
+	        toggleBrandFilter(this);
+	    });
+	});
+
+	document.querySelectorAll('#priceRangeToggle button.btn-info').forEach(button => {
+	    button.addEventListener('click', function () {
+	        togglePriceRangeFilter(this);
+	    });
+	});
 	</script>
-	<!-- endbuild -->
+	
+	
+	<script>
+	// URL 쿼리 파라미터에서 값을 가져오는 함수
+	function getQueryParam(param) {
+	    const urlParams = new URLSearchParams(window.location.search);
+	    return urlParams.get(param);
+	}
+
+	// category_seq 값을 가져옴
+	const category_seq = getQueryParam('category_seq');
+
+	// category_seq에 따라 이름을 매핑
+	const categoryNames = {
+	    1: "TV",
+	    2: "냉장고",
+	    3: "건조기",
+	    4: "세탁기",
+	    5: "전자레인지",
+	    6: "에어컨",
+	    7: "공기청정기",
+	    8: "청소기",
+	    9: "스타일러",
+	};
+
+	const categoryName = categoryNames[category_seq] || "기타";
+
+	// <title> 태그 동적으로 설정
+	if (categoryName) {
+	    document.title = `\${categoryName} - Rentally`;
+	}
+	</script>
+	
+	
 </body>
 </html>
