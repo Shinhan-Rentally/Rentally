@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <%@ include file="../common/headMeta.jsp" %>
-  <title>위시리스트</title>
+  <title>위시리스트 - Rentally</title>
   <%@ include file="../common/headLinks.jsp" %>
 </head>
 
@@ -23,7 +22,7 @@
           <!-- breadcrumb -->
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-              <li class="breadcrumb-item"><a href="#!">Home</a></li>
+              <li class="breadcrumb-item"><a href="${path}/main">Home</a></li>
               <li class="breadcrumb-item active" aria-current="page">위시리스트</li>
             </ol>
           </nav>
@@ -40,7 +39,7 @@
           <div class="mb-8">
             <!-- heading -->
             <h1 class="mb-1">위시리스트</h1>
-            <p>상품 ${totalCount}</p>
+            <p>${totalCount}개 상품</p>
           </div>
           <div>
             <!-- table -->
@@ -71,7 +70,9 @@
                       </a>
                       <span><small class="text-muted">${wish.product_features}</small></span>
                     </td>
-                    <td class="align-middle border-top-0">${wish.product_pay}</td>
+                    <td class="align-middle border-top-0">
+                      <fmt:formatNumber value="${wish.product_pay}" type="number" pattern="#,###"/>원
+                    </td>
                     <td class="align-middle">
                       <a class="text-muted deleteWish" href="#"
                          data-wish-seq="${wish.wish_seq}"
@@ -97,6 +98,8 @@
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="${path}/resources/js/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<%@ include file="../common/bottomKakao.jsp" %>
 <!-- Footer -->
 <%@ include file="../common/footer.jsp" %>
 <!-- Javascript-->
@@ -116,7 +119,7 @@
 
     // AJAX 요청
     $.ajax({
-      url: `${path}/wish/\${wish_seq}/delete`,
+      url: `${path}/wishlist/\${wish_seq}/delete`,
       type: 'delete',
       success: function (response) {
         alert('삭제 성공');

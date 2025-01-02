@@ -27,10 +27,24 @@ public class AdminController {
     private int productSeq = 1;
 
     @GetMapping("/product/list")
-    public String getProducts() {
-
+    public String getProducts(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            Model model
+    ) {
+      
         List<ProductDTO> products = adminService.findProducts();
-        return "";
+        int start = (page - 1) * size;
+        int end = Math.min(start + size, products.size());
+
+        List<ProductDTO> pagedProducts = products.subList(start, end);
+        int totalPages = (int) Math.ceil((double) products.size() / size);
+
+        model.addAttribute("products", pagedProducts);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalOrders", products.size());
+        model.addAttribute("currentPage", page);
+        return "admin/products";
     }
 
     @GetMapping("/review/list")
@@ -64,9 +78,23 @@ public class AdminController {
     }
 
     @GetMapping("/customer/list")
-    public String getCustomers() {
+    public String getCustomers(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            Model model
+    ) {
         List<CustomerDTO> customers = adminService.findCustomers();
-        return "";
+        int start = (page - 1) * size;
+        int end = Math.min(start + size, customers.size());
+
+        List<CustomerDTO> pagedCustomers = customers.subList(start, end);
+        int totalPages = (int) Math.ceil((double) customers.size() / size);
+
+        model.addAttribute("customers", pagedCustomers);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalOrders", customers.size());
+        model.addAttribute("currentPage", page);
+        return "admin/customers";
     }
 
     @GetMapping("/order/list")
@@ -92,9 +120,10 @@ public class AdminController {
     @PostMapping("/{productSeq}/delete")
     public String deleteProduct(@PathVariable int productSeq) {
         int result = adminService.removeProduct(productSeq);
-        return "";
+        return "redirect:/admin/product/list";
     }
 
+    @ResponseBody
     @PostMapping(value = "/product/add",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<String> addProduct(
             @RequestPart(value= "product") ProductDTO product,
@@ -106,5 +135,10 @@ public class AdminController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/product/add")
+    public String addProduct() {
+        return "/admin/productAdd";
     }
 }

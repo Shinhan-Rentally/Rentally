@@ -7,6 +7,7 @@
     <select id="selectProducts" resultType="ProductVO">
         select * from product
         join category using (category_seq)
+        where product_grade != 'F';
     </select>
 
     <select id="selectReviews" resultType="ReviewVO">

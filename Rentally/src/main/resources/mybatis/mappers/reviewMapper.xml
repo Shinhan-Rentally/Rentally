@@ -47,7 +47,7 @@
 		P.product_seq
 		) RA ON P.product_seq = RA.product_seq
 		WHERE
-		P.product_seq = 8
+		P.product_seq = #{product_seq}
 		AND R.sub_seq IS NOT NULL
 		ORDER BY
 		R.review_rate DESC
