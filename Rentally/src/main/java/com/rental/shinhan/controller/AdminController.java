@@ -64,9 +64,23 @@ public class AdminController {
     }
 
     @GetMapping("/customer/list")
-    public String getCustomers() {
+    public String getCustomers(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            Model model
+    ) {
         List<CustomerDTO> customers = adminService.findCustomers();
-        return "";
+        int start = (page - 1) * size;
+        int end = Math.min(start + size, customers.size());
+
+        List<CustomerDTO> pagedCustomers = customers.subList(start, end);
+        int totalPages = (int) Math.ceil((double) customers.size() / size);
+
+        model.addAttribute("customers", pagedCustomers);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalOrders", customers.size());
+        model.addAttribute("currentPage", page);
+        return "admin/customers";
     }
 
     @GetMapping("/order/list")
