@@ -6,7 +6,7 @@
 <%@ include file="../common/headMeta.jsp" %>
 <%@ include file="../common/headLinks.jsp" %>
 <meta charset="UTF-8">
-<title>로그인 페이지</title>
+<title>Rentally</title>
 </head>
 <body>
 
@@ -26,7 +26,7 @@
          <!-- col -->
          <div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1">
             <div class="mb-lg-9 mb-5">
-               <h1 class="mb-1 h2 fw-bold">Sign in to 렌탈리</h1>
+               <h1 class="mb-1 h2 fw-bold">로그인</h1>
                <p>렌탈리의 오신것을 환영합니다.</p>
             </div>
 
@@ -73,7 +73,7 @@
 <div class="col-12 d-flex justify-content-between align-items-center">
   <div class="form-check">
    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-   <label class="form-check-label" for="flexCheckDefault">Remember me</label>
+   <label class="form-check-label" for="flexCheckDefault">ID 기억하기</label>
 </div>
 
          <!-- 비밀번호찾기 -->
@@ -84,13 +84,13 @@
 
       <!-- Submit Button -->
       <div class="col-12 d-grid">
-         <button type="submit" class="btn btn-primary">Sign In</button>
+         <button type="submit" class="btn btn-info">로그인</button>
       </div>
 
       <!-- Sign Up Link -->
       <div>
          Don’t have an account?
-         <a href="${path}/customer/join">Sign Up</a>
+         <a href="${path}/customer/join">아직 Rentally 회원가입을 안하셨나요? 회원가입</a>
       </div>
 </form>
    </div>
@@ -172,7 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-
 </script>
 <!-- id 기억하기 script -->
 <script>
