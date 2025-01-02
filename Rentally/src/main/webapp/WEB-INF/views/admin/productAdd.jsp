@@ -21,9 +21,8 @@
                             <h2>상품 등록</h2>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="#" class="text-inherit">Products</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Add New Product</li>
+                                    <li class="breadcrumb-item"><a href="#">관리자</a></li>
+                                    <li class="breadcrumb-item"><a href="#" class="text-inherit">상품 등록</a></li>
                                 </ol>
                             </nav>
                         </div>
