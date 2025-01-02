@@ -99,10 +99,12 @@
                                             </td>
                                             <td>${product.product_date}</td>
                                             <td class="text-center">
-                                                <button class="btn btn-link p-0"
-                                                        onclick="deleteProduct(${product.product_seq})">
-                                                    <i class="bi bi-trash me-3"></i>
-                                                </button>
+                                                <form action="${path}/admin/${product.product_seq}/delete" method="post">
+                                                    <input type="hidden" name="productSeq" value="${product.product_seq}">
+                                                    <button class="btn btn-link p-0">
+                                                        <i class="bi bi-trash me-3"></i>
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                     </c:forEach>
