@@ -28,7 +28,7 @@
                             </nav>
                         </div>
                         <div>
-                            <a href="products.html" class="btn btn-light">Back to Product</a>
+                            <a href="../product/list" class="btn btn-light">Back to Product</a>
                         </div>
                     </div>
                 </div>
