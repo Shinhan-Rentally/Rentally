@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../common/headMeta.jsp"%>
-<title>Shop Checkout eCommerce HTML Template - FreshCart</title>
+<title>결제 - Rentally</title>
 <%@ include file="../common/headLinks.jsp"%>
 </head>
 <body>
@@ -264,7 +264,7 @@
 			</div>
 		</div>
 	</div>
-
+	<%@ include file="../common/bottomKakao.jsp" %>
 	<!-- Footer -->
 	<%@ include file="../common/footer.jsp"%>
 	<!-- Javascript-->
