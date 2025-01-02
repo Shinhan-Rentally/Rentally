@@ -169,12 +169,10 @@
 <script>
   $('#saveDetails').on("click", function (event){
     event.preventDefault();
-    cust_seq = ${custInfo.cust_seq};
     $.ajax({
-      url: `${path}/customer/\${cust_seq}/update`,
+      url: `${path}/customer/update`,
       type: 'post',
       data: {
-        cust_seq:cust_seq,
         cust_name : $('#cust_name').val(),
         cust_email : $('#cust_email').val(),
         cust_phone : $('#cust_phone').val()
@@ -191,7 +189,7 @@
     cust_seq = ${custInfo.cust_seq};
 
     $.ajax({
-      url: `${path}/customer/\${cust_seq}/delete`,
+      url: `${path}/customer/delete`,
       type: 'post',
       data: {cust_seq:cust_seq},
       success: function(response) {
@@ -210,7 +208,6 @@
   $("#updatePW").on("click", function (event) {
     event.preventDefault(); // 기본 동작 방지
 
-    cust_seq = ${custInfo.cust_seq}; // 고객 고유 번호
     currentPW = $("#currentPW").val(); // 사용자가 입력한 현재 비밀번호
     newPW = $("#newPW").val(); // 사용자가 입력한 새로운 비밀번호
 
@@ -222,10 +219,9 @@
 
     // 비밀번호 확인과 변경 요청을 한 번에 처리
     $.ajax({
-      url: `${path}/customer/\${cust_seq}/updatepw`, // 단일 요청 처리 API
+      url: `${path}/customer/updatepw`, // 단일 요청 처리 API
       type: "post",
       data: {
-        cust_seq:cust_seq,
         currentPW: currentPW,
         newPW: newPW,
       },
