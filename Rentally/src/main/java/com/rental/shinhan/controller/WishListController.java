@@ -23,8 +23,8 @@ public class WishListController {
 
     @GetMapping("/list")
     public String getWishLists(HttpSession session, Model model) {
-        int cust_seq = (Integer)session.getAttribute("cust_seq");
-        List<WishListJoinDTO> wishList = wishListService.findWishLists(cust_seq);
+        int custSeq = (Integer)session.getAttribute("cust_seq");
+        List<WishListJoinDTO> wishList = wishListService.findWishLists(custSeq);
         model.addAttribute("wishList",wishList);
         model.addAttribute("totalCount",wishList.size());
         return "/wish/wishList";
@@ -34,9 +34,9 @@ public class WishListController {
     @PostMapping(value="/add")
     public String createWishList(HttpSession session, @RequestParam("product_seq") int productSeq) {
         // WishListDTO 객체를 생성하고, 폼 데이터를 설정
-        int cust_seq = (Integer)session.getAttribute("cust_seq");
+        int custSeq = (Integer)session.getAttribute("cust_seq");
         WishListDTO request = new WishListDTO();
-        request.setCust_seq(cust_seq);
+        request.setCust_seq(custSeq);
         request.setProduct_seq(productSeq);
         // 서비스 호출하여 위시리스트 추가
         int result = wishListService.addWishList(request);
