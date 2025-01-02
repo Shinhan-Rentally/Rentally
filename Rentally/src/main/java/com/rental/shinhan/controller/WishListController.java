@@ -30,12 +30,18 @@ public class WishListController {
         return "/wish/wishList";
     }
 
-    @PostMapping(value="/add",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String createWishList(@RequestBody final WishListDTO request) {
+    @ResponseBody
+    @PostMapping(value="/add")
+    public String createWishList(HttpSession session, @RequestParam("product_seq") int productSeq) {
+        // WishListDTO 객체를 생성하고, 폼 데이터를 설정
+        int cust_seq = (Integer)session.getAttribute("cust_seq");
+        WishListDTO request = new WishListDTO();
+        request.setCust_seq(cust_seq);
+        request.setProduct_seq(productSeq);
+        // 서비스 호출하여 위시리스트 추가
         int result = wishListService.addWishList(request);
-        return "";
+        return result+"";
     }
-
     @ResponseBody
     @DeleteMapping("/{wish_seq}/delete")
     public String deleteWish(@PathVariable int wish_seq) {
