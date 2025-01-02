@@ -25,6 +25,6 @@ public class OrderController {
         List<SubscribeListJoinDTO> orders = orderService.findOrders(custSeq);
         model.addAttribute("myOrders",orders);
         System.out.println(orders);
-        return "/order/orderlist";
+        return "/order/orderList";
     }
 }
