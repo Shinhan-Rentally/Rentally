@@ -6,7 +6,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rental.shinhan.dto.SubscribeListJoinDTO;
+import com.rental.shinhan.service.CartService;
 import com.rental.shinhan.service.SubscribeService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,9 +36,22 @@ public class SubscribeController {
 	@Autowired
 	SubscribeService subscribeService;
 	
+	@Autowired
+	CartService cartService;
+	
 	@PostMapping("/product")
     public String getPaymentResultPage(HttpSession session, HttpServletRequest request, RedirectAttributes attr) throws UnsupportedEncodingException, ParseException { 	
     	subscribeService.insertSubscribe(makeDTO(session, request, false));
+    	
+    	boolean isCart = Boolean.parseBoolean(request.getParameter("isCart"));
+    	if(isCart) {
+    		String custId = (String)session.getAttribute("cust_id");
+    		Map<String, Object> paramMap = new HashMap<>();
+    		paramMap.put("cust_id", custId);
+    		paramMap.put("product_seq", Integer.parseInt(request.getParameter("product_seq")));
+    		int result = cartService.deleteCart(paramMap);
+    		log.info(result+"건 삭제 완료");
+    	}
     	
     	attr.addFlashAttribute("resultMessage", "구독 신청");
     	

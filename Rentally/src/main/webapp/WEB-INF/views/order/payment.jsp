@@ -431,6 +431,9 @@
 	    
 	    const $subPeriodInput = $('<input type="hidden" name="sub_period">').val(${productPeriod});
 	    $form.append($subPeriodInput);
+	    
+    	const $isCartInput = $('<input type="hidden" name="isCart">').val(${isCart});
+    	$form.append($isCartInput);
 
 	    if(${isUpgrade}){
 	    	const $subSeqInput = $('<input type="hidden" name="sub_seq">').val(${subSeq});
@@ -438,7 +441,7 @@
 		    $form.append($subSeqInput);
 	    	
 		    $form.attr('action', `${path}/subscribe/product/update`);
-	    } else {
+	    } else {	    	
 		    $form.attr('action', `${path}/subscribe/product`);
 	    }
 

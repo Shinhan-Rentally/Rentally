@@ -42,6 +42,8 @@ public class PaymentController {
     	
     	int custSeq = (int)session.getAttribute("cust_seq");
     	
+    	boolean isCart = Boolean.parseBoolean(request.getParameter("isCart") != null?request.getParameter("isCart"):"false");
+    	
     	// 장바구니,상품상세페이지, 업그레이드 페이지화면에서 product_seq 줬다는 가정
     	productSeq = Integer.parseInt(request.getParameter("product_seq"));
 
@@ -78,6 +80,8 @@ public class PaymentController {
     	model.addAttribute("custEmail", fullEmail);
     	model.addAttribute("custName", custInfo.getCust_name());
     	model.addAttribute("custPhone", custInfo.getCust_phone());
+
+    	model.addAttribute("isCart", isCart);
 
     	List<AddressDTO> addressList = addressService.getAddressesByCustSeq(custSeq);
     	
