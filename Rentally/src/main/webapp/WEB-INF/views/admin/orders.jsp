@@ -6,7 +6,7 @@
     <%@ include file="../common/headMeta.jsp" %>
     <%@ include file="../common/headLinks.jsp" %>
     <c:set var="page" value="orders"/>
-    <title>Orders Dashboard eCommerce HTML Template - FreshCart</title>
+    <title>주문 관리 - Rentally</title>
     <style>
         .order-table {
             text-align: center;
@@ -22,10 +22,10 @@
             <div class="row mb-8">
                 <div class="col-md-12">
                     <div>
-                        <h2>주문 리스트</h2>
+                        <h2>주문 관리</h2>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="#">관리자</a></li>
+                                <li class="breadcrumb-item"><a href="${path}/main">Home</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">주문 리스트</li>
                             </ol>
                         </nav>
@@ -75,7 +75,6 @@
         </div>
     </main>
 </div>
-
 <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="${path}/resources/css/theme.css"></script>

@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
-<html lang>
+<html>
 <head>
     <%@ include file="../common/headMeta.jsp" %>
     <%@ include file="../common/headLinks.jsp" %>
     <c:set var="page" value="reviews"/>
-    <title>Reviews Dashboard eCommerce HTML Template - FreshCart</title>
+    <title>리뷰 관리 - Rentally</title>
     <style>
         .review-table th,
         .review-table td {
@@ -66,7 +66,7 @@
                     <h2>리뷰 관리</h2>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#">관리자</a></li>
+                            <li class="breadcrumb-item"><a href="${path}/main">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">리뷰</li>
                         </ol>
                     </nav>
@@ -143,7 +143,6 @@
         </div>
     </main>
 </div>
-
 <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="${path}/resources/js/theme.min.js"></script>

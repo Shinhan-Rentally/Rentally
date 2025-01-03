@@ -6,9 +6,9 @@
     <%@ include file="../common/headMeta.jsp" %>
     <%@ include file="../common/headLinks.jsp" %>
     <c:set var="page" value="products"/>
-    <title>Products Dashboard eCommerce HTML Template - FreshCart</title>
+    <title>상품 관리 - Rentally</title>
     <style>
-        th {
+        th, td {
             text-align: center;
         }
         .product-name {
@@ -26,16 +26,16 @@
                 <div class="col-md-12">
                     <div class="d-md-flex justify-content-between align-items-center">
                         <div>
-                            <h2>상품 리스트</h2>
+                            <h2>상품 관리</h2>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item"><a href="#">관리자</a></li>
+                                    <li class="breadcrumb-item"><a href="${path}/main">Home</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">상품 리스트</li>
                                 </ol>
                             </nav>
                         </div>
                         <div>
-                            <a href="../product/add" class="btn btn-primary">상품 추가</a>
+                            <a href="${path}/admin/product/add" class="btn btn-info">Add Product</a>
                         </div>
                     </div>
                 </div>
