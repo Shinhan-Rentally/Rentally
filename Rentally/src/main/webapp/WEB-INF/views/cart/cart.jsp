@@ -95,9 +95,8 @@
 												</form>
 											</td>
 											<td class="align-middle">
-												<a id="deleteButton" href="#" class="text-muted"
-												data-bs-toggle="tooltip" data-bs-placement="top"
-												>
+												<a href="#" class="text-muted delete"
+												data-bs-toggle="tooltip" data-bs-placement="top">
 												<i class="feather-icon icon-trash-2"></i>
 												</a>
 											</td>
@@ -118,8 +117,8 @@
 	<script src="${path}/resources/js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
-		$('#deleteButton').click(function(){
-			var item = $(this).closest("tr").find("input[name='sub_seq']").val();
+		$('.delete').click(function(){
+			var item = $(this).closest("tr").find("input[name='product_seq']").val();
 			$.ajax({
 				url: "${path}/cart/product/delete",
 				type: "post",
