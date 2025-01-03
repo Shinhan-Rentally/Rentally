@@ -294,7 +294,7 @@
 	
 	<script>
 	let merchantUid;
-	console.log("isUpgrade:"+${isUpgrade});
+
 	$.ajax({
 		  url: `${path}/payment/getSubseq`,
 		  type: "GET",
