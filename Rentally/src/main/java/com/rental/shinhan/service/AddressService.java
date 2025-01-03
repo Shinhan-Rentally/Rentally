@@ -30,5 +30,14 @@ public class AddressService {
 		addressDAO.deleteAddress(addrSeq);
 	}
 	
+	// 주소 수정
+	public void updateAddress(AddressDTO address) {
+		addressDAO.updateAddress(address);
+	}
+	
+	// 기본 주소 존재 여부
+	public boolean isDefaultAddressExist(int custSeq) {
+		return addressDAO.isDefaultAddressExist(custSeq);
+	}
 
 }

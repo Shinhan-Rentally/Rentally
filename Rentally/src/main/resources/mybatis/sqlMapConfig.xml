@@ -12,7 +12,7 @@
 	</settings>
 	<typeAliases>		
 		<!-- addressMapper -->
-
+		<typeAlias type="com.rental.shinhan.dto.AddressDTO" alias="AddressVO"/>
 		
 		<!-- adminMapper -->
 		<typeAlias type="com.rental.shinhan.dto.ProductDTO" alias="ProductVO"/>

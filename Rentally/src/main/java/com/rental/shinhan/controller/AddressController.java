@@ -1,7 +1,9 @@
 package com.rental.shinhan.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rental.shinhan.dto.AddressDTO;
@@ -40,10 +43,13 @@ public class AddressController {
 
 	// 주소 저장 요청 처리
 	@RequestMapping(value = "/address/add", method = RequestMethod.POST)
-	public ModelAndView saveAddress(@RequestParam("postcode") String postcode, @RequestParam("address") String address,
-			@RequestParam("detailAddress") String detailAddress, @RequestParam("extraAddress") String extraAddress,
-			@RequestParam("recipName") String recipName, @RequestParam("recipPhone") String recipPhone,
-			@RequestParam("addrDefault") boolean addrDefault, @RequestParam("addressTitle") String addressTitle) {
+	public String saveAddress(
+			@RequestParam("postcode") String postcode, 
+			@RequestParam("address") String address,
+			@RequestParam("detailAddress") String detailAddress,
+			@RequestParam("recipName") String recipName,
+			@RequestParam("recipPhone") String recipPhone,
+			@RequestParam("addrDefault") boolean addrDefault) {
 
 		// 데이터 출력 로그
 		log.info("address: {},", address);
@@ -52,10 +58,10 @@ public class AddressController {
 		AddressDTO addressData = new AddressDTO();
 		addressData.setAddr_name(recipName);
 		addressData.setAddr_phone(recipPhone);
-		addressData.setAddr_detail(address + " " + detailAddress + " " + extraAddress + "(" + postcode + ")");
+		addressData.setAddr_detail(detailAddress + "(" + postcode + ")");
 		addressData.setCust_seq(testCustseq);
 		addressData.setAddr_default(addrDefault);
-		addressData.setAddr_title(addressTitle);
+		addressData.setAddr_title(address);
 
 		// addressDTO에 데이터 정보 저장
 		addressService.saveAddress(addressData);
@@ -63,7 +69,7 @@ public class AddressController {
 		// 데이터 출력 로그
 		log.info("데이터 저장 완료");
 
-		return new ModelAndView(""); // 저장 후 마이페이지 주소 목록 페이지로 리다이렉트
+		return ""; // 저장 후 마이페이지 주소 목록 페이지로 리다이렉트
 	}
 	
 	///getAddress/{custSeq}
@@ -80,12 +86,12 @@ public class AddressController {
 		    }
 		
 		model.addAttribute("addressList",addressList);
-		return "";// 마이 페이지 주소 목록 페이지로 리다이렉트
+		return "address/addAddressPage";// 마이 페이지 주소 목록 페이지로 리다이렉트
 	}
 	
 	
 	// 계정 내 등록된 계정 중 선택한 계정 삭제
-	@PostMapping("/address/delete")
+	@RequestMapping(value = "/address/delete", method = RequestMethod.POST)
 	public String deleteAddress(@RequestParam("selectedAddress") int addrSeq, Model model) {
 	    try {
 	        addressService.deleteAddress(addrSeq);
@@ -96,5 +102,38 @@ public class AddressController {
 	    }
 	    return ""; // 삭제 후 주소 목록 페이지로 리다이렉트
 	}
+	
+	
+	// 계정 수정 페이지로 이동
+	@RequestMapping("/address/goUpdate")
+	public String goUpdateAddress() {
+		return "";
+	}
+	//
+	// 계정 내 등록된 계정 중 선택한 계정 수정
+	@ResponseBody
+	@RequestMapping(value = "/address/update", method = RequestMethod.POST)
+	public Map<String,String> updateAddress( AddressDTO addressData) {		
+		Map<String, String> response = new HashMap<>();
+		System.out.println(addressData);
+		try {        
+			if (addressData.isAddr_default() && addressService.isDefaultAddressExist(testCustseq)) {
+			    response.put("status", "error");
+			    response.put("message", "기본 주소는 하나만 설정할 수 있습니다.");
+			    return response;
+			}
+	        // 서비스 호출하여 업데이트
+	        addressService.updateAddress(addressData);
+	         
+	        response.put("status","success");
+	        response.put("message", "주소 정보가 성공적으로 수정되었습니다.");
+	    } catch (Exception e) {
+	    	response.put("status", "error");
+	        response.put("message", "주소 정보 수정 중 오류가 발생했습니다.");
+	        log.error("Error updating address with addrSeq: {}", addressData.getAddr_seq(), e);
+	    }
 
+	    // 수정 후 주소 목록 페이지로 리다이렉트
+	    return response;
+	}
 }
