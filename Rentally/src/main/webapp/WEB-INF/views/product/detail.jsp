@@ -286,16 +286,14 @@
 														</select>
 													</div>
 												</div>
+												<c:if test="${empty reviewList[0]}">현재 상품에 대한 리뷰가 없습니다.</c:if>
 												<div class="d-flex border-bottom pb-6 mb-6">
-													<div id="reviewList" class="col-12"></div>
+													<div id="reviewList" class="col-12">
+													</div>
 												</div>
 
 
-												<!-- 페이징으로 바꿔야함 -->
-												<div>
-													<a href="#" class="btn btn-outline-gray-400 text-muted">Read
-														More Reviews</a>
-												</div>
+												
 											</div>
 										</div>
 									</div>
@@ -454,30 +452,33 @@
 		
 		//장바구니모달
 		$('#cartcart').on('click',function(){
-			$('#modal').show();
+			if(!selectPeriod){
+				alert("기간을 선택해주세요.");
+			}else{
+				$('#modal').show();
+				$.ajax({
+					url: "${path}/cart/product/add",
+					type: "post",
+					data: {
+						product_seq: ${detail.product_seq},
+						cart_option: selectPeriod
+					},
+					success: function(response){
+					
+							window.location.href = "${path}/cart/list";
+						
+					},
+					error: function(){
+						alert("오류발생~ 여기는 장바구니~ 장바구니~");
+					}
+					
+				});
+			}
 		});
 		$('#closeModal').click(function(){
 			$('#modal').hide();
 		});
-		$('#cartcart').click(function(){
-			$.ajax({
-				url: "${path}/cart/product/add",
-				type: "post",
-				data: {
-					product_seq: ${detail.product_seq},
-					cart_option: selectPeriod
-				},
-				success: function(response){
-				
-						window.location.href = "${path}/cart/list";
-					
-				},
-				error: function(){
-					alert("오류발생~ 여기는 장바구니~ 장바구니~");
-				}
-				
-			});
-		});
+	
 		$('#moveCart').click(function(){
 			window.location.href = "${path}/cart/list";
 		});
