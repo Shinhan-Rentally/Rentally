@@ -34,6 +34,7 @@ public class SubscribeListJoinDTO {
     boolean sub_upgrade;
     boolean sub_cancel;
     Timestamp sub_paydate;
+    String formatted_paydate;
     
     String cust_id;
     String cust_pw;
