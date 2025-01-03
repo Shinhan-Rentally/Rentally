@@ -134,7 +134,7 @@
 	        </div>
 	        <div class="modal-footer">
 	          <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal">취소</button>
-	          <button type="button" id="confirmCancel" class="btn btn-primary">해지</button>
+	          <button type="button" id="confirmCancel" class="btn btn-info">해지</button>
 	        </div>
 	      </div>
 	    </div>

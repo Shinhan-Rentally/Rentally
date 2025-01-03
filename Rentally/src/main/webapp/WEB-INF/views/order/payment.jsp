@@ -262,6 +262,22 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- 알림용 modal -->
+	<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title" id="alertModalLabel">알림</h5>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	            </div>
+	            <div class="modal-body" id="alertModalMessage"></div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-info" data-bs-dismiss="modal">확인</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 	<%@ include file="../common/bottomKakao.jsp" %>
 	<!-- Footer -->
 	<%@ include file="../common/footer.jsp"%>
@@ -278,7 +294,7 @@
 	
 	<script>
 	let merchantUid;
-	console.log("isUpgrade:"+${isUpgrade});
+
 	$.ajax({
 		  url: `${path}/payment/getSubseq`,
 		  type: "GET",
@@ -330,7 +346,6 @@
 				  },
 				  function (rsp) {
 				    if (rsp.success) {
-				      alert("빌링키 발급 성공");
 				      let subTotal = rsp.paid_amount;
 				      let subCard = rsp.card_name;
 				      
@@ -361,18 +376,18 @@
 				                    if(${isUpgrade}){
 				                    	paymentResultData['sub_date'] = `${subDate}`;
 				                    }
-				                    console.log(paymentResultData);
 				                    redirectToCompletePage(paymentResultData);
 				                } else {
-				                    alert("결제 실패");
+				                    showModalMessage('결제 실패했습니다.');
 				                }
 				            })
 				            .catch(error => {
 				                console.error('Error:', error);
-				                alert('결제 도중 오류 발생');
+				                showModalMessage('결제 도중 오류가 발생했습니다.');
 				            });
 				    } else {
-				      alert("빌링키 발급 실패");
+				    	console.log('빌링키 발급 실패');
+				    	showModalMessage('결제 실패했습니다.');
 				    }
 				  },
 				);
@@ -431,6 +446,9 @@
 	    
 	    const $subPeriodInput = $('<input type="hidden" name="sub_period">').val(${productPeriod});
 	    $form.append($subPeriodInput);
+	    
+    	const $isCartInput = $('<input type="hidden" name="isCart">').val(${isCart});
+    	$form.append($isCartInput);
 
 	    if(${isUpgrade}){
 	    	const $subSeqInput = $('<input type="hidden" name="sub_seq">').val(${subSeq});
@@ -438,7 +456,7 @@
 		    $form.append($subSeqInput);
 	    	
 		    $form.attr('action', `${path}/subscribe/product/update`);
-	    } else {
+	    } else {	    	
 		    $form.attr('action', `${path}/subscribe/product`);
 	    }
 
@@ -446,6 +464,10 @@
 	    $form.submit();
 	}
 
+	function showModalMessage(message) {
+	    $('#alertModalMessage').text(message);
+	    $('#alertModal').modal('show');
+	}
 	</script>
 </body>
 </html>
