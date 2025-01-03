@@ -47,7 +47,7 @@
 							<!-- table -->
 							<div class="table-responsive">
 								<table class="table text-nowrap table-with-checkbox">
-									<thead class="table-light">
+									<thead class="table-light"> 
 										<tr>
 											<th></th>
 											<th>상품명</th>
