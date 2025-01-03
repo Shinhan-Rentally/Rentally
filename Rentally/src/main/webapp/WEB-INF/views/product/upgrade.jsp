@@ -1,6 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -91,6 +89,8 @@
 											<input type="hidden" name="sub_seq" value="${subSeq}">
 											<input type="hidden" name="sub_total" value="${subTotal}">
 											<input type="hidden" name="isUpgrade" value="true">
+											<input type="hidden" name="sub_date" value="${subDate}">
+											<input type="hidden" name="sub_period" value="${subPeriod}">
 	                                       	<button class="btn btn-info btn-sm" id="upgrade">업그레이드</button>
 	                                      </form>
                                           </div>

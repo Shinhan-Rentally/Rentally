@@ -1,6 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,7 +64,9 @@
 	                                       	</small>
 	                                       </span>
 	                                    </td>
-	                                    <td class="align-middle border-top-0">${sub.sub_enddate}</td>
+	                                    <td class="align-middle border-top-0">
+	                                    	<fmt:formatDate value="${sub.sub_enddate}" pattern="yyyy-MM-dd"/>
+	                                    </td>
 	                                    <td class="align-middle border-top-0">
 	                                    <form action="${path}/subscribe/cancel" method="post" name="cancelForm">
 	                                    	<input type="hidden" name="sub_name" value="${sub.product_name}">
@@ -84,10 +84,26 @@
 											<input type="hidden" name="product_date" value="${sub.product_date}">
 											<input type="hidden" name="category_seq" value="${sub.category_seq}">
 											<input type="hidden" name="sub_total" value="${sub.sub_total}">
-											<button class="btn btn-info btn-sm" id="upgrade" <c:if test="${sub.sub_isUpgrade != true}">disabled</c:if>>
-												<c:if test="${sub.sub_upgrade == true}">업그레이드 완료</c:if>
-												<c:if test="${sub.sub_upgrade != true}">업그레이드</c:if>
-											</button>
+											<input type="hidden" name="sub_date" value="${sub.sub_date}">
+											<input type="hidden" name="sub_period" value="${sub.sub_period}">
+											
+											<c:if test="${sub.sub_isUpgrade == true}">
+												<button class="btn btn-info btn-sm" id="upgrade" >
+													<c:if test="${sub.sub_upgrade != true}">업그레이드</c:if>
+												</button>
+											</c:if>
+											<c:if test="${sub.sub_isUpgrade != true}">
+												<c:if test="${sub.sub_upgrade == true}">
+													<button class="btn btn-info btn-sm" id="upgrade" disabled>
+														업그레이드 완료
+													</button>
+												</c:if>
+												<c:if test="${sub.sub_upgrade != true}">
+													<button class="btn btn-secondary btn-sm" id="upgrade" disabled>
+														업그레이드 불가
+													</button>
+												</c:if>
+											</c:if>
 										</form>
 	                                    </td>
 	                                    <td class="align-middle border-top-0">

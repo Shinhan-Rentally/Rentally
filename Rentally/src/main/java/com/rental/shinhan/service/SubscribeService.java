@@ -15,7 +15,7 @@ public class SubscribeService {
 	@Autowired
 	SubscribeDAO subscribeDAO;
 	
-	public int insertSubscribe(SubscribeDTO subscribeDTO){
+	public int insertSubscribe(SubscribeListJoinDTO subscribeDTO){
 		return subscribeDAO.insertSubscribe(subscribeDTO);
 	}
 	
@@ -25,9 +25,5 @@ public class SubscribeService {
 	
 	public int cancelSubscribe(int subSeq) {
 		return subscribeDAO.cancelSubscribe(subSeq);
-	}
-	
-	public int updateSubscribe(SubscribeDTO subscribeDTO){
-		return subscribeDAO.updateSubscribe(subscribeDTO);
 	}
 }

@@ -1,12 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <%@ include file="../common/headMeta.jsp"%>
-<title>Shop Checkout eCommerce HTML Template - FreshCart</title>
+<title>결제 - Rentally</title>
 <%@ include file="../common/headLinks.jsp"%>
 </head>
 <body>
@@ -264,7 +262,7 @@
 			</div>
 		</div>
 	</div>
-
+	<%@ include file="../common/bottomKakao.jsp" %>
 	<!-- Footer -->
 	<%@ include file="../common/footer.jsp"%>
 	<!-- Javascript-->
@@ -357,8 +355,13 @@
 				                    const paymentResultData = {
 				                    	sub_total: subTotal,
 				                    	sub_card: subCard,
-				                    	sub_date: nowDate
+				                    	sub_date: nowDate,
+				                    	sub_paydate: nowDate
 				                    };
+				                    if(${isUpgrade}){
+				                    	paymentResultData['sub_date'] = `${subDate}`;
+				                    }
+				                    console.log(paymentResultData);
 				                    redirectToCompletePage(paymentResultData);
 				                } else {
 				                    alert("결제 실패");
@@ -425,16 +428,17 @@
 
 	    const $productSeqInput = $('<input type="hidden" name="product_seq">').val(${productSeq});
 	    $form.append($productSeqInput);
+	    
+	    const $subPeriodInput = $('<input type="hidden" name="sub_period">').val(${productPeriod});
+	    $form.append($subPeriodInput);
 
 	    if(${isUpgrade}){
 	    	const $subSeqInput = $('<input type="hidden" name="sub_seq">').val(${subSeq});
+	    	
 		    $form.append($subSeqInput);
 	    	
 		    $form.attr('action', `${path}/subscribe/product/update`);
 	    } else {
-	    	const $subPeriodInput = $('<input type="hidden" name="sub_period">').val(${productPeriod});
-		    $form.append($subPeriodInput);
-		    
 		    $form.attr('action', `${path}/subscribe/product`);
 	    }
 

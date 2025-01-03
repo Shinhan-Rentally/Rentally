@@ -1,6 +1,7 @@
 package com.rental.shinhan.controller;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -83,13 +84,16 @@ public class ProductListController {
 	@PostMapping("/upgrade/list")
 	public String getUpgradeListPage(Model model, @RequestParam String product_brand,
 			@RequestParam String product_grade, @RequestParam Date product_date, @RequestParam int category_seq,
-			@RequestParam int sub_seq, @RequestParam int product_seq, @RequestParam int sub_total) {
+			@RequestParam int sub_seq, @RequestParam int product_seq, @RequestParam int sub_total, 
+			@RequestParam Timestamp sub_date, @RequestParam int sub_period) {
 		List<ProductListJoinDTO> upgradeProductlist = productlistService.selectUpgradeProductList(product_brand,
 				product_grade, product_date, category_seq, product_seq);
 
 		model.addAttribute("upgradeProductlist", upgradeProductlist);
 		model.addAttribute("subSeq", sub_seq);
-		model.addAttribute("subTotal", sub_total);
+		model.addAttribute("subTotal", sub_total);		
+		model.addAttribute("subDate", sub_date);		
+		model.addAttribute("subPeriod", sub_period);		
 
 		return "product/upgrade";
 	}
