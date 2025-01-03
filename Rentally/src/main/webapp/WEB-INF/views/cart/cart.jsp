@@ -96,8 +96,7 @@
 											</td>
 											<td class="align-middle">
 												<a href="#" class="text-muted delete"
-												data-bs-toggle="tooltip" data-bs-placement="top"
-												>
+												data-bs-toggle="tooltip" data-bs-placement="top">
 												<i class="feather-icon icon-trash-2"></i>
 												</a>
 											</td>
