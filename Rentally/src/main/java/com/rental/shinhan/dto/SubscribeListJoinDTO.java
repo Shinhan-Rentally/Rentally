@@ -1,10 +1,16 @@
 package com.rental.shinhan.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
-
 import java.sql.Date;
+import java.sql.Timestamp;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Builder
 @Getter @Setter @ToString
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,10 +20,8 @@ public class SubscribeListJoinDTO {
     int product_seq;
     int review_seq;
     boolean review_written;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    Date sub_date;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    Date sub_enddate; // 만료일(새로 만든 필드)
+    Timestamp sub_date;
+    Timestamp sub_enddate; // 만료일(새로 만든 필드)
     double sub_penalty; // 위약금(새로 만든 필드)
     boolean sub_isUpgrade; // 업그레이드 가능여부(새로 만든 필드)
     int sub_total;
@@ -29,6 +33,7 @@ public class SubscribeListJoinDTO {
     int sub_period;
     boolean sub_upgrade;
     boolean sub_cancel;
+    Timestamp sub_paydate;
     
     String cust_id;
     String cust_pw;

@@ -43,11 +43,11 @@
 	</update>
 
 	<!-- 구독 상품 정보 등록 -->
-	<insert id="insertSubscribe" parameterType="SubscribeVO">
+	<insert id="insertSubscribe" parameterType="SubscribeListVO">
 		insert into subscribe
 		values ( nextval('sub_seq'), #{cust_seq}, #{sub_date}, #{sub_total}, 
 		#{sub_addrT}, #{sub_addrD}, #{sub_name}, #{sub_phone}, #{sub_card},
-		#{sub_period}, #{sub_upgrade}, #{sub_cancel}, #{product_seq} )
+		#{sub_period}, #{sub_upgrade}, #{sub_cancel}, #{product_seq}, #{sub_paydate})
 	</insert>
 
 	<!-- 구독 상품 정보 업데이트 -->
