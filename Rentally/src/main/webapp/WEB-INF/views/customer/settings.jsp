@@ -49,7 +49,7 @@
                     </div>
                     <!-- button -->
                     <div class="mb-3">
-                      <button id="saveDetails" class="btn btn-primary">회원정보 수정</button>
+                      <button id="saveDetails" class="btn btn-info">회원정보 수정</button>
                     </div>
                   </form>
                 </div>
@@ -63,19 +63,21 @@
                 <!-- input -->
                 <div class="mb-3 col">
                   <label class="form-label">새로운 비밀번호</label>
-                  <input id="newPW" type="password" class="form-control" placeholder="**********" />
+                  <input id="newPW" type="password" class="form-control" placeholder="**********" required/>
+                  <div id="newPWFeedback" class="invalid-feedback"></div>
                 </div>
                 <!-- input -->
                 <div class="mb-3 col">
                   <label class="form-label">현재 비밀번호</label>
-                  <input id="currentPW" type="password" class="form-control" placeholder="**********" />
+                  <input id="currentPW" type="password" class="form-control" placeholder="**********" required/>
+                  <div id="currentPWFeedback" class="invalid-feedback"></div>
                 </div>
                 <!-- input -->
                 <div class="col-12">
                   <p class="mb-4 text-nowrap">
                     새로운 비밀번호와 현재 비밀번호를 입력해주세요.
                   </p>
-                  <button id="updatePW" class="btn btn-primary">비밀번호 수정</button>
+                  <button id="updatePW" class="btn btn-info">비밀번호 수정</button>
                 </div>
               </form>
             </div>
@@ -153,12 +155,28 @@
     currentPW = $("#currentPW").val(); // 사용자가 입력한 현재 비밀번호
     newPW = $("#newPW").val(); // 사용자가 입력한 새로운 비밀번호
 
+    let isValid = true; // 필드 검증 플래그
+
     // 필드 검증
-    if (!currentPW || !newPW) {
-      alert("모든 필드를 입력해주세요.");
-      return;
+    if (!currentPW) {
+      $("#currentPW").addClass("is-invalid");
+      $("#currentPWFeedback").text("현재 비밀번호를 입력해주세요.");
+      isValid = false;
+    } else {
+      $("#currentPW").removeClass("is-invalid");
     }
 
+    if (!newPW) {
+      $("#newPW").addClass("is-invalid");
+      $("#newPWFeedback").text("새로운 비밀번호를 입력해주세요.");
+      isValid = false;
+    } else {
+      $("#newPW").removeClass("is-invalid");
+    }
+
+    if (!isValid) {
+      return;
+    }
     // 비밀번호 확인과 변경 요청을 한 번에 처리
     $.ajax({
       url: `${path}/customer/updatepw`, // 단일 요청 처리 API
