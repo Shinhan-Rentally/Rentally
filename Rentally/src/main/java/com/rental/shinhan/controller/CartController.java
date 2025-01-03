@@ -1,5 +1,8 @@
 package com.rental.shinhan.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +42,15 @@ public class CartController {
 		return result>0?"장바구니 추가성공":"장바구니 추가실패";
 	}
 	
-	@RequestMapping("/cart/product/delete")
-	public String delete(int product_seq) {
-		int result = cartService.deleteCart(product_seq);
+	@ResponseBody
+	@PostMapping("/cart/product/delete")
+	public String delete(int product_seq, HttpSession session) {
+		String custId = (String)session.getAttribute("cust_id");
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("cust_id", custId);
+		paramMap.put("product_seq", product_seq);
+		int result = cartService.deleteCart(paramMap);
 		log.info(result+"건 삭제 완료");
-		return "redirect:cart/cart";
+		return result > 0 ? "장바구니삭제성공" : "장바구니삭제실패";
 	}
 }

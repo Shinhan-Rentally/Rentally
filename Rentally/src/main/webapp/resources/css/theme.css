@@ -24991,8 +24991,8 @@ input::-webkit-inner-spin-button {
   color: var(--fc-gray-800);
 }
 .navbar-vertical-nav .navbar-vertical .navbar-nav .nav-item .nav-link.active {
-  background-color: var(--fc-light-primary);
-  color: var(--fc-dark-primary);
+  color: var(--fc-white);
+  background-color: #001e2b;
 }
 .navbar-vertical-nav .navbar-vertical .navbar-nav .nav-item .nav-link .nav-link-icon {
   margin-right: 16px;
