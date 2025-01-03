@@ -35,5 +35,9 @@ public class AddressService {
 		addressDAO.updateAddress(address);
 	}
 	
+	// 기본 주소 존재 여부
+	public boolean isDefaultAddressExist(int custSeq) {
+		return addressDAO.isDefaultAddressExist(custSeq);
+	}
 
 }

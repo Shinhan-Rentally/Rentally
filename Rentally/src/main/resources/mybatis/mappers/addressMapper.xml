@@ -29,22 +29,32 @@
 
 	<!-- 등록된 주소 삭제 -->
 	<delete id="deleteAddress" parameterType="int">
-		DELETE FROM address WHERE addr_seq = #{addrSeq};
+		DELETE FROM address
+		WHERE addr_seq = #{addrSeq};
 	</delete>
-	
+
 	<!-- 주소 수정 -->
-    <update id="updateAddress"
-   		 parameterType="com.rental.shinhan.dto.AddressDTO">
-        UPDATE address
-        SET 
-            addr_name = #{addr_name},
-            addr_phone = #{addr_phone},
-            addr_detail = #{addr_detail},
-            addr_default = #{addr_default},
-            addr_title = #{addr_title}
-        WHERE 
-            addr_seq = #{addr_seq}
-    </update>
+	<update id="updateAddress"
+		parameterType="com.rental.shinhan.dto.AddressDTO">
+		UPDATE address
+		SET
+		addr_name = #{addr_name},
+		addr_phone = #{addr_phone},
+		addr_detail = #{addr_detail},
+		addr_default = #{addr_default},
+		addr_title = #{addr_title}
+		WHERE
+		addr_seq = #{addr_seq}
+	</update>
+
+	<!-- 기본 주소 존재 여부 처리 -->
+	<select id="isDefaultAddressExist" parameterType="int"
+		resultType="boolean">
+		SELECT COUNT(*) > 0
+		FROM address
+		WHERE cust_seq = #{custSeq}
+		AND addr_default = TRUE
+	</select>
 
 
 </mapper>

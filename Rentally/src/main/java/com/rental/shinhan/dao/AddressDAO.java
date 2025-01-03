@@ -43,5 +43,9 @@ public class AddressDAO implements AddressInterface {
 		sqlSession.update(namespace + "updateAddress", addressData);
 	}
 	
+	// 기본 주소 존재 여부
+	public boolean isDefaultAddressExist(int custSeq) {
+		return sqlSession.selectOne(namespace + "isDefaultAddressExist",custSeq);
+	}
 	
 }

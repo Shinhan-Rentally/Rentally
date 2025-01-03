@@ -69,7 +69,7 @@ public class AddressController {
 		// 데이터 출력 로그
 		log.info("데이터 저장 완료");
 
-		return "redirect:/create"; // 저장 후 마이페이지 주소 목록 페이지로 리다이렉트
+		return ""; // 저장 후 마이페이지 주소 목록 페이지로 리다이렉트
 	}
 	
 	///getAddress/{custSeq}
@@ -100,14 +100,14 @@ public class AddressController {
 	        model.addAttribute("message", "주소 삭제 중 오류가 발생했습니다.");
 	        log.error("Error deleting address with addrSeq: {}", addrSeq, e);
 	    }
-	    return "redirect:/address/list"; // 삭제 후 주소 목록 페이지로 리다이렉트
+	    return ""; // 삭제 후 주소 목록 페이지로 리다이렉트
 	}
 	
 	
 	// 계정 수정 페이지로 이동
 	@RequestMapping("/address/goUpdate")
 	public String goUpdateAddress() {
-		return "address/updateAddressPage";
+		return "";
 	}
 	//
 	// 계정 내 등록된 계정 중 선택한 계정 수정
@@ -117,7 +117,11 @@ public class AddressController {
 		Map<String, String> response = new HashMap<>();
 		System.out.println(addressData);
 		try {        
- 	        
+			if (addressData.isAddr_default() && addressService.isDefaultAddressExist(testCustseq)) {
+			    response.put("status", "error");
+			    response.put("message", "기본 주소는 하나만 설정할 수 있습니다.");
+			    return response;
+			}
 	        // 서비스 호출하여 업데이트
 	        addressService.updateAddress(addressData);
 	         
