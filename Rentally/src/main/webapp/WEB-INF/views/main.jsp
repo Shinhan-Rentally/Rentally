@@ -882,23 +882,28 @@
 					</div>
 				</div>
 			</section>
-			<section class="my-lg-14 my-8">
-				<div class="container">
-					<c:forEach items="${bestReview}" var="bestReview">
-					<div class="row">
-						<div class="col-md-6 col-lg-3">
-							<div class="mb-8 mb-xl-0">
-								<div class="mb-6"><img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${bestReview.product_seq}/
-													${bestReview.product_img}" alt="" /></div>
-								<h3 class="h5 mb-3">${bestReview.product_name}</h3>
-								<p>${bestReview.review_content}</p>
-							</div>
-						</div>
-				
-						</div>
-						</c:forEach>
-				</div>
-			</section>
+<section class="my-lg-14 my-8">
+    <div class="container">
+        <div class="row">
+            <c:forEach items="${bestReview}" var="bestReview" varStatus="status">
+                <c:if test="${status.index < 4}">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="border rounded p-3 mb-8 mb-xl-0"> <!-- 테두리와 여백 추가 -->
+                            <div class="mb-6">
+                                <img src="${path}/resources/images/icons/package.svg" alt="" />
+                            </div>
+                            <h3 class="h5 mb-3">10 minute grocery now</h3>
+                            <h3 class="h5 mb-3">${bestReview.product_name}</h3>
+                            <p>${bestReview.review_content}</p>
+                        </div>
+                    </div>
+                </c:if>
+            </c:forEach>
+        </div>
+    </div>
+</section>
+
+
 		</main>
 <!-- Footer -->
 	
