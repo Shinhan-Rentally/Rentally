@@ -17,5 +17,7 @@ public interface AddressInterface {
 	
 	// 주소 삭제
 	public void deleteAddress(int addrSeq);
+
+	void updateAddress(AddressDTO addressData);
 	
 }

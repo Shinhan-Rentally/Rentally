@@ -30,5 +30,10 @@ public class AddressService {
 		addressDAO.deleteAddress(addrSeq);
 	}
 	
+	// 주소 수정
+	public void updateAddress(AddressDTO address) {
+		addressDAO.updateAddress(address);
+	}
+	
 
 }
