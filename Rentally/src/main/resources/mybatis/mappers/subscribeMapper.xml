@@ -8,7 +8,7 @@
 			s.sub_seq,
 			p.product_name,
 			p.product_seq,
-			s.sub_paydate,
+			TO_CHAR(s.sub_paydate, 'YYYY-MM-DD') AS formatted_paydate,
 			s.sub_total,
 			c.cust_seq,
 			p.product_img,
@@ -24,7 +24,6 @@
 		LEFT JOIN review r USING (sub_seq)
 		WHERE c.cust_seq = #{cust_seq}
 		ORDER BY sub_seq ASC;
-
 	</select>
 	<!-- 구독 현황 조회 -->
 	<select id="selectSubscribeList" parameterType="int" resultType="SubscribeListVO">
