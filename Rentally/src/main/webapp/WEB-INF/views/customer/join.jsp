@@ -42,7 +42,7 @@
 								
 						</div>
 						<!-- form -->
-						<form class="needs-validation" novalidate>
+						<form action="${path}/customer/join" method="post" class="needs-validation" novalidate>
 							<div class="row g-3">
 								<!-- col -->
 								<div class="col-12">
@@ -142,12 +142,21 @@
 	<script src="${path}/resources/js/vendors/validation.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
-		//입력값이 비어있을 때
+		//입력값이 비어있을 때 경고문구
 		$("#join").on("click", function(){
-			let isValid = ture;
+			$(".form-control").each(function(){
+				let input = $(this);
+				let value = input.val().trim();
+				let errorMessage = input.next('.invalid-feedback');
+				if(value === ""){
+					errorMessage.removeClass('hide');
+				} else {
+					errorMessage.addClass('hide');
+				}
+			});
 		});
 		
-		//이메일 유효성검사
+		//이메일 선택값
 		$("select").on("change", function() {
 			if ($(this).val()) {
 				$("#formSignupEmail2").attr("readonly", true);
@@ -228,8 +237,8 @@
 		//아이디 중복체크
 		$("#formSignupId").on("input", function(){
 			let custId = $(this).val().trim();
-			if(custId.length < 3){
-				$(".success-feedback, .check-feedback").addClass("hide");
+			if(custId.length < 4){
+				$(".check-feedback").addClass("hide");
 				return;
 			}
 			$.ajax({
@@ -237,12 +246,14 @@
 				type: "get",
 				data: {cust_id : custId},
 				success: function(response){
-					if(response){
-						$(".check-feedback").removeClass("hide");
+					if(response == "true"){
+						//이미 사용중인 아이디
 						$(".success-feedback").addClass("hide");
+						$(".check-feedback").removeClass("hide");
 					} else {
-						$(".check-feedback").addClass("hide");
+						//사용가능한 아이디
 						$(".success-feedback").removeClass("hide");
+						$(".check-feedback").addClass("hide");
 					}
 				},
 				error: function(err){
