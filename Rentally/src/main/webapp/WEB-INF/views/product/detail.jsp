@@ -6,7 +6,7 @@
 <html>
 <head>
 <%@include file="../common/headMeta.jsp"%>
-<title>Product Detail - Rentally</title>
+<title>${detail.product_name} - Rentally</title>
 <link href="${path}/resources/libs/tiny-slider/dist/tiny-slider.css"
 	rel="stylesheet" />
 <%@ include file="../common/headLinks.jsp"%>
