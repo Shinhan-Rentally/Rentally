@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rental.shinhan.daointerface.SubscribeInterface;
-import com.rental.shinhan.dto.SubscribeDTO;
 import com.rental.shinhan.dto.SubscribeListJoinDTO;
 
 @Repository
@@ -17,7 +16,7 @@ public class SubscribeDAO implements SubscribeInterface {
 	@Autowired
 	SqlSession sqlSession;
 
-	public int insertSubscribe(SubscribeDTO subscribeDTO){
+	public int insertSubscribe(SubscribeListJoinDTO subscribeDTO){
 		int result = sqlSession.insert(namespace + "insertSubscribe", subscribeDTO);
 		
 		return result;
@@ -33,11 +32,5 @@ public class SubscribeDAO implements SubscribeInterface {
 		int result = sqlSession.update(namespace + "cancelSubscibe", subSeq);
 
 		return result;
-	}
-	
-	public int updateSubscribe(SubscribeDTO subscribeDTO){
-		int result = sqlSession.update(namespace + "updateSubscribe", subscribeDTO);
-		
-		return result;
-	}
+	}	
 }
