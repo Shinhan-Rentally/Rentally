@@ -50,7 +50,6 @@ public class SubscribeController {
     		paramMap.put("cust_id", custId);
     		paramMap.put("product_seq", Integer.parseInt(request.getParameter("product_seq")));
     		int result = cartService.deleteCart(paramMap);
-    		log.info(result+"건 삭제 완료");
     	}
     	
     	attr.addFlashAttribute("resultMessage", "구독 신청");
