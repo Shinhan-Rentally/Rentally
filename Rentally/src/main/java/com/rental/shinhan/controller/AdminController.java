@@ -25,9 +25,7 @@ public class AdminController {
 
     @Autowired
     Pagenation pagenation;
-
-    private int productSeq = 1;
-
+    
     @GetMapping("/product/list")
     public String getProducts(
             @RequestParam(value = "page", defaultValue = "1") int page,
