@@ -14,7 +14,7 @@
 		VALUES (#{addr_detail},
 		#{addr_title}, #{addr_name}, #{addr_phone},
 		#{addr_default},
-		#{cust_seq});
+		#{cust_seq})
 	</insert>
 
 	<!-- 등록된 주소 불러오기 -->
@@ -24,13 +24,13 @@
 		addr_phone,
 		addr_default
 		FROM address
-		WHERE cust_seq = #{custSeq};
+		WHERE cust_seq = #{custSeq}
 	</select>
 
 	<!-- 등록된 주소 삭제 -->
 	<delete id="deleteAddress" parameterType="int">
 		DELETE FROM address
-		WHERE addr_seq = #{addrSeq};
+		WHERE addr_seq = #{addrSeq}
 	</delete>
 
 	<!-- 주소 수정 -->
