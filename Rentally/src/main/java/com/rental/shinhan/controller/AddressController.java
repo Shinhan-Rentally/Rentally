@@ -43,17 +43,38 @@ public class AddressController {
 
 	// 주소 저장 요청 처리
 	@RequestMapping(value = "/address/add", method = RequestMethod.POST)
-	public String saveAddress(
+	@ResponseBody
+	public Map<String, String> saveAddress(
 			@RequestParam("postcode") String postcode, 
 			@RequestParam("address") String address,
 			@RequestParam("detailAddress") String detailAddress,
 			@RequestParam("recipName") String recipName,
 			@RequestParam("recipPhone") String recipPhone,
-			@RequestParam("addrDefault") boolean addrDefault) {
+			@RequestParam(value = "addrDefault", defaultValue = "false") boolean addrDefault) {
 
+		// 데이터 맵핑
+		Map<String, String> response = new HashMap<>();
+				
 		// 데이터 출력 로그
 		log.info("address: {},", address);
+		
+		
+		// 주소 개수 확인
+	    int addressCount = addressService.getAddressCountByCustSeq(testCustseq);
+	    if (addressCount >= 5) {
+	        response.put("status", "error");
+	        response.put("message", "주소는 최대 5개까지만 등록할 수 있습니다.");
+	        return response;
+	    }
 
+	    // 기본 주소 중복 확인
+	    if (addrDefault && addressService.isDefaultAddressExist(testCustseq)) {
+	        response.put("status", "error");
+	        response.put("message", "기본 주소는 하나만 설정할 수 있습니다.");
+	        return response;
+	    }
+		
+		
 		// DB에 보낼 정보 저장
 		AddressDTO addressData = new AddressDTO();
 		addressData.setAddr_name(recipName);
@@ -68,8 +89,10 @@ public class AddressController {
 
 		// 데이터 출력 로그
 		log.info("데이터 저장 완료");
+		response.put("status", "success");
+	    response.put("message", "주소가 성공적으로 저장되었습니다.");
 
-		return ""; // 저장 후 마이페이지 주소 목록 페이지로 리다이렉트
+		return response; // 저장 후 response 리턴
 	}
 	
 	///getAddress/{custSeq}
@@ -100,7 +123,7 @@ public class AddressController {
 	        model.addAttribute("message", "주소 삭제 중 오류가 발생했습니다.");
 	        log.error("Error deleting address with addrSeq: {}", addrSeq, e);
 	    }
-	    return ""; // 삭제 후 주소 목록 페이지로 리다이렉트
+	    return "redirect:/address/list"; // 삭제 후 주소 목록 페이지로 리다이렉트
 	}
 	
 	
@@ -109,7 +132,8 @@ public class AddressController {
 	public String goUpdateAddress() {
 		return "";
 	}
-	//
+	
+	
 	// 계정 내 등록된 계정 중 선택한 계정 수정
 	@ResponseBody
 	@RequestMapping(value = "/address/update", method = RequestMethod.POST)
@@ -136,4 +160,5 @@ public class AddressController {
 	    // 수정 후 주소 목록 페이지로 리다이렉트
 	    return response;
 	}
+	
 }
