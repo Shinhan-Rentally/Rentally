@@ -88,9 +88,9 @@
 											
 											<td class="align-middle">
 												<form action="${path}/payment" method="post" name="subForm">
-													<input type="hidden" name="sub_seq" value="${cart.product_seq}">
-													<input type="hidden" name="sub_name" value="${cart.product_name}">
-													<input type="hidden" name="sub_period" value="${cart.cart_option}">
+													<input type="hidden" name="product_seq" value="${cart.product_seq}">
+													<input type="hidden" name="product_name" value="${cart.product_name}">
+													<input type="hidden" name="cart_option" value="${cart.cart_option}">
 													<button class="btn btn-primary btn-sm" id="subscribe">구독</button>
 												</form>
 											</td>
