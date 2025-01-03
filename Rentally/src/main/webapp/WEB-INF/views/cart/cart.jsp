@@ -47,7 +47,7 @@
 							<!-- table -->
 							<div class="table-responsive">
 								<table class="table text-nowrap table-with-checkbox">
-									<thead class="table-light">
+									<thead class="table-light"> 
 										<tr>
 											<th></th>
 											<th>상품명</th>
@@ -61,7 +61,7 @@
 										<c:forEach items="${cartList}" var="cart" varStatus="status">
 										<tr>
 											<td class="align-middle">
-												<a href="#">
+												<a href="${path}/product/detail?product_seq=${cart.product_seq}">
 													<img
 													src="https://rentally.s3.ap-northeast-2.amazonaws.com/${cart.category_seq}/${cart.product_img}" alt="${cart.product_name}"
 													class="icon-shape icon-xxl" alt="${cart.product_name}" />
@@ -70,7 +70,7 @@
 											<td class="align-middle">
 												<div>
 													<h5 class="fs-6 mb-0">
-														<a href="#" class="text-inherit">${cart.product_name}</a>
+														<a href="${path}/product/detail?product_seq=${cart.product_seq}" class="text-inherit">${cart.product_name}</a>
 													</h5>
 													<span>
 														<small>
@@ -91,7 +91,8 @@
 													<input type="hidden" name="product_seq" value="${cart.product_seq}">
 													<input type="hidden" name="product_name" value="${cart.product_name}">
 													<input type="hidden" name="cart_option" value="${cart.cart_option}">
-													<button class="btn btn-primary btn-sm" id="subscribe">구독</button>
+													<input type="hidden" name="isCart" value="true">
+													<button class="btn btn-info btn-sm" id="subscribe">구독</button>
 												</form>
 											</td>
 											<td class="align-middle">
