@@ -86,10 +86,24 @@
 											<input type="hidden" name="sub_total" value="${sub.sub_total}">
 											<input type="hidden" name="sub_date" value="${sub.sub_date}">
 											<input type="hidden" name="sub_period" value="${sub.sub_period}">
-											<button class="btn btn-info btn-sm" id="upgrade" <c:if test="${sub.sub_isUpgrade != true}">disabled</c:if>>
-												<c:if test="${sub.sub_upgrade == true}">업그레이드 완료</c:if>
-												<c:if test="${sub.sub_upgrade != true}">업그레이드</c:if>
-											</button>
+											
+											<c:if test="${sub.sub_isUpgrade == true}">
+												<button class="btn btn-info btn-sm" id="upgrade" >
+													<c:if test="${sub.sub_upgrade != true}">업그레이드</c:if>
+												</button>
+											</c:if>
+											<c:if test="${sub.sub_isUpgrade != true}">
+												<c:if test="${sub.sub_upgrade == true}">
+													<button class="btn btn-info btn-sm" id="upgrade" disabled>
+														업그레이드 완료
+													</button>
+												</c:if>
+												<c:if test="${sub.sub_upgrade != true}">
+													<button class="btn btn-secondary btn-sm" id="upgrade" disabled>
+														업그레이드 불가
+													</button>
+												</c:if>
+											</c:if>
 										</form>
 	                                    </td>
 	                                    <td class="align-middle border-top-0">
