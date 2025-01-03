@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
     <%@ include file="../common/headMeta.jsp" %>
     <%@ include file="../common/headLinks.jsp" %>
     <link href="${path}/resources/libs/dropzone/dist/min/dropzone.min.css" rel="stylesheet"/>
-    <title>Add Product Dashboard eCommerce HTML Template - FreshCart</title>
+    <title>상품 등록 - Rentally</title>
 </head>
 <body>
 <%@ include file="../common/adminTopNavbar.jsp" %>
@@ -21,14 +21,14 @@
                             <h2>상품 등록</h2>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="#" class="text-inherit">Products</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Add New Product</li>
+                                    <li class="breadcrumb-item"><a href="${path}/main" class="text-inherit">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="${path}/admin/product/list">관리자</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">상품 등록</li>
                                 </ol>
                             </nav>
                         </div>
                         <div>
-                            <a href="../product/list" class="btn btn-light">Back to Product</a>
+                            <a href="${path}/admin/product/list" class="btn btn-light-info">Back to Product</a>
                         </div>
                     </div>
                 </div>
@@ -148,7 +148,7 @@
                     </div>
                 </div>
                 <div class="d-grid">
-                    <button id="btn_ajax" type="button" class="btn btn-primary">상품 등록</button>
+                    <button id="btn_ajax" type="button" class="btn btn-info">상품 등록</button>
                 </div>
             </div>
         </div>
