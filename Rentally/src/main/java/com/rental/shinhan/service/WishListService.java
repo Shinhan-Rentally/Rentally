@@ -17,6 +17,7 @@ public class WishListService {
     public List<WishListJoinDTO> findWishLists(int custSeq) {
         return wishListDAO.selectWishLists(custSeq);
     }
+    public List<WishListDTO> wishStatus(int cust_seq) {return wishListDAO.wishStatus(cust_seq);}
 
     public int addWishList(WishListDTO request) {
         WishListDTO wishlist = WishListDTO
