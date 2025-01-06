@@ -2,6 +2,7 @@ package com.rental.shinhan.controller;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +57,7 @@ public class ProductListController {
 			 @RequestParam(value = "page", defaultValue = "1", required = false) int page,  // 페이지 번호, 기본값 1
 			    @RequestParam(value = "size", defaultValue = "10", required = false) int size, // 페이지당 항목 수, 기본값 10
 			@RequestHeader(value = "X-Requested-With", required = false) String requestedWith, HttpSession session) {
-		int cust_seq = (Integer)session.getAttribute("cust_seq");
+		Integer cust_seq = (Integer)session.getAttribute("cust_seq");
 		// priceRange가 빈 값일 경우 null로 처리
 		if (priceRange != null && priceRange.trim().isEmpty()) {
 			priceRange = null;
@@ -64,7 +65,12 @@ public class ProductListController {
 		// 서비스 호출
 		List<ProductListJoinDTO> productlist = productlistService.selectProductList(category_seq, product_brand,
 				priceRange, sort,query,page,size);
-		List<WishListDTO> wishlist = wishlistService.wishStatus(cust_seq);
+
+		// 로그인 여부에 따라 위시리스트 처리
+		List<WishListDTO> wishlist = new ArrayList<>();
+		if (cust_seq != null) { // 로그인된 경우에만 wishlist를 조회
+			wishlist = wishlistService.wishStatus(cust_seq);
+		}
 
 		 // 서비스에서 페이징된 데이터를 가져옴
         Map<String, Object> params = new HashMap<>();
