@@ -16,7 +16,7 @@
 	color: white;
 	border-color: #0046ff;
 }
-#modal{
+/* #modal{
 	display: none;
 	position: absolute;
 	top: 0;
@@ -47,7 +47,7 @@
 }
 .modal-footer{
 	margin-bottom: 5px;
-}
+} */
 </style>
 </head>
 <body>
@@ -307,17 +307,13 @@
 
 	</main>
 	<!-- 장바구니 추가 확인 모달 -->
-
-		<div id="modal" class="modal-dialog modal-dialog-centered">
+	<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="alertModalLael" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="reviewModalLabel">장바구니 담기</h5>
+					<h5 class="modal-title" id="alertModalLabel">알림</h5>
 				</div>
-				<div class="modal-body">
-				
-						<p for="cartText" class="form-label">장바구니에 상품이<br>성공적으로 담겼습니다.</p>
-				
-				</div>
+				<div class="modal-body" id="cartModalMessage"></div>
 				<div class="modal-footer">
 					<button id="closeModal" type="button" class="btn btn-secondary"
 							data-bs-dismiss="modal">쇼핑 계속하기</button>
@@ -326,12 +322,30 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<!-- 알림용 modal -->
+	<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title" id="alertModalLabel">알림</h5>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	            </div>
+	            <div class="modal-body" id="alertModalMessage"></div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-info" data-bs-dismiss="modal">확인</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
 
 	<!-- Footer -->
 	<%@include file="../common/footer.jsp"%>
 
 
 	<!-- Javascript-->
+	<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="${path}/resources/libs/rater-js/index.js"></script>
 	<script src="${path}/resources/js/vendors/jquery.min.js"></script>
 	<script
@@ -454,12 +468,22 @@
 		});
 		}
 		
-		//장바구니모달
+		//기간선택안했을 때 경고창 모달
+		function showModalMessage2(message){
+			$('#alertModalMessage').text(message);
+			$('#alertModal').modal('show');
+		}
+		//장바구니 추가했을 때 확인용 모달
+		function showModalMessage(message){
+			$('#cartModalMessage').text(message);
+			$('#cartModal').modal('show');
+		}
+		//장바구니 추가 버튼 눌렀을 때
 		$('#cartcart').on('click',function(){
 			if(!selectPeriod){
-				alert("기간을 선택해주세요.");
+				showModalMessage2("기간을 선택해주세요.");
 			}else{
-				$('#modal').show();
+				showModalMessage('장바구니에 상품이 성공적으로 담겼습니다.')
 				$.ajax({
 					url: "${path}/cart/product/add",
 					type: "post",
@@ -467,7 +491,10 @@
 						product_seq: ${detail.product_seq},
 						cart_option: selectPeriod
 					},
-					success: function(){},
+					success: function(){
+						//헤더 장바구니 개수 업데이트
+	                    updateCounts();
+					},
 					error: function(){
 						alert("장바구니 상품 추가를 실패했습니다.");
 					}

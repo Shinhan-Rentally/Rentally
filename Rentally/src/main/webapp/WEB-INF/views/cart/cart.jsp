@@ -151,7 +151,6 @@
 					$("tr").has("input[value='" + item + "']").remove();
 					$(".cart-count span").text(currentCount - 1);
 					showModalMessage('장바구니에서 상품이 삭제되었습니다.');
-					
 					// 갯수 업데이트
                     updateCounts();
 				},
