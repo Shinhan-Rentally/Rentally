@@ -38,6 +38,11 @@ public class CustomerDAO implements CustomerInterface {
     public int updatePW(CustomerDTO customer) {
         return sqlSession.update(namespace+"updateCustPw",customer);
     }
+    
+	//고객의 장바구니/위시리스트 갯수 
+    public Map<String, Long> getCartAndWishlistCount(String cust_id) {
+	        return sqlSession.selectOne(namespace + "getCartAndWishlistCount", cust_id);
+	    }
 
 
 }

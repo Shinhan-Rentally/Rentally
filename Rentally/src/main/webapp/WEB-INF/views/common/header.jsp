@@ -60,9 +60,9 @@
 									<path
 											d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
 									</path>
-								</svg> <!-- 위시리스트 갯수 --> <span
+								</svg> <!-- 위시리스트 갯수 --> <span id="wishlistCount"
 									class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-										${wishlist_count} <span class="visually-hidden">위시리스트</span>
+									${wishlistCount}<span class="visually-hidden">위시리스트</span>
 								</span>
 								</a>
 							</div>
@@ -92,7 +92,7 @@
 						<c:if test="${cust_id ne null}">
 							<div class="list-inline-item me-5">
 								<a href="${path}/customer/list" class="text-muted"
-									data-bs-toggle="modal" data-bs-target="#userModal"> <svg
+									> <svg
 										xmlns="http://www.w3.org/2000/svg" width="20" height="20"
 										viewBox="0 0 24 24" fill="none" stroke="currentColor"
 										stroke-width="2" stroke-linecap="round"
@@ -108,7 +108,7 @@
 						<c:if test="${cust_id eq null}">
 							<div class="list-inline-item me-5">
 								<a href="${path}/customer/login" class="text-muted"
-									data-bs-toggle="modal" data-bs-target="#userModal"> <svg
+									> <svg
 										xmlns="http://www.w3.org/2000/svg" width="20" height="20"
 										viewBox="0 0 24 24" fill="none" stroke="currentColor"
 										stroke-width="2" stroke-linecap="round"
@@ -123,8 +123,8 @@
 						<c:if test="${cust_id ne null}">
 							<div class="list-inline-item me-5 me-lg-0">
 								<a class="text-muted position-relative"
-									data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-									href="${path}/cart/list" role="button" aria-controls="offcanvasRight"> <svg
+									
+									href="${path}/cart/list" role="button" > <svg
 										xmlns="http://www.w3.org/2000/svg" width="20" height="20"
 										viewBox="0 0 24 24" fill="none" stroke="currentColor"
 										stroke-width="2" stroke-linecap="round"
@@ -132,9 +132,9 @@
 									<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
 									<line x1="3" y1="6" x2="21" y2="6"></line>
 									<path d="M16 10a4 4 0 0 1-8 0"></path>
-								</svg> <!-- 장바구니 갯수 --> <span
+								</svg> <!-- 장바구니 갯수 --> <span id="cartCount"
 									class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-										${cart_count}<span class="visually-hidden">장바구니</span>
+									${cartCount}<span class="visually-hidden">장바구니</span>
 								</span>
 								</a>
 							</div>
@@ -142,9 +142,9 @@
 						<c:if test="${cust_id eq null}">
 							<div class="list-inline-item me-5 me-lg-0">
 								<a class="text-muted position-relative"
-									data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+									
 									href="${path}/customer/login" role="button"
-									aria-controls="offcanvasRight"> <svg
+									> <svg
 										xmlns="http://www.w3.org/2000/svg" width="20" height="20"
 										viewBox="0 0 24 24" fill="none" stroke="currentColor"
 										stroke-width="2" stroke-linecap="round"
@@ -209,9 +209,7 @@
 							<!-- 고객지원 -->
 							<li class="nav-item w-100 w-lg-auto ms-auto"><a
 								class="nav-link" href="${path}/faq/list">고객지원</a></li>
-						
 						</ul>
-		
 		</div>
 	</nav>
 </div>
@@ -222,8 +220,6 @@
 
 
 <script src="${path}/resources/js/vendors/validation.js"></script>
-
-
 <script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
@@ -260,4 +256,47 @@
 		
 	}
 </script>
+
+<script>
+    // 로그인 사용자 ID를 가져오는 함수 (예: 세션에서 userId 저장됨)
+    const cust_id = "${sessionScope.cust_id}"; // 서버에서 세션값으로 userId 전달받는다고 가정
+
+    
+    
+    // 장바구니와 위시리스트 갯수를 업데이트하는 함수
+    function updateCounts() {
+        $.ajax({
+            url: "${path}/customer/updateCount", // Controller의 API 경로
+            type: "GET",
+            data: {
+                cust_id: cust_id // 사용자 ID 전달
+            },
+            success: function (response) {
+                // 성공적으로 데이터를 가져오면 헤더 영역 업데이트
+                $("#cartCount").text(response.cart_count);
+                $("#wishlistCount").text(response.wishlist_count);
+            },
+            beforeSend: function () {
+                // 응답이 오기 전 임시 로딩 표시
+                $("#cartCount").text("...");
+                $("#wishlistCount").text("...");
+            },
+            error: function (xhr, status, error) {
+                console.error("갯수 업데이트 실패:", error);
+            }
+        });
+    }
+
+    // 페이지 로드 시 한 번 실행
+    $(document).ready(function () {
+    	  // cust_id가 null이 아니고 빈 문자열도 아닐 때만 실행
+        if (cust_id && cust_id.trim() !== "") {
+            updateCounts();
+        } else {
+            console.log("로그인되지 않은 사용자입니다.");
+        }
+      
+    });
+</script>
+
 
