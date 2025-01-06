@@ -69,4 +69,27 @@
 		where cust_id = #{cust_id}
 	</select>
 
+	<!-- 위시리스트/장바구니 기능 동작시 갯수 가져오는 쿼리 -->
+<select id="getCartAndWishlistCount" parameterType="string" resultType="map">
+        SELECT
+            COUNT(DISTINCT crt.cart_seq) AS cart_count,
+            COUNT(DISTINCT wl.wish_seq) AS wishlist_count
+        FROM
+            CUSTOMER c
+        LEFT JOIN
+            CART crt
+        ON
+            c.cust_seq = crt.cust_seq
+        LEFT JOIN
+            WISHLIST wl
+        ON
+            c.cust_seq = wl.cust_seq
+        WHERE
+            c.cust_id = #{cust_id} AND CUST_STATUS = TRUE
+        GROUP BY
+            c.cust_seq, c.cust_id, c.cust_name, c.cust_phone, c.cust_email, c.cust_grade
+    </select>
+
+
+
 </mapper>
