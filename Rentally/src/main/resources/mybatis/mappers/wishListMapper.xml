@@ -30,9 +30,9 @@
         on conflict (cust_seq, product_seq) do nothing;
     </insert>
 
-    <delete id="deleteWish" parameterType="int">
+    <delete id="deleteWish" parameterType="map">
         DELETE FROM wishlist
-        where wish_seq = #{wish_seq}
+        where cust_seq = #{cust_seq} and product_seq = #{product_seq};
     </delete>
 
 </mapper>
