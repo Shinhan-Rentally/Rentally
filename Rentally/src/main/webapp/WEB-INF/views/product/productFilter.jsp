@@ -30,7 +30,14 @@
     width: auto;                /* 가로세로 비율 유지 */
     height: 100%;               /* 높이를 부모에 맞춤 */
 }
+/* 모달 헤더와 푸터의 선 제거 */
+.modal-content{
 
+	font-size: 16px;
+}
+.modal-footer {
+    border-top: none;
+}
 </style>
 <c:set var="path" value="${pageContext.servletContext.contextPath}"
 	scope="application"></c:set>
@@ -101,13 +108,12 @@
 						</div>
 					</div>
 					<!-- btn -->
-					<div>
-						<input type="hidden" class="product-seq"
-							value="${productlist.product_seq}">
-						<button class="btn btn-info btn-sm wishAdd">
-							<i class="bi bi-heart"></i>
-						</button>
-					</div>
+				<div>
+    <input type="hidden" class="product-seq" value="${productlist.product_seq}">
+    <button class="btn btn-info btn-sm wishAdd position-absolute"  style="right: 10px; bottom: 10px;"5>
+        <i class="bi bi-heart"></i>
+    </button>
+</div>
 
 				</div>
 			</div>
@@ -167,51 +173,86 @@
 
 </div>
 </div>
+	<!-- 알림용 modal -->
+	<!-- 알림용 modal -->
+	<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title" id="alertModalLabel">알림</h5>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	            </div>
+	            <div class="modal-body" id="alertModalMessage"></div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-info" data-bs-dismiss="modal">확인</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
         
 
 
 
+      <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
-	    $(document).ready(function () {
-	        $(document).on("click", ".wishAdd", function (event) {
-	            event.preventDefault(); // 기본 동작 방지
+$(document).ready(function () {
+    $(document).on("click", ".wishAdd", function (event) {
+        event.preventDefault(); // 기본 동작 방지
 
-	            
-	            const icon = $(this).find("i"); // 버튼 안의 <i> 태그 선택
+        const cust_id = "${sessionScope.cust_id}"; // 서버에서 세션값으로 userId 전달받는다고 가정
+        const icon = $(this).find("i"); // 버튼 안의 <i> 태그 선택
 
-	            // 하트 아이콘 클래스 토글 (빈 하트 ↔ 채운 하트)
-	            if (icon.hasClass("bi-heart")) {
-	                icon.removeClass("bi-heart").addClass("bi-heart-fill"); // 채운 하트로 변경
-	                icon.css("color", "red"); // 채운 하트 색상 빨간색
-	            } else {
-	                icon.removeClass("bi-heart-fill").addClass("bi-heart"); // 빈 하트로 변경
-	                icon.css("color", ""); // 원래 색상
-	            }
-	            // 버튼 클릭 시 처리할 로직 추가 (예: 위시리스트 추가/제거)
-	            const productSeq = $(this).siblings(".product-seq").val();
-	            console.log("Clicked product_seq:", productSeq); // 디버깅용 출력
+        if (cust_id == null || cust_id === "") {
+            showModal("로그인해주세요.");
+            return;
+        }
+        
+        // 하트 아이콘 클래스 토글 (빈 하트 ↔ 채운 하트)
+        if (icon.hasClass("bi-heart")) {
+            icon.removeClass("bi-heart").addClass("bi-heart-fill"); // 채운 하트로 변경
+            icon.css("color", "white"); // 채운 하트 색상 흰색
+        } else {
+            icon.removeClass("bi-heart-fill").addClass("bi-heart"); // 빈 하트로 변경
+            icon.css("color", ""); // 원래 색상
+        }
 
-	            $.ajax({
-	                url: "${path}/wishlist/add", // 요청 보낼 URL
-	                type: "POST",
-	                data: {
-	                    product_seq: productSeq
-	                },
-	                success: function (response) {
-	                    alert("위시리스트에 추가되었습니다!");
-	                    // 갯수 업데이트
-	                    updateCounts();
-	                },
-	                error: function (xhr, status, error) {
-	                    console.error("Error:", error);
-	                    alert("에러가 발생했습니다.");
-	                }
-	            });
-	        });
-	    });
+        // 버튼 클릭 시 처리할 로직 추가 (예: 위시리스트 추가/제거)
+        const productSeq = $(this).siblings(".product-seq").val();
+        console.log("Clicked product_seq:", productSeq); // 디버깅용 출력
+
+        $.ajax({
+            url: "${path}/wishlist/add", // 요청 보낼 URL
+            type: "POST",
+            data: {
+                product_seq: productSeq
+            },
+            success: function (response) {
+                // alert 대신 showModal 사용
+                showModal("위시리스트에 추가되었습니다!");
+                
+                // 갯수 업데이트
+                updateCounts();
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+
+                // 에러 메시지도 모달로 표시
+                showModal("에러가 발생했습니다.");
+            }
+        });
+    });
+});
+function showModal(message) {
+    // 모달 메시지를 설정
+    $("#alertModalMessage").text(message);
+
+    // Bootstrap 모달 표시
+    const alertModal = new bootstrap.Modal(document.getElementById("alertModal"));
+    alertModal.show();
+}
 		</script>
 
 
@@ -229,7 +270,7 @@
 		            $("#product-container").html(response); // 상품 목록 업데이트
 		        },
 		        error: function () {
-		            alert("페이지 로드 중 오류가 발생했습니다.");
+		        	showModal("페이지 로드 중 오류가 발생했습니다.");
 		        },
 		    });
 		});

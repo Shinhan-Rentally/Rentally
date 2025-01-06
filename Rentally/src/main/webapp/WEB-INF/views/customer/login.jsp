@@ -7,6 +7,19 @@
 <%@ include file="../common/headLinks.jsp" %>
 <meta charset="UTF-8">
 <title>Rentally</title>
+
+<style>
+/* 모달 헤더와 푸터의 선 제거 */
+.modal-content{
+
+	font-size: 16px;
+}
+.modal-footer {
+    border-top: none;
+}
+</style>
+
+
 </head>
 <body>
 
@@ -100,11 +113,26 @@
       </div>
    
 </section>
+	<!-- 알림용 modal -->
+	<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title" id="alertModalLabel">알림</h5>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	            </div>
+	            <div class="modal-body" id="alertModalMessage"></div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-info" data-bs-dismiss="modal">확인</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
       </main>
 
       <!-- Footer -->
      <%@ include file="../common/footer.jsp" %>
-    
+   	<%@ include file="../common/bottomKakao.jsp" %>
       
       <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 		<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
@@ -118,19 +146,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("#loginForm");
     const urlParams = new URLSearchParams(window.location.search);
 
+    // 모달 띄우는 함수
+    function showModal(message) {
+        const modalMessage = document.getElementById("alertModalMessage");
+        modalMessage.textContent = message; // 모달 메시지 설정
+        const alertModal = new bootstrap.Modal(document.getElementById("alertModal"));
+        alertModal.show(); // 모달 표시
+    }
+
     // URL에서 error 파라미터 값 확인
     if (urlParams.has("error")) {
         const error = urlParams.get("error");
 
-        // 로그인 실패 시 alert
+        // 로그인 실패 시 모달 띄우기
         if (error === "userNotFound") {
-            alert("아이디가 존재하지 않습니다.");
+            showModal("아이디가 존재하지 않습니다.");
         } else if (error === "wrongPassword") {
-            alert("비밀번호가 맞지 않습니다.");
+            showModal("비밀번호가 맞지 않습니다.");
         } else if (error === "passwordMissing") {
-            alert("비밀번호 정보가 누락되었습니다.");
+            showModal("비밀번호 정보가 누락되었습니다.");
         } else if (error === "unknownError") {
-            alert("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
+            showModal("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
         }
     }
 
@@ -143,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!custIdInput.value.trim()) {
             isValid = false;
             custIdInput.classList.add("is-invalid");
-            alert("ID를 입력해주세요."); // 유효성 검사 실패 시 alert
+            showModal("ID를 입력해주세요."); // 유효성 검사 실패 시 모달 띄우기
         } else {
             custIdInput.classList.remove("is-invalid");
         }
@@ -153,7 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!custPwInput.value.trim()) {
             isValid = false;
             custPwInput.classList.add("is-invalid");
-            alert("비밀번호를 입력해주세요."); // 유효성 검사 실패 시 alert
+            showModal("비밀번호를 입력해주세요."); // 유효성 검사 실패 시 모달 띄우기
         } else {
             custPwInput.classList.remove("is-invalid");
         }
@@ -172,6 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
 </script>
 <!-- id 기억하기 script -->
 <script>

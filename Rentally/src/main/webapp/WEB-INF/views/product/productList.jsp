@@ -19,7 +19,25 @@
 }
 #home {
 	color: blue;
-	font-weight: bold;
+}
+#offcanvasCategory .btn-info {
+  --fc-btn-bg: #001e2b;
+  --fc-btn-border-color: #001e2b;
+  --fc-btn-hover-bg: #C1C7C6;
+  --fc-btn-hover-border-color: #C1C7C6;
+  --fc-btn-active-bg: #C1C7C6;
+  --fc-btn-active-border-color: #C1C7C6;
+  --fc-btn-disabled-bg: #001e2b;
+  --fc-btn-disabled-border-color: #001e2b;
+}
+
+#offcanvasCategory .btn-outline-info {
+  --fc-btn-color: #001e2b;
+  --fc-btn-border-color: #001e2b;
+  --fc-btn-hover-bg: #C1C7C6;
+  --fc-btn-hover-border-color: #C1C7C6;
+  --fc-btn-active-bg: #C1C7C6;
+  --fc-btn-active-border-color: #C1C7C6;
 }
 </style>
 
@@ -76,7 +94,7 @@
 								<!-- 브랜드 필터 -->
 								<div class="mb-8">
 									<h5 class="mb-3">브랜드</h5>
-									<div class="btn-group" role="group" aria-label="Brand Filter">
+									<div class="btn-group w-100" role="group" aria-label="Brand Filter">
 										<!-- 삼성 버튼 -->
 										<button type="button" class="btn btn-outline-info"
 											id="filterSamsung" onclick="toggleBrandFilter(this)"
