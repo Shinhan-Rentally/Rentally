@@ -49,10 +49,24 @@ public class AddressDAO implements AddressInterface {
 		return sqlSession.selectOne(namespace + "isDefaultAddressExist",custSeq);
 	}
 	
+	// 기본 주소 해제
+	@Override
+		public void unsetDefaultAddress(int custSeq) {
+		sqlSession.update(namespace + "unsetDefaultAddress", custSeq);
+	}
+	
+	// 기본 주소 설정
+	@Override
+    public void setDefaultAddress(int addrSeq) {
+        sqlSession.update(namespace + "setDefaultAddress", addrSeq);
+    }
+	
 	// 계정에 등록된 주소 개수 카운트
 	@Override
 	public int getAddressCountByCustSeq(int custSeq) {
 		return sqlSession.selectOne(namespace + "getAddressCountByCustSeq",custSeq);
 	}
+	
+	
 	
 }

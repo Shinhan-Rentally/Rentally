@@ -36,6 +36,7 @@ public class AddressController {
 	int testCustseq = 1;
 
 	// AddressPage 페이지 이동
+	//address/addAddressPage
 	@RequestMapping("/create")
 	public ModelAndView create() {
 		return new ModelAndView("address/addAddressPage");
@@ -96,7 +97,7 @@ public class AddressController {
 	}
 	
 	///getAddress/{custSeq}
-	// 계정 내 등록된 계정 조회 처리
+	// 계정 내 등록된 주소 조회 처리
 	@GetMapping("/address/list")
 	public String getAddressesByCustSeq(Model model) {
 		int custSeq = 1;
@@ -107,9 +108,8 @@ public class AddressController {
 		    } else {
 		        log.info("Addresses loaded for custSeq {}: {}", custSeq, addressList);
 		    }
-		
 		model.addAttribute("addressList",addressList);
-		return "address/addAddressPage";// 마이 페이지 주소 목록 페이지로 리다이렉트
+		return "address/addresstest";// 마이 페이지 주소 목록 페이지로 리다이렉트
 	}
 	
 	
@@ -130,7 +130,7 @@ public class AddressController {
 	// 계정 수정 페이지로 이동
 	@RequestMapping("/address/goUpdate")
 	public String goUpdateAddress() {
-		return "";
+		return "address/addresstest";
 	}
 	
 	
@@ -161,4 +161,25 @@ public class AddressController {
 	    return response;
 	}
 	
+	// 기본 주소 설정
+	@PostMapping("/address/setDefault")
+	@ResponseBody
+	public Map<String, String> setDefaultAddress(@RequestParam("addrSeq") int addrSeq) {
+	    Map<String, String> response = new HashMap<>();
+	    try {
+	        // 기본 주소를 변경하기 전에 기존 기본 주소를 해제
+	        addressService.unsetDefaultAddress(testCustseq);
+
+	        // 선택된 주소를 기본 주소로 설정
+	        addressService.setDefaultAddress(addrSeq);
+
+	        response.put("status", "success");
+	        response.put("message", "기본 주소가 성공적으로 설정되었습니다.");
+	    } catch (Exception e) {
+	        log.error("Error setting default address with addrSeq: {}", addrSeq, e);
+	        response.put("status", "error");
+	        response.put("message", "기본 주소 설정 중 오류가 발생했습니다.");
+	    }
+	    return response;
+	}
 }

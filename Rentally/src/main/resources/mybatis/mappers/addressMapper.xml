@@ -56,6 +56,20 @@
 		WHERE cust_seq = #{custSeq}
 		AND addr_default = TRUE
 	</select>
+	
+	<!-- 기본 주소 해제 -->
+	<update id="unsetDefaultAddress">
+        UPDATE address
+        SET addr_default = false
+        WHERE cust_seq = #{custSeq}
+    </update>
+    
+    <!-- 기본 주소 설정 -->
+    <update id="setDefaultAddress">
+        UPDATE address
+        SET addr_default = true
+        WHERE addr_seq = #{addrSeq}
+    </update>
 
 	<!-- 등록된 주소 개수 카운트 -->
 	<select id="getAddressCountByCustSeq" parameterType="int"
