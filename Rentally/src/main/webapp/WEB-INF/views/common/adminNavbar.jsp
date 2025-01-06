@@ -1,4 +1,4 @@
-<c:set var="path" value="${pageContext.servletContext.contextPath}" scope="application"></c:set>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!-- Vertical Navbar -->
 <nav class="navbar-vertical-nav d-none d-xl-block">
@@ -19,7 +19,7 @@
           <a class="nav-link ${page == 'products' ? 'active' : ''}" href="${path}/admin/product/list">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
-              <span class="nav-link-text">Products</span>
+              <span class="nav-link-text">상품 관리</span>
             </div>
           </a>
         </li>
@@ -27,7 +27,7 @@
           <a class="nav-link ${page == 'orders' ? 'active' : ''}" href="${path}/admin/order/list">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon"><i class="bi bi-bag"></i></span>
-              <span class="nav-link-text">Orders</span>
+              <span class="nav-link-text">주문 관리</span>
             </div>
           </a>
         </li>
@@ -35,7 +35,7 @@
           <a class="nav-link ${page == 'customers' ? 'active' : ''}"href="${path}/admin/customer/list">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon"><i class="bi bi-people"></i></span>
-              <span class="nav-link-text">Customers</span>
+              <span class="nav-link-text">고객 관리</span>
             </div>
           </a>
         </li>
@@ -43,7 +43,7 @@
           <a class="nav-link ${page == 'reviews' ? 'active' : ''}" href="${path}/admin/review/list">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon"><i class="bi bi-star"></i></span>
-              <span class="nav-link-text">Reviews</span>
+              <span class="nav-link-text">리뷰 관리</span>
             </div>
           </a>
         </li>
@@ -72,7 +72,7 @@
           <a class="nav-link ${page == 'products' ? 'active' : ''}" href="${path}/admin/product/list">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
-              <span class="nav-link-text">Products</span>
+              <span class="nav-link-text">상품 관리</span>
             </div>
           </a>
         </li>
@@ -80,7 +80,7 @@
           <a class="nav-link ${page == 'orders' ? 'active' : ''}" href="${path}/admin/order/list">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon"><i class="bi bi-bag"></i></span>
-              <span class="nav-link-text">Orders</span>
+              <span class="nav-link-text">주문 관리</span>
             </div>
           </a>
         </li>
@@ -88,7 +88,7 @@
           <a class="nav-link ${page == 'customers' ? 'active' : ''}"href="${path}/admin/customer/list">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon"><i class="bi bi-people"></i></span>
-              <span class="nav-link-text">Customers</span>
+              <span class="nav-link-text">고객 관리</span>
             </div>
           </a>
         </li>
@@ -96,7 +96,7 @@
           <a class="nav-link ${page == 'reviews' ? 'active' : ''}" href="${path}/admin/review/list">
             <div class="d-flex align-items-center">
               <span class="nav-link-icon"><i class="bi bi-star"></i></span>
-              <span class="nav-link-text">Reviews</span>
+              <span class="nav-link-text">리뷰 관리</span>
             </div>
           </a>
         </li>
