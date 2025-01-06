@@ -312,6 +312,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="alertModalLabel">알림</h5>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body" id="cartModalMessage"></div>
 				<div class="modal-footer">
@@ -338,6 +339,24 @@
 	        </div>
 	    </div>
 	</div>
+	<!-- 로그인 필요 모달 -->
+	<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="alertModalLael" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="alertModalLabel">알림</h5>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="loginModalMessage"></div>
+				<div class="modal-footer">
+					<button id="closeModal" type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">쇼핑 계속하기</button>
+					<button id="moveLogin" type="button" class="btn btn-info">
+							로그인으로 이동</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 
 	<!-- Footer -->
@@ -355,7 +374,7 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
-		//구독기간
+		//구독기간 버튼 선택
 		let selectPeriod = null;
 		$('#period button').click(function(){
 			$('#period button').removeClass('btn-info').addClass('btn-outline-secondary');
@@ -366,12 +385,25 @@
 			selectPeriod = $(this).val();
 		});
 		
+		//기간선택안했을 때 경고창 모달
+		function showModalMessage2(message){
+			$('#alertModalMessage').text(message);
+			$('#alertModal').modal('show');
+		}
+		function showModalMessage3(message){
+			$('#loginModalMessage').text(message);
+			$('#loginModal').modal('show');
+		}
+		let custid = '${sessionScope.cust_id}';
+		let isLogIn = custid != ''?true:false;
 		
 		//구독하기 버튼 클릭
 		$('#subscribeButton').click(function(){
 			if(!selectPeriod){
-				alert("기간을 선택해주세요.");
-			}else{
+				showModalMessage2("기간을 선택해주세요.");
+			} else if(isLogIn == false){
+				showModalMessage3("로그인이 필요한 서비스입니다.");
+			} else{
 				$('#productPeriod').val(selectPeriod);
 				setTimeout(function(){
 					$('#periodForm').submit();				
@@ -379,7 +411,11 @@
 			}
 		});
 		
-				
+		//로그인창으로 이동
+		$('#moveLogin').click(function(){
+			window.location.href = "${path}/customer/login";
+		});
+		
 		//탭전환
 		$('#myTab button').on('click', function(){
 			var tabId = $(this).attr('data-bs-target');
@@ -468,11 +504,8 @@
 		});
 		}
 		
-		//기간선택안했을 때 경고창 모달
-		function showModalMessage2(message){
-			$('#alertModalMessage').text(message);
-			$('#alertModal').modal('show');
-		}
+		
+		
 		//장바구니 추가했을 때 확인용 모달
 		function showModalMessage(message){
 			$('#cartModalMessage').text(message);
@@ -483,7 +516,6 @@
 			if(!selectPeriod){
 				showModalMessage2("기간을 선택해주세요.");
 			}else{
-				showModalMessage('장바구니에 상품이 성공적으로 담겼습니다.')
 				$.ajax({
 					url: "${path}/cart/product/add",
 					type: "post",
@@ -492,23 +524,23 @@
 						cart_option: selectPeriod
 					},
 					success: function(){
+						showModalMessage('장바구니에 상품이 성공적으로 담겼습니다.')
 						//헤더 장바구니 개수 업데이트
 	                    updateCounts();
 					},
 					error: function(){
-						alert("장바구니 상품 추가를 실패했습니다.");
+						showModalMessage3("로그인이 필요한 서비스입니다.");
 					}
 					
 				});
 			}
 		});
-		$('#closeModal').click(function(){
-			$('#modal').hide();
-		});
-	
+
 		$('#moveCart').click(function(){
 			window.location.href = "${path}/cart/list";
 		});
+		
+		
 	</script>
 </body>
 </html>
