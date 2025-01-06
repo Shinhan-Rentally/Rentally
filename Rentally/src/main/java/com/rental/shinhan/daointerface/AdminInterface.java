@@ -16,5 +16,5 @@ public interface AdminInterface {
     public List<CustomerDTO> selectCustomers();
     public int deleteProduct(int productSeq);
     public int insertProduct(ProductDTO product);
-    public int totalPageable(String searchKeyWord);
+    public int totalPageable(Map<String, Object> request);
 }

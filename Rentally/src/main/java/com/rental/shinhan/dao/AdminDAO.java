@@ -25,7 +25,7 @@ public class AdminDAO implements AdminInterface {
         return products;
     }
 
-    public int totalPageable(String request){
+    public int totalPageable(Map<String,Object> request){
         return sqlSession.selectOne(namespace + "totalProducts",request);
     }
 
