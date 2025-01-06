@@ -77,6 +77,7 @@
                       <a class="text-muted deleteWish" href="#"
                          data-wish-seq="${wish.wish_seq}"
                          data-cust-seq="${wish.cust_seq}"
+                         data-product-seq="${wish.product_seq}"
                          data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
                         <i class="feather-icon icon-trash-2"></i>
                       </a>
@@ -136,11 +137,11 @@
   $(document).on("click", ".deleteWish", function (event) {
     event.preventDefault();
 
-    // 버튼에서 wish_seq와 cust_seq 가져오기
-    wish_seq = $(this).data("wish-seq");
+    // 버튼에서 product_seq와 cust_seq 가져오기
+    product_seq = $(this).data("product-seq");
     cust_seq = $(this).data("cust-seq");
 
-    if (!wish_seq || !cust_seq) {
+    if (!product_seq || !cust_seq) {
       isSuccess = false;
       showModalMessage('필요한 데이터가 누락되었습니다.');
       return;
@@ -148,7 +149,7 @@
 
     // AJAX 요청
     $.ajax({
-      url: `${path}/wishlist/\${wish_seq}/delete`,
+      url: `${path}/wishlist/\${product_seq}/delete`,
       type: 'delete',
       success: function (response) {
         isSuccess = true;
