@@ -29,16 +29,17 @@ public class AdminService {
     AdminDAO adminDAO;
 
     public Page<ProductDTO> findProducts(Pageable pageable, String searchKeyWord) {
-        int rowStart = pageable.getPageNumber() * pageable.getPageSize();
-        int rowEnd = rowStart + pageable.getPageSize();
+        String[] splitSearchKeywords = searchKeyWord.split("\\s+");
+        int rowStart = ((pageable.getPageNumber()) * pageable.getPageSize()) + 1;
+        int rowEnd = (rowStart + pageable.getPageSize() -1);
 
         Map<String, Object> map = new HashMap<>();
         map.put("start", rowStart);
         map.put("end", rowEnd);
         map.put("searchKeyWord", searchKeyWord);
-
+        map.put("splitSearchKeywords", splitSearchKeywords);
         List<ProductDTO> vo = adminDAO.selectProducts(map);
-        int total = adminDAO.totalPageable(searchKeyWord);
+        int total = adminDAO.totalPageable(map);
         return new PageImpl<>(vo, pageable, total);
     }
 
