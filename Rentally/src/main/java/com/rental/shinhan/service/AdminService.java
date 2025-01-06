@@ -53,8 +53,16 @@ public class AdminService {
         return adminDAO.selectCustomers();
     }
 
-    public List<OrderJoinDTO> findOrders() {
-        List<OrderJoinDTO> orders = adminDAO.selectOrders();
+    public Page<OrderJoinDTO> findOrders(Pageable pageable) {
+
+        int rowStart = ((pageable.getPageNumber()) * pageable.getPageSize()) + 1;
+        int rowEnd = (rowStart + pageable.getPageSize() -1);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("start", rowStart);
+        map.put("end", rowEnd);
+
+        List<OrderJoinDTO> orders = adminDAO.selectOrders(map);
 
         for (OrderJoinDTO dto : orders) {
             Timestamp subDate = dto.getSub_date();
@@ -69,7 +77,8 @@ public class AdminService {
             dto.setEnd_date(formattedSubDateDate + "~" + endDate);
         }
 
-        return orders;
+        int total = adminDAO.totalOrdersPageable();
+        return new PageImpl<>(orders, pageable, total);
     }
 
     public int removeProduct(int productSeq) {

@@ -82,15 +82,19 @@ public class AdminController {
     }
 
     @GetMapping("/order/list")
-    public String getOrders(
-            @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size,
-            Model model
-    ) {
-        List<OrderJoinDTO> orders = adminService.findOrders();
-        PagedDTO<OrderJoinDTO> pagedResponse = pagenation.paginate(orders, page, size);
-        pagenation.addPagedDataToModel(pagedResponse, "orders", model);
+    public String getOrders() {
         return "/admin/orders";
+    }
+
+    @GetMapping("/order/pageable")
+    @ResponseBody
+    public Page<OrderJoinDTO> getOrders(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<OrderJoinDTO> orders = adminService.findOrders(pageable);
+        return orders;
     }
 
     @PostMapping("/{productSeq}/delete")
