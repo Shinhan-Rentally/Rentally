@@ -185,6 +185,7 @@
 						<div>
 							<!-- button -->
 							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								onclick="closeModal()"
 								aria-label="Close"></button>
 						</div>
 					</div>
@@ -240,7 +241,7 @@
 						<!-- col -->
 						<div class="col-12 text-end">
 							<button type="button" class="btn btn-info btn-sm"
-								data-bs-dismiss="modal">취소</button>
+								data-bs-dismiss="modal" onclick="closeModal()">취소</button>
 							<button class="btn btn-info btn-sm" id="saveAddress"
 								type="button">주소 저장</button>
 						</div>
@@ -353,7 +354,9 @@
         const postcodeMatch = address.match(/\d{5}/);
         const postcode = postcodeMatch ? postcodeMatch[0] : ' ';
         console.log(postcode);
-
+        
+        const modalElement = document.getElementById('editAddressModal');
+        
         document.getElementById('editAddrSeq').value = seq;
         document.getElementById('editPostcode').value = postcode;
         document.getElementById('editAddress').value = title;
@@ -361,15 +364,35 @@
         document.getElementById('editRecipName').value = name;
         document.getElementById('editRecipPhone').value = phone;
         document.getElementById('editAddrDefault').checked = isDefault === 'true';
-
-        const editModal = new bootstrap.Modal(document.getElementById('editAddressModal'));
-        editModal.show();
+		
+    	 // Bootstrap 모달 열기
+        const modalInstance = new bootstrap.Modal(modalElement);
+        modalInstance.show();
+        
     }
 	
 	// 모달 닫기
 	function closeModal() {
-	    document.getElementById('editModal').style.display = 'none';
-	    document.getElementById('modalOverlay').style.display = 'none';
+		// 모달 요소 가져오기
+	    const modalElement = document.getElementById('editAddressModal');
+	    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+	    
+	    // Bootstrap 모달 인스턴스가 있으면 닫기
+	    if (modalInstance) {
+	        modalInstance.hide();
+	    }
+
+	    // 강제로 백드롭 제거
+	    document.querySelectorAll('.modal-backdrop').forEach((backdrop) => backdrop.remove());
+
+	    // 모달 스타일 강제 초기화
+	    modalElement.style.display = 'none';
+	    modalElement.classList.remove('show');
+
+	    // 페이지 스크롤 복원
+	    document.body.classList.remove('modal-open');
+	    document.body.style.overflow = 'auto';
+	    document.body.style.paddingRight = '0';
 	}
 	
 	// 기본 주소 설정
