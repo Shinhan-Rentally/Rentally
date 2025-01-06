@@ -4,8 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<%@ include file="./common/headMeta.jsp" %>
 <title>Rentally</title>
+<%@ include file="./common/headMeta.jsp" %>
 <%@ include file="./common/headLinks.jsp" %>
 <!-- Favicon icon-->
 <link rel="shortcut icon" type="image/x-icon" href="${path}/resources/images/favicon/favicon.ico">
@@ -16,6 +16,43 @@
 		<link href="${path}/resources/libs/slick-carousel/slick/slick-theme.css" rel="stylesheet" />
 		<link href="${path}/resources/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet" />
 </head>
+<style>
+.category-slider .fixed-card {
+    width: 200px; /* 카드의 고정된 너비 */
+    height: 300px; /* 카드의 고정된 높이 */
+    margin: auto; /* 중앙 정렬 */
+}
+
+.category-slider .image-container {
+    width: 100%; /* 컨테이너 너비 */
+    height: 150px; /* 컨테이너 높이 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* 이미지를 잘라냄 */
+}
+
+.category-slider .product-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* 비율 유지하며 잘라냄 */
+    display: block;
+}
+/* 이미지 컨테이너 */
+.card-body {
+    padding: 16px;
+    text-align: center;
+}
+
+.card-body img {
+    width: 100%;
+    height: 150px; /* 이미지 고정 높이 */
+    object-fit: cover; /* 비율 유지하며 크기 조정 */
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+</style>
 <body>
 <!-- 헤더화면 임포트 -->
 <%@ include file="./common/header.jsp" %>
@@ -46,7 +83,7 @@
 					<div class="category-slider">
 					<c:forEach items="${bestProduct}" var="bestProduct">
 						<div class="item">
-							<a href="#" class="text-decoration-none text-inherit">
+							<a href="${path}/product/detail?product_seq=${bestProduct.product_seq}" class="text-decoration-none text-inherit">
 								<div class="card card-product mb-lg-4">
 									<div class="card-body text-center py-8">
 										<img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${bestProduct.category_seq}/
@@ -892,7 +929,7 @@
                             <div class="mb-6">
                                 <img src="${path}/resources/images/icons/package.svg" alt="" />
                             </div>
-                            <h3 class="h5 mb-3">10 minute grocery now</h3>
+<h3 class="h5 mb-3 custName">${bestReview.cust_id}</h3>
                             <h3 class="h5 mb-3">${bestReview.product_name}</h3>
                             <p>${bestReview.review_content}</p>
                         </div>
@@ -972,6 +1009,25 @@ function performAjaxSearch() {
     });
 }
 	</script>
+<script>
+    // 모든 이름 요소 선택
+    const nameElements = document.querySelectorAll(".custName");
+
+    // 각 이름 요소에 대해 마스킹 처리
+    nameElements.forEach((nameElement) => {
+        const name = nameElement.textContent.trim(); // 공백 제거
+        let maskedName = name;
+
+        if (name.length === 4) {
+            maskedName = name.substring(0, 2) + "**";
+        } else if (name.length > 1) {
+            maskedName = name.charAt(0) + "**";
+        }
+
+        nameElement.textContent = maskedName;
+    });
+</script>
+	
 
 </body>
 </html>
