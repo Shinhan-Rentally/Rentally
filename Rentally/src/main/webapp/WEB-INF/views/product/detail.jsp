@@ -157,7 +157,7 @@
 									<!-- btn -->
 									<a id="cartcart" class="btn btn-light" href="#" data-bs-toggle="tooltip"
 										data-bs-html="true" aria-label="Compare"> <i
-										class="feather-icon icon-shopping-bag me-2"></i>
+										class="feather-icon icon-shopping-bag"></i>
 									</a> <a class="btn btn-light" href="shop-wishlist.html"
 										data-bs-toggle="tooltip" data-bs-html="true"
 										aria-label="Wishlist"> <i class="feather-icon icon-heart"></i>
