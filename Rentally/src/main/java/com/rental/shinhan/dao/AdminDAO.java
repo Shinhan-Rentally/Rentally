@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class AdminDAO implements AdminInterface {
@@ -19,9 +20,13 @@ public class AdminDAO implements AdminInterface {
     @Autowired
     SqlSession sqlSession;
 
-    public List<ProductDTO> selectProducts() {
-        List<ProductDTO> products = sqlSession.selectList(namespace + "selectProducts");
+    public List<ProductDTO> selectProducts(Map<String,Object> request) {
+        List<ProductDTO> products = sqlSession.selectList(namespace + "selectProducts", request);
         return products;
+    }
+
+    public int totalPageable(String request){
+        return sqlSession.selectOne(namespace + "totalProducts",request);
     }
 
     public List<ReviewDTO> selectReviews() {
