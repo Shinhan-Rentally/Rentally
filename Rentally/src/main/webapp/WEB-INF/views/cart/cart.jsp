@@ -41,7 +41,7 @@
 							<!-- heading -->
 							<h1 class="mb-1">장바구니</h1>
 							<!-- 숫자 카운팅 -->
-							<p class="cart-count">${cartList.size()}개의 상품이 장바구니에 담겨있습니다.</p>
+							<p class="cart-count"><span>${cartList.size()}</span>개의 상품이 장바구니에 담겨있습니다.</p>
 						</div>
 						<div>
 							<!-- table -->
@@ -112,14 +112,35 @@
 				</div>
 			</div>
 		</section>
+		<!-- 장바구니 삭제 알림 modal -->
+		<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <h5 class="modal-title" id="alertModalLabel">알림</h5>
+		                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		            </div>
+		            <div class="modal-body" id="alertModalMessage"></div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-info" data-bs-dismiss="modal">확인</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		
 	</main>
 	<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 	<script src="${path}/resources/js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
+		function showModalMessage(message){
+			$('#alertModalMessage').text(message);
+			$('#alertModal').modal('show');
+		}
 		$('.delete').click(function(){
 			var item = $(this).closest("tr").find("input[name='product_seq']").val();
+			var currentCount = parseInt($(".cart-count span").text(), 10);
 			$.ajax({
 				url: "${path}/cart/product/delete",
 				type: "post",
@@ -128,7 +149,9 @@
 					},
 				success: function(response){
 					$("tr").has("input[value='" + item + "']").remove();
-					alert("장바구니에서 상품이 삭제되었습니다.");
+					$(".cart-count span").text(currentCount - 1);
+					showModalMessage('장바구니에서 상품이 삭제되었습니다.');
+					
 					// 갯수 업데이트
                     updateCounts();
 				},
