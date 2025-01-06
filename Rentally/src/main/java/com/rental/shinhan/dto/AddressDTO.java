@@ -15,6 +15,6 @@ public class AddressDTO {
 	String addr_title;
 	String addr_name;
 	String addr_phone;
-	boolean addr_default;
+	boolean addr_default = false;
 	
 }

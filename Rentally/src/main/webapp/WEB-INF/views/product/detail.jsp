@@ -467,11 +467,7 @@
 						product_seq: ${detail.product_seq},
 						cart_option: selectPeriod
 					},
-					success: function(response){
-					
-							window.location.href = "${path}/cart/list";
-						
-					},
+					success: function(){},
 					error: function(){
 						alert("장바구니 상품 추가를 실패했습니다.");
 					}

@@ -39,5 +39,10 @@ public class AddressService {
 	public boolean isDefaultAddressExist(int custSeq) {
 		return addressDAO.isDefaultAddressExist(custSeq);
 	}
+	
+	// 계정에 등록된 주소 개수 카운트
+		public int getAddressCountByCustSeq(int custSeq) {
+			return addressDAO.getAddressCountByCustSeq(custSeq);
+		}
 
 }
