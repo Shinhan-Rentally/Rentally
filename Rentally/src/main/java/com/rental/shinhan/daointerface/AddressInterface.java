@@ -24,4 +24,7 @@ public interface AddressInterface {
 	// 기본 주소 존재 여부
 	public boolean isDefaultAddressExist(int custSeq);
 	
+	// 계정에 등록된 주소 개수 카운트
+	public int getAddressCountByCustSeq(int custSeq);
+	
 }

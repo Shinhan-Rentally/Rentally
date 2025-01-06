@@ -6,9 +6,9 @@
 <mapper namespace="com.rental.shinhan.address">
 
 	<!-- 주소 데이터 삽입 -->
-	<insert id="insertAddress"
-		parameterType="AddressVO">
-		INSERT INTO address ( addr_detail, addr_title,
+	<insert id="insertAddress" parameterType="AddressVO">
+		INSERT INTO address (
+		addr_detail, addr_title,
 		addr_name, addr_phone,
 		addr_default,cust_seq)
 		VALUES (#{addr_detail},
@@ -34,15 +34,16 @@
 	</delete>
 
 	<!-- 주소 수정 -->
-	<update id="updateAddress"
-		parameterType="AddressVO">
+	<update id="updateAddress" parameterType="AddressVO">
 		UPDATE address
 		SET
 		addr_name = #{addr_name},
 		addr_phone = #{addr_phone},
-		addr_detail = #{addr_detail},
+		addr_detail =
+		#{addr_detail},
 		addr_default = #{addr_default},
-		addr_title = #{addr_title}
+		addr_title =
+		#{addr_title}
 		WHERE
 		addr_seq = #{addr_seq}
 	</update>
@@ -54,6 +55,14 @@
 		FROM address
 		WHERE cust_seq = #{custSeq}
 		AND addr_default = TRUE
+	</select>
+
+	<!-- 등록된 주소 개수 카운트 -->
+	<select id="getAddressCountByCustSeq" parameterType="int"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM address
+		WHERE cust_seq = #{custSeq}
 	</select>
 
 
