@@ -34,10 +34,15 @@ public class AdminDAO implements AdminInterface {
         return reviews;
     }
 
-    public List<OrderJoinDTO> selectOrders() {
-        List<OrderJoinDTO> orders = sqlSession.selectList(namespace + "selectOrders");
+    public List<OrderJoinDTO> selectOrders(Map<String, Object> request) {
+        List<OrderJoinDTO> orders = sqlSession.selectList(namespace + "selectOrders", request);
         return orders;
     }
+
+    public int totalOrdersPageable() {
+        return sqlSession.selectOne(namespace + "totalOrders");
+    }
+
 
     public  List<CustomerDTO> selectCustomers() {
         List<CustomerDTO> customers = sqlSession.selectList(namespace + "selectCustomers");

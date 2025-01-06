@@ -66,8 +66,10 @@
         where cust_status = true
     </select>
 
-    <select id="selectOrders" resultType="com.rental.shinhan.dto.OrderJoinDTO">
-        select
+    <select id="selectOrders" parameterType="map" resultType="com.rental.shinhan.dto.OrderJoinDTO">
+        select *
+        from (
+        select row_number() over(order by s.sub_date desc) as num,
         p.product_img,
         p.product_serial,
         p.category_seq,
@@ -76,13 +78,20 @@
         s.sub_card,
         s.sub_total,
         s.sub_period
-        from
-        subscribe s
-        join
-        customer c on s.cust_seq = c.cust_seq
-        join
-        product p on s.product_seq = p.product_seq;
+        from subscribe s
+        join customer c on s.cust_seq = c.cust_seq
+        join product p on s.product_seq = p.product_seq
+        ) as temp
+        where num between #{start} and #{end}
     </select>
+
+    <select id="totalOrders" resultType="int">
+        select count(p.product_seq)
+        from subscribe s
+        join customer c on s.cust_seq = c.cust_seq
+        join product p on s.product_seq = p.product_seq
+    </select>
+
 
     <update id="deleteProduct" parameterType="int">
         update product
