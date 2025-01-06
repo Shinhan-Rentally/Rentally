@@ -1,5 +1,10 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
+@font-face {
+  font-family: "NanumSquareRound";
+  src: url("../fonts/NanumSquareRoundOTFR.otf") format("opentype");
+}
+
 .text-inherit {
   color: var(--fc-gray-800);
 }
@@ -226,7 +231,7 @@ div.zoom img {
   --fc-dark-border-subtle: #889397;
   --fc-white-rgb: 255, 255, 255;
   --fc-black-rgb: 0, 0, 0;
-  --fc-font-sans-serif: "Inter", sans-serif;
+  --fc-font-sans-serif: "NanumSquareRound", "Inter", sans-serif;
   --fc-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --fc-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --fc-body-font-family: var(--fc-font-sans-serif);
@@ -7438,6 +7443,7 @@ textarea.form-control-lg {
   position: relative;
   flex: 1 1 auto;
   padding: var(--fc-modal-padding);
+  font-size: 1rem;
 }
 
 .modal-footer {
@@ -22834,13 +22840,13 @@ h3,
 }
 .nav-lb-tab .nav-item .nav-link.active {
   background-color: transparent;
-  border-bottom: 2px solid var(--fc-primary);
-  color: var(--fc-primary);
+  border-bottom: 2px solid var(--fc-info);
+  color: var(--fc-info);
 }
 .nav-lb-tab .nav-item .nav-link:hover {
   background-color: transparent;
-  border-bottom: 2px solid var(--fc-primary);
-  color: var(--fc-primary);
+  border-bottom: 2px solid var(--fc-info);
+  color: var(--fc-info);
 }
 
 .nav-pills-dark .nav-item .nav-link {
