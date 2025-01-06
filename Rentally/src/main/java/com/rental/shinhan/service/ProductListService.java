@@ -11,8 +11,9 @@ import org.springframework.stereotype.Service;
 import com.rental.shinhan.dao.ProductListDAO;
 import com.rental.shinhan.dto.ProductListJoinDTO;
 
+import lombok.extern.slf4j.Slf4j;
 
-
+@Slf4j
 @Service
 public class ProductListService {
 
@@ -20,15 +21,22 @@ public class ProductListService {
 	    ProductListDAO productlistDAO;
 	  
 	
-	  public List<ProductListJoinDTO> selectProductList(int category_seq, String brand, String priceRange, String sort,String query) {
-		    Map<String, Object> params = new HashMap<>();
+	  public List<ProductListJoinDTO> selectProductList(int category_seq, String brand, String priceRange, String sort,String query,int page,int size) {
+	  
+		    // Offset 계산 (페이지 번호는 1부터 시작)
+		    int offset = (page - 1) * size;
+		  Map<String, Object> params = new HashMap<>();
 	        params.put("category_seq", category_seq);
 	        params.put("product_brand", brand);
 	        params.put("priceRange", priceRange);
 	        params.put("sort", sort);
 	        params.put("query", query);
-
-	        return productlistDAO.selectProductList(params);
+	        params.put("page", page);
+	        params.put("size", size);
+	        params.put("offset", offset); // Offset 설정
+	   
+	        List<ProductListJoinDTO> productlist = productlistDAO.selectProductList(params);
+	        return productlist ; 
 	    }
 	
 	  public List<ProductListJoinDTO> selectUpgradeProductList(String product_brand, String product_grade, Date product_date, int category_seq){
@@ -57,7 +65,27 @@ public class ProductListService {
 	  }
 	  //검색기능
 		
-	  public List<ProductListJoinDTO> searchProduct(String query) { // DAO를 호출하여
-	 return productlistDAO.searchProduct(query); 
+	  public List<ProductListJoinDTO> searchProduct(String query,int page,int size) { // DAO를 호출하여
+	 
+		   // Offset 계산 (페이지 번호는 1부터 시작)
+		    int offset = (page - 1) * size;
+		  Map<String, Object> params = new HashMap<>();
+
+	        params.put("query", query);
+	        params.put("page", page);
+	        params.put("size", size);
+	        params.put("offset", offset); // Offset 설정
+	   
+	        List<ProductListJoinDTO> productlist = productlistDAO.searchProduct(params);
+		  
+	        
+	        
+		  return productlist; 
+	 
 	 }
+
+	public int getTotalProductCount(Map<String, Object> params) {
+		
+		return productlistDAO.selectTotalProductCount(params);
+	}
 }
