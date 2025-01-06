@@ -13,6 +13,13 @@
         where w.cust_seq = #{cust_seq}
     </select>
 
+    <select id="wishStatus" parameterType="int" resultType="com.rental.shinhan.dto.WishListDTO">
+        SELECT product_seq
+        FROM wishlist
+        WHERE cust_seq = #{cust_seq}
+        GROUP BY product_seq;
+    </select>
+
     <insert id="insertWishList" parameterType="com.rental.shinhan.dto.WishListDTO">
         insert into wishlist (cust_seq, product_seq)
         select c.cust_seq, p.product_seq

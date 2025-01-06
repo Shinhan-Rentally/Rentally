@@ -15,23 +15,29 @@
         <where>
             p.product_grade != 'F'
             <if test="searchKeyWord != null and searchKeyWord != ''">
-                and (p.product_name like concat('%', #{searchKeyWord}, '%')
-                or c.category_name LIKE concat('%', #{searchKeyWord}, '%'))
+                and (
+                <foreach collection="splitSearchKeywords" item="keyword" open="(" separator="and" close=")">
+                    (p.product_name like concat('%', #{keyword}, '%') or c.category_name like concat('%', #{keyword}, '%'))
+                </foreach>
+                )
             </if>
         </where>
         ) as temp
         where num between #{start} and #{end}
     </select>
 
-    <select id="totalProducts" parameterType="String" resultType="int">
+    <select id="totalProducts" parameterType="map" resultType="int">
         select count(p.product_seq)
         from product p
         join category c using (category_seq)
         <where>
             p.product_grade != 'F'
             <if test="searchKeyWord != null and searchKeyWord != ''">
-                and (p.product_name like concat('%', #{searchKeyWord}, '%')
-                or c.category_name like concat('%', #{searchKeyWord}, '%'))
+                and (
+                <foreach collection="splitSearchKeywords" item="keyword" open="(" separator="and" close=")">
+                    (p.product_name like concat('%', #{keyword}, '%') or c.category_name like concat('%', #{keyword}, '%'))
+                </foreach>
+                )
             </if>
         </where>
     </select>

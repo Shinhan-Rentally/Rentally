@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +37,14 @@ public class AdminController {
 
     @GetMapping("/product/search")
     @ResponseBody
-    public Page<ProductDTO> getProducts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "") String searchKeyWord , Model model) {
+    public Page<ProductDTO> getProducts(@RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "10") int size,
+                                        @RequestParam(defaultValue = "") String searchKeyWord , Model model) {
+        try {
+            searchKeyWord = URLDecoder.decode(searchKeyWord, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         Pageable pageable = PageRequest.of(page, size);
         Page<ProductDTO> products = adminService.findProducts(pageable,searchKeyWord);
         return products;
