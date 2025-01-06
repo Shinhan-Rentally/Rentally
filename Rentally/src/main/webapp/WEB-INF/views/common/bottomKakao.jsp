@@ -1,6 +1,6 @@
 <a href="javascript:void(0);" id="goKakao"
    style="position:fixed; bottom: 20px; right: 20px; z-index: 999"
-   title="kakao" onclick="popupWindow('http://pf.kakao.com/_wYcdn/chat', 'My Popup', 800, 720);">
+   title="kakao" onclick="popupWindow('http://pf.kakao.com/_wYcdn/chat', 'My Popup', 800, 750);">
    
   <img src="https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_Character.ico" width="50px" alt="kakao"/>
 </a>
