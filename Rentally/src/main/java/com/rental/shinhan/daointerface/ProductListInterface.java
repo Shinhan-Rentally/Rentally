@@ -9,4 +9,6 @@ import com.rental.shinhan.dto.ProductListJoinDTO;
 public interface ProductListInterface {
 
 	 public List<ProductListJoinDTO> selectProductList(Map<String ,Object> params);
+	 
+	 public int selectTotalProductCount(Map<String, Object> params);
 }

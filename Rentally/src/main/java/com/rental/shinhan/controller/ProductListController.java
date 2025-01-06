@@ -1,7 +1,10 @@
 package com.rental.shinhan.controller;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -32,14 +35,9 @@ public class ProductListController {
 
 	// 필터기능 추가
 	@GetMapping("/list")
-	public String productlist( ) {
-		// 모델에 상품 리스트 추가
-	
-		//model.addAttribute("category_seq", category_seq); // 선택된 카테고리 정보 전달
-	
-		//List<ProductListJoinDTO> productlist = productlistService.selectProductList(category_seq, product_brand,
-		//		priceRange, sort);
-		//model.addAttribute("productlist", productlist);
+	public String productlist()
+		
+	{
 		
 		return "product/productList"; // Return full page
 
@@ -51,20 +49,39 @@ public class ProductListController {
 			@RequestParam(value = "priceRange", required = false) String priceRange,
 			@RequestParam(value = "sort", defaultValue = "popular") String sort,
 			@RequestParam(value = "query", required = false) String query,
-			
+			 @RequestParam(value = "page", defaultValue = "1", required = false) int page,  // 페이지 번호, 기본값 1
+			    @RequestParam(value = "size", defaultValue = "10", required = false) int size, // 페이지당 항목 수, 기본값 10
 			@RequestHeader(value = "X-Requested-With", required = false) String requestedWith, HttpSession session) {
-
 		// priceRange가 빈 값일 경우 null로 처리
 		if (priceRange != null && priceRange.trim().isEmpty()) {
 			priceRange = null;
 		}
-
 		// 서비스 호출
 		List<ProductListJoinDTO> productlist = productlistService.selectProductList(category_seq, product_brand,
-				priceRange, sort,query);
+				priceRange, sort,query,page,size);
+		
 
-		// 로그로 상품 수 출력
-		log.info("상품 목록 " + productlist.size() + "건");
+		 // 서비스에서 페이징된 데이터를 가져옴
+        Map<String, Object> params = new HashMap<>();
+        params.put("category_seq", category_seq);
+        params.put("page", page);
+        params.put("size", size);
+        params.put("sort", sort);
+        params.put("query", query);
+        params.put("brand", product_brand);
+        params.put("priceRange", priceRange);
+		
+		  int count = productlistService.getTotalProductCount(params);
+		  
+		// 페이지 계산
+	    int totalPages = (int) Math.ceil((double) count / size);
+	    log.info(count+"리스트카운트");
+	    
+	    
+	     model.addAttribute("totalPages", totalPages);
+	     model.addAttribute("currentPage", page);
+
+	     
 		// 모델에 상품 리스트 추가
 		model.addAttribute("productlist", productlist);
 		model.addAttribute("productlistsize", productlist.size());
@@ -83,13 +100,16 @@ public class ProductListController {
 	@PostMapping("/upgrade/list")
 	public String getUpgradeListPage(Model model, @RequestParam String product_brand,
 			@RequestParam String product_grade, @RequestParam Date product_date, @RequestParam int category_seq,
-			@RequestParam int sub_seq, @RequestParam int product_seq, @RequestParam int sub_total) {
+			@RequestParam int sub_seq, @RequestParam int product_seq, @RequestParam int sub_total, 
+			@RequestParam Timestamp sub_date, @RequestParam int sub_period) {
 		List<ProductListJoinDTO> upgradeProductlist = productlistService.selectUpgradeProductList(product_brand,
 				product_grade, product_date, category_seq, product_seq);
 
 		model.addAttribute("upgradeProductlist", upgradeProductlist);
 		model.addAttribute("subSeq", sub_seq);
-		model.addAttribute("subTotal", sub_total);
+		model.addAttribute("subTotal", sub_total);		
+		model.addAttribute("subDate", sub_date);		
+		model.addAttribute("subPeriod", sub_period);		
 
 		return "product/upgrade";
 	}
@@ -104,18 +124,46 @@ public class ProductListController {
 	}
 	//검색기능 결과
 	@GetMapping("searchResult")
-	 public String searchProductResult( @RequestParam("query") String query,  Model model) {
+	 public String searchProductResult( @RequestParam("query") String query,  Model model,
+			 @RequestParam(value = "brand", required = false) String product_brand,
+				@RequestParam(value = "priceRange", required = false) String priceRange,
+				@RequestParam(value = "sort", defaultValue = "popular") String sort,
+			 @RequestParam(value = "page", defaultValue = "1", required = false) int page,  // 페이지 번호, 기본값 1
+			    @RequestParam(value = "size", defaultValue = "10", required = false) int size // 페이지당 항목 수, 기본값 10
+			 ) {
        // 서비스 호출하여 검색된 상품 리스트 가져오기
-      List<ProductListJoinDTO> productlist = productlistService.searchProduct(query);
-       //log.info(query);
-       // 모델에 결과 추가
-       model.addAttribute("query", query);
-       model.addAttribute("productlist", productlist);
-		model.addAttribute("productlistsize", productlist.size());
-		// 로그로 상품 수 출력
-		log.info("상품 목록 " + productlist.size() + "건");
+		// 서비스 호출하여 검색된 상품 리스트 가져오기
+	    List<ProductListJoinDTO> productlist = productlistService.searchProduct(query, page, size);
 
-       // 검색 결과 페이지로 이동
-		return "product/productFilter"; // 검색 결과를 보여주는 JSP 페이지
+	    
+	    Map<String, Object> params = new HashMap<>();
+   
+        params.put("page", page);
+        params.put("size", size);
+        params.put("query", query);
+        params.put("sort", sort);
+        params.put("brand", product_brand);
+        params.put("priceRange", priceRange);
+
+     
+	    // 전체 상품 개수 가져오기 (페이징을 위한 총 상품 수)
+	    int count = productlistService.getTotalProductCount(params);
+
+	    // 전체 페이지 수 계산 
+	    int totalPages = (int) Math.ceil((double) count / size);
+    
+	     model.addAttribute("totalPages", totalPages);
+	     model.addAttribute("currentPage", page);
+	     
+	    // 모델에 결과 추가
+	    model.addAttribute("query", query);
+	    model.addAttribute("productlist", productlist);
+	    model.addAttribute("productlistsize", productlist.size());
+
+	    model.addAttribute("pageSize", size);  // 페이지당 항목 수
+
+	 
+	    // 검색 결과 페이지로 이동
+	    return "product/productFilter";  // 검색 결과를 보여주는 JSP 페이지
    }
 }

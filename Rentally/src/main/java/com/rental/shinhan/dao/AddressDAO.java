@@ -35,6 +35,24 @@ public class AddressDAO implements AddressInterface {
 	public void deleteAddress(int addrSeq) {
 		sqlSession.delete(namespace + "deleteAddress", addrSeq);
 	}
-
+	
+	// 주소 업데이트
+	@Override
+	public void updateAddress(AddressDTO addressData) {
+		// DB 업데이트
+		sqlSession.update(namespace + "updateAddress", addressData);
+	}
+	
+	// 기본 주소 존재 여부
+	@Override
+	public boolean isDefaultAddressExist(int custSeq) {
+		return sqlSession.selectOne(namespace + "isDefaultAddressExist",custSeq);
+	}
+	
+	// 계정에 등록된 주소 개수 카운트
+	@Override
+	public int getAddressCountByCustSeq(int custSeq) {
+		return sqlSession.selectOne(namespace + "getAddressCountByCustSeq",custSeq);
+	}
 	
 }

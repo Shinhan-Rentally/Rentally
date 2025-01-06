@@ -35,7 +35,6 @@ public class PaymentController {
 
     @PostMapping("/payment")
     public String getPaymentPage(Model model, HttpSession session, HttpServletRequest request) {
-    	session.setAttribute("cust_seq",1);
     	
     	int subSeq = 0;
     	int productSeq = 0;
@@ -43,14 +42,24 @@ public class PaymentController {
     	
     	int custSeq = (int)session.getAttribute("cust_seq");
     	
+    	boolean isCart = Boolean.parseBoolean(request.getParameter("isCart") != null?request.getParameter("isCart"):"false");
+    	
     	// 장바구니,상품상세페이지, 업그레이드 페이지화면에서 product_seq 줬다는 가정
     	productSeq = Integer.parseInt(request.getParameter("product_seq"));
 
     	if(request.getParameter("isUpgrade") != null && Boolean.parseBoolean(request.getParameter("isUpgrade"))) {
     		model.addAttribute("subSeq", request.getParameter("sub_seq"));
     		model.addAttribute("subTotal", request.getParameter("sub_total"));
+    		model.addAttribute("subDate", request.getParameter("sub_date"));
+    		model.addAttribute("isUpgrade", request.getParameter("isUpgrade"));
+    		
+    		productPeriod = Integer.parseInt(request.getParameter("sub_period"));
+    		
     	} else {
-    		productPeriod = Integer.parseInt(request.getParameter("product_period"));
+    		model.addAttribute("isUpgrade", "false");
+    		
+    		productPeriod = Integer.parseInt(request.getParameter("product_period") != null?
+    						request.getParameter("product_period"):"0");
         	
         	if(productPeriod == 0) {
         		productPeriod = Integer.parseInt(request.getParameter("cart_option"));
@@ -71,9 +80,9 @@ public class PaymentController {
     	model.addAttribute("custEmail", fullEmail);
     	model.addAttribute("custName", custInfo.getCust_name());
     	model.addAttribute("custPhone", custInfo.getCust_phone());
-    	
-    	model.addAttribute("isUpgrade", request.getParameter("isUpgrade"));
-    	
+
+    	model.addAttribute("isCart", isCart);
+
     	List<AddressDTO> addressList = addressService.getAddressesByCustSeq(custSeq);
     	
     	model.addAttribute("addressList",addressList);

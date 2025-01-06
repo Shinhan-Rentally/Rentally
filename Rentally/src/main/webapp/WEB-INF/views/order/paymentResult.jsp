@@ -34,7 +34,9 @@
                                     <!-- col -->
                                     <div class="col-12">
                                        <div class="text-center position-relative">
-                                             ${resultMessage}이 완료되었습니다.<br>
+                                             <c:if test="${resultMessage != null}">
+                                             	${resultMessage}이 완료되었습니다.<br>
+                                             </c:if>
                                              상세 내역은 
                                              <a href="${path}/order/list">주문내역</a> /
                                              <a href="${path}/subscribe/list"> 구독현황</a>을 참고해주세요.
@@ -52,5 +54,12 @@
       </main>
       <%@ include file="../common/bottomKakao.jsp" %>
       <%@ include file="../common/footer.jsp"%>
+      <script>
+ 		history.pushState(null, null, location.href); 
+
+		window.onpopstate = function() {
+			history.go(1); 
+		}
+      </script>
 </body>
 </html>

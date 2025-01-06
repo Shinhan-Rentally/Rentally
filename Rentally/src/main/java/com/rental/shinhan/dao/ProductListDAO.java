@@ -20,8 +20,8 @@ public class ProductListDAO implements ProductListInterface {
     SqlSession sqlSession;
 	
 	 public List<ProductListJoinDTO> selectProductList(Map<String ,Object> params) {
-	        List<ProductListJoinDTO> productList = sqlSession.selectList(namespace + "selectProductList",params);
-	        return productList;
+	        List<ProductListJoinDTO> productlist = sqlSession.selectList(namespace + "selectProductList",params);
+		        return productlist;
 	    }
 	 
 	 public List<ProductListJoinDTO> selectUpgradeProductList(Map<String ,Object> params){
@@ -37,8 +37,13 @@ public class ProductListDAO implements ProductListInterface {
 		 return productDetail;
 	 }
 	 //검색기능
-	 public List<ProductListJoinDTO> searchProduct(String query) {
-		 List<ProductListJoinDTO> searchProductlist = sqlSession.selectList(namespace + "searchProducts",query);
+	 public List<ProductListJoinDTO> searchProduct(Map<String ,Object> params) {
+		 List<ProductListJoinDTO> searchProductlist = sqlSession.selectList(namespace + "searchProducts",params);
 		return searchProductlist;
+	}
+
+	public int selectTotalProductCount(Map<String, Object> params) {
+		
+		return sqlSession.selectOne(namespace + "selectTotalProductCount",params);
 	}
 }

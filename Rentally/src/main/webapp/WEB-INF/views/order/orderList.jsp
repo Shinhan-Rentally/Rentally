@@ -81,7 +81,7 @@
 	                                       	</small>
 	                                       </span>
                                         </td>
-                                        <td class="align-middle border-top-0">${order.sub_date}</td>
+                                        <td class="align-middle border-top-0">${order.formatted_paydate}</td>
                                         <td class="align-middle border-top-0">
                                             <fmt:formatNumber value="${order.sub_total}" type="number" pattern="#,###"/>원
                                         </td>

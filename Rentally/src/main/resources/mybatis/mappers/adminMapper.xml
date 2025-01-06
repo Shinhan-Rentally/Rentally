@@ -4,10 +4,36 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rental.shinhan.admin">
 
-    <select id="selectProducts" resultType="ProductVO">
-        select * from product
-        join category using (category_seq)
-        where product_grade != 'F';
+    <select id="selectProducts" parameterType="map" resultType="ProductVO">
+        select *
+        from (
+        select row_number() over(order by p.product_seq desc) as num,
+        p.product_seq, p.product_name, p.product_grade, p.category_seq,
+        c.category_name, p.product_img, p.product_pay, p.product_date
+        from product p
+        join category c using (category_seq)
+        <where>
+            p.product_grade != 'F'
+            <if test="searchKeyWord != null and searchKeyWord != ''">
+                and (p.product_name like concat('%', #{searchKeyWord}, '%')
+                or c.category_name LIKE concat('%', #{searchKeyWord}, '%'))
+            </if>
+        </where>
+        ) as temp
+        where num between #{start} and #{end}
+    </select>
+
+    <select id="totalProducts" parameterType="String" resultType="int">
+        select count(p.product_seq)
+        from product p
+        join category c using (category_seq)
+        <where>
+            p.product_grade != 'F'
+            <if test="searchKeyWord != null and searchKeyWord != ''">
+                and (p.product_name like concat('%', #{searchKeyWord}, '%')
+                or c.category_name like concat('%', #{searchKeyWord}, '%'))
+            </if>
+        </where>
     </select>
 
     <select id="selectReviews" resultType="ReviewVO">

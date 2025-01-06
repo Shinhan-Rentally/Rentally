@@ -1,12 +1,12 @@
 package com.rental.shinhan.service;
 
-import com.rental.shinhan.dao.CustomerDAO;
-import com.rental.shinhan.dto.CustomerDTO;
-import com.rental.shinhan.dto.LoginJoinDTO;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.rental.shinhan.dao.CustomerDAO;
+import com.rental.shinhan.dto.CustomerDTO;
 
 @Service
 public class CustomerService {
@@ -55,6 +55,12 @@ public class CustomerService {
             // 비밀번호 불일치
             return false;
         }
+    }
+    
+    
+    //고객의 위시리스트갯수,장바구니 갯수
+    public Map<String, Long> getCartAndWishlistCount(String cust_id) {
+        return custDAO.getCartAndWishlistCount(cust_id);
     }
 
 }
