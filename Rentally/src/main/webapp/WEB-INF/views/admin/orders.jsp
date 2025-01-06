@@ -76,23 +76,6 @@
 <script>
     let page = 0;
 
-    <%--$("#pagingBar").off("click", "a.page-link").on("click", "a.page-link", function (e) {--%>
-    <%--    e.preventDefault();--%>
-
-    <%--    if ($(this).parent().hasClass("active")) {--%>
-    <%--        console.log("현재 페이지 클릭: 이벤트 무시");--%>
-    <%--        return; --%>
-    <%--    }--%>
-
-    <%--    const clickedPage = $(this).data("page");--%>
-    <%--    if (clickedPage !== undefined) {--%>
-    <%--        page = clickedPage;--%>
-    <%--        orders('${path}', page);--%>
-    <%--    } else {--%>
-    <%--        console.error("data-page 속성 누락");--%>
-    <%--    }--%>
-    <%--});--%>
-
     $("#pagingBar").on("click", "a", function (){
         page = $(this).data("page");
         orders('${path}',page);
