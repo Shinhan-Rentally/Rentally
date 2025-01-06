@@ -129,6 +129,8 @@
 				success: function(response){
 					$("tr").has("input[value='" + item + "']").remove();
 					alert("장바구니에서 상품이 삭제되었습니다.");
+					// 갯수 업데이트
+                    updateCounts();
 				},
 				error: function(){
 					alert("장바구니 삭제 실패");
