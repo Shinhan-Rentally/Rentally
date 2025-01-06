@@ -111,8 +111,13 @@
 				<div>
     <input type="hidden" class="product-seq" value="${productlist.product_seq}">
     <button class="btn btn-info btn-sm wishAdd position-absolute"  style="right: 10px; bottom: 10px;"5>
-        <i class="bi bi-heart"></i>
-    </button>
+      <c:if test="${fn:contains(wishlist, productlist.product_seq)}">
+								<i class="bi bi-heart-fill"></i>
+							</c:if>
+							<c:if test="${not fn:contains(wishlist, productlist.product_seq)}">
+								<i class="bi bi-heart"></i>
+							</c:if>
+						</button>
 </div>
 
 				</div>
