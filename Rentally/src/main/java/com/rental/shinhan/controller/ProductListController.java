@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.rental.shinhan.dto.WishListDTO;
+import com.rental.shinhan.service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +32,8 @@ public class ProductListController {
 
 	@Autowired
 	ProductListService productlistService;
+	@Autowired
+	WishListService wishlistService;
 
 	// 카테고리별 상품리스트 출력
 
@@ -52,6 +56,7 @@ public class ProductListController {
 			 @RequestParam(value = "page", defaultValue = "1", required = false) int page,  // 페이지 번호, 기본값 1
 			    @RequestParam(value = "size", defaultValue = "10", required = false) int size, // 페이지당 항목 수, 기본값 10
 			@RequestHeader(value = "X-Requested-With", required = false) String requestedWith, HttpSession session) {
+		int cust_seq = (Integer)session.getAttribute("cust_seq");
 		// priceRange가 빈 값일 경우 null로 처리
 		if (priceRange != null && priceRange.trim().isEmpty()) {
 			priceRange = null;
@@ -59,7 +64,7 @@ public class ProductListController {
 		// 서비스 호출
 		List<ProductListJoinDTO> productlist = productlistService.selectProductList(category_seq, product_brand,
 				priceRange, sort,query,page,size);
-		
+		List<WishListDTO> wishlist = wishlistService.wishStatus(cust_seq);
 
 		 // 서비스에서 페이징된 데이터를 가져옴
         Map<String, Object> params = new HashMap<>();
@@ -92,7 +97,10 @@ public class ProductListController {
 		String category_name = productlist.isEmpty() ? "" : productlist.get(0).getCategory_name();
 		 // 모델에 가공된 데이터 추가
         model.addAttribute("category_name", category_name);
-		
+		model.addAttribute("wishlist", wishlist);
+
+		log.info("wishlist:" +wishlist);
+
 		return "product/productFilter"; // Return partial view for AJAX
 
 	}
