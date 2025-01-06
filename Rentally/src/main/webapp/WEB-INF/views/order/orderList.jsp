@@ -163,8 +163,22 @@
         </div>
     </div>
 </div>
+<!-- 알림용 modal -->
+<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="alertModalLabel">알림</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="alertModalMessage"></div>
+            <div class="modal-footer">
+                <button type="button" id="alertModalConfirm" class="btn btn-info" data-bs-dismiss="modal">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-<!-- Javascript-->
 <!-- Javascript-->
 <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
@@ -175,6 +189,18 @@
 <!-- Footer -->
 <%@ include file="../common/footer.jsp" %>
 </body>
+<script>
+    function showModalMessage(message) {
+        $('#alertModalMessage').text(message);
+        $('#alertModal').modal('show');
+    }
+    // 모달 확인 버튼 클릭 시 동작
+    $('#alertModalConfirm').off("click").on("click", function () {
+        if (isSuccess) {
+            location.reload(); // 성공한 경우에만 새로고침
+        }
+    });
+</script>
 <script>
     // 별점 컨테이너 가져오기
     const stars = document.querySelectorAll('.star-rating .bi');
@@ -232,7 +258,6 @@
                 url: `${path}/review/\${custSeq}/add`,
                 type: "POST",
                 contentType: "application/json",
-                //data: JSON.stringify(reviewData),
                 data: JSON.stringify({
                     cust_seq: custSeq,
                     sub_seq: subSeq,
@@ -240,13 +265,14 @@
                     review_rate: reviewRate
                 }),
                 success: function (response) {
-                    alert("리뷰가 성공적으로 등록되었습니다!");
+                    isSuccess = true;
+                    showModalMessage('리뷰가 성공적으로 등록되었습니다.');
                     bootstrapModal = bootstrap.Modal.getInstance(reviewModal);
                     bootstrapModal.hide(); // 모달 닫기
-                    location.reload(); // 페이지 새로고침
                 },
                 error: function (err) {
-                    alert("리뷰 등록에 실패했습니다. 다시 시도해주세요.");
+                    isSuccess = false;
+                    showModalMessage('리뷰 등록에 실패했습니다. 다시 시도해주세요.');
                     console.error(err);
                 }
             });

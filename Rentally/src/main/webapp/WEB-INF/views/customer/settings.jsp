@@ -44,7 +44,7 @@
                     </div>
                     <!-- input -->
                     <div class="mb-5">
-                      <label class="form-label">전화번</label>
+                      <label class="form-label">전화번호</label>
                       <input type="text" id="cust_phone" class="form-control" value="${custInfo.cust_phone}" />
                     </div>
                     <!-- button -->
@@ -98,6 +98,21 @@
     </div>
   </section>
 </main>
+<!-- 알림용 modal -->
+<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="alertModalLabel">알림</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="alertModalMessage"></div>
+      <div class="modal-footer">
+        <button type="button" id="alertModalConfirm" class="btn btn-info" data-bs-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Javascript-->
 <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -111,6 +126,23 @@
 <!-- Javascript-->
 </body>
 <script>
+  let redirectUrl = null;  // 전역 변수로 선언
+
+  function showModalMessage(message) {
+    $('#alertModalMessage').text(message);
+    $('#alertModal').modal('show');
+  }
+
+  // 모달 확인 버튼 클릭 시 동작
+  $('#alertModalConfirm').off("click").on("click", function () {
+    if (redirectUrl) {
+      window.location.href = redirectUrl; // 특정 URL로 리다이렉트
+    } else if (isSuccess) {
+      location.reload(); // 성공한 경우에만 새로고침
+    }
+  });
+</script>
+<script>
   $('#saveDetails').on("click", function (event){
     event.preventDefault();
     $.ajax({
@@ -122,8 +154,12 @@
         cust_phone : $('#cust_phone').val()
       },
       success: function (response){
-        alert("updateInfo success"+ response);
-        location.reload();
+        isSuccess = true;
+        showModalMessage("회원정보 수정에 성공했습니다.");
+      },
+      error: function () {
+        isSuccess = false;
+        showModalMessage("회원정보 수정에 실패했습니다. 다시 시도해주세요.");
       }
     })
 
@@ -137,13 +173,14 @@
       type: 'post',
       data: {cust_seq:cust_seq},
       success: function(response) {
-        alert('탈퇴 성공');
-        if (response==="1") {
-          window.location.href = "${path}/main";
+        if (response === "1") {
+          redirectUrl = `${path}/main`;  // 전역 변수를 설정
+          showModalMessage("회원 탈퇴에 성공했습니다.");
         }
       },
       error: function (err) {
-        alert('탈퇴 실패');
+        isSuccess = false;
+        showModalMessage("회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
       }
     })
   })
@@ -187,16 +224,19 @@
       },
       success: function (response) {
         if (response.success) {
-          alert("비밀번호가 성공적으로 변경되었습니다.");
-          location.reload();
+          isSuccess = true;
+          showModalMessage("비밀번호 변경에 성공했습니다.");
         } else if (response.error === "incorrect_password") {
-          alert("현재 비밀번호가 일치하지 않습니다.");
+          isSuccess = false;
+          showModalMessage("현재 비밀번호가 일치하지 않습니다. 다시 시도해주세요.");
         } else {
-          alert("비밀번호 변경 실패");
+          isSuccess = false;
+          showModalMessage("비밀번호 변경에 실패했습니다. 다시 시도해주세요.");
         }
       },
       error: function (err) {
-        alert("서버 오류로 비밀번호 변경에 실패했습니다.");
+        isSuccess = false;
+        showModalMessage("서버 오류로 비밀번호 변경에 실패했습니다.");
         console.log(err);
       },
     });
