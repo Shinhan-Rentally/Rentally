@@ -7,6 +7,9 @@ import com.rental.shinhan.dto.ProductDTO;
 import com.rental.shinhan.dto.ReviewDTO;
 import com.rental.shinhan.util.S3Uploader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,7 +18,9 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AdminService {
@@ -23,9 +28,19 @@ public class AdminService {
     @Autowired
     AdminDAO adminDAO;
 
-    public List<ProductDTO> findProducts() {
+    public Page<ProductDTO> findProducts(Pageable pageable, String searchKeyWord) {
+        String[] splitSearchKeywords = searchKeyWord.split("\\s+");
+        int rowStart = ((pageable.getPageNumber()) * pageable.getPageSize()) + 1;
+        int rowEnd = (rowStart + pageable.getPageSize() -1);
 
-        return adminDAO.selectProducts();
+        Map<String, Object> map = new HashMap<>();
+        map.put("start", rowStart);
+        map.put("end", rowEnd);
+        map.put("searchKeyWord", searchKeyWord);
+        map.put("splitSearchKeywords", splitSearchKeywords);
+        List<ProductDTO> vo = adminDAO.selectProducts(map);
+        int total = adminDAO.totalPageable(map);
+        return new PageImpl<>(vo, pageable, total);
     }
 
     public List<ReviewDTO> findReviews() {
@@ -38,8 +53,16 @@ public class AdminService {
         return adminDAO.selectCustomers();
     }
 
-    public List<OrderJoinDTO> findOrders() {
-        List<OrderJoinDTO> orders = adminDAO.selectOrders();
+    public Page<OrderJoinDTO> findOrders(Pageable pageable) {
+
+        int rowStart = ((pageable.getPageNumber()) * pageable.getPageSize()) + 1;
+        int rowEnd = (rowStart + pageable.getPageSize() -1);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("start", rowStart);
+        map.put("end", rowEnd);
+
+        List<OrderJoinDTO> orders = adminDAO.selectOrders(map);
 
         for (OrderJoinDTO dto : orders) {
             Timestamp subDate = dto.getSub_date();
@@ -54,7 +77,8 @@ public class AdminService {
             dto.setEnd_date(formattedSubDateDate + "~" + endDate);
         }
 
-        return orders;
+        int total = adminDAO.totalOrdersPageable();
+        return new PageImpl<>(orders, pageable, total);
     }
 
     public int removeProduct(int productSeq) {

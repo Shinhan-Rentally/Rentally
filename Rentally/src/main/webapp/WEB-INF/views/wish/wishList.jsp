@@ -77,6 +77,7 @@
                       <a class="text-muted deleteWish" href="#"
                          data-wish-seq="${wish.wish_seq}"
                          data-cust-seq="${wish.cust_seq}"
+                         data-product-seq="${wish.product_seq}"
                          data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
                         <i class="feather-icon icon-trash-2"></i>
                       </a>
@@ -92,6 +93,21 @@
     </div>
   </section>
 </main>
+<!-- 알림용 modal -->
+<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="alertModalLabel">알림</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="alertModalMessage"></div>
+      <div class="modal-footer">
+        <button type="button" id="alertModalConfirm" class="btn btn-info" data-bs-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Javascript-->
 <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -105,28 +121,44 @@
 <!-- Javascript-->
 </body>
 <script>
+  function showModalMessage(message) {
+    $('#alertModalMessage').text(message);
+    $('#alertModal').modal('show');
+  }
+
+  // 모달 확인 버튼 클릭 시 동작
+  $('#alertModalConfirm').off("click").on("click", function () {
+    if (isSuccess) {
+      location.reload(); // 성공한 경우에만 새로고침
+    }
+  });
+</script>
+<script>
   $(document).on("click", ".deleteWish", function (event) {
     event.preventDefault();
 
-    // 버튼에서 wish_seq와 cust_seq 가져오기
-    wish_seq = $(this).data("wish-seq");
+    // 버튼에서 product_seq와 cust_seq 가져오기
+    product_seq = $(this).data("product-seq");
     cust_seq = $(this).data("cust-seq");
 
-    if (!wish_seq || !cust_seq) {
-      alert("필요한 데이터가 누락되었습니다.");
+    if (!product_seq || !cust_seq) {
+      isSuccess = false;
+      showModalMessage('필요한 데이터가 누락되었습니다.');
       return;
     }
 
     // AJAX 요청
     $.ajax({
-      url: `${path}/wishlist/\${wish_seq}/delete`,
+      url: `${path}/wishlist/\${product_seq}/delete`,
       type: 'delete',
       success: function (response) {
-        alert('삭제 성공');
-        location.reload(); // 페이지 새로 고침
+        isSuccess = true;
+        showModalMessage('위시리스트에서 삭제되었습니다.');
       },
       error: function (err) {
+        isSuccess = false;
         alert('삭제 실패');
+        showModalMessage('삭제에 실패하였습니다. 다시 시도해주세요.');
       }
     });
   });

@@ -163,29 +163,7 @@
 							</div>
 						</div>
 						<div id="productListContainer"></div>
-						<div class="row mt-8">
-							<div class="col">
-								<!-- nav -->
-								<nav>
-									<ul class="pagination">
-										<li class="page-item disabled"><a class="page-link mx-1"
-											href="#" aria-label="Previous"> <i
-												class="feather-icon icon-chevron-left"></i>
-										</a></li>
-										<li class="page-item"><a class="page-link mx-1 active"
-											href="#">1</a></li>
-										<li class="page-item"><a class="page-link mx-1" href="#">2</a></li>
 
-										<li class="page-item"><a class="page-link mx-1" href="#">...</a></li>
-										<li class="page-item"><a class="page-link mx-1" href="#">12</a></li>
-										<li class="page-item"><a class="page-link mx-1" href="#"
-											aria-label="Next"> <i
-												class="feather-icon icon-chevron-right"></i>
-										</a></li>
-									</ul>
-								</nav>
-							</div>
-						</div>
 
 					</section>
 				</div>
@@ -197,7 +175,7 @@
 
 	<!-- Footer -->
 	<%@include file="../common/footer.jsp"%>
-
+	<%@ include file="../common/bottomKakao.jsp" %>
 
 
 
@@ -220,123 +198,156 @@
 	<script>
 	// 전역 변수로 선택된 브랜드와 가격대 저장
 	let selectedBrand = null;
-	let selectedPriceRanges = [];
+let selectedPriceRanges = [];
+let currentPage = 1;  // 현재 페이지 번호 (기본값 1)
 
-	// URL에서 category_seq 값을 추출하는 함수
-	function getCategorySeqFromURL() {
-	    const params = new URLSearchParams(window.location.search); // URL의 쿼리스트링을 파싱
-	    let category_seq = params.get('category_seq'); // URL에서 category_seq 값을 가져옴
+// URL에서 category_seq 값을 추출하는 함수
+function getCategorySeqFromURL() {
+    const params = new URLSearchParams(window.location.search); // URL의 쿼리스트링을 파싱
+    let category_seq = params.get('category_seq'); // URL에서 category_seq 값을 가져옴
 
-	    if (!category_seq) {
-	        console.log('category_seq is not'); // category_seq가 없을 경우 로그 출력
-	    }
-	    return category_seq; // category_seq 값을 반환
-	}
+    if (!category_seq) {
+        console.log('category_seq is not'); // category_seq가 없을 경우 로그 출력
+    }
+    return category_seq; // category_seq 값을 반환
+}
 
-	// 브랜드 필터 토글 (하나만 선택 가능)
-	function toggleBrandFilter(button) {
-	    // 선택된 브랜드 처리
-	    if (button.classList.contains('btn-info')) {
-	        button.classList.remove('btn-info');
-	        button.classList.add('btn-outline-info');
-	        selectedBrand = null; // 선택 해제시 브랜드 필터 상태를 null로 설정
-	    } else {
-	        const buttons = document.querySelectorAll('.btn-group button');
-	        buttons.forEach(btn => {
-	            btn.classList.remove('btn-info');
-	            btn.classList.add('btn-outline-info');
-	        });
-	        button.classList.remove('btn-outline-info');
-	        button.classList.add('btn-info');
-	        selectedBrand = button.getAttribute('data-brand'); // 선택된 브랜드 업데이트
-	    }
+// 페이지 번호 변경 시 호출되는 함수
+function changePage(page) {
+    currentPage = page;  // 페이지 번호 갱신
+    applyFilters();  // 필터 적용
+}
+//브랜드 필터 토글 (하나만 선택 가능)
+function toggleBrandFilter(button) {
+    // 선택된 브랜드 처리
+    if (button.classList.contains('btn-info')) {
+        button.classList.remove('btn-info');
+        button.classList.add('btn-outline-info');
+        selectedBrand = null; // 선택 해제시 브랜드 필터 상태를 null로 설정
+    } else {
+        const buttons = document.querySelectorAll('.btn-group button');
+        buttons.forEach(btn => {
+            btn.classList.remove('btn-info');
+            btn.classList.add('btn-outline-info');
+        });
+        button.classList.remove('btn-outline-info');
+        button.classList.add('btn-info');
+        selectedBrand = button.getAttribute('data-brand'); // 선택된 브랜드 업데이트
+    }
 
-	    // 현재 가격대 필터 상태 확인
-	    selectedPriceRanges = Array.from(document.querySelectorAll('#priceRangeToggle button.btn-info'))
-	        .map(btn => btn.getAttribute('data-value'));
+    // 현재 가격대 필터 상태 확인
+    selectedPriceRanges = Array.from(document.querySelectorAll('#priceRangeToggle button.btn-info'))
+        .map(btn => btn.getAttribute('data-value'));
 
-	    // 필터 적용
-	    applyFilters();
-	}
+    // 필터 적용
+    applyFilters();
+}
 
-	// 가격대 필터 다중 선택 가능
-	function togglePriceRangeFilter(button) {
-	    // 선택된 가격대 처리
-	    button.classList.toggle('btn-info');
-	    button.classList.toggle('btn-outline-info');
+// 가격대 필터 다중 선택 가능
+function togglePriceRangeFilter(button) {
+    // 선택된 가격대 처리
+    button.classList.toggle('btn-info');
+    button.classList.toggle('btn-outline-info');
 
-	    // 선택된 가격대 필터 상태
-	    selectedPriceRanges = Array.from(document.querySelectorAll('#priceRangeToggle button.btn-info'))
-	        .map(btn => btn.getAttribute('data-value'));
+    // 선택된 가격대 필터 상태
+    selectedPriceRanges = Array.from(document.querySelectorAll('#priceRangeToggle button.btn-info'))
+        .map(btn => btn.getAttribute('data-value'));
 
-	    // 필터 적용
-	    applyFilters();
-	}
+    // 필터 적용
+    applyFilters();
+}
 
-	// 필터와 정렬을 적용하는 함수
-	function applyFilters() {
-	    let sort = document.querySelector('.form-select').value; // 선택된 정렬 기준
-	    let category_seq = getCategorySeqFromURL(); // URL에서 category_seq 가져오기
-	    // category_seq = category_seq==null?1:category_seq;
-	    
-	 // category_seq가 없을 경우 0으로 설정 (서버에서 0을 전체 조회로 처리하도록 규칙 정의)
-	    category_seq = category_seq ? parseInt(category_seq, 10) : 0;
-	    
-	    const query = "${param.query}".trim(); // 검색어 확인
-	    console.log("category_seq: " + category_seq);
-	    console.log("선택된 브랜드: " + selectedBrand);
-	    console.log("선택된 가격대: " + selectedPriceRanges);
 
-	    // Ajax로 필터 및 정렬된 결과 요청
-	    $.ajax({
-	        url: '${path}/product/filter', // 서버 URL (실제 URL로 변경 필요)
-	        method: 'GET',
-	        data: {
-	            category_seq: category_seq, // 카테고리 정보
-	            brand: selectedBrand || '', // 선택된 브랜드 필터
-	            priceRange: selectedPriceRanges.join(',') || '', // 선택된 가격대 필터 (콤마로 구분된 문자열)
-	            sort: sort, // 정렬 기준
-	            query: query || '' // 검색어 (검색 상태인 경우에만 추가)
-	        },
-	        success: function (response) {
-	            $('#productListContainer').html(response);
-	            $("#productlistsize").text($("#size").text());
-	            $("#category_name").text($("#categoryname").text());
-	            $(".category").text($("#categoryname").text());
-	        },
-	        error: function (error) {
-	            console.error('필터 적용 실패:', error);
-	        }
-	    });
-	}
 
-	// 페이지 로딩 시 필터와 정렬 초기값 적용
-	$(function() {
-		console.log(${category_name})
-		 var query = "${param.query}".trim(); // 검색어 확인
-		    if (query === '') {
-		        applyFilters(); // 검색어가 없으면 초기 필터 및 정렬 적용
-		        return;
-		    }
-		
-		$.ajax({
-			url : '${path}/product/searchResult', // 검색 처리할 URL
-			method : 'GET',
-			data : {
-				query : query
-			}, // 검색어 전달
-			success : function(response) {
-				// 검색 결과를 DOM에 표시			
-			$(".category").html("'"+`<span id="searchColor">`+`\${query}`+`</span>`+"'"+"검색결과");
-			$('#productListContainer').html(response); // 반환된 결과로 DOM 업데이트
-			$("#productlistsize").text($("#size").text());
-			 $("#category_name").text(`\${query}`).text();	 
-			},
-			error : function(error) {
-				console.error('검색 요청 실패:', error);
-			}
-		});
-	});
+// 필터와 정렬을 적용하는 함수
+function applyFilters() {
+    let sort = document.querySelector('.form-select').value; // 선택된 정렬 기준
+    let category_seq = getCategorySeqFromURL(); // URL에서 category_seq 가져오기
+    category_seq = category_seq ? parseInt(category_seq, 10) : 0;  // 없으면 0으로 설정
+    
+    const query = "${param.query}".trim(); // 검색어 확인
+    console.log("category_seq: " + category_seq);
+    console.log("선택된 브랜드: " + selectedBrand);
+    console.log("선택된 가격대: " + selectedPriceRanges);
+
+    // Ajax로 필터 및 정렬된 결과 요청
+    $.ajax({
+        url: '${path}/product/filter', // 서버 URL (실제 URL로 변경 필요)
+        method: 'GET',
+        data: {
+            category_seq: category_seq, // 카테고리 정보
+            brand: selectedBrand || '', // 선택된 브랜드 필터
+            priceRange: selectedPriceRanges.join(',') || '', // 선택된 가격대 필터 (콤마로 구분된 문자열)
+            sort: sort, // 정렬 기준
+            query: query || '', // 검색어 (검색 상태인 경우에만 추가)
+            page: currentPage,  // 현재 페이지 번호
+            size: 10  // 페이지당 항목 수 (필요에 따라 조정)
+        },
+        success: function (response) {
+            $('#productListContainer').html(response);  // 결과 업데이트
+            $("#productlistsize").text($("#size").text());  // 결과 크기 업데이트
+            $("#category_name").text($("#categoryname").text());  // 카테고리 이름 업데이트
+            if (query && query.trim() !== "") {
+                // query 값이 있으면 검색 결과 표시
+                $(".category").html("'"+`<span id="searchColor">${param.query}</span>` + "'검색결과");
+            } else {
+                // query 값이 없으면 카테고리 이름 표시
+                $(".category").text(categoryName);
+            }
+        },
+        error: function (error) {
+            console.error('필터 적용 실패:', error);
+        }
+    });
+}
+
+// 페이지네이션 버튼 클릭 시 호출되는 함수
+$(document).on("click", ".page-link", function (e) {
+    e.preventDefault();  // 링크 기본 동작을 막음
+    var page = $(this).data('page');  // 페이지 번호 가져오기
+    changePage(page);  // 페이지 변경 함수 호출
+});
+
+$(function () {
+    // 검색어 확인 및 기본값 처리
+    var query = "${param.query != null ? fn:escapeXml(param.query) : ''}".trim();
+    if (query === '') {
+        applyFilters(); // 검색어가 없으면 초기 필터 및 정렬 적용
+        return;
+    }
+
+    // 초기 페이지 설정
+    let currentPage = 1;
+
+    $.ajax({
+        url: '${path}/product/searchResult', // 검색 처리할 URL
+        method: 'GET',
+        data: {
+            query: query,
+            page: currentPage, // 현재 페이지 번호
+            size: 10 // 페이지당 항목 수
+        },
+        success: function (response) {
+        	  if (query && query.trim() !== "") {
+                  // query 값이 있으면 검색 결과 표시
+                  $(".category").html("'"+`<span id="searchColor">${param.query}</span>`+ "'검색결과");
+              } else {
+                  // query 값이 없으면 카테고리 이름 표시
+                  $(".category").text(categoryName);
+              }
+        	  console.log("currentPage:", response.currentPage);
+        	    console.log("totalPages:", response.totalPages);
+
+            // DOM 업데이트
+            $('#productListContainer').html(response); // 반환된 결과로 DOM 업데이트
+            $("#productlistsize").text($("#size").text());
+            $("#category_name").text(query);
+        },
+        error: function (error) {
+            console.error('검색 요청 실패:', error);
+        }
+    });
+});
 
 	// 'select'가 변경될 때마다 정렬 적용
 	document.querySelector('.form-select').addEventListener('change', function () {
