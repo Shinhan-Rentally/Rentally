@@ -34,18 +34,6 @@ public class AddressController {
 	@Autowired
 	private AddressService addressService;
 
-	// 테스트용 cust_seq
-	int testCustseq = 1;
-
-	// AddressPage 페이지 이동
-	//address/addAddressPage
-	
-	// 페이지 불러오기 테스트용
-	@RequestMapping("/create")
-	public String create() {
-		return "address/addAddressPage";
-	}
-
 	// 주소 저장 요청 처리
 	@RequestMapping(value = "/address/add", method = RequestMethod.POST)
 	@ResponseBody
