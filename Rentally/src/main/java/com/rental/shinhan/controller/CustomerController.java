@@ -1,5 +1,10 @@
 package com.rental.shinhan.controller;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rental.shinhan.dto.CustomerDTO;
 import com.rental.shinhan.service.CustomerService;
 import com.rental.shinhan.service.JoinService;
@@ -114,4 +122,48 @@ public class CustomerController {
 
 	}
 
+	// 토큰발급
+	@ResponseBody
+	@PostMapping("/identity")
+	public String rspTest(String imp_uid) {
+		String impKey = "4688751070862013";
+		String impSecret = "zcumVleZiQvaeycYGKogJf9x4yV3qxBwghhcDSte8SCeSKx2tAduOXQc8gQepLY9RU80NyftFT9lqQWE";
+		String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
+		HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://api.iamport.kr/users/getToken"))
+				.header("Content-Type", "application/json")
+				.method("POST", HttpRequest.BodyPublishers.ofString(jsonBody)).build();
+		HttpResponse<String> response = null;
+		try {
+			response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		}
+		String jsonResponse = response.body();
+		ObjectMapper objectMapper = new ObjectMapper();
+		JsonNode rootNode = null;
+		try {
+			rootNode = objectMapper.readTree(jsonResponse);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+
+		String token = rootNode.path("response").path("access_token").asText();
+
+		HttpRequest request2 = HttpRequest.newBuilder()
+				.uri(URI.create("https://api.iamport.kr/certifications/" + imp_uid))
+				.header("Content-Type", "application/json").header("Authorization", "Bearer " + token)
+				.method("GET", HttpRequest.BodyPublishers.ofString("")).build();
+
+		HttpResponse<String> response2 = null;
+		try {
+			response2 = HttpClient.newHttpClient().send(request2, HttpResponse.BodyHandlers.ofString());
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		}
+		String jsonResponse2 = response2.body();
+
+		System.out.println(jsonResponse2);
+
+		return jsonResponse2;
+	}
 }
