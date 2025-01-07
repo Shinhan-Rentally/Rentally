@@ -70,15 +70,19 @@ public class AdminController {
     }
 
     @GetMapping("/customer/list")
-    public String getCustomers(
-            @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size,
-            Model model
+    public String getCustomers() {
+        return "/admin/customers";
+    }
+
+    @GetMapping("/customer/pageable")
+    @ResponseBody
+    public Page<CustomerDTO> getCustomers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
     ) {
-        List<CustomerDTO> customers = adminService.findCustomers();
-        PagedDTO<CustomerDTO> pagedResponse = pagenation.paginate(customers, page, size);
-        pagenation.addPagedDataToModel(pagedResponse, "customers", model);
-        return "admin/customers";
+        Pageable pageable = PageRequest.of(page, size);
+        Page<CustomerDTO> customers = adminService.findCustomers(pageable);
+        return customers;
     }
 
     @GetMapping("/order/list")
