@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,6 +29,7 @@ import com.rental.shinhan.dto.CustomerDTO;
 import com.rental.shinhan.service.CustomerService;
 import com.rental.shinhan.service.JoinService;
 
+import lombok.val;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -63,6 +66,7 @@ public class CustomerController {
 		return result + "";
 	}
 
+	//회원가입
 	@Autowired
 	JoinService jService;
 
@@ -122,24 +126,33 @@ public class CustomerController {
 
 	}
 
-	// 토큰발급
+	//회원가입 본인인증
+	@Value("${imp.key}")
+	private String impKey;
+	
+	@Value("${imp.secret}")
+	private String impSecret;
+	
+	@Autowired
+	private RestTemplate restTemplate;
+	
 	@ResponseBody
 	@PostMapping("/identity")
-	public String rspTest(String imp_uid) {
-		String impKey = "4688751070862013";
-		String impSecret = "zcumVleZiQvaeycYGKogJf9x4yV3qxBwghhcDSte8SCeSKx2tAduOXQc8gQepLY9RU80NyftFT9lqQWE";
+	public String getToken(String imp_uid) {
 		String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
-		HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://api.iamport.kr/users/getToken"))
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create("https://api.iamport.kr/users/getToken"))
 				.header("Content-Type", "application/json")
-				.method("POST", HttpRequest.BodyPublishers.ofString(jsonBody)).build();
+				.method("POST", HttpRequest.BodyPublishers.ofString(jsonBody))
+				.build();
 		HttpResponse<String> response = null;
 		try {
 			response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
-		String jsonResponse = response.body();
-		ObjectMapper objectMapper = new ObjectMapper();
+		String jsonResponse = response.body(); //http 요청의 json을 문자열로 저장
+		ObjectMapper objectMapper = new ObjectMapper(); //json 객체를 java 객체로 변환
 		JsonNode rootNode = null;
 		try {
 			rootNode = objectMapper.readTree(jsonResponse);
@@ -147,8 +160,10 @@ public class CustomerController {
 			e.printStackTrace();
 		}
 
-		String token = rootNode.path("response").path("access_token").asText();
-
+		return rootNode.path("response").path("access_token").asText();
+	}
+	
+	public String identity() {
 		HttpRequest request2 = HttpRequest.newBuilder()
 				.uri(URI.create("https://api.iamport.kr/certifications/" + imp_uid))
 				.header("Content-Type", "application/json").header("Authorization", "Bearer " + token)
