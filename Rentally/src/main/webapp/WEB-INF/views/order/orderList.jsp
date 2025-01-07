@@ -156,7 +156,7 @@
                                   id="reviewText" rows="3"
                                   placeholder="상품과 관련된 리뷰를 작성해주세요."
                                   onkeyup="fn_checkByte(this)"></textarea>
-                        <p></ㅔ><span id="nowByte">0</span>/500bytes</p>
+                        <p><span id="nowByte">0</span>/500bytes</p>
                     </div>
                 </div>
                 <div class="modal-footer">
