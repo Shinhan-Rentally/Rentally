@@ -152,7 +152,11 @@
                     <!-- Textarea for Review -->
                     <div class="mb-3">
                         <label for="reviewText" class="form-label">어떤 점이 좋았나요?</label>
-                        <textarea class="form-control" id="reviewText" rows="3" placeholder="상품과 관련된 리뷰를 작성해주세요."></textarea>
+                        <textarea class="form-control"
+                                  id="reviewText" rows="3"
+                                  placeholder="상품과 관련된 리뷰를 작성해주세요."
+                                  onkeyup="fn_checkByte(this)"></textarea>
+                        <p></ㅔ><span id="nowByte">0</span>/500bytes</p>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -200,6 +204,68 @@
             location.reload(); // 성공한 경우에만 새로고침
         }
     });
+</script>
+<script>
+    function fn_checkByte(obj) {
+        const maxByte = 500; // 최대 500바이트
+        let text_val = obj.value; // 입력한 문자
+        let totalByte = 0; // 총 바이트 수
+        let newText = ""; // 수정된 텍스트 저장
+        const encoder = new TextEncoder();
+
+        // 각 문자의 바이트 길이를 계산하고 제한 초과 여부 확인
+        for (let i = 0; i < text_val.length; i++) {
+            const byteArr = encoder.encode(text_val.charAt(i)); // UTF-8로 인코딩된 바이트 배열
+            totalByte += byteArr.length;
+
+            if (totalByte <= maxByte) {
+                newText += text_val.charAt(i); // 현재 문자를 추가
+            } else {
+                break; // 최대 바이트를 초과하면 중단
+            }
+        }
+
+        // 입력된 글자 수정
+        if (totalByte > maxByte) {
+            obj.value = newText; // 초과된 글자를 잘라낸 새로운 텍스트를 설정
+            totalByte = maxByte; // 최대 바이트로 설정
+        }
+
+        // 현재 바이트 수와 스타일 업데이트
+        const nowByteElem = document.getElementById("nowByte");
+        if (nowByteElem) {
+            nowByteElem.innerText = totalByte;
+            nowByteElem.style.color = totalByte >= maxByte ? "red" : "blue";
+        }
+    }
+
+    // function fn_checkByte(obj) {
+    //     const maxByte = 500; // 최대 100바이트
+    //     let text_val = obj.value; // 입력한 문자
+    //     const text_len = text_val.length; // 입력한 문자 수
+    //
+    //     let totalByte = 0;
+    //
+    //     // TextEncoder를 사용해 각 문자의 바이트 길이를 계산합니다.
+    //     const encoder = new TextEncoder();
+    //
+    //     for (let i = 0; i < text_len; i++) {
+    //         const each_char = text_val.charAt(i);
+    //         const byteArr = encoder.encode(each_char); // UTF-8로 인코딩된 바이트 배열
+    //         totalByte += byteArr.length; // 해당 문자의 바이트 수 더하기
+    //     }
+    //
+    //     if (totalByte > maxByte) {
+    //         text_val = text_val.substring(0, maxByte);
+    //         document.getElementById("reviewText").value = text_val;
+    //         // document.getElementById("nowByte").innerText = totalByte;
+    //         // document.getElementById("nowByte").style.color = "red";
+    //     } else {
+    //         document.getElementById("nowByte").innerText = totalByte;
+    //         document.getElementById("nowByte").style.color = "blue";
+    //     }
+    // }
+
 </script>
 <script>
     // 별점 컨테이너 가져오기
