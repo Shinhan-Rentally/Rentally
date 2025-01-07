@@ -1,129 +1,331 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
-<c:set var="path"  value="${pageContext.servletContext.contextPath}" />
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:set var="path" value="${pageContext.servletContext.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>우편번호 찾기</title>
-<!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<style>
-    /* 모달 스타일 */
-    #editModal {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 1000;
-        background-color: white;
-        padding: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        border-radius: 10px;
-    }
-    #modalOverlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-    }
-</style>
-
+<%@ include file="../common/headMeta.jsp"%>
+<title>주소 - Rentally</title>
+<%@ include file="../common/headLinks.jsp"%>
 </head>
+
 <body>
-	<form action="${path}/address/add" method="post">
-		<input type="text" id="postcode" name="postcode" placeholder="우편번호">
-		<input type="button" onclick="findPostcode()" value="우편번호 찾기"><br>
-		<input type="text" id="address" name="address" placeholder="주소"><br>
-		<input type="text" id="detailAddress" name="detailAddress"	placeholder="상세주소"> 
-		<input type="text" id="extraAddress"	name="extraAddress" placeholder="참고항목"> 
-		<input type="text" id="recipName" name="recipName" placeholder="받는이"> 
-		<input type="text" id="recipPhone" name="recipPhone" placeholder="연락처">
-		<label> 
-		<input	type="checkbox" id="addrDefault" name="addrDefault">기본 주소로 설정
-		</label> 
-		<br>
-		<button id="saveAddress" type="submit">저장하기</button>
-	</form>
+	<%@ include file="../common/header.jsp"%>
+	<main>
+		<!-- section -->
+		<section>
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<%@ include file="../common/myPageNavbar.jsp"%>
+					<!-- col -->
+					<div class="col-lg-9 col-md-8 col-12">
+						<div class="py-6 p-md-6 p-lg-10">
+							<!-- heading -->
+							<h2 class="mb-0">주소</h2>
+							<br>
+							<!-- button -->
+							<div style="text-align: right;">
+								<a href="#" class="btn btn-info btn-sm" data-bs-toggle="modal"
+									data-bs-target="#addAddressModal">새로운 주소 추가</a>
+							</div>
+							<div class="row">
+								<!-- col -->
+								<c:forEach var="address" items="${addressList}">
+									<div class="col-xl-5 col-lg-6 col-xxl-4 col-12 mb-4">
+										<!-- form -->
+										<div class="card">
+											<div class="card-body p-6">
+												<div class="form-check mb-4">
+													<label class="form-check-label text-dark fw-semibold"
+														for="homeRadio">${address.addr_name}</label>
+												</div>
 
-	<!-- 모달 오버레이 -->
-	<div id="modalOverlay" onclick="closeModal()"></div>
+												<!-- address -->
+												<p class="mb-6">
+													${address.addr_title}<br> ${address.addr_detail}<br>
+													${address.addr_phone}<br>
+												</p>
 
-	<!-- 수정 모달 -->
-	<div id="editModal">
-	
-    <h3>주소 수정</h3>
-    <form id="editForm" method="post">
-        <input type="hidden" id="editAddrSeq" name="addrSeq">
-        <label>우편번호: <input type="text" id=editPostcode name="postcode" placeholder="우편번호"></label>
-        <input type="button" onclick="findPostcode()" value="우편번호 찾기">
-        <br>
-        <label>주소: <input type="text" id="editAddress" name="address"></label><br>
-        <label>상세주소: <input type="text" id="editDetailAddress" name="detailAddress" placeholder="상세주소"></label><br>
-        <label>받는이: <input type="text" id="editRecipName" name="recipName" placeholder="받는이"></label><br>
-        <label>연락처: <input type="text" id="editRecipPhone" name="recipPhone" placeholder="연락처"></label><br>
-        <label>기본 주소로 설정: <input type="checkbox" id="editAddrDefault" name="addrDefault"></label><br>
-        <button type="button" id = "updateAddress">수정 완료!!!</button>
-        <button type="button" onclick="closeModal()">닫기</button>
-    </form>
+												<!-- btn -->
+												<div class="mt-4">
+													<c:choose>
+														<c:when test="${address.addr_default}">
+															<a href="#" class="btn btn-info btn-sm"> 기본 주소 </a>
+														</c:when>
+														<c:otherwise>
+															<a href="setDefault" class="link-primary"
+																onclick="setDefault(${address.addr_seq}); return false;">기본
+																주소로 설정하기 </a>
+														</c:otherwise>
+													</c:choose>
+													<br> <a href="#" class="text-inherit"
+														data-bs-toggle="modal" data-bs-target="#editAddressModal"
+														onclick="updateModal('${address.addr_seq}', '${address.addr_title}', '${address.addr_name}', '${address.addr_phone}', '${address.addr_detail}', '${address.addr_default}')">
+														수정 </a>
+														<a href="#" class="text-danger ms-3 delete-address-btn"
+														data-bs-toggle="modal" data-bs-target="#deleteModal" data-addr-seq = "${address.addr_seq}">삭제</a>
+												</div>
+
+											</div>
+										</div>
+									</div>
+								</c:forEach>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+
+	<!-- 주소 등록 Modal -->
+	<div class="modal fade" id="addAddressModal" tabindex="-1"
+		aria-labelledby="addAddressModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<!-- modal content -->
+			<div class="modal-content">
+				<!-- modal body -->
+				<div class="modal-body p-6">
+					<div class="d-flex justify-content-between mb-5">
+						<div>
+							<!-- heading -->
+							<h5 class="mb-1" id="addAddressModalLabel">새로운 주소 등록</h5>
+							<p class="small mb-0">배송받을 주소를 입력해주세요.</p>
+						</div>
+						<div>
+							<!-- button -->
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+					</div>
+					<!-- row -->
+					<div class="row g-3">
+						<!-- col -->
+						<div class="col-12">
+							<!-- input -->
+							<input type="text" class="form-control" id="postcode"
+								name="postcode" placeholder="우편번호" aria-label="First name"
+								required />
+						</div>
+						<!-- col -->
+						<div class="col-12 text-end">
+							<button class="btn btn-info btn-sm" type="button"
+								onclick="findPostcode()">우편번호 찾기</button>
+						</div>
+						<!-- col -->
+						<div class="col-12">
+							<!-- input -->
+							<input type="text" class="form-control" id="address"
+								name="address" placeholder="주소" aria-label="Last name" required />
+						</div>
+						<!-- col -->
+						<div class="col-12">
+							<!-- input -->
+							<input type="text" class="form-control" placeholder="상세 주소"
+								id="detailAddress" name="detailAddress" required />
+						</div>
+						<!-- col -->
+						<div class="col-12">
+							<!-- input -->
+							<input type="text" class="form-control" placeholder="추가 주소"
+								id="extraAddress" name="extraAddress" required />
+						</div>
+						<!-- col -->
+						<div class="col-12">
+							<!-- input -->
+							<input type="text" class="form-control" placeholder="받는이"
+								id="recipName" name="recipName" required />
+						</div>
+						<!-- col -->
+						<div class="col-12">
+							<!-- input -->
+							<input type="text" class="form-control" placeholder="번호"
+								id="recipPhone" name="recipPhone" required />
+						</div>
+						<!-- col -->
+						<div class="col-12">
+							<!-- form check -->
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" value=""
+									id="addrDefault" name="addrDefault" /> <label
+									class="form-check-label" for="addrDefault">기본 주소로 설정</label>
+							</div>
+						</div>
+						<!-- col -->
+						<div class="col-12 text-end">
+							<button type="button" class="btn btn-info btn-sm"
+								data-bs-dismiss="modal">취소</button>
+							<button class="btn btn-info btn-sm" id="saveAddress"
+								type="button">주소 저장</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	
-	
-	<h1>고객 ID: ${custSeq} - 주소 목록</h1>
-	<form id="delete" action="delete" method="post">
-		<table border="1">
-			<thead>
-				<tr>
-					<th>선택</th>
-					<th>주소 번호</th>
-					<th>받는이</th>
-					<th>연락처</th>
-					<th>주소</th>
-					<th>상세 주소</th>
-					<th>기본 주소 여부</th>
-			
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="address" items="${addressList}">
-					<tr>
-						<td><input type="radio" name="selectedAddress" value="${address.addr_seq}"></td>
-						<td>${address.addr_seq}</td>
-						<td>${address.addr_name}</td>
-						<td>${address.addr_phone}</td>
-						<td>${address.addr_title}</td>
-						<td>${address.addr_detail}</td>
-						<td>${address.addr_default}</td>
-						<td>
-							<a href="goUpdate" >수정</a>
-						</td>
-						<td>
-							<button type="button" onclick="updateModal('${address.addr_seq}', '${address.addr_title}', '${address.addr_name}', '${address.addr_phone}', '${address.addr_detail}', '${address.addr_default}')">수정</button>
-						</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
 
-		<button type="button" onclick="confirmDeletion()">선택한 주소 삭제</button>
-		
-	</form>
-		
+	<!-- 주소 수정 Modal -->
+	<div class="modal fade" id="editAddressModal" tabindex="-1"
+		aria-labelledby="editAddressModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<!-- modal content -->
+			<div class="modal-content">
+				<!-- modal body -->
+				<div class="modal-body p-6">
+					<div class="d-flex justify-content-between mb-5">
+						<div>
+							<!-- heading -->
+							<h5 class="mb-1" id="editAddressModalLabel">주소 수정</h5>
+							<p class="small mb-0">주소를 수정해주세요.</p>
+						</div>
+						<div>
+							<!-- button -->
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								onclick="closeModal()"
+								aria-label="Close"></button>
+						</div>
+					</div>
+					<!-- row -->
+					<div class="row g-3">
+						<!-- col -->
+						<input type="hidden" id="editAddrSeq" name="addrSeq"/>
+						<!-- col -->
+						<div class="col-12">
+							<!-- input -->
+							<input type="text" class="form-control" id="editPostcode"
+								name="postcode" placeholder="우편번호" aria-label="First name"
+								required />
+						</div>
+						<!-- col -->
+						<div class="col-12 text-end">
+							<button class="btn btn-info btn-sm" type="button"
+								onclick="findPostcode()">우편번호 찾기</button>
+						</div>
+						<!-- col -->
+						<div class="col-12">
+							<!-- input -->
+							<input type="text" class="form-control" id="editAddress"
+								name="address" placeholder="주소" aria-label="Last name" required />
+						</div>
+						<!-- col -->
+						<div class="col-12">
+							<!-- input -->
+							<input type="text" class="form-control" placeholder="상세 주소"
+								id="editDetailAddress" name="detailAddress" required />
+						</div>
+						<!-- col -->
+						<div class="col-12">
+							<!-- input -->
+							<input type="text" class="form-control" placeholder="받는이"
+								id="editRecipName" name="recipName" required />
+						</div>
+						<!-- col -->
+						<div class="col-12">
+							<!-- input -->
+							<input type="text" class="form-control" placeholder="번호"
+								id="editRecipPhone" name="recipPhone" required />
+						</div>
+						<!-- col -->
+						<div class="col-12">
+							<!-- form check -->
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" value=""
+									id="editAddrDefault" name="addrDefault" /> <label
+									class="form-check-label" for="addrDefault">기본 주소로 설정</label>
+							</div>
+						</div>
+						<!-- col -->
+						<div class="col-12 text-end">
+							<button type="button" class="btn btn-info btn-sm"
+								data-bs-dismiss="modal" onclick="closeModal()">취소</button>
+							<button class="btn btn-info btn-sm" id="updateAddress"
+								type="button">주소 저장</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
+
+	<!-- modal -->
+	<div class="offcanvas offcanvas-start" tabindex="-1"
+		id="offcanvasAccount" aria-labelledby="offcanvasAccountLabel">
+		<!-- offcanvac header -->
+		<div class="offcanvas-header">
+			<h5 class="offcanvas-title" id="offcanvasAccountLabel">Offcanvas</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+				aria-label="Close"></button>
+		</div>
+		<!-- offcanvac body -->
+		<div class="offcanvas-body">
+			<!-- nav -->
+			<ul class="nav flex-column nav-pills nav-pills-dark">
+				<!-- nav item -->
+				<li class="nav-item"><a class="nav-link" aria-current="page"
+					href="account-orders.html"> <i
+						class="feather-icon icon-shopping-bag me-2"></i> Your Orders
+				</a></li>
+				<!-- nav item -->
+				<li class="nav-item"><a class="nav-link"
+					href="account-settings.html"> <i
+						class="feather-icon icon-settings me-2"></i> Settings
+				</a></li>
+				<!-- nav item -->
+				<li class="nav-item"><a class="nav-link active"
+					href="account-address.html"> <i
+						class="feather-icon icon-map-pin me-2"></i> Address
+				</a></li>
+				<!-- nav item -->
+				<li class="nav-item"><a class="nav-link"
+					href="account-payment-method.html"> <i
+						class="feather-icon icon-credit-card me-2"></i> Payment Method
+				</a></li>
+				<!-- nav item -->
+				<li class="nav-item"><a class="nav-link"
+					href="account-notification.html"> <i
+						class="feather-icon icon-bell me-2"></i> Notification
+				</a></li>
+			</ul>
+			<hr class="my-6" />
+			<div>
+				<!-- nav -->
+				<ul class="nav flex-column nav-pills nav-pills-dark">
+					<!-- nav item -->
+					<li class="nav-item"><a class="nav-link" href="../index.html">
+							<i class="feather-icon icon-log-out me-2"></i> Log out
+					</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<%@ include file="../common/bottomKakao.jsp"%>
+
+	<!-- Footer -->
+	<%@ include file="../common/footer.jsp"%>
+
+	<!-- Javascript-->
+	<script src="${path}/resources/libs/flatpickr/dist/flatpickr.min.js"></script>
+	<script
+		src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
+	<script src="${path}/resources/js/main.js"></script>
+
+	<script src="${path}/resources/libs/imask/dist/imask.min.js"></script>
+	<script src="${path}/resources/js/vendors/inputmask.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 	<!-- 카카오 주소 API -->
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	
-	<!-- JS 함수 -->
+
 	<script>
-	
 	// 주소 수정 숫자 유효성 검사
 	$("#editRecipPhone").on("input", function(){
 		let value = $("#editRecipPhone").val().replace(/\D/g, '');
@@ -148,42 +350,53 @@
 	    }
 	});
 	
-	// 모달 열기
+	// 수정 모달 열기
 	function updateModal(seq, title, name, phone, address, isDefault) {
+        const postcodeMatch = address.match(/\d{5}/);
+        const postcode = postcodeMatch ? postcodeMatch[0] : ' ';
+        console.log(postcode);
+        
+        const modalElement = document.getElementById('editAddressModal');
+        
+        document.getElementById('editAddrSeq').value = seq;
+        document.getElementById('editPostcode').value = postcode;
+        document.getElementById('editAddress').value = title;
+        document.getElementById('editDetailAddress').value = address;
+        document.getElementById('editRecipName').value = name;
+        document.getElementById('editRecipPhone').value = phone;
+        document.getElementById('editAddrDefault').checked = isDefault === 'true';
 		
-		// addr_title에서 5자리 숫자 추출
-		
-		// 숫자 5자리 매칭
-		const postcodeMatch = address.match(/\d{5}/); 
-		// 매칭된 값이 없으면 빈 문자열
-		const postcode = postcodeMatch ? postcodeMatch[0] : ''; 
-		console.log(postcode);
-		
-	    document.getElementById('editAddrSeq').value = seq;
-	 	// 추출된 postcode 값을 저장
-	    document.getElementById('editPostcode').value = postcode;  
-	    document.getElementById('editAddress').value = title;
-	    document.getElementById('editDetailAddress').value = address;
-	    document.getElementById('editRecipName').value = name;
-	    document.getElementById('editRecipPhone').value = phone;
-	    document.getElementById('editAddrDefault').checked = isDefault === 'true';
+    	 // Bootstrap 모달 열기
+        const modalInstance = new bootstrap.Modal(modalElement);
+        modalInstance.show();
+        
+    }
 	
-	    console.log(`Extracted postcode: ${postcode}`);
-	    console.log(seq, title, name, phone, address, isDefault);
-	    
-	    document.getElementById('editModal').style.display = 'block';
-	    document.getElementById('modalOverlay').style.display = 'block';
-	}
-	
-	
-
 	// 모달 닫기
 	function closeModal() {
-	    document.getElementById('editModal').style.display = 'none';
-	    document.getElementById('modalOverlay').style.display = 'none';
+		// 모달 요소 가져오기
+	    const modalElement = document.getElementById('editAddressModal');
+	    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+	    
+	    // Bootstrap 모달 인스턴스가 있으면 닫기
+	    if (modalInstance) {
+	        modalInstance.hide();
+	    }
+
+	    // 강제로 백드롭 제거
+	    document.querySelectorAll('.modal-backdrop').forEach((backdrop) => backdrop.remove());
+
+	    // 모달 스타일 강제 초기화
+	    modalElement.style.display = 'none';
+	    modalElement.classList.remove('show');
+
+	    // 페이지 스크롤 복원
+	    document.body.classList.remove('modal-open');
+	    document.body.style.overflow = 'auto';
+	    document.body.style.paddingRight = '0';
 	}
 	
-	// jQuery 코드
+	// update Address 코드
     $('#updateAddress').on("click", function (event) {
         event.preventDefault(); // 기본 폼 제출 동작 방지
 
@@ -228,11 +441,32 @@
         });
     });
 	
+	// 기본 주소 설정
+	function setDefault(addrSeq) {
+	    $.ajax({
+	        url: '${path}/address/setDefault',
+	        type: 'POST',
+	        data: { addrSeq: addrSeq },
+	        success: function(data) {
+	            if (data.status === 'success') {
+	                alert(data.message);
+	                location.reload(); // 페이지 새로고침
+	            } else {
+	                alert(data.message);
+	            }
+	        },
+	        error: function(xhr, status, error) {
+	            console.error('Error:', error);
+	            alert('기본 주소 설정 중 오류가 발생했습니다.');
+	        }
+	    });
+	}
+	
 	// 주소 등록 Jquery
-	$('saveAddress').on("submit", function (event) {
+	$('#saveAddress').on("click", function (event) {
     event.preventDefault();
 
-    const formData = $(this).serialize();
+    const formData = $('#addAddressModal').find('input, select').serialize();
 
     $.ajax({
         url: "${path}/address/add",
@@ -253,21 +487,40 @@
     });
 });
 	
+	// 주소 삭제
+	$(document).on("click", ".delete-address-btn", function (event) {
+    event.preventDefault(); // 기본 동작 방지
+
+    const addrSeq = $(this).data("addr-seq"); // data-addr-seq 속성에서 addr_seq 값 가져오기
+
+    if (!addrSeq) {
+        alert("주소 식별자가 유효하지 않습니다.");
+        return;
+    }
+    
+    if (confirm("정말로 이 주소를 삭제하시겠습니까?")) {
+        $.ajax({
+            url: `${path}/address/delete`, // 서버의 삭제 엔드포인트
+            type: "POST",
+            data: { addrSeq: addrSeq },
+            success: function (response) {
+                if (response && response.status === "success") {
+                    alert(response.message);
+                    location.reload(); // 페이지 새로고침
+                } else {
+                    alert(response?.message || "삭제 중 오류가 발생했습니다.");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+                alert("주소 삭제 중 오류가 발생했습니다.");
+            }
+        });
+    }
+});
 	
-		//선택한 주소 삭제
-		function confirmDeletion() {
-			const selected = document.querySelector('input[name="selectedAddress"]:checked');
-			if (selected) {
-				if (confirm("선택한 주소를 삭제하시겠습니까?")) {
-					document.getElementById("delete").submit();
-				}
-			} else {
-				alert("삭제할 주소를 선택해주세요.");
-			}
-		}
-		
-		
-		// 우편 번호 및 주소값 조회
+	
+	// 우편 번호 및 주소값 조회
 		function findPostcode() {
 			new daum.Postcode(
 					{
@@ -303,11 +556,30 @@
 								document.getElementById("extraAddress").value = '';
 							}
 
-							document.getElementById('postcode').value = data.zonecode;
-							document.getElementById('editPostcode').value = data.zonecode;
-							document.getElementById("address").value = addr;
-							document.getElementById("editAddress").value = addr;
-							document.getElementById("detailAddress").focus();
+							 const postcodeElem = document.getElementById("postcode");
+					            if (postcodeElem) {
+					                postcodeElem.value = data.zonecode;
+					            }
+
+					            const editPostcodeElem = document.getElementById("editPostcode");
+					            if (editPostcodeElem) {
+					                editPostcodeElem.value = data.zonecode;
+					            }
+
+					            const addressElem = document.getElementById("address");
+					            if (addressElem) {
+					                addressElem.value = addr;
+					            }
+
+					            const editAddressElem = document.getElementById("editAddress");
+					            if (editAddressElem) {
+					                editAddressElem.value = addr;
+					            }
+
+					            const detailAddressElem = document.getElementById("detailAddress");
+					            if (detailAddressElem) {
+					                detailAddressElem.focus();
+					            }
 							
 						}
 					}).open();

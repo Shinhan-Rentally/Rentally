@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.rental.shinhan.dto.AddressDTO;
 import com.rental.shinhan.service.AddressService;
+import com.rental.shinhan.service.CustomerService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,6 +32,9 @@ public class AddressController {
 	// AddressService 넣어라
 	@Autowired
 	private AddressService addressService;
+	
+	@Autowired
+	private CustomerService custService;
 
 	// 임의의 cust_seq
 	int testCustseq = 1;
@@ -109,7 +113,7 @@ public class AddressController {
 		        log.info("Addresses loaded for custSeq {}: {}", custSeq, addressList);
 		    }
 		model.addAttribute("addressList",addressList);
-		return "address/addresstest";// 마이 페이지 주소 목록 페이지로 리다이렉트
+		return "address/addAddressPage";// 마이 페이지 주소 목록 페이지로 리다이렉트
 	}
 	
 	
@@ -136,7 +140,7 @@ public class AddressController {
 	// 계정 수정 페이지로 이동
 	@RequestMapping("/address/goUpdate")
 	public String goUpdateAddress() {
-		return "address/addresstest";
+		return "address/addAddressPage";
 	}
 	
 	
