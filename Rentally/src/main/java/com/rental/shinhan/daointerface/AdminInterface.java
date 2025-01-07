@@ -19,4 +19,5 @@ public interface AdminInterface {
     public int totalPageable(Map<String, Object> request);
     public int totalOrdersPageable();
     public int totalReviewsPageable(int rating);
+    public int totalCustomersPageable();
 }
