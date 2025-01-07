@@ -160,7 +160,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="clearReviewForm()">취소</button>
                     <button id="addReview" type="button" class="btn btn-info">리뷰 등록</button>
                 </div>
             </form>
@@ -206,6 +206,42 @@
     });
 </script>
 <script>
+    // 별점 컨테이너 가져오기
+    const stars = document.querySelectorAll('.star-rating .bi');
+
+    stars.forEach((star) => {
+        star.addEventListener('click', (event) => {
+            const value = parseInt(event.target.getAttribute('data-value'));
+
+            // 별점 초기화 및 업데이트
+            stars.forEach((s, index) => {
+                if (index < value) {
+                    s.classList.remove('bi-star'); // 비어 있는 별 제거
+                    s.classList.add('bi-star-fill'); // 채워진 별 추가
+                } else {
+                    s.classList.remove('bi-star-fill'); // 채워진 별 제거
+                    s.classList.add('bi-star'); // 비어 있는 별 추가
+                }
+            });
+        });
+    });
+</script>
+<script>
+    function clearReviewForm() {
+        // 텍스트 영역 내용 초기화
+        document.getElementById('reviewText').value = '';
+
+        // 별점 초기화 (스타의 클래스를 변경하여 초기화)
+        let stars = document.querySelectorAll('.star-rating i');
+        stars.forEach(star => {
+            star.classList.remove('bi-star-fill'); // 채워진 별 제거
+            star.classList.add('bi-star'); // 비어 있는 별 추가
+        });
+
+        // 바이트 수 리셋
+        document.getElementById('nowByte').innerText = '0';
+    }
+
     function fn_checkByte(obj) {
         const maxByte = 500; // 최대 500바이트
         let text_val = obj.value; // 입력한 문자
@@ -238,27 +274,6 @@
             nowByteElem.style.color = totalByte >= maxByte ? "red" : "blue";
         }
     }
-</script>
-<script>
-    // 별점 컨테이너 가져오기
-    const stars = document.querySelectorAll('.star-rating .bi');
-
-    stars.forEach((star) => {
-        star.addEventListener('click', (event) => {
-            const value = parseInt(event.target.getAttribute('data-value'));
-
-            // 별점 초기화 및 업데이트
-            stars.forEach((s, index) => {
-                if (index < value) {
-                    s.classList.remove('bi-star'); // 비어 있는 별 제거
-                    s.classList.add('bi-star-fill'); // 채워진 별 추가
-                } else {
-                    s.classList.remove('bi-star-fill'); // 채워진 별 제거
-                    s.classList.add('bi-star'); // 비어 있는 별 추가
-                }
-            });
-        });
-    });
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
