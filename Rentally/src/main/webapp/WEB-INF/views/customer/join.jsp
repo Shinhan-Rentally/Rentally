@@ -93,6 +93,7 @@
 									</select>
 								</div>
 								<div class="invalid-feedback">이메일을 입력해주세요.</div>
+								
 								<div class="col-12">
 									<!-- input -->
 									<label for="formSignupPhone" class="form-label visually-hidden">
@@ -120,6 +121,7 @@
 								</div>
 								<!-- btn -->
 								<div class="col-12 d-grid">
+									<button id="identity" class="btn btn-secondary mb-2">본인인증</button>
 									<button id="join" type="submit" class="btn btn-info">회원가입</button>
 								</div>
 
@@ -140,8 +142,42 @@
 	<script src="${path}/resources/js/vendors/password.js"></script>
 	<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 	<script src="${path}/resources/js/vendors/validation.js"></script>
+	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
+		//본인인증
+		$('#identity').click(identity);
+
+		let merchantUid = $("#formSignupId").val().trim();
+		
+		function identity(){
+			IMP.init("imp26414862");
+			IMP.certification(
+				{
+				    channelKey: "channel-key-0968e548-13b5-40fc-8874-b4335e73b862",
+				    merchant_uid: `\${merchantUid}`, // 주문 번호
+				    popup: true,
+				    name: $('#formSignupName').val(),
+				    phone: $("#formSignupPhone").val(),
+				    company: "${path}/main"
+				},
+				function(rsp){
+					//callback
+					if(rsp.success){
+						//인증 성공 시 jQuery로 HTTP요청
+						jQuery.ajax({
+							url: "${path}/customer/identity",
+							method: "POST",
+							headers: { "Content-Type": "application/json" },
+							data: { imp_uid: rsp.imp_uid }
+						});
+					} else {
+						alert("인증에 실패하였습니다.");
+					}
+				}
+			);
+		}
+	
 		//입력값이 비어있을 때 경고문구
 		$("#join").on("click", function(){
 			$(".form-control").each(function(){
