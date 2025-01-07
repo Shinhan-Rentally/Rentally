@@ -238,34 +238,6 @@
             nowByteElem.style.color = totalByte >= maxByte ? "red" : "blue";
         }
     }
-
-    // function fn_checkByte(obj) {
-    //     const maxByte = 500; // 최대 100바이트
-    //     let text_val = obj.value; // 입력한 문자
-    //     const text_len = text_val.length; // 입력한 문자 수
-    //
-    //     let totalByte = 0;
-    //
-    //     // TextEncoder를 사용해 각 문자의 바이트 길이를 계산합니다.
-    //     const encoder = new TextEncoder();
-    //
-    //     for (let i = 0; i < text_len; i++) {
-    //         const each_char = text_val.charAt(i);
-    //         const byteArr = encoder.encode(each_char); // UTF-8로 인코딩된 바이트 배열
-    //         totalByte += byteArr.length; // 해당 문자의 바이트 수 더하기
-    //     }
-    //
-    //     if (totalByte > maxByte) {
-    //         text_val = text_val.substring(0, maxByte);
-    //         document.getElementById("reviewText").value = text_val;
-    //         // document.getElementById("nowByte").innerText = totalByte;
-    //         // document.getElementById("nowByte").style.color = "red";
-    //     } else {
-    //         document.getElementById("nowByte").innerText = totalByte;
-    //         document.getElementById("nowByte").style.color = "blue";
-    //     }
-    // }
-
 </script>
 <script>
     // 별점 컨테이너 가져오기
