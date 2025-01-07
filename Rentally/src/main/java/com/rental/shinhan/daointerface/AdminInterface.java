@@ -11,11 +11,12 @@ import java.util.Map;
 public interface AdminInterface {
 
     public List<ProductDTO> selectProducts(Map<String, Object> request);
-    public List<ReviewDTO> selectReviews();
+    public List<ReviewDTO> selectReviews(Map<String, Object> request);
     public List<OrderJoinDTO> selectOrders(Map<String, Object> request);
     public List<CustomerDTO> selectCustomers();
     public int deleteProduct(int productSeq);
     public int insertProduct(ProductDTO product);
     public int totalPageable(Map<String, Object> request);
     public int totalOrdersPageable();
+    public int totalReviewsPageable(int rating);
 }
