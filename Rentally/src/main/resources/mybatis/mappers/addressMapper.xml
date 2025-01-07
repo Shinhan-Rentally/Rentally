@@ -25,6 +25,7 @@
 		addr_default
 		FROM address
 		WHERE cust_seq = #{custSeq}
+		ORDER BY addr_default DESC, addr_seq ASC
 	</select>
 
 	<!-- 등록된 주소 삭제 -->
