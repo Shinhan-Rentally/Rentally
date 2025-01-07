@@ -103,11 +103,7 @@ public class AddressController {
 
 		List<AddressDTO> addressList = addressService.getAddressesByCustSeq(custSeq);
 		
-		 if (addressList.isEmpty()) {
-		        log.warn("No addresses found for custSeq: {}", custSeq);
-		    } else {
-		        log.info("Addresses loaded for custSeq {}: {}", custSeq, addressList);
-		    }
+		 
 		model.addAttribute("addressList",addressList);
 		return "address/address";// 마이 페이지 주소 목록 페이지로 리다이렉트
 	}
@@ -134,7 +130,7 @@ public class AddressController {
 	    } catch (Exception e) {
 	    	response.put("status", "error");
 	        response.put("message", "주소 삭제 중 오류가 발생했습니다.");
-	        log.error("Error deleting address with addrSeq: {}", addrSeq, e);
+	        
 	    }
 	    return response; // 삭제 후 주소 목록 페이지로 리다이렉트
 	}
@@ -167,7 +163,7 @@ public class AddressController {
 	    } catch (Exception e) {
 	    	response.put("status", "error");
 	        response.put("message", "주소 정보 수정 중 오류가 발생했습니다.");
-	        log.error("Error updating address with addrSeq: {}", addressData.getAddr_seq(), e);
+	        
 	    }
 
 	    // 수정 후 주소 목록 페이지로 리다이렉트
@@ -197,7 +193,7 @@ public class AddressController {
 	        response.put("status", "success");
 	        response.put("message", "기본 주소가 성공적으로 설정되었습니다.");
 	    } catch (Exception e) {
-	        log.error("Error setting default address with addrSeq: {}", addrSeq, e);
+	        
 	        response.put("status", "error");
 	        response.put("message", "기본 주소 설정 중 오류가 발생했습니다.");
 	    }
