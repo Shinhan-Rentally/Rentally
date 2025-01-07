@@ -66,7 +66,7 @@
                     <div class="card h-100 card-lg">
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table class="table table-centered table-hover table-borderless mb-0 customer-table text-nowrap">
+                                <table id="board_dataTable" class="table table-centered table-hover table-borderless mb-0 customer-table text-nowrap">
                                     <thead class="bg-light">
                                     <tr>
                                         <th>ID</th>
@@ -76,31 +76,39 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach items="${customers}" var="customer">
-                                        <tr class="customer-row">
-                                            <td>${customer.cust_id}</td>
-                                            <td>${customer.cust_name}</td>
-                                            <td>${customer.cust_email}</td>
-                                            <td>${customer.cust_phone}</td>
-                                        </tr>
-                                    </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <c:set var="baseUrl" value="../customer/list"/>
-                        <c:set var="currentPage" value="${currentPage}"/>
-                        <c:set var="totalPages" value="${totalPages}"/>
-                        <c:set var="totalDatas" value="${totalItems}"/>
-                        <%@ include file="../common/pagination.jsp" %>
+                        <div id="pagingBar" class="card-footer d-flex justify-content-between align-items-center p-4">
+                            <span id="pagingCount"></span>
+                            <nav>
+                                <ul class="pagination justify-content-center" id="pagingUl"></ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="${path}/resources/css/theme.min.js"></script>
+<script src="${path}/resources/js/admin/paging.js"></script>
+<script src="${path}/resources/js/admin/customers.js"></script>
+<script>
+    let page = 0;
+
+    $("#pagingBar").on("click", "a", function (){
+        page = $(this).data("page");
+        customers('${path}',page);
+    })
+
+    $(document).ready(function () {
+        customers('${path}', page);
+    });
+</script>
 </body>
 </html>

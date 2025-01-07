@@ -47,15 +47,15 @@
                             <div class="row justify-content-between">
                                 <div class="col-lg-4 col-md-6 col-12 mb-2 mb-lg-0">
                                     <form class="d-flex" role="search">
-                                        <input class="form-control" type="search" placeholder="상품 검색"
-                                               aria-label="Search"/>
+                                        <input class="form-control" id="searchKeyWord" placeholder="Search"/>
                                     </form>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table class="table table-centered table-hover text-nowrap table-borderless mb-0 product-table">
+                                <table class="table table-centered table-hover text-nowrap table-borderless mb-0 product-table"
+                                       id="board_dataTable">
                                     <thead class="bg-light">
                                     <tr>
                                         <th></th>
@@ -67,44 +67,46 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach items="${products}" var="product">
-                                        <tr class="table">
-                                            <td><img
-                                                    src="https://rentally.s3.ap-northeast-2.amazonaws.com/${product.category_seq}/${product.product_img}"
-                                                    width="48" height="48"></td>
-                                            <td class="product-name">${product.product_name}</td>
-                                            <td>${product.category_name}</td>
-                                            <td><fmt:formatNumber value="${product.product_pay}" type="number"
-                                                                  pattern="#,###"/>원
-                                            </td>
-                                            <td>${product.product_date}</td>
-                                            <td class="text-center">
-                                                <form action="${path}/admin/${product.product_seq}/delete" method="post">
-                                                    <input type="hidden" name="productSeq" value="${product.product_seq}">
-                                                    <button class="btn btn-link p-0">
-                                                        <i class="bi bi-trash me-3"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <c:set var="baseUrl" value="../product/list"/>
-                        <c:set var="currentPage" value="${currentPage}"/>
-                        <c:set var="totalPages" value="${totalPages}"/>
-                        <c:set var="totalDatas" value="${totalItems}"/>
-                        <%@ include file="../common/pagination.jsp" %>
+                        <div id="pagingBar" class="card-footer d-flex justify-content-between align-items-center p-4">
+                            <span id="pagingCount"></span>
+                            <nav>
+                            <ul class="pagination justify-content-center" id="pagingUl"></ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="${path}/resources/js/admin/paging.js"></script>
+<script src="${path}/resources/js/admin/productSearch.js"></script>
 <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
-<script src="${path}/resources/js/theme.min.js"></script>
+<script>
+    let page = 0;
+    let searchKeyWord;
+
+    $("#searchKeyWord").on("input", function () {
+        page = 0;
+        search('${path}', page);
+    });
+
+
+    $("#pagingBar").on("click", "a", function (){
+        page = $(this).data("page");
+        search('${path}',page);
+    })
+
+    $(document).ready(function (){
+        search('${path}',page);
+    });
+</script>
 </body>
 </html>

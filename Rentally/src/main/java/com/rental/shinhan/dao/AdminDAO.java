@@ -25,23 +25,36 @@ public class AdminDAO implements AdminInterface {
         return products;
     }
 
-    public int totalPageable(String request){
+    public int totalPageable(Map<String,Object> request){
         return sqlSession.selectOne(namespace + "totalProducts",request);
     }
 
-    public List<ReviewDTO> selectReviews() {
-        List<ReviewDTO> reviews = sqlSession.selectList(namespace + "selectReviews");
+    public List<ReviewDTO> selectReviews(Map<String,Object> request) {
+        List<ReviewDTO> reviews = sqlSession.selectList(namespace + "selectReviews", request);
         return reviews;
     }
 
-    public List<OrderJoinDTO> selectOrders() {
-        List<OrderJoinDTO> orders = sqlSession.selectList(namespace + "selectOrders");
+    public List<OrderJoinDTO> selectOrders(Map<String, Object> request) {
+        List<OrderJoinDTO> orders = sqlSession.selectList(namespace + "selectOrders", request);
         return orders;
     }
 
-    public  List<CustomerDTO> selectCustomers() {
-        List<CustomerDTO> customers = sqlSession.selectList(namespace + "selectCustomers");
+    public int totalOrdersPageable() {
+        return sqlSession.selectOne(namespace + "totalOrders");
+    }
+
+    public int totalReviewsPageable(int rating) {
+        return sqlSession.selectOne(namespace + "totalReviews", rating);
+    }
+
+
+    public  List<CustomerDTO> selectCustomers(Map<String, Object> request) {
+        List<CustomerDTO> customers = sqlSession.selectList(namespace + "selectCustomers", request);
         return customers;
+    }
+
+    public int totalCustomersPageable() {
+        return sqlSession.selectOne(namespace + "totalCustomers");
     }
 
     public int deleteProduct(int productSeq) {

@@ -15,29 +15,38 @@
         <where>
             p.product_grade != 'F'
             <if test="searchKeyWord != null and searchKeyWord != ''">
-                and (p.product_name like concat('%', #{searchKeyWord}, '%')
-                or c.category_name LIKE concat('%', #{searchKeyWord}, '%'))
+                and (
+                <foreach collection="splitSearchKeywords" item="keyword" open="(" separator="and" close=")">
+                    (p.product_name like concat('%', #{keyword}, '%') or c.category_name like concat('%', #{keyword}, '%'))
+                </foreach>
+                )
             </if>
         </where>
         ) as temp
         where num between #{start} and #{end}
     </select>
 
-    <select id="totalProducts" parameterType="String" resultType="int">
+    <select id="totalProducts" parameterType="map" resultType="int">
         select count(p.product_seq)
         from product p
         join category c using (category_seq)
         <where>
             p.product_grade != 'F'
             <if test="searchKeyWord != null and searchKeyWord != ''">
-                and (p.product_name like concat('%', #{searchKeyWord}, '%')
-                or c.category_name like concat('%', #{searchKeyWord}, '%'))
+                and (
+                <foreach collection="splitSearchKeywords" item="keyword" open="(" separator="and" close=")">
+                    (p.product_name like concat('%', #{keyword}, '%') or c.category_name like concat('%', #{keyword}, '%'))
+                </foreach>
+                )
             </if>
         </where>
     </select>
 
-    <select id="selectReviews" resultType="ReviewVO">
+    <select id="selectReviews" parameterType="map" resultType="ReviewVO">
+        select *
+        from (
         select
+        row_number() over(order by s.sub_date desc) as num,
         r.review_seq,
         s.sub_seq,
         c.cust_id,
@@ -52,16 +61,36 @@
         join subscribe s on r.sub_seq = s.sub_seq
         join product p on s.product_seq = p.product_seq
         join customer c on s.cust_seq = c.cust_seq
+        <where>
+            <if test="rating != 0">
+                r.review_rate = #{rating}
+            </if>
+        </where>
+        ) temp
+        where num between #{start} and #{end}
     </select>
 
-    <select id="selectCustomers" resultType="com.rental.shinhan.dto.CustomerDTO">
-        select cust_id, cust_name, cust_email, cust_phone
+    <select id="selectCustomers" parameterType="map" resultType="com.rental.shinhan.dto.CustomerDTO">
+        select *
+        from (
+        select row_number() over(order by cust_id) as num,
+        cust_id, cust_name, cust_email, cust_phone
+        from customer
+        where cust_status = true
+        ) as temp
+        where num between #{start} and #{end}
+    </select>
+
+    <select id="totalCustomers" resultType="int">
+        select count(*)
         from customer
         where cust_status = true
     </select>
 
-    <select id="selectOrders" resultType="com.rental.shinhan.dto.OrderJoinDTO">
-        select
+    <select id="selectOrders" parameterType="map" resultType="com.rental.shinhan.dto.OrderJoinDTO">
+        select *
+        from (
+        select row_number() over(order by s.sub_date desc) as num,
         p.product_img,
         p.product_serial,
         p.category_seq,
@@ -70,13 +99,33 @@
         s.sub_card,
         s.sub_total,
         s.sub_period
-        from
-        subscribe s
-        join
-        customer c on s.cust_seq = c.cust_seq
-        join
-        product p on s.product_seq = p.product_seq;
+        from subscribe s
+        join customer c on s.cust_seq = c.cust_seq
+        join product p on s.product_seq = p.product_seq
+        ) as temp
+        where num between #{start} and #{end}
     </select>
+
+    <select id="totalReviews" parameterType="map" resultType="int">
+        select count(*)
+        from review r
+        join subscribe s on r.sub_seq = s.sub_seq
+        join product p on s.product_seq = p.product_seq
+        join customer c on s.cust_seq = c.cust_seq
+        <where>
+            <if test="review != null">
+                r.review_rate = #{review}
+            </if>
+        </where>
+    </select>
+
+    <select id="totalOrders" resultType="int">
+        select count(p.product_seq)
+        from subscribe s
+        join customer c on s.cust_seq = c.cust_seq
+        join product p on s.product_seq = p.product_seq
+    </select>
+
 
     <update id="deleteProduct" parameterType="int">
         update product

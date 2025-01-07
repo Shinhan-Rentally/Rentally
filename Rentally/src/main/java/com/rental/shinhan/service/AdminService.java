@@ -21,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminService {
@@ -29,31 +30,64 @@ public class AdminService {
     AdminDAO adminDAO;
 
     public Page<ProductDTO> findProducts(Pageable pageable, String searchKeyWord) {
-        int rowStart = pageable.getPageNumber() * pageable.getPageSize();
-        int rowEnd = rowStart + pageable.getPageSize();
+        String[] splitSearchKeywords = searchKeyWord.split("\\s+");
+        int rowStart = ((pageable.getPageNumber()) * pageable.getPageSize()) + 1;
+        int rowEnd = (rowStart + pageable.getPageSize() -1);
 
         Map<String, Object> map = new HashMap<>();
         map.put("start", rowStart);
         map.put("end", rowEnd);
         map.put("searchKeyWord", searchKeyWord);
-
+        map.put("splitSearchKeywords", splitSearchKeywords);
         List<ProductDTO> vo = adminDAO.selectProducts(map);
-        int total = adminDAO.totalPageable(searchKeyWord);
+        int total = adminDAO.totalPageable(map);
         return new PageImpl<>(vo, pageable, total);
     }
 
-    public List<ReviewDTO> findReviews() {
+    public Page<ReviewDTO> findReviews(Pageable pageable, Integer rating) {
 
-        return adminDAO.selectReviews();
+        int rowStart = ((pageable.getPageNumber()) * pageable.getPageSize()) + 1;
+        int rowEnd = (rowStart + pageable.getPageSize() -1);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("start", rowStart);
+        map.put("end", rowEnd);
+        map.put("rating", rating);
+
+        List<ReviewDTO> reviews = adminDAO.selectReviews(map);
+        if (rating != null && rating != 0) {
+            reviews = reviews.stream()
+                    .filter(review -> review.getReview_rate() == rating)
+                    .collect(Collectors.toList());
+        }
+        int total = adminDAO.totalReviewsPageable(rating);
+        return new PageImpl<>(reviews, pageable, total);
     }
 
-    public List<CustomerDTO> findCustomers() {
+    public Page<CustomerDTO> findCustomers(Pageable pageable) {
 
-        return adminDAO.selectCustomers();
+        int rowStart = ((pageable.getPageNumber()) * pageable.getPageSize()) + 1;
+        int rowEnd = (rowStart + pageable.getPageSize() -1);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("start", rowStart);
+        map.put("end", rowEnd);
+
+        List<CustomerDTO> customers = adminDAO.selectCustomers(map);
+        int total = adminDAO.totalCustomersPageable();
+        return new PageImpl<>(customers, pageable, total);
     }
 
-    public List<OrderJoinDTO> findOrders() {
-        List<OrderJoinDTO> orders = adminDAO.selectOrders();
+    public Page<OrderJoinDTO> findOrders(Pageable pageable) {
+
+        int rowStart = ((pageable.getPageNumber()) * pageable.getPageSize()) + 1;
+        int rowEnd = (rowStart + pageable.getPageSize() -1);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("start", rowStart);
+        map.put("end", rowEnd);
+
+        List<OrderJoinDTO> orders = adminDAO.selectOrders(map);
 
         for (OrderJoinDTO dto : orders) {
             Timestamp subDate = dto.getSub_date();
@@ -68,7 +102,8 @@ public class AdminService {
             dto.setEnd_date(formattedSubDateDate + "~" + endDate);
         }
 
-        return orders;
+        int total = adminDAO.totalOrdersPageable();
+        return new PageImpl<>(orders, pageable, total);
     }
 
     public int removeProduct(int productSeq) {
