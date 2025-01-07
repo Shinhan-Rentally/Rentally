@@ -21,12 +21,10 @@ function search(path, page) {
                         <td>${product.product_pay}원</td>
                         <td>${product.product_date}</td>
                         <td class="text-center">
-                            <form action="${path}/admin/${product.product_seq}/delete" method="post">
-                                <input type="hidden" name="productSeq" value="${product.product_seq}">
-                                <button class="btn btn-link p-0">
-                                    <i class="bi bi-trash me-3"></i>
-                                </button>
-                            </form>
+                            <button onclick="deleteProduct(${product.product_seq})" class="btn btn-link p-0">
+                            <i class="bi bi-trash me-3"></i>
+                            </button>
+                            </td>
                         </td>
                     </tr>`);
                 });
