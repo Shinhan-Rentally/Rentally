@@ -65,8 +65,9 @@
 													<br> <a href="#" class="text-inherit"
 														data-bs-toggle="modal" data-bs-target="#editAddressModal"
 														onclick="updateModal('${address.addr_seq}', '${address.addr_title}', '${address.addr_name}', '${address.addr_phone}', '${address.addr_detail}', '${address.addr_default}')">
-														수정 </a> <a href="#" class="text-danger ms-3"
-														data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</a>
+														수정 </a>
+														<a href="#" class="text-danger ms-3 delete-address-btn"
+														data-bs-toggle="modal" data-bs-target="#deleteModal" data-addr-seq = "${address.addr_seq}">삭제</a>
 												</div>
 
 											</div>
@@ -242,7 +243,7 @@
 						<div class="col-12 text-end">
 							<button type="button" class="btn btn-info btn-sm"
 								data-bs-dismiss="modal" onclick="closeModal()">취소</button>
-							<button class="btn btn-info btn-sm" id="saveAddress"
+							<button class="btn btn-info btn-sm" id="updateAddress"
 								type="button">주소 저장</button>
 						</div>
 					</div>
@@ -395,6 +396,51 @@
 	    document.body.style.paddingRight = '0';
 	}
 	
+	// update Address 코드
+    $('#updateAddress').on("click", function (event) {
+        event.preventDefault(); // 기본 폼 제출 동작 방지
+
+        // 필요한 데이터 수집
+        const addrSeq = $('#editAddrSeq').val();
+        const postcode = $('#editPostcode').val();
+        const address = $('#editAddress').val();
+        const detailAddress = $('#editDetailAddress').val();
+        const recipName = $('#editRecipName').val();
+        const recipPhone = $('#editRecipPhone').val();
+        const addrDefault = $('#editAddrDefault').is(':checked');
+
+
+        var data = {
+                "addr_title":address,
+                "addr_detail": `\${detailAddress}( \${postcode})`,
+                "addr_name":recipName,
+                "addr_phone":recipPhone,
+               "addr_default": addrDefault,              
+                "addr_seq":addrSeq
+            };
+        console.log(data);
+        // AJAX 요청
+        $.ajax({
+            url: "${path}/address/update", // 서버의 업데이트 엔드포인트
+            type: "POST",
+            data: data,
+            success: function (response) {
+                // 성공 응답 처리
+                if (response.status === "success") {
+                    alert(response.message);
+                    location.reload(); // 페이지 새로고침
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                // 실패 응답 처리
+                console.error("Error:", error);
+                alert("주소 수정 중 오류가 발생했습니다.");
+            }
+        });
+    });
+	
 	// 기본 주소 설정
 	function setDefault(addrSeq) {
 	    $.ajax({
@@ -440,6 +486,39 @@
         }
     });
 });
+	
+	// 주소 삭제
+	$(document).on("click", ".delete-address-btn", function (event) {
+    event.preventDefault(); // 기본 동작 방지
+
+    const addrSeq = $(this).data("addr-seq"); // data-addr-seq 속성에서 addr_seq 값 가져오기
+
+    if (!addrSeq) {
+        alert("주소 식별자가 유효하지 않습니다.");
+        return;
+    }
+    
+    if (confirm("정말로 이 주소를 삭제하시겠습니까?")) {
+        $.ajax({
+            url: `${path}/address/delete`, // 서버의 삭제 엔드포인트
+            type: "POST",
+            data: { addrSeq: addrSeq },
+            success: function (response) {
+                if (response && response.status === "success") {
+                    alert(response.message);
+                    location.reload(); // 페이지 새로고침
+                } else {
+                    alert(response?.message || "삭제 중 오류가 발생했습니다.");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+                alert("주소 삭제 중 오류가 발생했습니다.");
+            }
+        });
+    }
+});
+	
 	
 	// 우편 번호 및 주소값 조회
 		function findPostcode() {

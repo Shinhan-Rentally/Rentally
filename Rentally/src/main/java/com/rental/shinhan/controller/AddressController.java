@@ -113,17 +113,23 @@ public class AddressController {
 	}
 	
 	
+	
+	
 	// 계정 내 등록된 계정 중 선택한 계정 삭제
-	@RequestMapping(value = "/address/delete", method = RequestMethod.POST)
-	public String deleteAddress(@RequestParam("selectedAddress") int addrSeq, Model model) {
-	    try {
+	@PostMapping(value = "/address/delete")
+	@ResponseBody
+	public Map<String, String> deleteAddress(@RequestParam("addrSeq") int addrSeq) {
+		Map<String, String> response = new HashMap<>();
+		try {
 	        addressService.deleteAddress(addrSeq);
-	        model.addAttribute("message", "주소가 성공적으로 삭제되었습니다.");
+	        response.put("status", "success");
+	        response.put("message", "주소가 성공적으로 삭제되었습니다.");
 	    } catch (Exception e) {
-	        model.addAttribute("message", "주소 삭제 중 오류가 발생했습니다.");
+	    	response.put("status", "error");
+	        response.put("message", "주소 삭제 중 오류가 발생했습니다.");
 	        log.error("Error deleting address with addrSeq: {}", addrSeq, e);
 	    }
-	    return "redirect:/address/list"; // 삭제 후 주소 목록 페이지로 리다이렉트
+	    return response; // 삭제 후 주소 목록 페이지로 리다이렉트
 	}
 	
 	
