@@ -21,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminService {
@@ -43,9 +44,24 @@ public class AdminService {
         return new PageImpl<>(vo, pageable, total);
     }
 
-    public List<ReviewDTO> findReviews() {
+    public Page<ReviewDTO> findReviews(Pageable pageable, Integer rating) {
 
-        return adminDAO.selectReviews();
+        int rowStart = ((pageable.getPageNumber()) * pageable.getPageSize()) + 1;
+        int rowEnd = (rowStart + pageable.getPageSize() -1);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("start", rowStart);
+        map.put("end", rowEnd);
+        map.put("rating", rating);
+
+        List<ReviewDTO> reviews = adminDAO.selectReviews(map);
+        if (rating != null && rating != 0) {
+            reviews = reviews.stream()
+                    .filter(review -> review.getReview_rate() == rating)
+                    .collect(Collectors.toList());
+        }
+        int total = adminDAO.totalReviewsPageable(rating);
+        return new PageImpl<>(reviews, pageable, total);
     }
 
     public Page<CustomerDTO> findCustomers(Pageable pageable) {
