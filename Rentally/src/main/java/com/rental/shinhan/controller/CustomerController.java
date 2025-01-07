@@ -12,10 +12,13 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,13 +26,13 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rental.shinhan.dto.CustomerDTO;
 import com.rental.shinhan.service.CustomerService;
 import com.rental.shinhan.service.JoinService;
 
-import lombok.val;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -83,11 +86,16 @@ public class CustomerController {
 		}
 	}
 
-	@GetMapping("/join")
+	@GetMapping("/identity")
 	public String insert() {
-		return "customer/join";
+		return "customer/identity";
 	}
 
+	@GetMapping("/join")
+	public String insertJoin() {
+		return "customer/join";
+	}
+	
 	@PostMapping(value = "/updatepw")
 	@ResponseBody
 	public Map<String, Object> updateCustPw(HttpSession session, @RequestParam String currentPW,
@@ -136,9 +144,8 @@ public class CustomerController {
 	@Autowired
 	private RestTemplate restTemplate;
 	
-	@ResponseBody
-	@PostMapping("/identity")
-	public String getToken(String imp_uid) {
+
+	public String getToken() {
 		String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
 		HttpRequest request = HttpRequest.newBuilder()
 				.uri(URI.create("https://api.iamport.kr/users/getToken"))
@@ -163,22 +170,66 @@ public class CustomerController {
 		return rootNode.path("response").path("access_token").asText();
 	}
 	
-	public String identity() {
-		HttpRequest request2 = HttpRequest.newBuilder()
+	@PostMapping("/identity")
+	public ResponseEntity<Map<String, String>> identity(@RequestBody Map<String, String> requestData) {
+		//토큰 가져오기
+		String token = getToken();
+		System.out.println("토큰 >> " + token);
+		
+		//클라이언트에서 받은 imp_uid 확인
+		String imp_uid = requestData.get("imp_uid");
+		System.out.println("imp_uid>"+imp_uid);
+		
+		//iamport API 요청 생성
+		HttpRequest request = HttpRequest.newBuilder()
 				.uri(URI.create("https://api.iamport.kr/certifications/" + imp_uid))
-				.header("Content-Type", "application/json").header("Authorization", "Bearer " + token)
-				.method("GET", HttpRequest.BodyPublishers.ofString("")).build();
+				.header("Content-Type", "application/json")
+				.header("Authorization", "Bearer " + token)
+				.GET()
+				.build();
 
-		HttpResponse<String> response2 = null;
+		HttpResponse<String> response;
 		try {
-			response2 = HttpClient.newHttpClient().send(request2, HttpResponse.BodyHandlers.ofString());
+			response = HttpClient.newHttpClient()
+					.send(request, HttpResponse.BodyHandlers.ofString());
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "API 호출 중 에러 발생"));
 		}
-		String jsonResponse2 = response2.body();
+		
+		//응답 파싱
+		String jsonResponse = response.body();
+		System.out.println("응답 >>" + jsonResponse);
 
-		System.out.println(jsonResponse2);
-
-		return jsonResponse2;
+		//json 데이터를 파싱해서 이름이랑 핸드폰번호 가져오기
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			JsonNode rootNode = objectMapper.readTree(jsonResponse);
+			JsonNode responseNode = rootNode.path("response");
+			
+			String name = responseNode.path("name").asText();
+			String phone = responseNode.path("phone").asText();
+			
+			Map<String , String> result = Map.of(
+						"name", name,
+						"phone", phone
+					);
+			return ResponseEntity.ok(result);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "JSON 파싱 중 에러 발생"));
+		}
+		
+	}
+	
+	@ResponseBody
+	@PostMapping("/getData")
+	public String getData(@RequestBody Map<String, String> data, HttpSession session) {
+		String name = data.get("name");
+		String phone = data.get("phone");
+		session.setAttribute("name", name);
+		session.setAttribute("phone", phone);
+		return "{\"status\": \"success\"}";
 	}
 }
