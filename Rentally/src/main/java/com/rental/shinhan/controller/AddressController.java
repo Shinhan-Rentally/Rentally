@@ -114,7 +114,7 @@ public class AddressController {
 		        log.info("Addresses loaded for custSeq {}: {}", custSeq, addressList);
 		    }
 		model.addAttribute("addressList",addressList);
-		return "address/addAddressPage";// 마이 페이지 주소 목록 페이지로 리다이렉트
+		return "address/address";// 마이 페이지 주소 목록 페이지로 리다이렉트
 	}
 	
 	

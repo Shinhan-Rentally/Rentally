@@ -27,7 +27,7 @@
 					<div class="col-lg-9 col-md-8 col-12">
 						<div class="py-6 p-md-6 p-lg-10">
 							<!-- heading -->
-							<h2 class="mb-0">주소</h2>
+							<h2 class="mb-0">주소지</h2>
 							<br>
 							<!-- button -->
 							<div style="text-align: right;">
