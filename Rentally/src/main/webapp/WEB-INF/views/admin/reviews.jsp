@@ -121,7 +121,7 @@
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="${path}/resources/js/theme.min.js"></script>
 <script src="${path}/resources/js/paging.js"></script>
-<script src="${path}/resources/js/reviews.js"></script></body>
+<script src="${path}/resources/js/admin/reviews.js"></script></body>
 <script>
     let page = 0;
     let rating;
