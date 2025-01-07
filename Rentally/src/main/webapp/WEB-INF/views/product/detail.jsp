@@ -6,7 +6,7 @@
 <html>
 <head>
 <%@include file="../common/headMeta.jsp"%>
-<title>${detail.product_name} - Rentally</title>
+<title>${detail.product_name}-Rentally</title>
 <link href="${path}/resources/libs/tiny-slider/dist/tiny-slider.css"
 	rel="stylesheet" />
 <%@ include file="../common/headLinks.jsp"%>
@@ -16,6 +16,10 @@
 	color: white;
 	border-color: #0046ff;
 }
+.bi-heart-fill{
+	color: #0046FF;
+}
+
 /* #modal{
 	display: none;
 	position: absolute;
@@ -97,8 +101,8 @@
 							<div class="mb-4">
 
 								<!-- 상품 별점 평점, 리뷰개수 -->
-								<small class="text-warning">
-									<c:forEach var="i" begin="1" end="5">
+								<small class="text-warning"> <c:forEach var="i"
+										begin="1" end="5">
 										<c:choose>
 											<c:when test="${i <= (reviewList[0].review_avg)}">
 												<i class="bi bi-star-fill"></i>
@@ -155,12 +159,22 @@
 								</div>
 								<div class="col-md-4 col-4">
 									<!-- btn -->
-									<a id="cartcart" class="btn btn-light" href="#" data-bs-toggle="tooltip"
-										data-bs-html="true" aria-label="Compare"> <i
-										class="feather-icon icon-shopping-bag"></i>
-									</a> <a class="btn btn-light" href="shop-wishlist.html"
+									<a id="cartIcon" class="btn btn-light" href="#"
+										data-bs-toggle="tooltip" data-bs-html="true" aria-label="Cart">
+										<i class="feather-icon icon-shopping-bag"></i>
+									</a>
+									<a id="wishIcon" class="btn btn-light" href="#"
 										data-bs-toggle="tooltip" data-bs-html="true"
-										aria-label="Wishlist"> <i class="feather-icon icon-heart"></i>
+										aria-label="Wishlist">
+										<c:if
+											test="${fn:contains(wishlist, detail.product_seq)}">
+											<i class="bi bi-heart-fill"></i>
+										</c:if>
+										<c:if
+											test="${not fn:contains(wishlist, detail.product_seq)}">
+											<i class="bi bi-heart"></i>
+										</c:if>
+										
 									</a>
 								</div>
 							</div>
@@ -236,7 +250,7 @@
 														<th>크기</th>
 														<td>${detail.product_height }</td>
 													</tr>
-													
+
 												</tbody>
 											</table>
 										</div>
@@ -244,7 +258,7 @@
 											<table class="table table-striped">
 												<!-- table -->
 												<tbody>
-													
+
 													<tr>
 														<th>무게</th>
 														<td>${detail.product_weight }</td>
@@ -288,12 +302,11 @@
 												</div>
 												<c:if test="${empty reviewList[0]}">현재 상품에 대한 리뷰가 없습니다.</c:if>
 												<div class="d-flex border-bottom pb-6 mb-6">
-													<div id="reviewList" class="col-12">
-													</div>
+													<div id="reviewList" class="col-12"></div>
 												</div>
 
 
-												
+
 											</div>
 										</div>
 									</div>
@@ -307,64 +320,71 @@
 
 	</main>
 	<!-- 장바구니 추가 확인 모달 -->
-	<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="alertModalLael" aria-hidden="true">
+	<div class="modal fade" id="cartModal" tabindex="-1"
+		aria-labelledby="alertModalLael" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="alertModalLabel">알림</h5>
-	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
 				</div>
 				<div class="modal-body" id="cartModalMessage"></div>
 				<div class="modal-footer">
 					<button id="closeModal" type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal">쇼핑 계속하기</button>
+						data-bs-dismiss="modal">쇼핑 계속하기</button>
 					<button id="moveCart" type="button" class="btn btn-info">
-							장바구니 이동</button>
+						장바구니 이동</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- 알림용 modal -->
-	<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
-	    <div class="modal-dialog">
-	        <div class="modal-content">
-	            <div class="modal-header">
-	                <h5 class="modal-title" id="alertModalLabel">알림</h5>
-	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	            </div>
-	            <div class="modal-body" id="alertModalMessage"></div>
-	            <div class="modal-footer">
-	                <button type="button" class="btn btn-info" data-bs-dismiss="modal">확인</button>
-	            </div>
-	        </div>
-	    </div>
-	</div>
-	<!-- 로그인 필요 모달 -->
-	<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="alertModalLael" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
+	<div class="modal fade" id="alertModal" tabindex="-1"
+		aria-labelledby="alertModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="alertModalLabel">알림</h5>
-	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
 				</div>
-				<div class="modal-body" id="loginModalMessage"></div>
+				<div class="modal-body" id="alertModalMessage"></div>
 				<div class="modal-footer">
-					<button id="closeModal" type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal">쇼핑 계속하기</button>
-					<button id="moveLogin" type="button" class="btn btn-info">
-							로그인으로 이동</button>
+					<button type="button" class="btn btn-info" data-bs-dismiss="modal">확인</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+	<!-- 로그인 필요 모달 -->
+	<div class="modal fade" id="loginModal" tabindex="-1"
+		aria-labelledby="alertModalLael" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="alertModalLabel">알림</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="loginModalMessage"></div>
+				<div class="modal-footer">
+					<button id="closeModal" type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">쇼핑 계속하기</button>
+					<button id="moveLogin" type="button" class="btn btn-info">
+						로그인으로 이동</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 	<!-- Footer -->
 	<%@include file="../common/footer.jsp"%>
-	<%@include file="../common/bottomKakao.jsp" %>
+	<%@include file="../common/bottomKakao.jsp"%>
 
 	<!-- Javascript-->
-	<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script
+		src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="${path}/resources/libs/rater-js/index.js"></script>
 	<script src="${path}/resources/js/vendors/jquery.min.js"></script>
 	<script
@@ -512,7 +532,7 @@
 			$('#cartModal').modal('show');
 		}
 		//장바구니 추가 버튼 눌렀을 때
-		$('#cartcart').on('click',function(){
+		$('#cartIcon').on('click',function(){
 			if(!selectPeriod){
 				showModalMessage2("기간을 선택해주세요.");
 			}else{
@@ -535,11 +555,51 @@
 				});
 			}
 		});
-
+		//장바구니 페이지로 이동
 		$('#moveCart').click(function(){
 			window.location.href = "${path}/cart/list";
 		});
 		
+		//위시리스트 추가
+		$("#wishIcon").on("click", function(){
+			if ($("#wishIcon i").hasClass("bi-heart")) {
+				$("#wishIcon i").removeClass("bi-heart").addClass("bi-heart-fill");
+				$.ajax({
+				    url: "${path}/wishlist/add",
+				    type: "POST",
+				    data: {product_seq: ${detail.product_seq}},
+				    success: function(){
+				    	showModalMessage2("위시리스트에 상품이 성공적으로 담겼습니다.");
+				        //헤더 개수 업데이트
+				        updateCounts();
+				    },
+				    error: function (xhr, status, error) {
+				    	showModalMessage3("로그인이 필요한 서비스입니다.");
+				    }
+				 });
+				
+			} else {
+				$("#wishIcon i").removeClass("bi-heart-fill").addClass("bi-heart");
+				$("#wishIcon i").css("color", "");
+				$.ajax({
+				    url: "${path}/wishlist/${detail.product_seq}/delete",
+				    type: "delete",
+				    data: {product_seq: ${detail.product_seq}},
+				    success: function(){
+				    	showModalMessage2("위시리스트에 상품이 삭제되었습니다.");
+				        //헤더 개수 업데이트
+				        updateCounts();
+				    },
+				    error: function (xhr, status, error) {
+				    	showModalMessage3("로그인이 필요한 서비스입니다.");
+				    }
+				 });
+			}
+
+			
+		});
+		
+		//위시리스트 제거
 		
 	</script>
 </body>
