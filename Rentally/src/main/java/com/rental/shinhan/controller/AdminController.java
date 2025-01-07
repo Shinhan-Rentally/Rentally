@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -51,22 +50,20 @@ public class AdminController {
     }
 
     @GetMapping("/review/list")
-    public String getReviews(
-            @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size,
-            @RequestParam(value = "rating", required = false) Integer rating,
-            Model model) {
+    public String getReviews() {
+        return "/admin/reviews";
+    }
 
-        List<ReviewDTO> reviews = adminService.findReviews();
-        if (rating != null) {
-            reviews = reviews.stream()
-                    .filter(review -> review.getReview_rate() == rating)
-                    .collect(Collectors.toList());
-        }
-        PagedDTO<ReviewDTO> pagedResponse = pagenation.paginate(reviews, page, size);
-        pagenation.addPagedDataToModel(pagedResponse, "reviews", model);
-        model.addAttribute("rating", rating);
-        return "admin/reviews";
+    @GetMapping("/review/pageable")
+    @ResponseBody
+    public Page<ReviewDTO> getReviews(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "0") int rating)
+    {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ReviewDTO> reviews = adminService.findReviews(pageable, rating);
+        return reviews;
     }
 
     @GetMapping("/customer/list")
