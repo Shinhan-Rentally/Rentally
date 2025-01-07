@@ -31,7 +31,6 @@ if (!path) {
 	function updateModal(seq, title, name, phone, address, isDefault) {
         const postcodeMatch = address.match(/\d{5}/);
         const postcode = postcodeMatch ? postcodeMatch[0] : ' ';
-        console.log(postcode);
         
         const modalElement = document.getElementById('editAddressModal');
         
@@ -77,8 +76,6 @@ if (!path) {
     $('#updateAddress').on("click", function (event) {
         event.preventDefault(); // 기본 폼 제출 동작 방지
 		
-		 
-		
         // 필요한 데이터 수집
         const addrSeq = $('#editAddrSeq').val();
         const postcode = $('#editPostcode').val();
@@ -87,17 +84,19 @@ if (!path) {
         const recipName = $('#editRecipName').val();
         const recipPhone = $('#editRecipPhone').val();
         const addrDefault = $('#editAddrDefault').is(':checked');
-
+		
+		const cleanedDetailAddress = detailAddress.replace(/\(\d{5}\)/, '').trim();
 
         var data = {
                 "addr_title":address,
-                "addr_detail": `${detailAddress}( ${postcode})`,
+                "addr_detail": `${cleanedDetailAddress}( ${postcode})`,
                 "addr_name":recipName,
                 "addr_phone":recipPhone,
                "addr_default": addrDefault,              
-                "addr_seq":addrSeq
+                "addr_seq":addrSeq,
+                "postcode": postcode
             };
-        console.log(data);
+ 
         // AJAX 요청
         $.ajax({
             url: `${path}/address/update`, // 서버의 업데이트 엔드포인트

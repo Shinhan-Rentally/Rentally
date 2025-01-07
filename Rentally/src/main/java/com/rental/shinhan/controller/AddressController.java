@@ -54,9 +54,6 @@ public class AddressController {
 
 		// 데이터 맵핑
 		Map<String, String> response = new HashMap<>();
-				
-		// 데이터 출력 로그
-		log.info("address: {},", address);
 		
 		
 		// 주소 개수 확인
@@ -87,8 +84,6 @@ public class AddressController {
 		// addressDTO에 데이터 정보 저장
 		addressService.saveAddress(addressData);
 
-		// 데이터 출력 로그
-		log.info("데이터 저장 완료");
 		response.put("status", "success");
 	    response.put("message", "주소가 성공적으로 저장되었습니다.");
 
@@ -148,21 +143,22 @@ public class AddressController {
 	// 계정 내 등록된 계정 중 선택한 계정 수정
 	@ResponseBody
 	@RequestMapping(value = "/address/update", method = RequestMethod.POST)
-	public Map<String,String> updateAddress( AddressDTO addressData, HttpSession session) {		
+	public Map<String,String> updateAddress( AddressDTO addressData, @RequestParam("postcode") String postcode, HttpSession session) {		
 		Map<String, String> response = new HashMap<>();
-		System.out.println(addressData);
+		
 		try {      
 			// 세션에서 cust_seq 가져오기
 			Integer  custSeq = (Integer)session.getAttribute("cust_seq");
 				if(custSeq == null) {
 					throw new RuntimeException("로그인이 필요합니다.");
 			}
-			
+				
 			if (addressData.isAddr_default() && addressService.isDefaultAddressExist(custSeq)) {
 			    response.put("status", "error");
 			    response.put("message", "기본 주소는 하나만 설정할 수 있습니다.");
 			    return response;
 			}
+			
 	        // 서비스 호출하여 업데이트
 	        addressService.updateAddress(addressData);
 	         
