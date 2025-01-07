@@ -145,7 +145,10 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("#loginForm");
     const urlParams = new URLSearchParams(window.location.search);
-
+	
+    // blockUser 값을 JSP에서 JavaScript로 전달
+    var blockUser = ${blockUser};
+    
     // 모달 띄우는 함수
     function showModal(message) {
         const modalMessage = document.getElementById("alertModalMessage");
@@ -170,6 +173,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // blockUser 값이 true일 경우 모달을 띄운다.
+    if (blockUser) {
+        $(document).ready(function() {
+            showModal("로그인이 필요한 서비스입니다."); // 유효성 검사 실패 시 모달 띄우기
+        });
+    }
+    
     // 폼 유효성 검사 및 제출 처리
     form.addEventListener("submit", (event) => {
         let isValid = true;
@@ -235,6 +245,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 </script>
+
+
 
 </body>
 </html>
