@@ -64,9 +64,18 @@ public class AdminService {
         return new PageImpl<>(reviews, pageable, total);
     }
 
-    public List<CustomerDTO> findCustomers() {
+    public Page<CustomerDTO> findCustomers(Pageable pageable) {
 
-        return adminDAO.selectCustomers();
+        int rowStart = ((pageable.getPageNumber()) * pageable.getPageSize()) + 1;
+        int rowEnd = (rowStart + pageable.getPageSize() -1);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("start", rowStart);
+        map.put("end", rowEnd);
+
+        List<CustomerDTO> customers = adminDAO.selectCustomers(map);
+        int total = adminDAO.totalCustomersPageable();
+        return new PageImpl<>(customers, pageable, total);
     }
 
     public Page<OrderJoinDTO> findOrders(Pageable pageable) {
