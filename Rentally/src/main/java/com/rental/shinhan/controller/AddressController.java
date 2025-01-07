@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,18 +33,17 @@ public class AddressController {
 	// AddressService 넣어라
 	@Autowired
 	private AddressService addressService;
-	
-	@Autowired
-	private CustomerService custService;
 
-	// 임의의 cust_seq
+	// 테스트용 cust_seq
 	int testCustseq = 1;
 
 	// AddressPage 페이지 이동
 	//address/addAddressPage
+	
+	// 페이지 불러오기 테스트용
 	@RequestMapping("/create")
-	public ModelAndView create() {
-		return new ModelAndView("address/addAddressPage");
+	public String create() {
+		return "address/addAddressPage";
 	}
 
 	// 주소 저장 요청 처리
@@ -55,7 +55,14 @@ public class AddressController {
 			@RequestParam("detailAddress") String detailAddress,
 			@RequestParam("recipName") String recipName,
 			@RequestParam("recipPhone") String recipPhone,
-			@RequestParam(value = "addrDefault", defaultValue = "false") boolean addrDefault) {
+			@RequestParam(value = "addrDefault", defaultValue = "false") boolean addrDefault,
+			HttpSession session) {
+		
+		// 세션에서 cust_seq 가져오기
+		Integer  custSeq = (Integer)session.getAttribute("cust_seq");
+		if(custSeq == null) {
+			throw new RuntimeException("로그인이 필요합니다.");
+		}
 
 		// 데이터 맵핑
 		Map<String, String> response = new HashMap<>();
@@ -65,7 +72,7 @@ public class AddressController {
 		
 		
 		// 주소 개수 확인
-	    int addressCount = addressService.getAddressCountByCustSeq(testCustseq);
+	    int addressCount = addressService.getAddressCountByCustSeq(custSeq);
 	    if (addressCount >= 5) {
 	        response.put("status", "error");
 	        response.put("message", "주소는 최대 5개까지만 등록할 수 있습니다.");
@@ -73,7 +80,7 @@ public class AddressController {
 	    }
 
 	    // 기본 주소 중복 확인
-	    if (addrDefault && addressService.isDefaultAddressExist(testCustseq)) {
+	    if (addrDefault && addressService.isDefaultAddressExist(custSeq)) {
 	        response.put("status", "error");
 	        response.put("message", "기본 주소는 하나만 설정할 수 있습니다.");
 	        return response;
@@ -85,7 +92,7 @@ public class AddressController {
 		addressData.setAddr_name(recipName);
 		addressData.setAddr_phone(recipPhone);
 		addressData.setAddr_detail(detailAddress + "(" + postcode + ")");
-		addressData.setCust_seq(testCustseq);
+		addressData.setCust_seq(custSeq);
 		addressData.setAddr_default(addrDefault);
 		addressData.setAddr_title(address);
 
@@ -103,8 +110,14 @@ public class AddressController {
 	///getAddress/{custSeq}
 	// 계정 내 등록된 주소 조회 처리
 	@GetMapping("/address/list")
-	public String getAddressesByCustSeq(Model model) {
-		int custSeq = 1;
+	public String getAddressesByCustSeq(HttpSession session, Model model) {
+		
+		// 세션에서 cust_seq 가져오기
+		Integer  custSeq = (Integer)session.getAttribute("cust_seq");
+		if(custSeq == null) {
+			throw new RuntimeException("로그인이 필요합니다.");
+		}
+
 		List<AddressDTO> addressList = addressService.getAddressesByCustSeq(custSeq);
 		
 		 if (addressList.isEmpty()) {
@@ -122,9 +135,16 @@ public class AddressController {
 	// 계정 내 등록된 계정 중 선택한 계정 삭제
 	@PostMapping(value = "/address/delete")
 	@ResponseBody
-	public Map<String, String> deleteAddress(@RequestParam("addrSeq") int addrSeq) {
+	public Map<String, String> deleteAddress(@RequestParam("addrSeq") int addrSeq, HttpSession session) {
+				
 		Map<String, String> response = new HashMap<>();
 		try {
+			// 세션에서 cust_seq 가져오기
+			Integer  custSeq = (Integer)session.getAttribute("cust_seq");
+			if(custSeq == null) {
+				throw new RuntimeException("로그인이 필요합니다.");
+			}
+			
 	        addressService.deleteAddress(addrSeq);
 	        response.put("status", "success");
 	        response.put("message", "주소가 성공적으로 삭제되었습니다.");
@@ -137,21 +157,20 @@ public class AddressController {
 	}
 	
 	
-	// 계정 수정 페이지로 이동
-	@RequestMapping("/address/goUpdate")
-	public String goUpdateAddress() {
-		return "address/addAddressPage";
-	}
-	
-	
 	// 계정 내 등록된 계정 중 선택한 계정 수정
 	@ResponseBody
 	@RequestMapping(value = "/address/update", method = RequestMethod.POST)
-	public Map<String,String> updateAddress( AddressDTO addressData) {		
+	public Map<String,String> updateAddress( AddressDTO addressData, HttpSession session) {		
 		Map<String, String> response = new HashMap<>();
 		System.out.println(addressData);
-		try {        
-			if (addressData.isAddr_default() && addressService.isDefaultAddressExist(testCustseq)) {
+		try {      
+			// 세션에서 cust_seq 가져오기
+			Integer  custSeq = (Integer)session.getAttribute("cust_seq");
+				if(custSeq == null) {
+					throw new RuntimeException("로그인이 필요합니다.");
+			}
+			
+			if (addressData.isAddr_default() && addressService.isDefaultAddressExist(custSeq)) {
 			    response.put("status", "error");
 			    response.put("message", "기본 주소는 하나만 설정할 수 있습니다.");
 			    return response;
@@ -174,11 +193,19 @@ public class AddressController {
 	// 기본 주소 설정
 	@PostMapping("/address/setDefault")
 	@ResponseBody
-	public Map<String, String> setDefaultAddress(@RequestParam("addrSeq") int addrSeq) {
+	public Map<String, String> setDefaultAddress(@RequestParam("addrSeq") int addrSeq, HttpSession session) {
 	    Map<String, String> response = new HashMap<>();
 	    try {
+	    	
+	    	// 세션에서 cust_seq 가져오기
+	    	Integer  custSeq = (Integer)session.getAttribute("cust_seq");
+	    		if(custSeq == null) {
+	    			throw new RuntimeException("로그인이 필요합니다.");
+	    		}
+	    	
+	    	
 	        // 기본 주소를 변경하기 전에 기존 기본 주소를 해제
-	        addressService.unsetDefaultAddress(testCustseq);
+	        addressService.unsetDefaultAddress(custSeq);
 
 	        // 선택된 주소를 기본 주소로 설정
 	        addressService.setDefaultAddress(addrSeq);

@@ -9,6 +9,8 @@
 <%@ include file="../common/headMeta.jsp"%>
 <title>주소 - Rentally</title>
 <%@ include file="../common/headLinks.jsp"%>
+<!-- star style -->
+    <c:set var="page" value="address" />
 </head>
 
 <body>
