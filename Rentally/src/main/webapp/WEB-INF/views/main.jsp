@@ -73,27 +73,25 @@
 				</div>
 			</section>
 			<!-- Category Section Start-->
-			<section class="mb-lg-10 mt-lg-14 my-8">
+		<section class="mt-8">
 				<div class="container">
-					<div class="row">
-						<div class="col-12 mb-6">
-							<h3 class="mb-0">Featured Categories</h3>
+					<div class="hero-slider">
+						<div style="background: url(https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_LOGO-title_001.png) no-repeat center center;  
+						    background-size: cover; border-radius: 0.5rem; width: 1200px; 
+						    height: 628px; margin: 0 auto;">
 						</div>
-					</div>
-					<div class="category-slider">
-					<c:forEach items="${bestProduct}" var="bestProduct">
-						<div class="item">
-							<a href="${path}/product/detail?product_seq=${bestProduct.product_seq}" class="text-decoration-none text-inherit">
-								<div class="card card-product mb-lg-4">
-									<div class="card-body text-center py-8">
-										<img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${bestProduct.category_seq}/
-													${bestProduct.product_img}" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" />
-										<div class="text-truncate">${bestProduct.product_name}</div>
-									</div>
-								</div>
-							</a>
-						</div>		
-					</c:forEach>
+						<div style="background: url(https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_LOGO-title_002.png) no-repeat center center;  
+						    background-size: cover; border-radius: 0.5rem; width: 1200px; 
+						    height: 628px; margin: 0 auto;">
+						</div>
+						<div style="background: url(https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_LOGO-title_003.png) no-repeat center center;  
+						    background-size: cover; border-radius: 0.5rem; width: 1200px; 
+						    height: 628px; margin: 0 auto;">
+						</div>
+						<div style="background: url(https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_LOGO-title_004.png) no-repeat center center;  
+						    background-size: cover; border-radius: 0.5rem; width: 1200px; 
+						    height: 628px; margin: 0 auto;">
+						</div>
 					</div>
 				</div>
 			</section>
