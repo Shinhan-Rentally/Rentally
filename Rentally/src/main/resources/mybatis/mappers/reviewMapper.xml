@@ -50,7 +50,8 @@
 		P.product_seq = #{product_seq}
 		AND R.sub_seq IS NOT NULL
 		ORDER BY
-		R.review_rate DESC
+		R.review_rate DESC,
+		R.review_date DESC
 	</select>
 
     <insert id="insertReview">
