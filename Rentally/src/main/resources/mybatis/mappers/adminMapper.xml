@@ -60,8 +60,19 @@
         join customer c on s.cust_seq = c.cust_seq
     </select>
 
-    <select id="selectCustomers" resultType="com.rental.shinhan.dto.CustomerDTO">
-        select cust_id, cust_name, cust_email, cust_phone
+    <select id="selectCustomers" parameterType="map" resultType="com.rental.shinhan.dto.CustomerDTO">
+        select *
+        from (
+        select row_number() over(order by cust_id) as num,
+        cust_id, cust_name, cust_email, cust_phone
+        from customer
+        where cust_status = true
+        ) as temp
+        where num between #{start} and #{end}
+    </select>
+
+    <select id="totalCustomers" resultType="int">
+        select count(*)
         from customer
         where cust_status = true
     </select>
