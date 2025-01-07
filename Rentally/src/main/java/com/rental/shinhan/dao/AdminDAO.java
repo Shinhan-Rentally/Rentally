@@ -29,8 +29,8 @@ public class AdminDAO implements AdminInterface {
         return sqlSession.selectOne(namespace + "totalProducts",request);
     }
 
-    public List<ReviewDTO> selectReviews() {
-        List<ReviewDTO> reviews = sqlSession.selectList(namespace + "selectReviews");
+    public List<ReviewDTO> selectReviews(Map<String,Object> request) {
+        List<ReviewDTO> reviews = sqlSession.selectList(namespace + "selectReviews", request);
         return reviews;
     }
 
@@ -43,10 +43,18 @@ public class AdminDAO implements AdminInterface {
         return sqlSession.selectOne(namespace + "totalOrders");
     }
 
+    public int totalReviewsPageable(int rating) {
+        return sqlSession.selectOne(namespace + "totalReviews", rating);
+    }
 
-    public  List<CustomerDTO> selectCustomers() {
-        List<CustomerDTO> customers = sqlSession.selectList(namespace + "selectCustomers");
+
+    public  List<CustomerDTO> selectCustomers(Map<String, Object> request) {
+        List<CustomerDTO> customers = sqlSession.selectList(namespace + "selectCustomers", request);
         return customers;
+    }
+
+    public int totalCustomersPageable() {
+        return sqlSession.selectOne(namespace + "totalCustomers");
     }
 
     public int deleteProduct(int productSeq) {

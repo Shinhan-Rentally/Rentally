@@ -39,7 +39,7 @@
           <div class="mb-8">
             <!-- heading -->
             <h1 class="mb-1">위시리스트</h1>
-            <p>${totalCount}개 상품</p>
+            <p>${totalCount}개의 상품이 위시리스트에 담겨있습니다.</p>
           </div>
           <div>
             <!-- table -->
@@ -57,7 +57,8 @@
                 <c:forEach var="wish" items="${wishList}">
                   <tr>
                     <td class="align-middle border-top-0 w-0">
-                      <a href="#"><img
+                      <a href="${path}/product/detail?product_seq=${wish.product_seq}">
+                        <img
                               src="https://rentally.s3.ap-northeast-2.amazonaws.com/${wish.category_seq}/${wish.product_img}"
                               width="64"
                               height="64"
@@ -65,9 +66,9 @@
                       /></a>
                     </td>
                     <td class="align-middle border-top-0">
-                      <a href="#" class="fw-semibold text-inherit">
-                        <h6 class="mb-0">${wish.product_name}</h6>
-                      </a>
+                      <h5 class="fs-6 mb-0">
+                        <a href="${path}/product/detail?product_seq=${wish.product_seq}" class="text-inherit">${wish.product_name}</a>
+                      </h5>
                       <span><small class="text-muted">${wish.product_features}</small></span>
                     </td>
                     <td class="align-middle border-top-0">
