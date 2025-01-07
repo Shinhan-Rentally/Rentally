@@ -29,8 +29,8 @@ public class AdminDAO implements AdminInterface {
         return sqlSession.selectOne(namespace + "totalProducts",request);
     }
 
-    public List<ReviewDTO> selectReviews() {
-        List<ReviewDTO> reviews = sqlSession.selectList(namespace + "selectReviews");
+    public List<ReviewDTO> selectReviews(Map<String,Object> request) {
+        List<ReviewDTO> reviews = sqlSession.selectList(namespace + "selectReviews", request);
         return reviews;
     }
 
@@ -41,6 +41,10 @@ public class AdminDAO implements AdminInterface {
 
     public int totalOrdersPageable() {
         return sqlSession.selectOne(namespace + "totalOrders");
+    }
+
+    public int totalReviewsPageable(int rating) {
+        return sqlSession.selectOne(namespace + "totalReviews", rating);
     }
 
 
