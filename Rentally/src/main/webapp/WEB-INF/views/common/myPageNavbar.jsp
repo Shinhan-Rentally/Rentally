@@ -8,15 +8,27 @@
          <!-- nav item -->
          <li class="nav-item">
             <a class="nav-link ${page == 'order' ? 'active' : ''}" href="${path}/order/list">
-               <i class="feather-icon icon-shopping-bag me-2"></i>
+               <i class="feather-icon icon-file-minus me-2"></i>
                주문내역
             </a>
          </li>
          <!-- nav item -->
          <li class="nav-item">
             <a class="nav-link ${page == 'subscribe' ? 'active' : ''}" href="${path}/subscribe/list">
-               <i class="feather-icon icon-shopping-bag me-2"></i>
+               <i class="feather-icon icon-check-square me-2"></i>
                구독현황
+            </a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link ${page == 'wishlist' ? 'active' : ''}" href="${path}/wishlist/list">
+               <i class="feather-icon icon-heart me-2"></i>
+               위시리스트
+            </a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link ${page == 'cart' ? 'active' : ''}" href="${path}/cart/list">
+               <i class="feather-icon icon-shopping-cart me-2"></i>
+               장바구니
             </a>
          </li>
          <!-- nav item -->
