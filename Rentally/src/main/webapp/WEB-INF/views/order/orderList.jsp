@@ -42,6 +42,11 @@
                         <!-- heading -->
                         <h2 class="mb-6">주문내역</h2>
 
+                        <div class="left">
+                            <button type="button" id="btn_date_1" title="최근1개월" class="btn_date_term" onclick="WCK_COMMON_MYPAGE_RENEWAL_FN.myDateTabClick(31, 'Day');">최근1개월</button>
+                            <button type="button" id="btn_date_2" title="최근1개월" class="btn_date_term" onclick="WCK_COMMON_MYPAGE_RENEWAL_FN.myDateTabClick(31, 'Day');">최근2개월</button>
+                            <button type="button" id="btn_date_3" title="최근1개월" class="btn_date_term" onclick="WCK_COMMON_MYPAGE_RENEWAL_FN.myDateTabClick(31, 'Day');">최근3개월</button>
+                        </div>
                         <div class="table-responsive-xxl border-0">
                             <!-- Table -->
                             <table class="table mb-0 text-nowrap table-centered">
