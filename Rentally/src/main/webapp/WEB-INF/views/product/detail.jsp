@@ -291,12 +291,12 @@
 													class="d-flex justify-content-between align-items-center mb-12">
 													<div>
 														<!-- heading -->
-														<h4>Reviews</h4>
+														<h4>상품 리뷰</h4>
 													</div>
 													<div>
 														<select id="reviewSortFilter" class="form-select">
-															<option selected>Top Reviews</option>
-															<option value="Most Recent">Most Recent</option>
+															<option selected>별점순</option>
+															<option value="Most Recent">최신순</option>
 														</select>
 													</div>
 												</div>
