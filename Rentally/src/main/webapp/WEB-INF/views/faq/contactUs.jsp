@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <%@ include file="../common/headMeta.jsp" %>
-    <title>ContactUS - Rentally</title>
+    <title>카카오톡 문의하기 - Rentally</title>
     <%@ include file="../common/headLinks.jsp" %>
     <style>
         .contact-section {
