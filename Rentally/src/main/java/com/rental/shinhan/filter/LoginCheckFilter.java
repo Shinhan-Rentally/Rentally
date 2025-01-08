@@ -39,12 +39,18 @@ public class LoginCheckFilter implements Filter {
         }
         
         if (isProtectedUri(uri)) {
-
             HttpSession session = req.getSession();
             if (session.getAttribute("cust_seq") == null) {
             	session.setAttribute("blockUser", true);
                 res.sendRedirect(contextPath + "/customer/login");
                 return;
+            }
+            else {
+            	int custGrade = (Integer) session.getAttribute("cust_grade");
+            	if(uri.startsWith("/admin") && custGrade != 1) {
+            		res.sendRedirect(contextPath + "/error");
+                	return;
+            	}
             }
         }
 
@@ -56,7 +62,7 @@ public class LoginCheckFilter implements Filter {
     }
 
     private boolean isProtectedUri(String uri) {
-        return PROTECTED_URIS.contains(uri) || uri.startsWith("/payment");
+        return PROTECTED_URIS.contains(uri) || uri.startsWith("/payment") || uri.startsWith("/admin");
     }
 
     @Override
