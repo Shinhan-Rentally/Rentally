@@ -41,6 +41,7 @@
 								<p>Rentally는 가전 구독 플랫폼으로 최신 제품을 부담 없이 간편하게 제공합니다.</p>
 								
 						</div>
+						
 						<!-- form -->
 						<form action="${path}/customer/join" method="post" class="needs-validation" novalidate>
 							<div class="row g-3">
@@ -93,6 +94,7 @@
 									</select>
 								</div>
 								<div class="invalid-feedback">이메일을 입력해주세요.</div>
+								
 								<div class="col-12">
 									<!-- input -->
 									<label for="formSignupPhone" class="form-label visually-hidden">
@@ -120,12 +122,15 @@
 								</div>
 								<!-- btn -->
 								<div class="col-12 d-grid">
+									
 									<button id="join" type="submit" class="btn btn-info">회원가입</button>
 								</div>
 
 								
 							</div>
 						</form>
+						<input type="hidden" id="sessionName" value="${name}" />
+						<input type="hidden" id="sessionPhone" value="${phone}" />
 					</div>
 				</div>
 			</div>
@@ -140,8 +145,15 @@
 	<script src="${path}/resources/js/vendors/password.js"></script>
 	<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 	<script src="${path}/resources/js/vendors/validation.js"></script>
+	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
+		//본인인증 후 값 가져오기
+		var custName = $('#sessionName').val();
+		var custPhone = $('#sessionPhone').val();
+		$('#formSignupName').val(custName).attr('readonly', true);
+		$('#formSignupPhone').val(custPhone).attr('readonly', true);
+		
 		//입력값이 비어있을 때 경고문구
 		$("#join").on("click", function(){
 			$(".form-control").each(function(){
@@ -166,29 +178,8 @@
 				$("#formSignupEmail2").attr("readonly", false);
 			}
 		});
-		//핸드폰번호 유효성검사
-		$("#formSignupPhone").on("input", function(){
-			let value = $("#formSignupPhone").val().replace(/\D/g, '');
-
-		    if (value.length <= 3) {
-		    	$("#formSignupPhone").val(value);
-		    } else if (value.length <= 7) {
-		    	$("#formSignupPhone").val(value.slice(0, 3) + '-' + value.slice(3));
-		    } else {
-		    	$("#formSignupPhone").val(value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7, 11));
-		    }
-		});
-		//이름 유효성검사
-		$("#formSignupName").on("keyup", function (e) {
-		    const nameValue = $("#formSignupName").val().trim();
-		    if (/^[ㄱ-ㅎ]+$/.test(nameValue) || nameValue === '') {
-		      e.preventDefault();
-		      $('.invalid-feedback').show();
-		      $('#formSignupName').focus();
-		    } else {
-		      $('.invalid-feedback').hide();
-		    }
-		  });
+		
+		
 		//ID유효성검사
 		let inputUserId = document.querySelector("#formSignupId");
 		let successMessage = document.querySelector(".success-feedback");
