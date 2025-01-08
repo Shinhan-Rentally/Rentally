@@ -943,7 +943,7 @@
 <!-- Footer -->
 	
 	<%@include file="./common/footer.jsp"%>
-
+	<%@ include file="./common/bottomKakao.jsp" %>
 		<!-- Javascript-->
 
 		
