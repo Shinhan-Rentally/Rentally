@@ -24,6 +24,12 @@ public interface AddressInterface {
 	// 기본 주소 존재 여부
 	public boolean isDefaultAddressExist(int custSeq);
 	
+	// 기본 주소 해제
+	public void unsetDefaultAddress(int custSeq);
+	
+	// 기본 주소 설정
+	public void setDefaultAddress(int addrSeq);
+	
 	// 계정에 등록된 주소 개수 카운트
 	public int getAddressCountByCustSeq(int custSeq);
 	
