@@ -8,35 +8,18 @@
 <meta charset="UTF-8">
 <title>장바구니 - Rentally</title>
 <%@include file="../common/headLinks.jsp"%>
-
+<c:set var="page" value="cart" />
 </head>
 <body>
 	<%@include file="../common/header.jsp"%>
 	<main>
-		<!-- section-->
-		<div class="mt-4">
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-					<!-- col -->
-					<div class="col-12">
-						<!-- breadcrumb -->
-						<nav aria-label="breadcrumb">
-							<ol class="breadcrumb mb-0">
-								<li class="breadcrumb-item"><a href="${path}/main">Home</a></li>
-								<li class="breadcrumb-item active" aria-current="page">장바구니</li>
-							</ol>
-						</nav>
-					</div>
-				</div>
-			</div>
-		</div>
 		<!-- section -->
 		<section class="mt-8 mb-14">
 			<div class="container">
 				<!-- row -->
 				<div class="row">
-					<div class="col-lg-12">
+					<%@include file="../common/myPageNavbar.jsp"%>
+					<div class="col-lg-8">
 						<div class="mb-8">
 							<!-- heading -->
 							<h1 class="mb-1">장바구니</h1>
@@ -51,9 +34,9 @@
 										<tr>
 											<th></th>
 											<th>상품명</th>
-											<th>구독료</th>										
+											<th class="text-center">구독료</th>								
 											<th>구독</th>
-											<th>제거</th>
+											<th>삭제</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -96,7 +79,7 @@
 												</form>
 											</td>
 											<td class="align-middle">
-												<a href="#" class="text-muted delete"
+												<a href="#" class="text-muted delete" title="Delete"
 												data-bs-toggle="tooltip" data-bs-placement="top">
 												<i class="feather-icon icon-trash-2"></i>
 												</a>
@@ -134,6 +117,11 @@
 	<script src="${path}/resources/js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
+		//장바구니 삭제 버튼 호버
+		$('.delete').on("hover", function(){
+			$(this).addClass()
+		})
+		//장바구니 삭제 메세지
 		function showModalMessage(message){
 			$('#alertModalMessage').text(message);
 			$('#alertModal').modal('show');
