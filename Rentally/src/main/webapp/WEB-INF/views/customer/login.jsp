@@ -7,19 +7,6 @@
 <%@ include file="../common/headLinks.jsp" %>
 <meta charset="UTF-8">
 <title>Rentally</title>
-
-<style>
-/* 모달 헤더와 푸터의 선 제거 */
-.modal-content{
-
-	font-size: 16px;
-}
-.modal-footer {
-    border-top: none;
-}
-</style>
-
-
 </head>
 <body>
 

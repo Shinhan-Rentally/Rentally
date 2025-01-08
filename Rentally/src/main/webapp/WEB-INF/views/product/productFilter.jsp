@@ -32,14 +32,6 @@
 	width: auto; /* 가로세로 비율 유지 */
 	height: 100%; /* 높이를 부모에 맞춤 */
 }
-/* 모달 헤더와 푸터의 선 제거 */
-.modal-content {
-	font-size: 16px;
-}
-
-.modal-footer {
-	border-top: none;
-}
 </style>
 <c:set var="path" value="${pageContext.servletContext.contextPath}"
 	scope="application"></c:set>
