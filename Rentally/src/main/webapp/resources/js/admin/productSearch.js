@@ -22,7 +22,7 @@ function search(path, page) {
                         <td class="text-center">
                         <button onclick="deleteProduct(${product.product_seq})"
                             title="Delete"
-                            class="btn text-muted"
+                            class="btn btn-delete text-muted"
                             data-bs-toggle="tooltip"
                             data-bs-placement="top">
                             <i class="feather-icon icon-trash-2"></i>

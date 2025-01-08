@@ -15,6 +15,10 @@
         .product-name {
             text-align: left;
         }
+
+        .btn-delete {
+            border: none;
+        }
     </style>
 </head>
 <body>
