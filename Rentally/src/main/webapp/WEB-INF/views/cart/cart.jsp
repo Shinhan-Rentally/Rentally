@@ -69,7 +69,7 @@
 												</div>
 											</td>
 											<td class="align-middle text-center">
-												<fmt:formatNumber value="${cart.product_pay}" type="number" pattern="#,###"/> 원
+												<fmt:formatNumber value="${cart.product_pay}" type="number" pattern="#,###"/>원
 											</td>
 											
 											<td class="align-middle text-center">
