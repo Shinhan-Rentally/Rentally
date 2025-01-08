@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="../common/headMeta.jsp"%>
-<title>주소 - Rentally</title>
+<title>주소지 - Rentally</title>
 <%@ include file="../common/headLinks.jsp"%>
 <%@ include file="saveAddressModal.jsp" %>
 <%@ include file="updateAddressModal.jsp" %>
