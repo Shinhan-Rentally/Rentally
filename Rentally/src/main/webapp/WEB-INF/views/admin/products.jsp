@@ -62,7 +62,7 @@
                                         <th></th>
                                         <th>상품명</th>
                                         <th>카테고리</th>
-                                        <th>가격</th>
+                                        <th>월 구독료</th>
                                         <th>상품 등록일</th>
                                         <th>삭제</th>
                                     </tr>
@@ -144,10 +144,11 @@
             },
             error: function (err) {
                 isSuccess = false;
-                showModalMessage(`삭제에 성공했습니다.`);
+                showModalMessage(`삭제에 실패했습니다.`);
             }
         });
     }
+
 </script>
 </body>
 </html>
