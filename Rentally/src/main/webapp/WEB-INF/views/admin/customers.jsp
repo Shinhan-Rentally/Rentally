@@ -96,19 +96,12 @@
 <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="${path}/resources/css/theme.min.js"></script>
-<script src="${path}/resources/js/admin/paging.js"></script>
 <script src="${path}/resources/js/admin/customers.js"></script>
+<script src="${path}/resources/js/admin/initializePagination.js"></script>
+<script src="${path}/resources/js/admin/loadData.js"></script>
+<script src="${path}/resources/js/admin/pagination.js"></script>
 <script>
-    let page = 0;
-
-    $("#pagingBar").on("click", "a", function (){
-        page = $(this).data("page");
-        customers('${path}',page);
-    })
-
-    $(document).ready(function () {
-        customers('${path}', page);
-    });
+    initializeDefaultPagination('${path}',loadCustomerData);
 </script>
 </body>
 </html>

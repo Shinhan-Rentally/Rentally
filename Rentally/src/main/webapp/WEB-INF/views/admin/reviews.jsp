@@ -41,11 +41,12 @@
         .review-table td:nth-child(5) {
             width: 15%;
         }
+
         .review-content {
-            max-width: 300px;  /* 최대 너비 설정 */
-            overflow: hidden;  /* 넘치는 부분 숨김 */
-            text-overflow: ellipsis; /* '...' 표시 */
-            white-space: nowrap; /* 줄바꿈 방지 */
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .star-rating span {
@@ -76,20 +77,21 @@
                         <div class="card-header p-4">
                             <div class="row justify-content-end">
                                 <div class="col-md-4 col-12">
-                                    <select class="form-select" id="rating"">
-                                        <option value="0" selected>별점</option>
-                                        <option value="1">1점</option>
-                                        <option value="2">2점</option>
-                                        <option value="3">3점</option>
-                                        <option value="4">4점</option>
-                                        <option value="5">5점</option>
+                                    <select class="form-select" id="rating">
+                                    <option value="0" selected>별점</option>
+                                    <option value="1">1점</option>
+                                    <option value="2">2점</option>
+                                    <option value="3">3점</option>
+                                    <option value="4">4점</option>
+                                    <option value="5">5점</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table id="board_dataTable" class="table table-centered table-hover table-borderless mb-0 review-table text-nowrap">
+                                <table id="board_dataTable"
+                                       class="table table-centered table-hover table-borderless mb-0 review-table text-nowrap">
                                     <thead class="bg-light">
                                     <tr>
                                         <th>상품명</th>
@@ -120,25 +122,12 @@
 <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="${path}/resources/js/theme.min.js"></script>
-<script src="${path}/resources/js/admin/paging.js"></script>
-<script src="${path}/resources/js/admin/reviews.js"></script></body>
+<script src="${path}/resources/js/admin/initializePagination.js"></script>
+<script src="${path}/resources/js/admin/loadData.js"></script>
+<script src="${path}/resources/js/admin/pagination.js"></script>
 <script>
-    let page = 0;
-    let rating;
-
-    $("#rating").change(function (){
-        page = 0;
-        reviews('${path}', page, rating);
-    })
-
-    $("#pagingBar").on("click", "a", function (){
-        page = $(this).data("page");
-        reviews('${path}',page, rating);
-    })
-
-    $(document).ready(function () {
-        reviews('${path}', page, rating);
-    });
+    initializeRatingPagination('${path}');
 </script>
+</body>
 </html>
 

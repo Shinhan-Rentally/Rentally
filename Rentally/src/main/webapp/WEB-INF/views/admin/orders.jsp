@@ -71,19 +71,13 @@
 <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="${path}/resources/css/theme.css"></script>
-<script src="${path}/resources/js/admin/paging.js"></script>
 <script src="${path}/resources/js/admin/orders.js"></script>
+<script src="${path}/resources/js/admin/loadData.js"></script>
+<script src="${path}/resources/js/admin/initializePagination.js"></script>
+<script src="${path}/resources/js/admin/pagination.js"></script>
+
 <script>
-    let page = 0;
-
-    $("#pagingBar").on("click", "a", function (){
-        page = $(this).data("page");
-        orders('${path}',page);
-    })
-
-    $(document).ready(function () {
-        orders('${path}', page);
-    });
+    initializeDefaultPagination('${path}',loadOrderData);
 </script>
 </body>
 </html>

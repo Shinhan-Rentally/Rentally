@@ -84,67 +84,28 @@
         </div>
     </main>
 </div>
-<!-- 알림용 modal -->
-<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="alertModalLabel">알림</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="alertModalMessage"></div>
-            <div class="modal-footer">
-                <button type="button" id="alertModalConfirm" class="btn btn-info" data-bs-dismiss="modal">확인</button>
-            </div>
-        </div>
-    </div>
-</div>
+<%@ include file="../common/modal.jsp" %>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="${path}/resources/js/admin/paging.js"></script>
-<script src="${path}/resources/js/admin/productSearch.js"></script>
+<script src="${path}/resources/js/modalUtils.js"></script>
 <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
+<script src="${path}/resources/js/admin/initializePagination.js"></script>
+<script src="${path}/resources/js/admin/loadData.js"></script>
+<script src="${path}/resources/js/admin/pagination.js"></script>
 <script>
-    let page = 0;
-    let searchKeyWord;
-
-    $('#features').on('input', function () {
-        let lines = $(this).val().split("\n").slice(0, 3);
-        $(this).val(lines.join("\n"));
-    });
-
-    function showModalMessage(message) {
-        $('#alertModalMessage').text(message);
-        $('#alertModal').modal('show');
-    }
-
-    $("#searchKeyWord").on("input", function () {
-        page = 0;
-        search('${path}', page);
-    });
-
-
-    $("#pagingBar").on("click", "a", function () {
-        page = $(this).data("page");
-        search('${path}', page);
-    })
-
-    $(document).ready(function () {
-        search('${path}', page);
-    });
+    initializeSearchPagination('${path}')
 
     function deleteProduct(productSeq) {
         $.ajax({
             url: `${path}/admin/\${productSeq}/delete`,
             type: "post",
-            success: function (responseData) {
-                isSuccess = true;
-                showModalMessage(`삭제에 성공했습니다.`);
-                search('${path}', page);
+            success: function () {
+                showModalMessage('삭제에 성공했습니다.', function () {
+                    initializeSearchPagination('${path}');
+                });
             },
-            error: function (err) {
-                isSuccess = false;
-                showModalMessage(`삭제에 성공했습니다.`);
+            error: function () {
+                showModalMessage(`삭제에 실패했습니다.`);
             }
         });
     }
