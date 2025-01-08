@@ -11,6 +11,7 @@
         th, td {
             text-align: center;
         }
+
         .product-name {
             text-align: left;
         }
@@ -74,7 +75,7 @@
                         <div id="pagingBar" class="card-footer d-flex justify-content-between align-items-center p-4">
                             <span id="pagingCount"></span>
                             <nav>
-                            <ul class="pagination justify-content-center" id="pagingUl"></ul>
+                                <ul class="pagination justify-content-center" id="pagingUl"></ul>
                             </nav>
                         </div>
                     </div>
@@ -83,7 +84,21 @@
         </div>
     </main>
 </div>
-
+<!-- 알림용 modal -->
+<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="alertModalLabel">알림</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="alertModalMessage"></div>
+            <div class="modal-footer">
+                <button type="button" id="alertModalConfirm" class="btn btn-info" data-bs-dismiss="modal">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="${path}/resources/js/admin/paging.js"></script>
 <script src="${path}/resources/js/admin/productSearch.js"></script>
@@ -93,20 +108,46 @@
     let page = 0;
     let searchKeyWord;
 
+    $('#features').on('input', function () {
+        let lines = $(this).val().split("\n").slice(0, 3);
+        $(this).val(lines.join("\n"));
+    });
+
+    function showModalMessage(message) {
+        $('#alertModalMessage').text(message);
+        $('#alertModal').modal('show');
+    }
+
     $("#searchKeyWord").on("input", function () {
         page = 0;
         search('${path}', page);
     });
 
 
-    $("#pagingBar").on("click", "a", function (){
+    $("#pagingBar").on("click", "a", function () {
         page = $(this).data("page");
-        search('${path}',page);
+        search('${path}', page);
     })
 
-    $(document).ready(function (){
-        search('${path}',page);
+    $(document).ready(function () {
+        search('${path}', page);
     });
+
+    function deleteProduct(productSeq) {
+        $.ajax({
+            url: `${path}/admin/\${productSeq}/delete`,
+            type: "post",
+            success: function (responseData) {
+                isSuccess = true;
+                showModalMessage(`삭제에 성공했습니다.`);
+                search('${path}', page);
+            },
+            error: function (err) {
+                isSuccess = false;
+                showModalMessage(`삭제에 성공했습니다.`);
+            }
+        });
+    }
 </script>
 </body>
 </html>
