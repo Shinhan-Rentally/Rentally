@@ -33,7 +33,7 @@
 							<br>
 							<!-- button -->
 							<div style="text-align: right;">
-								<a href="#" class="btn btn-outline-info btn-sm" data-bs-toggle="modal"
+								<a href="#" class="btn btn-outline-info btn-sm rounded" data-bs-toggle="modal"
 									data-bs-target="#addAddressModal"
 									style="font-size: 15px; padding: 8px 15px;">새로운 주소 추가</a>
 							</div>
@@ -66,7 +66,7 @@
 															<!-- 칸 맞추기 위한 공백 처리 -->
 														</c:when>
 														<c:otherwise>
-															<a href="setDefault"  class = "btn btn-info btn-sm"
+															<a href="setDefault"  class = "btn btn-info btn-sm rounded"
 																onclick="setDefault(${address.addr_seq}); return false;">기본
 																주소로 설정하기 </a>
 														</c:otherwise>

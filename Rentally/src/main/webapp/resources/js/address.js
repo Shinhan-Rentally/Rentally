@@ -3,7 +3,7 @@ if (!path) {
     console.error("Path is not defined. Please check your JSP configuration.");
 }
 
-// 주소 수정 숫자 유효성 검사
+	// 주소 수정 숫자 유효성 검사
 	$("#editRecipPhone").on("input", function(){
 		let value = $("#editRecipPhone").val().replace(/\D/g, '');
 	    if (value.length <= 3) {
@@ -150,28 +150,28 @@ if (!path) {
 	
 	// 주소 등록 Jquery
 	$('#saveAddress').on("click", function (event) {
-    event.preventDefault();
+    	event.preventDefault();
  
-    const formData = $('#addAddressModal').find('input, select').serialize();
-	console.log("Form Data:", formData);
-    $.ajax({
-        url: `${path}/address/add`,
-        type: "POST",
-        data: formData,
-        success: function (response) {
-            if (response.status === "error") {
-                alert(response.message);
-            } else if (response.status === "success") {
-                alert(response.message);
-                location.reload(); // 페이지 새로고침
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error("Error:", error);
-            alert("주소 저장 중 오류가 발생했습니다.");
-        }
-    });
-});
+    	const formData = $('#addAddressModal').find('input, select').serialize();
+		console.log("Form Data:", formData);
+    	$.ajax({
+        	url: `${path}/address/add`,
+        	type: "POST",
+        	data: formData,
+        	success: function (response) {
+            	if (response.status === "error") {
+                	alert(response.message);
+            	} else if (response.status === "success") {
+                	alert(response.message);
+                	location.reload(); // 페이지 새로고침
+            	}
+        	},
+        	error: function (xhr, status, error) {
+            	console.error("Error:", error);
+            	alert("주소 저장 중 오류가 발생했습니다.");
+        	}
+    	});
+	});
 	
 	// 주소 삭제
 	$(document).on("click", ".delete-address-btn", function (event) {
