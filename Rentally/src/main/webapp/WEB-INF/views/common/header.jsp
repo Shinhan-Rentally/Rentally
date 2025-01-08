@@ -4,7 +4,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="path" value="${pageContext.servletContext.contextPath}"
 	scope="application"></c:set>
-	
+
+<style>
+.header-category a{
+	font-size: 1.2rem;
+}
+</style>		
 
 <!-- navbar -->
 <div class="border-bottom">
