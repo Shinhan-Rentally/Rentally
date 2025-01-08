@@ -3,24 +3,56 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<title>Rentally</title>
+<%@ include file="./common/headMeta.jsp" %>
+<%@ include file="./common/headLinks.jsp" %>
 <!-- Favicon icon-->
-<link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="${path}/resources/images/favicon/favicon.ico">
 <!-- Theme CSS -->
 <!-- build:css @@webRoot/assets/css/theme.min.css -->
-<link rel="stylesheet" href="resources/css/theme.css">
-<link href="resources/libs/slick-carousel/slick/slick.css" rel="stylesheet" />
-		<link href="resources/libs/slick-carousel/slick/slick-theme.css" rel="stylesheet" />
-		<link href="resources/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet" />
-	
-		
-		
-		
-
-<meta charset="UTF-8">
-<%@ include file="./common/headMeta.jsp" %>
-<title>Rentally</title>
-<%@ include file="./common/headLinks.jsp" %>
+<link rel="stylesheet" href="${path}/resources/css/theme.css">
+<link href="${path}/resources/libs/slick-carousel/slick/slick.css" rel="stylesheet" />
+		<link href="${path}/resources/libs/slick-carousel/slick/slick-theme.css" rel="stylesheet" />
+		<link href="${path}/resources/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet" />
 </head>
+<style>
+.category-slider .fixed-card {
+    width: 200px; /* 카드의 고정된 너비 */
+    height: 300px; /* 카드의 고정된 높이 */
+    margin: auto; /* 중앙 정렬 */
+}
+
+.category-slider .image-container {
+    width: 100%; /* 컨테이너 너비 */
+    height: 150px; /* 컨테이너 높이 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* 이미지를 잘라냄 */
+}
+
+.category-slider .product-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* 비율 유지하며 잘라냄 */
+    display: block;
+}
+/* 이미지 컨테이너 */
+.card-body {
+    padding: 16px;
+    text-align: center;
+}
+
+.card-body img {
+    width: 100%;
+    height: 150px; /* 이미지 고정 높이 */
+    object-fit: cover; /* 비율 유지하며 크기 조정 */
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+</style>
 <body>
 <!-- 헤더화면 임포트 -->
 <%@ include file="./common/header.jsp" %>
@@ -29,133 +61,36 @@
 			<section class="mt-8">
 				<div class="container">
 					
-						<div style="background: url(resources/images/slider/slide-1.jpg) no-repeat; background-size: cover; border-radius: 0.5rem; background-position: center">
+						<div style="background: url(https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_LOGO-title.png) no-repeat; 
+						background-size: cover; border-radius: 0.5rem; background-position: center;
+						width:1200px; height:628px;">
 							<div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center">
-								<span class="badge text-bg-warning">Opening Sale Discount 510%</span>
-
-								<h2 class="text-dark display-5 fw-bold mt-4">SuperMarket For Fresh Grocery</h2>
-								<p class="lead">Introduced a new model for online grocery shopping and convenient home delivery.</p>
-								<a href="#!" class="btn btn-dark mt-3">
-									Shop Now
-									<i class="feather-icon icon-arrow-right ms-1"></i>
-								</a>
+								
 							</div>
 						</div>
 				
 					
 				</div>
 			</section>
-
 			<!-- Category Section Start-->
-			<section class="mb-lg-10 mt-lg-14 my-8">
+		<section class="mt-8">
 				<div class="container">
-					<div class="row">
-						<div class="col-12 mb-6">
-							<h3 class="mb-0">Featured Categories</h3>
+					<div class="hero-slider">
+						<div style="background: url(https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_LOGO-title_001.png) no-repeat center center;  
+						    background-size: cover; border-radius: 0.5rem; width: 1200px; 
+						    height: 628px; margin: 0 auto;">
 						</div>
-					</div>
-					<div class="category-slider">
-					
-						<div class="item">
-							<a href="#" class="text-decoration-none text-inherit">
-								<div class="card card-product mb-lg-4">
-									<div class="card-body text-center py-8">
-										<img src="resources/images/category/category-dairy-bread-eggs.jpg" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" />
-										<div class="text-truncate">Dairy, Bread & Eggs</div>
-									</div>
-								</div>
-							</a>
+						<div style="background: url(https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_LOGO-title_002.png) no-repeat center center;  
+						    background-size: cover; border-radius: 0.5rem; width: 1200px; 
+						    height: 628px; margin: 0 auto;">
 						</div>
-						<div class="item">
-							<a href="#" class="text-decoration-none text-inherit">
-								<div class="card card-product mb-lg-4">
-									<div class="card-body text-center py-8">
-										<img src="resources/images/category/category-snack-munchies.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
-										<div class="text-truncate">Snack & Munchies</div>
-									</div>
-								</div>
-							</a>
+						<div style="background: url(https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_LOGO-title_003.png) no-repeat center center;  
+						    background-size: cover; border-radius: 0.5rem; width: 1200px; 
+						    height: 628px; margin: 0 auto;">
 						</div>
-						<div class="item">
-							<a href="../pages/shop-grid.html" class="text-decoration-none text-inherit">
-								<div class="card card-product mb-lg-4">
-									<div class="card-body text-center py-8">
-										<img src="resources/images/category/category-bakery-biscuits.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
-										<div class="text-truncate">Bakery & Biscuits</div>
-									</div>
-								</div>
-							</a>
-						</div>
-						<div class="item">
-							<a href="../pages/shop-grid.html" class="text-decoration-none text-inherit">
-								<div class="card card-product mb-lg-4">
-									<div class="card-body text-center py-8">
-										<img src="resources/images/category/category-instant-food.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
-										<div class="text-truncate">Instant Food</div>
-									</div>
-								</div>
-							</a>
-						</div>
-						<div class="item">
-							<a href="../pages/shop-grid.html" class="text-decoration-none text-inherit">
-								<div class="card card-product mb-lg-4">
-									<div class="card-body text-center py-8">
-										<img src="resources/images/category/category-tea-coffee-drinks.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
-										<div class="text-truncate">Tea, Coffee & Drinks</div>
-									</div>
-								</div>
-							</a>
-						</div>
-						<div class="item">
-							<a href="../pages/shop-grid.html" class="text-decoration-none text-inherit">
-								<div class="card card-product mb-lg-4">
-									<div class="card-body text-center py-8">
-										<img src="resources/images/category/category-atta-rice-dal.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
-										<div class="text-truncate">Atta, Rice & Dal</div>
-									</div>
-								</div>
-							</a>
-						</div>
-
-						<div class="item">
-							<a href="../pages/shop-grid.html" class="text-decoration-none text-inherit">
-								<div class="card card-product mb-lg-4">
-									<div class="card-body text-center py-8">
-										<img src="resources/images/category/category-baby-care.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
-										<div class="text-truncate">Baby Care</div>
-									</div>
-								</div>
-							</a>
-						</div>
-						<div class="item">
-							<a href="../pages/shop-grid.html" class="text-decoration-none text-inherit">
-								<div class="card card-product mb-lg-4">
-									<div class="card-body text-center py-8">
-										<img src="resources/images/category/category-chicken-meat-fish.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
-										<div class="text-truncate">Chicken, Meat & Fish</div>
-									</div>
-								</div>
-							</a>
-						</div>
-						<div class="item">
-							<a href="../pages/shop-grid.html" class="text-decoration-none text-inherit">
-								<div class="card card-product mb-lg-4">
-									<div class="card-body text-center py-8">
-										<img src="resources/images/category/category-cleaning-essentials.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
-										<div class="text-truncate">Cleaning Essentials</div>
-									</div>
-								</div>
-							</a>
-						</div>
-						<div class="item">
-							<a href="../pages/shop-grid.html" class="text-decoration-none text-inherit">
-								<div class="card card-product mb-lg-4">
-									<div class="card-body text-center py-8">
-										<img src="resources/images/category/category-pet-care.jpg" alt="Grocery Ecommerce Template" class="mb-3" />
-										<div class="text-truncate">Pet Care</div>
-									</div>
-								</div>
-							</a>
+						<div style="background: url(https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_LOGO-title_004.png) no-repeat center center;  
+						    background-size: cover; border-radius: 0.5rem; width: 1200px; 
+						    height: 628px; margin: 0 auto;">
 						</div>
 					</div>
 				</div>
@@ -982,48 +917,33 @@
 					</div>
 				</div>
 			</section>
-			<section class="my-lg-14 my-8">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-6 col-lg-3">
-							<div class="mb-8 mb-xl-0">
-								<div class="mb-6"><img src="resources/images/icons/clock.svg" alt="" /></div>
-								<h3 class="h5 mb-3">10 minute grocery now</h3>
-								<p>Get your order delivered to your doorstep at the earliest from FreshCart pickup stores near you.</p>
-							</div>
-						</div>
-						<div class="col-md-6 col-lg-3">
-							<div class="mb-8 mb-xl-0">
-								<div class="mb-6"><img src="resources/images/icons/gift.svg" alt="" /></div>
-								<h3 class="h5 mb-3">Best Prices & Offers</h3>
-								<p>Cheaper prices than your local supermarket, great cashback offers to top it off. Get best pricess & offers.</p>
-							</div>
-						</div>
-						<div class="col-md-6 col-lg-3">
-							<div class="mb-8 mb-xl-0">
-								<div class="mb-6"><img src="resources/images/icons/package.svg" alt="" /></div>
-								<h3 class="h5 mb-3">Wide Assortment</h3>
-								<p>Choose from 5000+ products across food, personal care, household, bakery, veg and non-veg & other categories.</p>
-							</div>
-						</div>
-						<div class="col-md-6 col-lg-3">
-							<div class="mb-8 mb-xl-0">
-								<div class="mb-6"><img src="resources/images/icons/refresh-cw.svg" alt="" /></div>
-								<h3 class="h5 mb-3">Easy Returns</h3>
-								<p>
-									Not satisfied with a product? Return it at the doorstep & get a refund within hours. No questions asked
-									<a href="#!">policy</a>
-									.
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
+<section class="my-lg-14 my-8">
+    <div class="container">
+        <div class="row">
+            <c:forEach items="${bestReview}" var="bestReview" varStatus="status">
+                <c:if test="${status.index < 4}">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="border rounded p-3 mb-8 mb-xl-0"> <!-- 테두리와 여백 추가 -->
+                            <div class="mb-6">
+                                <img src="${path}/resources/images/icons/package.svg" alt="" />
+                            </div>
+<h3 class="h5 mb-3 custName">${bestReview.cust_id}</h3>
+                            <h3 class="h5 mb-3">${bestReview.product_name}</h3>
+                            <p>${bestReview.review_content}</p>
+                        </div>
+                    </div>
+                </c:if>
+            </c:forEach>
+        </div>
+    </div>
+</section>
+
+
 		</main>
-
+<!-- Footer -->
 	
-
+	<%@include file="./common/footer.jsp"%>
+	<%@ include file="./common/bottomKakao.jsp" %>
 		<!-- Javascript-->
 
 		
@@ -1034,7 +954,78 @@
 	 	<script src="resources/libs/tiny-slider/dist/min/tiny-slider.js"></script>
 		<script src="resources/js/vendors/tns-slider.js"></script>
 		<script src="resources/js/vendors/zoom.js"></script>
+<script>
+//검색기능
+// Enter 키 처리 함수
+function handleEnter(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // 기본 폼 제출 동작 방지
+        const query = event.target.value.trim(); // 입력값에서 공백 제거
+        console.log('Search query:', query); // 디버깅용 로그
+        if (query) {
+            f_search(query); // 검색 함수 호출
+        } else {
+            console.warn('검색어를 입력해주세요.');
+        }
+    }
+}
 
+// 검색 처리 함수
+function f_search(query) {
+    if (query.trim() === "") {
+        alert("검색어를 입력해주세요.");
+        return;
+    }
+
+    // AJAX 요청을 통해 검색
+    performAjaxSearch(query);
+}
+
+// AJAX로 검색 수행
+function performAjaxSearch() {
+    const query = $('#searchInput').val().trim();
+
+    if (query === "") {
+        alert("검색어를 입력해주세요.");
+        return;
+    }
+
+    // contextPath 가져오기
+    const path = '${pageContext.request.contextPath}';
+
+    $.ajax({
+        url: `${path}/product/search`,  // 검색 처리할 URL
+        method: 'GET',
+        data: { query: query },  // 검색어 전달
+        success: function(response) {
+            // 검색 결과를 DOM에 표시
+            $('#productListContainer').html(response);  // 반환된 결과로 DOM 업데이트
+        },
+        error: function(error) {
+            console.error('검색 요청 실패:', error);
+        }
+    });
+}
+	</script>
+<script>
+    // 모든 이름 요소 선택
+    const nameElements = document.querySelectorAll(".custName");
+
+    // 각 이름 요소에 대해 마스킹 처리
+    nameElements.forEach((nameElement) => {
+        const name = nameElement.textContent.trim(); // 공백 제거
+        let maskedName = name;
+
+        if (name.length === 4) {
+            maskedName = name.substring(0, 2) + "**";
+        } else if (name.length > 1) {
+            maskedName = name.charAt(0) + "**";
+        }
+
+        nameElement.textContent = maskedName;
+    });
+</script>
+	
 
 </body>
 </html>
