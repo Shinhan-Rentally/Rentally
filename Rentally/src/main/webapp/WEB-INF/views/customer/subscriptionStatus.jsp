@@ -26,7 +26,7 @@
                      <div class="py-6 p-md-6 p-lg-10">
                         <!-- heading -->
                         <h2 class="mb-6">구독현황</h2>
-
+						<p>${fn:length(subscribeList)}개의 상품을 구독하고 있습니다.</p>
                         <div class="table-responsive-xxl border-0">
                            <!-- Table -->
                            <table class="table mb-0 text-nowrap table-centered">
@@ -34,11 +34,11 @@
                               <thead class="bg-light">
                                  <tr>
                                     <th></th>
-                                    <th>상품명</th>
-                                    <th>만료일</th>
-                                    <th>해지</th>
-                                    <th>업그레이드</th>
-                                    <th>구독료</th>
+                                    <th class="text-center">상품명</th>
+                                    <th class="text-center">만료일</th>
+                                    <th class="text-center">월 구독료</th>
+                                    <th class="text-center">업그레이드</th>
+                                    <th class="text-center">해지</th>
                                  </tr>
                               </thead>
                               <tbody>
@@ -64,18 +64,13 @@
 	                                       	</small>
 	                                       </span>
 	                                    </td>
-	                                    <td class="align-middle border-top-0">
+	                                    <td class="align-middle border-top-0 text-center">
 	                                    	<fmt:formatDate value="${sub.sub_enddate}" pattern="yyyy-MM-dd"/>
 	                                    </td>
-	                                    <td class="align-middle border-top-0">
-	                                    <form action="${path}/subscribe/cancel" method="post" name="cancelForm">
-	                                    	<input type="hidden" name="sub_name" value="${sub.product_name}">
-											<input type="hidden" name="sub_seq" value="${sub.sub_seq}">
-											<input type="hidden" name="sub_penalty" value="${sub.sub_penalty}">
-	                                       	<button class="btn btn-danger btn-sm" id="cancel">해지신청</button>
-	                                    </form>
+	                                    <td class="align-middle border-top-0 text-center">
+	                                    	<fmt:formatNumber value="${sub.sub_total}" type="number" pattern="#,###"/>원
 	                                    </td>
-	                                    <td class="align-middle border-top-0">
+	                                    <td class="align-middle border-top-0 text-center">
 	                                    <form action="${path}/product/upgrade/list" method="post" name="upgradeForm">
 	                                    	<input type="hidden" name="sub_seq" value="${sub.sub_seq}">
 	                                    	<input type="hidden" name="product_seq" value="${sub.product_seq}">
@@ -88,7 +83,7 @@
 											<input type="hidden" name="sub_period" value="${sub.sub_period}">
 											
 											<c:if test="${sub.sub_isUpgrade == true}">
-												<button class="btn btn-info btn-sm" id="upgrade" >
+												<button class="btn btn-info btn-sm" id="upgrade" style="width: 99.11px;">
 													<c:if test="${sub.sub_upgrade != true}">업그레이드</c:if>
 												</button>
 											</c:if>
@@ -106,8 +101,13 @@
 											</c:if>
 										</form>
 	                                    </td>
-	                                    <td class="align-middle border-top-0">
-	                                    	<fmt:formatNumber value="${sub.sub_total}" type="number" pattern="#,###"/>원
+	                                    <td class="align-middle border-top-0 text-center">
+	                                    <form action="${path}/subscribe/cancel" method="post" name="cancelForm">
+	                                    	<input type="hidden" name="sub_name" value="${sub.product_name}">
+											<input type="hidden" name="sub_seq" value="${sub.sub_seq}">
+											<input type="hidden" name="sub_penalty" value="${sub.sub_penalty}">
+	                                       	<button class="btn btn-danger btn-sm" id="cancel">해지신청</button>
+	                                    </form>
 	                                    </td>
 	                                 </tr>
                                  </c:forEach>
