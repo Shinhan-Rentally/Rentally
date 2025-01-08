@@ -54,13 +54,8 @@
 	                                          <h6 class="mb-0 product-name">${sub.product_name}</h6>
 	                                       </a>
 	                                       <span>
-	                                       	<small class="text-muted">
-	                                       	<c:if test="${sub.sub_period >= 12}">
-	                                       		<fmt:formatNumber value="${sub.sub_period/12}" type="number"/>년
-	                                       	</c:if>
-	                                       	<c:if test="${sub.sub_period < 12}">
-	                                       		${sub.sub_period}개월
-	                                       	</c:if>
+	                                       	<small class="text-muted">${sub.sub_period}개월
+
 	                                       	</small>
 	                                       </span>
 	                                    </td>
