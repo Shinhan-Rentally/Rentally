@@ -11,47 +11,14 @@
 	rel="stylesheet" />
 <%@ include file="../common/headLinks.jsp"%>
 <style>
-.btn-selected {
-	background-color: #0046ff;
-	color: white;
-	border-color: #0046ff;
-}
-.bi-heart-fill{
-	color: #0046FF;
-}
-
-/* #modal{
-	display: none;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0,0,0,0.6);
-	z-index:3;
-}
-.modal-content{
-	position: absolute;
-	width: 300px;
-	height: 180px;
-	z-index: 4;
-	top: 33%;
-	left: 33%;
-	padding: 20px;
-	background: #ffffff;
-	border-radius: 20px;
-}
-.modal-body p{
-	padding:15px;
-	text-align: center;
-	font-size: 16px;
-}
-#closeModal{
-	margin-right: 5px;
-}
-.modal-footer{
-	margin-bottom: 5px;
-} */
+	.btn-selected {
+		background-color: #0046ff;
+		color: white;
+		border-color: #0046ff;
+	}
+	.bi-heart-fill{
+		color: #0046FF;
+	}
 </style>
 </head>
 <body>
@@ -65,8 +32,8 @@
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb mb-0">
 								<li class="breadcrumb-item"><a href="${path}/main">Home</a></li>
-								<li class="breadcrumb-item"><a
-									href="${path}/product/list?category_seq=${detail.category_seq}">${detail.category_name}</a></li>
+								<li class="breadcrumb-item">
+									<a href="${path}/product/list?category_seq=${detail.category_seq}">${detail.category_name}</a></li>
 								<li class="breadcrumb-item active" aria-current="page">${detail.product_name}</li>
 							</ol>
 						</nav>
@@ -89,20 +56,17 @@
 									alt="상품이미지" />
 							</div>
 						</div>
-
 					</div>
 					<div class="col-md-7 col-xl-6">
 						<div class="ps-lg-10 mt-6 mt-md-0">
-							<!-- 상품 브랜드 -->
-							<a href="#!" class="mb-4 d-block">${detail.product_brand}</a>
+							<!-- 상품 시리얼번호 -->
+							<span class="mb-4 d-block">${detail.product_serial}</span>
 							<!-- 상품명 -->
 							<h1 class="mb-1">${detail.product_name}</h1>
-
 							<div class="mb-4">
-
 								<!-- 상품 별점 평점, 리뷰개수 -->
-								<small class="text-warning"> <c:forEach var="i"
-										begin="1" end="5">
+								<small class="text-warning">
+									<c:forEach var="i" begin="1" end="5">
 										<c:choose>
 											<c:when test="${i <= (reviewList[0].review_avg)}">
 												<i class="bi bi-star-fill"></i>
@@ -115,12 +79,13 @@
 											</c:otherwise>
 										</c:choose>
 									</c:forEach>
-								</small> <span class="text-muted small"> <fmt:formatNumber
+								</small>
+								<span class="text-muted small">
+									<fmt:formatNumber
 										value="${reviewList[0].review_avg}" type="number"
 										maxFractionDigits="2" /> (${fn:length(reviewList)})
 								</span>
 							</div>
-
 							<!-- hr -->
 							<hr class="my-6" />
 							<h6>구독 기간 선택</h6>
@@ -134,18 +99,17 @@
 									value="6">6개월</button>
 								<!-- btn -->
 								<button type="button" class="btn btn-outline-secondary"
-									value="12">1년</button>
+									value="12">12개월</button>
 								<!-- btn -->
 								<button type="button" class="btn btn-outline-secondary"
-									value="24">2년</button>
+									value="24">24개월</button>
 							</div>
 							<!-- hr -->
 							<hr class="my-6" />
 							<div class="fs-4">
 								<!-- price -->
-								<span class="fw-bold text-dark"> 월 <fmt:formatNumber
-										value="${detail.product_pay}" type="number" pattern="#,###" />
-									원
+								<span class="fw-bold text-dark">
+									월 <fmt:formatNumber value="${detail.product_pay}" type="number" pattern="#,###" />원
 								</span>
 							</div>
 							<!-- hr -->
@@ -301,12 +265,9 @@
 													</div>
 												</div>
 												<c:if test="${empty reviewList[0]}">현재 상품에 대한 리뷰가 없습니다.</c:if>
-												<div class="d-flex border-bottom pb-6 mb-6">
+												<div class="d-flex pb-6 mb-6">
 													<div id="reviewList" class="col-12"></div>
 												</div>
-
-
-
 											</div>
 										</div>
 									</div>
@@ -317,7 +278,6 @@
 				</div>
 			</div>
 		</section>
-
 	</main>
 	<!-- 장바구니 추가 확인 모달 -->
 	<div class="modal fade" id="cartModal" tabindex="-1"
@@ -377,7 +337,6 @@
 		</div>
 	</div>
 
-
 	<!-- Footer -->
 	<%@include file="../common/footer.jsp"%>
 	<%@include file="../common/bottomKakao.jsp"%>
@@ -405,7 +364,7 @@
 			selectPeriod = $(this).val();
 		});
 		
-		//기간선택안했을 때 경고창 모달
+		//기간선택 안 했을 때 경고창 모달
 		function showModalMessage2(message){
 			$('#alertModalMessage').text(message);
 			$('#alertModal').modal('show');
