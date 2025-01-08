@@ -33,9 +33,11 @@
 							<br>
 							<!-- button -->
 							<div style="text-align: right;">
-								<a href="#" class="btn btn-info btn-sm" data-bs-toggle="modal"
-									data-bs-target="#addAddressModal">새로운 주소 추가</a>
+								<a href="#" class="btn btn-outline-info btn-sm" data-bs-toggle="modal"
+									data-bs-target="#addAddressModal"
+									style="font-size: 15px; padding: 8px 15px;">새로운 주소 추가</a>
 							</div>
+							<br>
 							<div class="row">
 								<!-- col -->
 								<c:forEach var="address" items="${addressList}">
@@ -43,11 +45,14 @@
 										<!-- form -->
 										<div class="card">
 											<div class="card-body p-6">
-												<div class="form-check mb-4">
 													<label class="form-check-label text-dark fw-semibold"
-														for="homeRadio">${address.addr_name}</label>
-												</div>
-
+														for="homeRadio" >${address.addr_name}</label>
+														<c:choose>
+														<c:when test="${address.addr_default}">
+															<a  class=""> 기본 주소 </a>
+														</c:when>
+													</c:choose>
+										
 												<!-- address -->
 												<p class="mb-6">
 													${address.addr_title}<br> ${address.addr_detail}<br>
@@ -58,10 +63,10 @@
 												<div class="mt-4">
 													<c:choose>
 														<c:when test="${address.addr_default}">
-															<a href="#" class="btn btn-info btn-sm"> 기본 주소 </a>
+															<!-- 칸 맞추기 위한 공백 처리 -->
 														</c:when>
 														<c:otherwise>
-															<a href="setDefault" class="link-primary"
+															<a href="setDefault"  class = "btn btn-info btn-sm"
 																onclick="setDefault(${address.addr_seq}); return false;">기본
 																주소로 설정하기 </a>
 														</c:otherwise>

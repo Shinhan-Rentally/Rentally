@@ -89,7 +89,7 @@ if (!path) {
 
         var data = {
                 "addr_title":address,
-                "addr_detail": `${cleanedDetailAddress}( ${postcode})`,
+                "addr_detail": `${cleanedDetailAddress}(${postcode})`,
                 "addr_name":recipName,
                 "addr_phone":recipPhone,
                "addr_default": addrDefault,              
@@ -146,7 +146,7 @@ if (!path) {
     event.preventDefault();
  
     const formData = $('#addAddressModal').find('input, select').serialize();
-
+	console.log("Form Data:", formData);
     $.ajax({
         url: `${path}/address/add`,
         type: "POST",
@@ -187,8 +187,9 @@ if (!path) {
                 if (response && response.status === "success") {
                     alert(response.message);
                     location.reload(); // 페이지 새로고침
-                } else {
-                    alert(response?.message || "삭제 중 오류가 발생했습니다.");
+                } 
+                else{ 
+                    alert(response.message || "삭제 중 오류가 발생했습니다.");
                 }
             },
             error: function (xhr, status, error) {
