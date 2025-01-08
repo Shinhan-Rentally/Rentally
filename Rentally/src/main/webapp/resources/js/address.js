@@ -72,6 +72,13 @@ if (!path) {
 	    document.body.style.paddingRight = '0';
 	}
 	
+	// 모달 초기화 코드 추가
+	$('#addAddressModal').on('hidden.bs.modal', function () {
+    	// 모든 입력 필드 초기화
+    	$(this).find('input[type="text"], input[type="tel"], textarea').val('');
+    	$(this).find('input[type="checkbox"]').prop('checked', false);
+	});
+	
 	// 주소 수정 코드
     $('#updateAddress').on("click", function (event) {
         event.preventDefault(); // 기본 폼 제출 동작 방지
