@@ -34,13 +34,13 @@
 								<!-- table -->
 								<div class="table-responsive">
 								<table class="table mb-0 text-nowrap table-centered">
-									<thead class="table-light"> 
+									<thead class="bg-light"> 
 										<tr>
 											<th></th>
-											<th>상품명</th>
-											<th class="text-center">구독료</th>								
-											<th>구독</th>
-											<th>삭제</th>
+											<th class="text-center">상품명</th>
+											<th class="text-center">월 구독료</th>								
+											<th class="text-center">구독</th>
+											<th class="text-center">삭제</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -68,11 +68,11 @@
 													</span>
 												</div>
 											</td>
-											<td class="align-middle">
-												월 <fmt:formatNumber value="${cart.product_pay}" type="number" pattern="#,###"/> 원
+											<td class="align-middle text-center">
+												<fmt:formatNumber value="${cart.product_pay}" type="number" pattern="#,###"/> 원
 											</td>
 											
-											<td class="align-middle">
+											<td class="align-middle text-center">
 												<form action="${path}/payment" method="post" name="subForm">
 													<input type="hidden" name="product_seq" value="${cart.product_seq}">
 													<input type="hidden" name="product_name" value="${cart.product_name}">
@@ -81,7 +81,7 @@
 													<button class="btn btn-info btn-sm" id="subscribe">구독</button>
 												</form>
 											</td>
-											<td class="align-middle">
+											<td class="align-middle text-center">
 												<a href="#" class="text-muted delete" title="Delete"
 												data-bs-toggle="tooltip" data-bs-placement="top">
 												<i class="feather-icon icon-trash-2"></i>
