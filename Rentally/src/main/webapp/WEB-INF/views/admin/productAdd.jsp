@@ -131,7 +131,6 @@
                             <h4 class="mb-3 h5">상세 설명</h4>
                             <textarea id="features" class="form-control" rows="3"
                                       placeholder="Product Description"></textarea>
-
                         </div>
                         <div>
                             <div class="mb-3 col-lg-12 mt-5">
@@ -149,7 +148,7 @@
                     </div>
                 </div>
                 <div class="d-grid">
-                    <button id="btn_ajax" type="button" class="btn btn-info">상품 등록</button>
+                    <button id="insert" type="button" class="btn btn-info">상품 등록</button>
                 </div>
             </div>
         </div>
@@ -161,7 +160,6 @@
 <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="${path}/resources/libs/quill/dist/quill.min.js"></script>
-<script src="${path}/resources/js/vendors/editor.js"></script>
 <script src="${path}/resources/libs/dropzone/dist/min/dropzone.min.js"></script>
 <script src="${path}/resources/js/vendors/dropzone.js"></script>
 <script src="${path}/resources/js/modalUtils.js"></script>
@@ -170,12 +168,8 @@
         let lines = $(this).val().split("\n").slice(0, 3);
         $(this).val(lines.join("\n"));
     });
-</script>
-<script>
 
-    $("#btn_ajax").on("click", f_jsonInsert);
-
-    function f_jsonInsert() {
+    $("#insert").on("click", function () {
         var wide = $('#wide').val();
         var height = $('#height').val();
         var depth = $('#depth').val();
@@ -214,7 +208,7 @@
             processData: false,
             enctype: "multipart/form-data",
             success: function () {
-                showModalMessage("상품 등록이 완료되었습니다.",function () {
+                showModalMessage("상품 등록이 완료되었습니다.", function () {
                     location.reload();
                 });
             },
@@ -222,7 +216,7 @@
                 showModalMessage("상품 등록에 실패하였습니다.")
             }
         });
-    }
+    });
 </script>
 </body>
 </html>
