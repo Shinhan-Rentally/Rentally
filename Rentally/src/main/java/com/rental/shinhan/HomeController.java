@@ -60,6 +60,10 @@ public class HomeController {
 		return "main";
 	}
 
-	
+	@GetMapping("/error")
+	public String error() {
+		
+		return "common/error";
+	}
 	
 }
