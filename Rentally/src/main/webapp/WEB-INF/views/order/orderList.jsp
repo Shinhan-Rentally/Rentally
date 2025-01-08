@@ -42,19 +42,22 @@
                         <!-- heading -->
                         <h2 class="mb-6">주문내역</h2>
 
+                        <div class="left">
+                            <button type="button" id="btn_date_1" title="최근1개월" class="btn_date_term" onclick="WCK_COMMON_MYPAGE_RENEWAL_FN.myDateTabClick(31, 'Day');">최근1개월</button>
+                            <button type="button" id="btn_date_2" title="최근1개월" class="btn_date_term" onclick="WCK_COMMON_MYPAGE_RENEWAL_FN.myDateTabClick(31, 'Day');">최근2개월</button>
+                            <button type="button" id="btn_date_3" title="최근1개월" class="btn_date_term" onclick="WCK_COMMON_MYPAGE_RENEWAL_FN.myDateTabClick(31, 'Day');">최근3개월</button>
+                        </div>
                         <div class="table-responsive-xxl border-0">
                             <!-- Table -->
                             <table class="table mb-0 text-nowrap table-centered">
                                 <!-- Table Head -->
                                 <thead class="bg-light">
                                 <tr>
-                                    <th>&nbsp;</th>
-                                    <th>상품명</th>
-                                    <th>결제일</th>
-                                    <th>구독료</th>
-                                    <th>리뷰등록</th>
-
                                     <th></th>
+                                    <th class="text-center">상품명</th>
+                                    <th class="text-center">결제일</th>
+                                    <th class="text-center">월 구독료</th>
+                                    <th class="text-center">리뷰등록</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -71,47 +74,40 @@
                                                 <h6 class="mb-0 product-name">${order.product_name}</h6>
                                             </a>
                                             <span>
-	                                       	<small class="text-muted">
-	                                       	<c:if test="${order.sub_period >= 12}">
-                                                <fmt:formatNumber value="${order.sub_period/12}" type="number"/>년
-                                            </c:if>
-	                                       	<c:if test="${order.sub_period < 12}">
-                                                ${order.sub_period}개월
-                                            </c:if>
-	                                       	</small>
+	                                       	<small class="text-muted">${order.sub_period}개월</small>
 	                                       </span>
                                         </td>
-                                        <td class="align-middle border-top-0">${order.formatted_paydate}</td>
-                                        <td class="align-middle border-top-0">
+                                        <td class="text-center border-top-0">${order.formatted_paydate}</td>
+                                        <td class="text-center border-top-0">
                                             <fmt:formatNumber value="${order.sub_total}" type="number" pattern="#,###"/>원
                                         </td>
-                                        <td class="align-middle border-top-0">
-                                                <c:if test="${order.review_written == false}">
-                                                    <!-- 리뷰 작성 버튼 활성화 -->
-                                                    <button type="button"
-                                                            class="btn btn-info review-btn"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#reviewModal"
-                                                            data-product="${order.product_name}"
-                                                            data-cust-seq="${order.cust_seq}"
-                                                            data-product-name="${order.product_name}"
-                                                            data-sub-seq="${order.sub_seq}">
-                                                        리뷰 작성
-                                                    </button>
-                                                </c:if>
+                                        <td class="text-center border-top-0">
+                                            <c:if test="${order.review_written == false}">
+                                                <!-- 리뷰 작성 버튼 활성화 -->
+                                                <button type="button"
+                                                        class="btn btn-info review-btn btn-sm"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#reviewModal"
+                                                        data-product="${order.product_name}"
+                                                        data-cust-seq="${order.cust_seq}"
+                                                        data-product-name="${order.product_name}"
+                                                        data-sub-seq="${order.sub_seq}">
+                                                    리뷰 작성
+                                                </button>
+                                            </c:if>
 
-                                                <c:if test="${order.review_written == true}">
-                                                    <!-- 리뷰 작성 버튼 비활성화 -->
-                                                    <button type="button"
-                                                            class="btn btn-secondary review-btn"
-                                                            disabled
-                                                            data-product="${order.product_name}"
-                                                            data-cust-seq="${order.cust_seq}"
-                                                            data-product-name="${order.product_name}"
-                                                            data-sub-seq="${order.sub_seq}">
-                                                        리뷰 완료
-                                                    </button>
-                                                </c:if>
+                                            <c:if test="${order.review_written == true}">
+                                                <!-- 리뷰 작성 버튼 비활성화 -->
+                                                <button type="button"
+                                                        class="btn btn-secondary review-btn btn-sm"
+                                                        disabled
+                                                        data-product="${order.product_name}"
+                                                        data-cust-seq="${order.cust_seq}"
+                                                        data-product-name="${order.product_name}"
+                                                        data-sub-seq="${order.sub_seq}">
+                                                    리뷰 완료
+                                                </button>
+                                            </c:if>
                                         </td>
                                     </tr>
                                 </c:forEach>
