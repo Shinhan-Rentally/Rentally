@@ -60,10 +60,7 @@
 													</h6>
 													<span>
 														<small>
-															<c:if test="${cart.cart_option >=12}">
-																<fmt:formatNumber value="${cart.cart_option / 12}" type="number"/>년
-															</c:if>
-															<c:if test="${cart.cart_option < 12}">${cart.cart_option }개월</c:if>
+															${cart.cart_option}개월
 														</small>
 													</span>
 												</div>
@@ -142,11 +139,11 @@
 					$("tr").has("input[value='" + item + "']").remove();
 					$(".cart-count span").text(currentCount - 1);
 					showModalMessage('장바구니에서 상품이 삭제되었습니다.');
-					// 갯수 업데이트
+					// 헤더 개수 업데이트
                     updateCounts();
 				},
 				error: function(){
-					alert("장바구니 삭제 실패");
+					showModalMessage('장바구니 상품 삭제에 실패했습니다.');
 				}
 			});
 		});
