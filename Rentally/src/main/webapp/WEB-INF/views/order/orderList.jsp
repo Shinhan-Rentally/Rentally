@@ -74,14 +74,7 @@
                                                 <h6 class="mb-0 product-name">${order.product_name}</h6>
                                             </a>
                                             <span>
-	                                       	<small class="text-muted">
-	                                       	<c:if test="${order.sub_period >= 12}">
-                                                <fmt:formatNumber value="${order.sub_period/12}" type="number"/>년
-                                            </c:if>
-	                                       	<c:if test="${order.sub_period < 12}">
-                                                ${order.sub_period}개월
-                                            </c:if>
-	                                       	</small>
+	                                       	<small class="text-muted">${order.sub_period}개월</small>
 	                                       </span>
                                         </td>
                                         <td class="text-center border-top-0">${order.formatted_paydate}</td>
