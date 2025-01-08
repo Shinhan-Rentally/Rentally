@@ -32,12 +32,12 @@
                         <div class="table-responsive-xxl border-0">
                             <!-- table -->
                             <table class="table mb-0 text-nowrap table-centered">
-                                <thead class="table-light">
+                                <thead class="bg-light">
                                 <tr>
                                     <th></th>
-                                    <th>상품명</th>
-                                    <th>구독료</th>
-                                    <th>삭제</th>
+                                    <th class="text-center">상품명</th>
+                                    <th class="text-center">월 구독료</th>
+                                    <th class="text-center">삭제</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -60,11 +60,11 @@
                                             <span><small
                                                     class="text-muted product-name">${wish.product_features}</small></span>
                                         </td>
-                                        <td class="align-middle border-top-0">
+                                        <td class="text-center border-top-0">
                                             <fmt:formatNumber value="${wish.product_pay}" type="number"
                                                               pattern="#,###"/>원
                                         </td>
-                                        <td class="align-middle">
+                                        <td class="text-center">
                                             <a class="text-muted deleteWish" href="#"
                                                data-wish-seq="${wish.wish_seq}"
                                                data-cust-seq="${wish.cust_seq}"
