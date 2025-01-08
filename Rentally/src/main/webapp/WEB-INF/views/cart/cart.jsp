@@ -9,27 +9,31 @@
 <title>장바구니 - Rentally</title>
 <%@include file="../common/headLinks.jsp"%>
 <c:set var="page" value="cart" />
+<style>
+	#productName{
+		white-space: pre-wrap;
+	}
+</style>
 </head>
 <body>
 	<%@include file="../common/header.jsp"%>
 	<main>
 		<!-- section -->
-		<section class="mt-8 mb-14">
+		<section>
 			<div class="container">
 				<!-- row -->
 				<div class="row">
 					<%@include file="../common/myPageNavbar.jsp"%>
-					<div class="col-lg-8">
-						<div class="mb-8">
+					<div class="col-lg-9 col-md-8 col-12">
+						<div class="py-6 p-md-6 p-lg-10">
 							<!-- heading -->
-							<h1 class="mb-1">장바구니</h1>
+							<h2 class="mb-6">장바구니</h2>
 							<!-- 숫자 카운팅 -->
 							<p class="cart-count"><span>${cartList.size()}</span>개의 상품이 장바구니에 담겨있습니다.</p>
-						</div>
-						<div>
-							<!-- table -->
-							<div class="table-responsive">
-								<table class="table text-nowrap table-with-checkbox">
+							<div>
+								<!-- table -->
+								<div class="table-responsive">
+								<table class="table mb-0 text-nowrap table-centered">
 									<thead class="table-light"> 
 										<tr>
 											<th></th>
@@ -40,7 +44,6 @@
 										</tr>
 									</thead>
 									<tbody>
-										
 										<c:forEach items="${cartList}" var="cart" varStatus="status">
 										<tr>
 											<td class="align-middle">
@@ -52,9 +55,9 @@
 											</td>
 											<td class="align-middle">
 												<div>
-													<h5 class="fs-6 mb-0">
-														<a href="${path}/product/detail?product_seq=${cart.product_seq}" class="text-inherit">${cart.product_name}</a>
-													</h5>
+													<h6 class="fs-6 mb-0">
+														<a href="${path}/product/detail?product_seq=${cart.product_seq}" class="text-inherit" id="productName">${cart.product_name}</a>
+													</h6>
 													<span>
 														<small>
 															<c:if test="${cart.cart_option >=12}">
@@ -86,9 +89,9 @@
 											</td>
 										</tr>
 										</c:forEach>
-										
 									</tbody>
 								</table>
+								</div>
 							</div>
 						</div>
 					</div>
