@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rental.shinhan.dto.ProductListJoinDTO;
 import com.rental.shinhan.service.ProductListService;
@@ -48,6 +49,8 @@ public class ProductListController {
 
 	}
 
+	
+	
 	@GetMapping("/filter")
 	public String productlistfilter(@RequestParam("category_seq") int category_seq, Model model,
 			@RequestParam(value = "brand", required = false) String product_brand,
@@ -55,7 +58,7 @@ public class ProductListController {
 			@RequestParam(value = "sort", defaultValue = "popular") String sort,
 			@RequestParam(value = "query", required = false) String query,
 			@RequestParam(value = "page", defaultValue = "1", required = false) int page, // 페이지 번호, 기본값 1
-			@RequestParam(value = "size", defaultValue = "10", required = false) int size, // 페이지당 항목 수, 기본값 10
+			@RequestParam(value = "size", defaultValue = "12", required = false) int size, // 페이지당 항목 수, 기본값 10
 			@RequestHeader(value = "X-Requested-With", required = false) String requestedWith, HttpSession session) {
 		Integer cust_seq = (Integer) session.getAttribute("cust_seq");
 		// priceRange가 빈 값일 경우 null로 처리
@@ -64,30 +67,28 @@ public class ProductListController {
 		}
 		// 서비스 호출
 		List<ProductListJoinDTO> productlist = productlistService.selectProductList(category_seq, product_brand,
-				priceRange, sort, query, page, size);
-
+				priceRange, sort,query,page,size);
 		// 로그인 여부에 따라 위시리스트 처리
 		List<WishListDTO> wishlist = new ArrayList<>();
 		if (cust_seq != null) { // 로그인된 경우에만 wishlist를 조회
 			wishlist = wishlistService.wishStatus(cust_seq);
 		}
 
+		
 		// 서비스에서 페이징된 데이터를 가져옴
-		Map<String, Object> params = new HashMap<>();
-		params.put("category_seq", category_seq);
-		params.put("page", page);
-		params.put("size", size);
-		params.put("sort", sort);
-		params.put("query", query);
-		params.put("brand", product_brand);
-		params.put("priceRange", priceRange);
-
+        Map<String, Object> params = new HashMap<>();
+        params.put("category_seq", category_seq);
+        params.put("page", page);
+        params.put("size", size);
+        params.put("sort", sort);
+        params.put("query", query);
+        params.put("product_brand", product_brand);
+        params.put("priceRange", priceRange);
+		
+		//조회결과에 대한 카운트
 		int count = productlistService.getTotalProductCount(params);
-
-		// 페이지 계산
-		int totalPages = (int) Math.ceil((double) count / size);
-		log.info(count + "리스트카운트");
-
+		int   totalPages = (int) Math.ceil((double) count / size); // 전체 페이지 계수
+	 
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("currentPage", page);
 
@@ -102,8 +103,6 @@ public class ProductListController {
 		// 모델에 가공된 데이터 추가
 		model.addAttribute("category_name", category_name);
 		model.addAttribute("wishlist", wishlist);
-
-		log.info("wishlist:" + wishlist);
 
 		return "product/productFilter"; // Return partial view for AJAX
 
@@ -147,41 +146,48 @@ public class ProductListController {
 
 	// 검색기능 결과
 	@GetMapping("searchResult")
-	public String searchProductResult(@RequestParam("query") String query, Model model,
+	public String searchProductResult(@RequestParam(value = "category_seq", defaultValue = "0",required = false) int category_seq,@RequestParam("query") String query, Model model,
 			@RequestParam(value = "brand", required = false) String product_brand,
 			@RequestParam(value = "priceRange", required = false) String priceRange,
 			@RequestParam(value = "sort", defaultValue = "popular") String sort,
 			@RequestParam(value = "page", defaultValue = "1", required = false) int page, // 페이지 번호, 기본값 1
-			@RequestParam(value = "size", defaultValue = "10", required = false) int size // 페이지당 항목 수, 기본값 10
+			@RequestParam(value = "size", defaultValue = "12", required = false) int size // 페이지당 항목 수, 기본값 10
 	) {
+
+		// priceRange가 빈 값일 경우 null로 처리
+		if (priceRange != null && priceRange.trim().isEmpty()) {
+			priceRange = null;
+		}
+
 		// 서비스 호출하여 검색된 상품 리스트 가져오기
-		// 서비스 호출하여 검색된 상품 리스트 가져오기
-		List<ProductListJoinDTO> productlist = productlistService.searchProduct(query, page, size);
-
-		Map<String, Object> params = new HashMap<>();
-
-		params.put("page", page);
-		params.put("size", size);
-		params.put("query", query);
-		params.put("sort", sort);
-		params.put("brand", product_brand);
-		params.put("priceRange", priceRange);
-
-		// 전체 상품 개수 가져오기 (페이징을 위한 총 상품 수)
+		List<ProductListJoinDTO> productlist = productlistService.searchProduct(query, product_brand, priceRange, sort,page,size);
+		model.addAttribute("productlistsize", productlist.size());
+	
+		// 서비스에서 페이징된 데이터를 가져옴
+        Map<String, Object> params = new HashMap<>();
+        params.put("category_seq", category_seq);
+        params.put("page", page);
+        params.put("size", size);
+        params.put("sort", sort);
+        params.put("query", query);
+        params.put("product_brand", product_brand);
+        params.put("priceRange", priceRange);
+		
+		//조회결과에 대한 카운트
 		int count = productlistService.getTotalProductCount(params);
 
+		
 		// 전체 페이지 수 계산
 		int totalPages = (int) Math.ceil((double) count / size);
-
+		log.info(count + "검색결과");
+		log.info("검색페이지 토탈" + totalPages);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("currentPage", page);
 
 		// 모델에 결과 추가
 		model.addAttribute("query", query);
 		model.addAttribute("productlist", productlist);
-		model.addAttribute("productlistsize", productlist.size());
-
-		model.addAttribute("pageSize", size); // 페이지당 항목 수
+	    model.addAttribute("productlistsize", productlist.size());
 
 		// 검색 결과 페이지로 이동
 		return "product/productFilter"; // 검색 결과를 보여주는 JSP 페이지

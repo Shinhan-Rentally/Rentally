@@ -76,7 +76,16 @@ public class LoginController {
 	        
 	}
 	@GetMapping("/login")
-	public String longinForm(HttpServletRequest request, Model model) {
+	public String longinForm(HttpSession session,HttpServletRequest request, Model model) {
+		
+	boolean blockUser = false;
+		
+		if(session.getAttribute("blockUser") != null) {
+			blockUser = Boolean.parseBoolean(session.getAttribute("blockUser").toString());
+
+			session.removeAttribute("blockUser");
+		}
+		model.addAttribute("blockUser", blockUser);
 		
 		 // 쿠키에서 rememberedCustId 값 읽기
 	    Cookie[] cookies = request.getCookies();
