@@ -17,9 +17,37 @@
 	color: blue;
 	font-weight: bold;
 }
+
 #home {
 	color: blue;
-	font-weight: bold;
+}
+
+#offcanvasCategory .btn-info { 
+	--fc-btn-bg: #001e2b; 
+	--fc-btn-border-color: #001e2b; 
+	--fc-btn-hover-bg: #C1C7C6; 
+	--fc-btn-hover-border-color: #C1C7C6; 
+	--fc-btn-active-bg: #C1C7C6; 
+	--fc-btn-active-border-color: #C1C7C6; 
+	--fc-btn-disabled-bg: #001e2b; 
+	--fc-btn-disabled-border-color: #001e2b;
+}
+
+#offcanvasCategory .btn-outline-info { 
+	--fc-btn-color: #001e2b;
+	--fc-btn-border-color: #001e2b; 
+	--fc-btn-hover-bg: #C1C7C6; 
+	--fc-btn-hover-border-color: #C1C7C6; 
+	--fc-btn-active-bg: #C1C7C6; 
+	--fc-btn-active-border-color: #C1C7C6;
+}
+#category_box {
+  	vertical-align:middle;
+}
+h2.category {
+
+  white-space: nowrap; /* 줄바꿈 방지 */
+ 
 }
 </style>
 
@@ -43,12 +71,10 @@
 						<!-- breadcrumb -->
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb mb-0">
-								<li class="breadcrumb-item"><a href="${path}/main" id="home">Home</a>
-								</li>
-								<li class="breadcrumb-item active" 
-									id=category_name>
-										</li>
-									
+								<li class="breadcrumb-item"><a href="${path}/main"
+									id="home">Home</a></li>
+								<li class="breadcrumb-item active" id=category_name></li>
+
 							</ol>
 						</nav>
 					</div>
@@ -76,7 +102,8 @@
 								<!-- 브랜드 필터 -->
 								<div class="mb-8">
 									<h5 class="mb-3">브랜드</h5>
-									<div class="btn-group" role="group" aria-label="Brand Filter">
+									<div class="btn-group w-100" role="group"
+										aria-label="Brand Filter">
 										<!-- 삼성 버튼 -->
 										<button type="button" class="btn btn-outline-info"
 											id="filterSamsung" onclick="toggleBrandFilter(this)"
@@ -127,24 +154,23 @@
 						<!-- section-->
 						<!-- card -->
 						<div class="card mb-4 bg-light border-0">
-					
-							
-							<div class="card-body p-9">
-    <h2 class="mb-0 fs-1 category"></h2>
-</div>
-							
+
+
+							<div class="card-body p-7">
+								<h2 class="mb-0 fs-1 category">&nbsp;</h2>
+							</div>
+
 						</div>
 						<!-- card -->
 						<!-- list icon -->
 						<div class="d-lg-flex justify-content-between align-items-center">
 
 							<div class="mb-3 mb-lg-0">
-							
-							      <p class="mb-0">
-                              <span id="productlistsize"></span>
-                              제품
-                           </p>
-							
+
+								<p class="mb-0">
+									<span id="productlistsize"></span> 제품
+								</p>
+
 							</div>
 							<div class="d-lg-flex justify-content-between align-items-center">
 								<!-- 정렬 기준 -->
@@ -175,7 +201,7 @@
 
 	<!-- Footer -->
 	<%@include file="../common/footer.jsp"%>
-	<%@ include file="../common/bottomKakao.jsp" %>
+	<%@ include file="../common/bottomKakao.jsp"%>
 
 
 
@@ -241,6 +267,7 @@ function toggleBrandFilter(button) {
 
     // 필터 적용
     applyFilters();
+    
 }
 
 // 가격대 필터 다중 선택 가능
@@ -255,15 +282,21 @@ function togglePriceRangeFilter(button) {
 
     // 필터 적용
     applyFilters();
+    currentPage = 1
 }
 
 
 
 // 필터와 정렬을 적용하는 함수
 function applyFilters() {
+	 
+	
     let sort = document.querySelector('.form-select').value; // 선택된 정렬 기준
     let category_seq = getCategorySeqFromURL(); // URL에서 category_seq 가져오기
     category_seq = category_seq ? parseInt(category_seq, 10) : 0;  // 없으면 0으로 설정
+    
+   
+    
     
     const query = "${param.query}".trim(); // 검색어 확인
     console.log("category_seq: " + category_seq);
@@ -281,7 +314,7 @@ function applyFilters() {
             sort: sort, // 정렬 기준
             query: query || '', // 검색어 (검색 상태인 경우에만 추가)
             page: currentPage,  // 현재 페이지 번호
-            size: 10  // 페이지당 항목 수 (필요에 따라 조정)
+            size: 12  // 페이지당 항목 수 (필요에 따라 조정)
         },
         success: function (response) {
             $('#productListContainer').html(response);  // 결과 업데이트
@@ -289,16 +322,20 @@ function applyFilters() {
             $("#category_name").text($("#categoryname").text());  // 카테고리 이름 업데이트
             if (query && query.trim() !== "") {
                 // query 값이 있으면 검색 결과 표시
-                $(".category").html("'"+`<span id="searchColor">${param.query}</span>` + "'검색결과");
+                $(".category").html("'"+`<span id="searchColor">${param.query}</span>` + " '검색결과");
             } else {
                 // query 값이 없으면 카테고리 이름 표시
                 $(".category").text(categoryName);
             }
+      
+            currentPage = 1;
         },
         error: function (error) {
             console.error('필터 적용 실패:', error);
         }
+        
     });
+    
 }
 
 // 페이지네이션 버튼 클릭 시 호출되는 함수
@@ -310,7 +347,10 @@ $(document).on("click", ".page-link", function (e) {
 
 $(function () {
     // 검색어 확인 및 기본값 처리
+   
     var query = "${param.query != null ? fn:escapeXml(param.query) : ''}".trim();
+    let sort = document.querySelector('.form-select').value; // 선택된 정렬 기준
+  
     if (query === '') {
         applyFilters(); // 검색어가 없으면 초기 필터 및 정렬 적용
         return;
@@ -323,9 +363,12 @@ $(function () {
         url: '${path}/product/searchResult', // 검색 처리할 URL
         method: 'GET',
         data: {
-            query: query,
-            page: currentPage, // 현재 페이지 번호
-            size: 10 // 페이지당 항목 수
+           	 query: query, // 검색어 (검색 상태인 경우에만 추가)
+            brand: selectedBrand || '',
+              priceRange: selectedPriceRanges.join(',') || '', // 선택된 가격대 필터 (콤마로 구분된 문자열)
+              sort: sort, // 정렬 기준
+              page: currentPage,  // 현재 페이지 번호
+              size: 12  // 페이지당 항목 수 (필요에 따라 조정)
         },
         success: function (response) {
         	  if (query && query.trim() !== "") {
@@ -335,13 +378,13 @@ $(function () {
                   // query 값이 없으면 카테고리 이름 표시
                   $(".category").text(categoryName);
               }
-        	  console.log("currentPage:", response.currentPage);
-        	    console.log("totalPages:", response.totalPages);
+   
 
             // DOM 업데이트
             $('#productListContainer').html(response); // 반환된 결과로 DOM 업데이트
             $("#productlistsize").text($("#size").text());
             $("#category_name").text(query);
+      
         },
         error: function (error) {
             console.error('검색 요청 실패:', error);
@@ -366,9 +409,10 @@ $(function () {
 	        togglePriceRangeFilter(this);
 	    });
 	});
+	
 	</script>
-	
-	
+
+
 	<script>
 	// URL 쿼리 파라미터에서 값을 가져오는 함수
 	function getQueryParam(param) {
@@ -399,7 +443,7 @@ $(function () {
 	    document.title = `\${categoryName} - Rentally`;
 	}
 	</script>
-	
-	
+
+
 </body>
 </html>

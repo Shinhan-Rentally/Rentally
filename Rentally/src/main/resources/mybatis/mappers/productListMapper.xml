@@ -39,7 +39,7 @@ LEFT JOIN
 LEFT JOIN
     review r on r.sub_seq = s.sub_seq
 WHERE 1=1
-    <if test="category_seq != 0">
+    <if test="category_seq != 0 and category_seq != null" >
     AND P.category_seq = #{category_seq}
 </if>
     
@@ -57,8 +57,10 @@ WHERE 1=1
 </if>
 
     <!-- 브랜드 필터 -->
-    <if test="product_brand != null and product_brand != ''">
-        AND P.product_brand = #{product_brand}
+    <if test="product_brand != null and product_brand != '' ">
+        AND  
+        P.product_brand = #{product_brand} 
+        
     </if>
 
     <!-- 가격대 필터 -->
@@ -97,7 +99,7 @@ GROUP BY
         ORDER BY product_popularity DESC  
     </otherwise>
     </choose>
-	  LIMIT #{size} OFFSET #{offset}
+	LIMIT #{size}   OFFSET #{offset}
 	</select>
 
 	<select id="selectProductDetail" parameterType="int" resultType="ProductListVO">
@@ -213,23 +215,29 @@ GROUP BY
     P.product_date, P.product_height, P.product_weight, P.product_wh, 
     P.product_color, P.product_features, C.category_name, C.category_seq
 ORDER BY P.product_date DESC
-LIMIT #{size} OFFSET #{offset}
+
     </select>
     
     <select id="selectTotalProductCount" parameterType="map" resultType="int">
-    SELECT COUNT(*) 
-    FROM PRODUCT P
-    LEFT JOIN
+SELECT
+ COUNT(*)
+FROM
+    PRODUCT P
+LEFT JOIN
     CATEGORY C ON P.category_seq = C.category_seq
-    WHERE 1=1
-        <!-- 카테고리 필터 -->
-        <if test="category_seq != 0">
-            AND P.category_seq = #{category_seq}
-        </if>
-        
-        <!-- 검색어 필터 -->
-        <if test="query != null and query != ''">
-    AND    (P.product_serial ILIKE '%' || #{query} || '%')
+LEFT JOIN
+    cart ON P.product_seq = cart.product_seq
+LEFT JOIN
+    subscribe s on P.product_seq = s.product_seq
+LEFT JOIN
+    review r on r.sub_seq = s.sub_seq
+WHERE 1=1
+    <if test="category_seq != 0 and category_seq != null" >
+    AND P.category_seq = #{category_seq}
+</if>
+    
+    <if test="query != null and query != ''">
+    AND   (  (P.product_serial ILIKE '%' || #{query} || '%')
         OR (P.product_name ILIKE '%' || #{query} || '%')
         OR (P.product_brand ILIKE '%' || #{query} || '%')
         OR (P.product_height ILIKE '%' || #{query} || '%')
@@ -238,25 +246,28 @@ LIMIT #{size} OFFSET #{offset}
         OR (P.product_color ILIKE '%' || #{query} || '%')
         OR (P.product_features ILIKE '%' || #{query} || '%')
         OR (C.category_name ILIKE '%' || #{query} || '%')
-        </if>
-        
-        <!-- 브랜드 필터 -->
-        <if test="product_brand != null and product_brand != ''">
-            AND P.product_brand = #{product_brand}
-        </if>
-        
-        <!-- 가격대 필터 -->
-        <if test="priceRange != null and priceRange != ''">
-            AND (
-                #{priceRange} LIKE '%below10k%' AND P.product_pay &lt; 10000
-                OR #{priceRange} LIKE '%10kTo20k%' AND P.product_pay BETWEEN 10001 AND 20000
-                OR #{priceRange} LIKE '%20kTo30k%' AND P.product_pay BETWEEN 20001 AND 30000
-                OR #{priceRange} LIKE '%30kTo40k%' AND P.product_pay BETWEEN 30001 AND 40000
-                OR #{priceRange} LIKE '%40kTo50k%' AND P.product_pay BETWEEN 40001 AND 50000
-                OR #{priceRange} LIKE '%50kTo70k%' AND P.product_pay BETWEEN 50001 AND 70000
-                OR #{priceRange} LIKE '%80kTo100k%' AND P.product_pay BETWEEN 80001 AND 100000
-                OR #{priceRange} LIKE '%above100k%' AND P.product_pay > 100000
-            )
-        </if>
+)
+</if>
+
+  <!-- 브랜드 필터 -->
+    <if test="product_brand != null and product_brand != '' ">
+        AND  
+       ( P.product_brand = #{product_brand} 
+        )
+    </if>
+
+    <!-- 가격대 필터 -->
+    <if test="priceRange != null">
+        AND (
+            #{priceRange} LIKE '%below10k%' AND P.product_pay &lt; 10000
+            OR #{priceRange} LIKE '%10kTo20k%' AND P.product_pay BETWEEN 10001 AND 20000
+            OR #{priceRange} LIKE '%20kTo30k%' AND P.product_pay BETWEEN 20001 AND 30000
+            OR #{priceRange} LIKE '%30kTo40k%' AND P.product_pay BETWEEN 30001 AND 40000
+            OR #{priceRange} LIKE '%40kTo50k%' AND P.product_pay BETWEEN 40001 AND 50000
+            OR #{priceRange} LIKE '%50kTo70k%' AND P.product_pay BETWEEN 50001 AND 70000
+            OR #{priceRange} LIKE '%80kTo100k%' AND P.product_pay BETWEEN 80001 AND 100000
+            OR #{priceRange} LIKE '%above100k%' AND P.product_pay > 100000
+        )
+    </if>
 </select>
 </mapper>
