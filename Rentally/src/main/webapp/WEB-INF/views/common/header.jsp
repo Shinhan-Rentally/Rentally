@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<style>
+.header-category a{
+	font-size: 1.2rem;
+}
+</style>	
 <c:set var="path" value="${pageContext.servletContext.contextPath}" scope="application"></c:set>
 
 <div class="border-bottom">
@@ -98,7 +103,7 @@
 	<nav class="navbar navbar-expand-lg navbar-light navbar-default py-0 pb-lg-4" aria-label="Offcanvas navbar large">
 		<div class="container ms-auto">
 			<div>
-				<div>
+				<div class="header-category">
 					<ul class="navbar-nav align-items-center">
 						<li class="nav-item w-100 w-lg-auto"><a class="nav-link" href="${path}/product/list?category_seq=1">TV</a></li>
 						<li class="nav-item w-100 w-lg-auto"><a class="nav-link" href="${path}/product/list?category_seq=2">냉장고</a></li>
@@ -112,7 +117,7 @@
 					</ul>
 				</div>
 			</div>
-			<ul class="navbar-nav align-items-center">
+			<ul class="navbar-nav align-items-center header-category">
 				<c:if test="${cust_id ne null and cust_grade==1}">
 					<li class="nav-item w-100 w-lg-auto"><a class="nav-link" href="${path}/admin/product/list">관리자페이지</a></li>
 				</c:if>
