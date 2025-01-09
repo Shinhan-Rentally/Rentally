@@ -90,7 +90,7 @@ p h3 {
 				<div class="category-slider">
 					<c:forEach items="${bestProduct}" var="bestProduct">
 						<div class="item">
-							<a href="../pages/shop-grid.html"
+							<a href="${path}/product/detail?product_seq=${bestProduct.product_seq}"
 								class="text-decoration-none text-inherit">
 								<div class="card card-product mb-lg-4">
 									<div class="card-body text-center py-8">
@@ -138,13 +138,13 @@ p h3 {
 	<%@ include file="./common/bottomKakao.jsp"%>
 
 	<!-- Javascript-->
-	<script src="resources/js/vendors/jquery.min.js"></script>
-	<script src="resources/js/vendors/countdown.js"></script>
-	<script src="resources/libs/slick-carousel/slick/slick.min.js"></script>
-	<script src="resources/js/vendors/slick-slider.js"></script>
-	<script src="resources/libs/tiny-slider/dist/min/tiny-slider.js"></script>
-	<script src="resources/js/vendors/tns-slider.js"></script>
-	<script src="resources/js/vendors/zoom.js"></script>
+	<script src="${path}/resources/js/vendors/jquery.min.js"></script>
+	<script src="${path}/resources/js/vendors/countdown.js"></script>
+	<script src="${path}/resources/libs/slick-carousel/slick/slick.min.js"></script>
+	<script src="${path}/resources/js/vendors/slick-slider.js"></script>
+	<script src="${path}/resources/libs/tiny-slider/dist/min/tiny-slider.js"></script>
+	<script src="${path}/resources/js/vendors/tns-slider.js"></script>
+	<script src="${path}/resources/js/vendors/zoom.js"></script>
 <!-- 베스트리뷰 java script -->	
 <script>
     // 모든 이름 요소 선택
