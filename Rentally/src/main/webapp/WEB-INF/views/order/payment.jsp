@@ -6,6 +6,11 @@
 <%@ include file="../common/headMeta.jsp"%>
 <title>결제 - Rentally</title>
 <%@ include file="../common/headLinks.jsp"%>
+<style>
+	abbr[title] {
+		text-decoration: none !important;
+	}
+</style>
 </head>
 <body data-path="${path}">
 <%@ include file="../common/header.jsp"%>
@@ -54,6 +59,9 @@
 														<div class="form-check mb-4">
 															<input class="form-check-input" type="radio" name="flexRadioDefault" id="homeRadio" <c:if test="${addr.addr_default == true}">checked</c:if> />
 															<label class="form-check-label text-dark" for="homeRadio">${addr.addr_name}</label>
+															<c:if test="${addr.addr_default == true}">
+																<span class="text-info">기본 주소</span>
+															</c:if>
 														</div>
 														<!-- address -->
 														<address>
@@ -61,9 +69,7 @@
 															${addr.addr_detail}<br>
 															<abbr title="Phone">P: ${addr.addr_phone}</abbr>
 														</address>
-														<c:if test="${addr.addr_default == true}">
-															<span class="text-danger">Default address</span>
-														</c:if>
+														
 													</div>
 												</div>
 											</c:forEach>
