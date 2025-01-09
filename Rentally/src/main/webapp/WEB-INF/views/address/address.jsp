@@ -11,35 +11,23 @@
 <%@ include file="../common/headLinks.jsp"%>
 <%@ include file="saveAddressModal.jsp" %>
 <%@ include file="updateAddressModal.jsp" %>
-<!-- star style -->
+
     <c:set var="page" value="address" />
     
-<!-- 다중 모달 처리를 위한 css -->
-<style>
-.modal-stack {
-    z-index: 1050 !important;
-}
-</style>
 
 </head>
 
 <body data-path="${path}">
 	<%@ include file="../common/header.jsp"%>
 	<main>
-		<!-- section -->
 		<section>
-			<!-- container -->
 			<div class="container">
-				<!-- row -->
 				<div class="row">
 					<%@ include file="../common/myPageNavbar.jsp"%>
-					<!-- col -->
 					<div class="col-lg-9 col-md-8 col-12">
 						<div class="py-6 p-md-6 p-lg-10">
-							<!-- heading -->
 							<h2 class="mb-0">주소지</h2>
 							<br>
-							<!-- button -->
 							<div style="text-align: right;">
 								<a href="#" class="btn btn-outline-info btn-sm rounded" data-bs-toggle="modal"
 									data-bs-target="#addAddressModal"
@@ -47,10 +35,8 @@
 							</div>
 							<br>
 							<div class="row">
-								<!-- col -->
 								<c:forEach var="address" items="${addressList}">
 									<div class="col-xl-5 col-lg-6 col-xxl-4 col-12 mb-4">
-										<!-- form -->
 										<div class="card">
 											<div class="card-body p-6">
 													<label class="form-check-label text-dark fw-semibold"
@@ -67,7 +53,6 @@
 													${address.addr_phone}<br>
 												</p>
 
-												<!-- btn -->
 												<div class="mt-4">
 													<c:choose>
 														<c:when test="${address.addr_default}">
