@@ -8,15 +8,14 @@
     <c:set var="page" value="reviews"/>
     <title>리뷰 관리 - Rentally</title>
     <style>
-        .review-table th,
-        .review-table td {
+        .review-table th, td {
             text-align: center;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        .review-table th:nth-child(1),
+        .review-table th:nth-child(1)
         .review-table td:nth-child(1) {
             width: 15%;
         }
@@ -26,7 +25,6 @@
             width: 15%;
         }
 
-        .review-table th:nth-child(3),
         .review-table td:nth-child(3) {
             width: 40%;
             text-align: left;
@@ -58,6 +56,7 @@
             padding: 10px 30px 10px 10px;
             text-align-last: center;
         }
+
         .select-container {
             width: fit-content;
         }
@@ -98,11 +97,11 @@
                         <div class="card-body p-0">
                             <div class="table-responsive">
                                 <table id="board_dataTable"
-                                       class="table table-centered table-hover table-borderless mb-0 review-table text-nowrap">
+                                       class="table table-borderless table-hover mb-0 review-table text-nowrap">
                                     <thead class="bg-light">
                                     <tr>
-                                        <th>상품명</th>
-                                        <th>ID</th>
+                                        <th>상품 번호</th>
+                                        <th>고객 ID</th>
                                         <th>리뷰 내용</th>
                                         <th>별점</th>
                                         <th>날짜</th>

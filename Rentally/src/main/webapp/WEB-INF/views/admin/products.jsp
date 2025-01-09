@@ -59,7 +59,7 @@
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table class="table table-centered table-hover text-nowrap table-borderless mb-0 product-table"
+                                <table class="table table-centered text-nowrap table-borderless mb-0 product-table"
                                        id="board_dataTable">
                                     <thead class="bg-light">
                                     <tr>

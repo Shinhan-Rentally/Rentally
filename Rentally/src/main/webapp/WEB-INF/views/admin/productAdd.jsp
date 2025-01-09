@@ -21,7 +21,8 @@
                             <h2>상품 등록</h2>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item"><a href="${path}/main" class="text-inherit">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="${path}/main" class="text-inherit">Home</a>
+                                    </li>
                                     <li class="breadcrumb-item"><a href="${path}/admin/product/list">관리자</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">상품 등록</li>
                                 </ol>
@@ -178,7 +179,7 @@
 <script src="${path}/resources/libs/dropzone/dist/min/dropzone.min.js"></script>
 <script src="${path}/resources/js/vendors/dropzone.js"></script>
 <script>
-    $('#features').on('input', function() {
+    $('#features').on('input', function () {
         let lines = $(this).val().split("\n").slice(0, 3);
         $(this).val(lines.join("\n"));
     });
@@ -229,7 +230,7 @@
             "product_color": color,
             "product_features": features
         };
-        
+
         var formData = new FormData();
         formData.append("product", new Blob([JSON.stringify(productData)], {type: "application/json"}));
 
