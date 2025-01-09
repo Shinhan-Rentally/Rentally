@@ -13,6 +13,14 @@
 <%@ include file="updateAddressModal.jsp" %>
 <!-- star style -->
     <c:set var="page" value="address" />
+    
+<!-- 다중 모달 처리를 위한 css -->
+<style>
+.modal-stack {
+    z-index: 1050 !important;
+}
+</style>
+
 </head>
 
 <body data-path="${path}">
@@ -112,6 +120,35 @@
 	<!-- 카카오 주소 API -->
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<!-- jQuery 로드 -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- 알림용 modal -->
+	<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title" id="alertModalLabel">알림</h5>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	            </div>
+	            <div class="modal-body" id="alertModalMessage"></div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-info" data-bs-dismiss="modal">확인</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	<script>
+		showModalMessage('실패했습니다.');
+		
+		function showModalMessage(message) {
+	    	$('#alertModalMessage').text(message);
+	    	$('#alertModal').modal('show');
+		}
+	</script>
 
 </body>
 </html>
