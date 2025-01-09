@@ -123,11 +123,6 @@
             const id = $(event.target).data("id");
             const textContent = $(`.text-content[data-id="\${id}"]`);
 
-            if (textContent.length === 0) {
-                console.error(`Text content with data-id="\${id}" not found.`);
-                return;
-            }
-
             if (textContent.hasClass('expanded')) {
                 textContent.removeClass('expanded');
                 link.text('더보기');
