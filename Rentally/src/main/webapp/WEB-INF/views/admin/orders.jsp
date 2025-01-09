@@ -8,7 +8,7 @@
     <c:set var="page" value="orders"/>
     <title>주문 관리 - Rentally</title>
     <style>
-        .order-table {
+        .order-table th, td {
             text-align: center;
         }
     </style>
@@ -37,16 +37,16 @@
                     <div class="card h-100 card-lg">
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table class="table table-centered table-hover table-borderless mb-0 order-table text-nowrap"
+                                <table class="table table-centered table-borderless mb-0 order-table text-nowrap"
                                        id="board_dataTable">
                                     <thead class="bg-light">
                                     <tr>
                                         <th></th>
-                                        <th>상품 ID</th>
+                                        <th>상품 번호</th>
                                         <th>고객명</th>
                                         <th>주문일</th>
                                         <th>결제 수단</th>
-                                        <th>결제 금액</th>
+                                        <th>월 구독료</th>
                                         <th>구독일</th>
                                     </tr>
                                     </thead>
@@ -76,9 +76,9 @@
 <script>
     let page = 0;
 
-    $("#pagingBar").on("click", "a", function (){
+    $("#pagingBar").on("click", "a", function () {
         page = $(this).data("page");
-        orders('${path}',page);
+        orders('${path}', page);
     })
 
     $(document).ready(function () {

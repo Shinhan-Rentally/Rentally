@@ -11,15 +11,15 @@ function reviews(path, page) {
             $('#pagingCount').empty();
 
             if (data.content.length > 0) {
-                data.content.forEach(({ product_seq, cust_id, review_content, review_rate, review_date }) => {
+                data.content.forEach(({ product_seq, product_name, cust_id, review_content, review_rate, review_date }) => {
                     const stars = Array.from({ length: 5 }, (_, i) =>
                         `<span class="${i < review_rate ? 'text-warning' : 'text-light'}"><i class="bi bi-star-fill"></i></span>`
                     ).join('');
                     $('#board_dataTable tbody').append(`
                         <tr>
-                            <td>${product_seq}</td>
+                            <td>${product_name}</td>
                             <td>${cust_id}</td>
-                            <td class="review-content">${review_content}</td>
+                            <td>${review_content}</td>
                             <td><div class="star-rating">${stars}</div></td>
                             <td>${review_date}</td>
                         </tr>
