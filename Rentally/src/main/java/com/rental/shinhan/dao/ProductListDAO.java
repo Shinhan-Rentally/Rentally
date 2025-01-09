@@ -39,9 +39,9 @@ public class ProductListDAO implements ProductListInterface {
 	 //검색기능
 	 public List<ProductListJoinDTO> searchProduct(Map<String ,Object> params) {
 		 List<ProductListJoinDTO> searchProductlist = sqlSession.selectList(namespace + "selectProductList",params);
-		return searchProductlist;
+		 return searchProductlist;
 	}
-
+	//페이징을 위한 상품카운트
 	public int selectTotalProductCount(Map<String, Object> params) {
 		
 		return sqlSession.selectOne(namespace + "selectTotalProductCount",params);

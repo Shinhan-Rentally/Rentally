@@ -14,6 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class ProductFilterJoinDTO {
+	
 	int product_seq ;
 	int category_seq;
 	String product_serial ;

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.rental.shinhan.dao.LoginDAO;
 import com.rental.shinhan.dto.LoginJoinDTO;
 import com.rental.shinhan.service.LoginService;
 
@@ -30,21 +29,17 @@ public class LoginController {
 	
 	@Autowired
 	LoginService lService;
-	@Autowired
-	LoginDAO loginDAO;
-	
 	
 	@PostMapping("/login")
 	public String login(String cust_id , String cust_pw, 
 			@RequestParam(value = "rememberMe", required = false) String rememberMe,HttpSession session,
 			HttpServletResponse response,Model model) {
 		
-		
 		  // 로그인 처리
         LoginJoinDTO loginUser;
 		try {
 			loginUser = lService.login(cust_id, cust_pw);
-			 session.setAttribute("cust_id", loginUser.getCust_id());
+			 	session.setAttribute("cust_id", loginUser.getCust_id());
 		        session.setAttribute("cust_seq", loginUser.getCust_seq());
 		        session.setAttribute("cust_grade",loginUser.getCust_grade());
 		        session.setAttribute("cart_count", loginUser.getCart_count());
@@ -64,16 +59,12 @@ public class LoginController {
 		        return "redirect:/main";
 		} catch (AuthenticationException e) {
 		    // 비밀번호 불일치 예외 처리
-		    log.info(e.getMessage());
 		    return "redirect:/customer/login?error=wrongPassword"; // 비밀번호 불일치 처리
 		} catch (Exception e) {
 		    // 아이디 없음 등의 다른 예외 처리
-		    log.error("로그인 처리 중 오류 발생", e);
 		    return "redirect:/customer/login?error=userNotFound";  // 아이디 없음 처리
 		}
-
-		
-	        
+	     
 	}
 	@GetMapping("/login")
 	public String longinForm(HttpSession session,HttpServletRequest request, Model model) {
@@ -86,11 +77,10 @@ public class LoginController {
 			session.removeAttribute("blockUser");
 		}
 		model.addAttribute("blockUser", blockUser);
-		
+	
 		 // 쿠키에서 rememberedCustId 값 읽기
 	    Cookie[] cookies = request.getCookies();
 	    String rememberedCustId = null;
-
 	    if (cookies != null) {
 	        for (Cookie cookie : cookies) {
 	            if ("rememberedCustId".equals(cookie.getName())) {
@@ -99,8 +89,6 @@ public class LoginController {
 	            }
 	        }
 	    }
-	    // 디버깅용 로그 출력
-	    System.out.println("쿠키에서 읽은 rememberedCustId: " + rememberedCustId);
 	    // 모델에 rememberedCustId 전달
 	    model.addAttribute("rememberedCustId", rememberedCustId);
 		

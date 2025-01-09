@@ -17,12 +17,6 @@ import lombok.ToString;
 @ToString
 @Builder
 public class ProductListJoinDTO {
-
-	/*상품+카테고리+상품정보 테이블 조인함
-	 * 
-	 * 상품 Dto
-	 * 작성자 :김용범 
-	 */
 	
 	int product_seq ;
     String product_serial;
@@ -43,6 +37,5 @@ public class ProductListJoinDTO {
     int product_popularity;
     int review_count;
     double review_avg;   
-	
 	
 }
