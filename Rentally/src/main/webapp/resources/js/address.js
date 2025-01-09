@@ -221,23 +221,48 @@ if (!path) {
     	event.preventDefault();
  
     	const formData = $('#addAddressModal').find('input, select').serialize();
-		console.log("Form Data:", formData);
+		
     	$.ajax({
         	url: `${path}/address/add`,
         	type: "POST",
         	data: formData,
         	success: function (response) {
-            	if (response.status === "error") {
-                	alert(response.message);
-            	} else if (response.status === "success") {
-                	alert(response.message);
-                	location.reload(); // 페이지 새로고침
-            	}
-        	},
-        	error: function (xhr, status, error) {
-            	console.error("Error:", error);
-            	alert("주소 저장 중 오류가 발생했습니다.");
-        	}
+            // 주소 등록 모달 닫기
+            const modalElement = document.getElementById('addAddressModal');
+            let saveAddressModal = bootstrap.Modal.getInstance(modalElement);
+
+            if (!saveAddressModal) {
+                saveAddressModal = new bootstrap.Modal(modalElement);
+            }
+
+            saveAddressModal.hide();
+
+            // 등록 완료 메시지를 알림 모달에 표시
+            modalElement.addEventListener('hidden.bs.modal', function () {
+                showModalMessage(response.message); // 성공 메시지 표시
+            }, { once: true });
+
+            // 알림 모달 닫힌 후 페이지 새로고침
+            $('#alertModal').on('hidden.bs.modal', function () {
+                location.reload(); // 페이지 새로고침
+            });
+        },
+        error: function () {
+            // 주소 등록 모달 닫기
+            const modalElement = document.getElementById('addAddressModal');
+            let saveAddressModal = bootstrap.Modal.getInstance(modalElement);
+
+            if (!saveAddressModal) {
+                saveAddressModal = new bootstrap.Modal(modalElement);
+            }
+
+            saveAddressModal.hide();
+
+            // 오류 메시지를 알림 모달에 표시
+            modalElement.addEventListener('hidden.bs.modal', function () {
+                showModalMessage("주소 저장 중 오류가 발생했습니다."); // 오류 메시지 표시
+            }, { once: true });
+        }
     	});
 	});
 	
@@ -261,17 +286,22 @@ if (!path) {
             data: { addrSeq: addrSeq },
             success: function (response) {
                 if (response && response.status === "success") {
-                    // 모달창으로 오류 메시지 표시
+                    // 모달창으로 성공 메시지 표시
                     showModalMessage(response.message);
-                    location.reload(); // 페이지 새로고침
+                    
+                    // 알림 모달 닫힌 후 페이지 새로고침
+                    $('#alertModal').on('hidden.bs.modal', function () {
+                        location.reload(); // 페이지 새로고침
+                    });
                 } 
                 else{ 
-                    alert(response.message || "삭제 중 오류가 발생했습니다.");
+                    // 실패 메시지를 알림 모달로 표시
+                    showModalMessage(response.message || "삭제 중 오류가 발생했습니다.");
                 }
             },
             error: function (xhr, status, error) {
-                console.error("Error:", error);
-                alert("주소 삭제 중 오류가 발생했습니다.");
+                // 오류 메시지를 알림 모달로 표시
+                showModalMessage("주소 삭제 중 오류가 발생했습니다.");
             }
         });
     }

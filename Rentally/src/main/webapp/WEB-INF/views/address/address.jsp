@@ -99,6 +99,40 @@
 		</section>
 	</main>
 
+	<!-- 삭제 확인 모달 -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">삭제 확인</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                정말로 이 주소를 삭제하시겠습니까?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteButton">삭제</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 알림용 modal -->
+	<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title" id="alertModalLabel">알림</h5>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	            </div>
+	            <div class="modal-body" id="alertModalMessage"></div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-info" data-bs-dismiss="modal">확인</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 	
 	<%@ include file="../common/bottomKakao.jsp"%>
 
@@ -125,21 +159,7 @@
 
 <!-- Bootstrap 5 JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-	<!-- 알림용 modal -->
-	<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
-	    <div class="modal-dialog">
-	        <div class="modal-content">
-	            <div class="modal-header">
-	                <h5 class="modal-title" id="alertModalLabel">알림</h5>
-	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	            </div>
-	            <div class="modal-body" id="alertModalMessage"></div>
-	            <div class="modal-footer">
-	                <button type="button" class="btn btn-info" data-bs-dismiss="modal">확인</button>
-	            </div>
-	        </div>
-	    </div>
-	</div>
+	
 	
 	<script>
 		showModalMessage('실패했습니다.');
@@ -149,6 +169,8 @@
 	    	$('#alertModal').modal('show');
 		}
 	</script>
+	
+	
 
 </body>
 </html>
