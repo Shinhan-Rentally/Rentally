@@ -8,7 +8,7 @@
     <c:set var="page" value="orders"/>
     <title>주문 관리 - Rentally</title>
     <style>
-        .order-table {
+        .order-table th, td {
             text-align: center;
         }
     </style>

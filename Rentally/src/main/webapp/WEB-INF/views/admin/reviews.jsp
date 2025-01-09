@@ -15,36 +15,14 @@
             white-space: nowrap;
         }
 
-        .review-table th:nth-child(1)
         .review-table td:nth-child(1) {
-            width: 15%;
-        }
-
-        .review-table th:nth-child(2),
-        .review-table td:nth-child(2) {
-            width: 15%;
+            text-align: left;
+            max-width: 200px;
         }
 
         .review-table td:nth-child(3) {
-            width: 40%;
             text-align: left;
-        }
-
-        .review-table th:nth-child(4),
-        .review-table td:nth-child(4) {
-            width: 15%;
-        }
-
-        .review-table th:nth-child(5),
-        .review-table td:nth-child(5) {
-            width: 15%;
-        }
-
-        .review-content {
             max-width: 300px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
         }
 
         .star-rating span {
@@ -100,7 +78,7 @@
                                        class="table table-borderless table-hover mb-0 review-table text-nowrap">
                                     <thead class="bg-light">
                                     <tr>
-                                        <th>상품 번호</th>
+                                        <th>상품명</th>
                                         <th>고객 ID</th>
                                         <th>리뷰 내용</th>
                                         <th>별점</th>

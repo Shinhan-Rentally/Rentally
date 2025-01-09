@@ -8,17 +8,20 @@
     <c:set var="page" value="products"/>
     <title>상품 관리 - Rentally</title>
     <style>
-        th, td {
+        .product-table th, td {
             text-align: center;
         }
 
-        .product-name {
+        .review-table td:nth-child(2) {
             text-align: left;
         }
 
-        .btn-delete {
-            border: none;
+        .review-table td:nth-child(6) button {
+            border: none !important;
+            background: none !important;
+            outline: none !important;
         }
+
     </style>
 </head>
 <body>
