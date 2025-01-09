@@ -7,10 +7,10 @@
 <title>결제 - Rentally</title>
 <%@ include file="../common/headLinks.jsp"%>
 </head>
-<body>
+<body data-path="${path}">
 <%@ include file="../common/header.jsp"%>
+<%@ include file="../address/saveAddressModal.jsp" %>
 <main>
-
 		<!-- section -->
 		<section class="mb-lg-14 mb-8 mt-8">
 			<div class="container">
@@ -179,89 +179,6 @@
 			</div>
 		</section>
 	</main>
-
-	<!-- Modal -->
-	<div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<!-- modal body -->
-				<div class="modal-body p-6">
-					<div class="d-flex justify-content-between mb-5">
-						<!-- heading -->
-						<div>
-							<h5 class="h6 mb-1" id="addAddressModalLabel">New Shipping Address</h5>
-							<p class="small mb-0">Add new shipping address for your order delivery.</p>
-						</div>
-						<div>
-							<!-- button -->
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-					</div>
-					<!-- row -->
-					<div class="row g-3">
-						<!-- col -->
-						<div class="col-12">
-							<input type="text" class="form-control" placeholder="First name" aria-label="First name" required="" />
-						</div>
-						<!-- col -->
-						<div class="col-12">
-							<input type="text" class="form-control" placeholder="Last name" aria-label="Last name" required="" />
-						</div>
-						<!-- col -->
-						<div class="col-12">
-							<input type="text" class="form-control" placeholder="Address Line 1" />
-						</div>
-						<div class="col-12">
-							<!-- button -->
-							<input type="text" class="form-control" placeholder="Address Line 2" />
-						</div>
-						<div class="col-12">
-							<!-- button -->
-							<input type="text" class="form-control" placeholder="City" />
-						</div>
-						<div class="col-12">
-							<!-- button -->
-							<select class="form-select">
-								<option selected="">India</option>
-								<option value="1">UK</option>
-								<option value="2">USA</option>
-								<option value="3">UAE</option>
-							</select>
-						</div>
-						<div class="col-12">
-							<!-- button -->
-							<select class="form-select">
-								<option selected="">Gujarat</option>
-								<option value="1">Northern Ireland</option>
-								<option value="2">Alaska</option>
-								<option value="3">Abu Dhabi</option>
-							</select>
-						</div>
-						<div class="col-12">
-							<!-- button -->
-							<input type="text" class="form-control" placeholder="Zip Code" />
-						</div>
-						<div class="col-12">
-							<!-- button -->
-							<input type="text" class="form-control" placeholder="Business Name" />
-						</div>
-						<div class="col-12">
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-								<!-- label -->
-								<label class="form-check-label" for="flexCheckDefault">Set as Default</label>
-							</div>
-						</div>
-						<!-- button -->
-						<div class="col-12 text-end">
-							<button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-							<button class="btn btn-primary" type="button">Save Address</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 	
 	<!-- 알림용 modal -->
 	<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
@@ -289,9 +206,11 @@
 	
 	<script src="${path}/resources/libs/imask/dist/imask.min.js"></script>
 	<script src="${path}/resources/js/vendors/inputmask.js"></script>
+	<script src="${path}/resources/js/address.js"></script>
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-	
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 	let merchantUid;
 
@@ -302,7 +221,7 @@
 			merchantUid = data+1;
 		  },
 		  error: function(jqXHR, textStatus, errorThrown) {
-		    console.error("Error: " + textStatus, errorThrown);
+		    /* console.error("Error: " + textStatus, errorThrown); */
 		  }
 		});
     
@@ -382,11 +301,10 @@
 				                }
 				            })
 				            .catch(error => {
-				                console.error('Error:', error);
+				                /* console.error('Error:', error); */
 				                showModalMessage('결제 도중 오류가 발생했습니다.');
 				            });
 				    } else {
-				    	console.log('빌링키 발급 실패');
 				    	showModalMessage('결제 실패했습니다.');
 				    }
 				  },
@@ -413,7 +331,7 @@
 	function redirectToCompletePage(paymentResultData) {
 	    const selectedAddress = getSelectedAddress();
 	    if (!selectedAddress) {
-	        alert('선택된 주소가 없습니다.');
+	    	showModalMessage('선택된 주소가 없습니다.');
 	        return;
 	    }
 
