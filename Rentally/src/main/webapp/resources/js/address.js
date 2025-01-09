@@ -279,32 +279,39 @@ if (!path) {
         return;
     }
     
-    if (confirm("정말로 이 주소를 삭제하시겠습니까?")) {
+    // 삭제 확인 모달 표시
+    const confirmDeleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+    confirmDeleteModal.show();
+
+    // "삭제" 버튼 클릭 이벤트 처리
+    $('#confirmDeleteButton').off('click').on('click', function () {
+        confirmDeleteModal.hide(); // 삭제 확인 모달 닫기
+
+        // AJAX 요청으로 주소 삭제
         $.ajax({
             url: `${path}/address/delete`, // 서버의 삭제 엔드포인트
             type: "POST",
             data: { addrSeq: addrSeq },
             success: function (response) {
                 if (response && response.status === "success") {
-                    // 모달창으로 성공 메시지 표시
+                    // 성공 메시지를 알림 모달에 표시
                     showModalMessage(response.message);
-                    
+
                     // 알림 모달 닫힌 후 페이지 새로고침
                     $('#alertModal').on('hidden.bs.modal', function () {
                         location.reload(); // 페이지 새로고침
                     });
-                } 
-                else{ 
-                    // 실패 메시지를 알림 모달로 표시
+                } else {
+                    // 실패 메시지를 알림 모달에 표시
                     showModalMessage(response.message || "삭제 중 오류가 발생했습니다.");
                 }
             },
-            error: function (xhr, status, error) {
-                // 오류 메시지를 알림 모달로 표시
+            error: function () {
+                // 오류 메시지를 알림 모달에 표시
                 showModalMessage("주소 삭제 중 오류가 발생했습니다.");
             }
         });
-    }
+    });
 });
 	
 	
