@@ -154,6 +154,21 @@
         </div>
     </main>
 </div>
+<!-- 알림용 modal -->
+<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="alertModalLabel">알림</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="alertModalMessage"></div>
+            <div class="modal-footer">
+                <button type="button" id="alertModalConfirm" class="btn btn-info" data-bs-dismiss="modal">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script> var contextPath = "${path}" </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -169,6 +184,16 @@
     });
 </script>
 <script>
+    function showModalMessage(message) {
+        $('#alertModalMessage').text(message);
+        $('#alertModal').modal('show');
+    }
+
+    $('#alertModalConfirm').off("click").on("click", function () {
+        if (isSuccess) {
+            location.reload();
+        }
+    });
     $("#btn_ajax").on("click", f_jsonInsert);
 
     function f_jsonInsert() {
@@ -223,11 +248,12 @@
             processData: false,
             enctype: "multipart/form-data",
             success: function (response) {
-                alert("등록 성공");
-                location.reload();
+                isSuccess = true;
+                showModalMessage("상품 등록이 완료되었습니다.")
             },
             error: function (xhr) {
-                console.log(xhr);
+                isSuccess = false;
+                showModalMessage("상품 등록에 실패하였습니다.")
             }
         });
     }

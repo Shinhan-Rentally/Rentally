@@ -49,7 +49,7 @@
                         <ul class="nav flex-column nav-pills nav-pills-dark">
                             <li class="nav-item">
                                 <a class="nav-link active" href="${path}/faq/list">
-                                    <i class="feather-icon icon-check-circle"></i>
+                                    <i class="feather-icon icon-check-circle me-2"></i>
                                     FAQ
                                 </a>
                             </li>

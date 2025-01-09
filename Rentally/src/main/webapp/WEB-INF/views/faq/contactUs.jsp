@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <%@ include file="../common/headMeta.jsp" %>
-    <title>ContactUS - Rentally</title>
+    <title>카카오톡 문의하기 - Rentally</title>
     <%@ include file="../common/headLinks.jsp" %>
     <style>
         .contact-section {
@@ -44,7 +44,7 @@
                         <ul class="nav flex-column nav-pills nav-pills-dark">
                             <li class="nav-item">
                                 <a class="nav-link" href="${path}/faq/list">
-                                    <i class="feather-icon icon-check-circle"></i>
+                                    <i class="feather-icon icon-check-circle me-2"></i>
                                     FAQ
                                 </a>
                             </li>
@@ -64,7 +64,7 @@
                         <h2 class="mb-6">카카오톡 문의하기</h2>
                         <div class="container contact-section">
                             <div class="icon">
-                                <a href="http://pf.kakao.com/_wYcdn/chat" target="_blank">
+                                <a href="javascript:void(0);" onclick="popupWindow('http://pf.kakao.com/_wYcdn/chat', 'My Popup', 800, 750);">
                                 <img src="../resources/images/png/kakao.png" alt="Chat Icon" width="100" height="100">
                                 </a>
                             </div>
@@ -85,4 +85,22 @@
 <!-- Footer -->
 <%@ include file="../common/footer.jsp" %>
 </body>
+
+<script>
+
+    function popupWindow(url, title, width, height) {
+
+        var popupWidth = width;
+        var popupHeight = height;
+
+        var popupX = Math.round(window.screenX + (window.outerWidth/2) - (popupWidth/2));
+        var popupY = Math.round(window.screenY + (window.outerHeight/2) - (popupHeight/2));
+
+        var featureWindow = "width=" + popupWidth + ", height="+popupHeight
+            + ", left=" + popupX + ", top=" + popupY;
+
+        return window.open(url, name, featureWindow);
+    }
+
+</script>
 </html>
