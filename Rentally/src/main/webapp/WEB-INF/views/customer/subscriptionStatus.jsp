@@ -114,9 +114,11 @@
 	          <h5 class="modal-title">해지 신청</h5>
 	        </div>
 	        <div class="modal-body">
-	          <p>아래와 같이 해지하시겠습니까? <br>
+	          <p>아래와 같이 해지하시겠습니까? <br><br>
 	          	 상품명: <span id="productNameValue"></span><br>
-	          	 위약금: <span id="penaltyValue"></span></p>
+	          	 위약금: <span id="penaltyValue"></span><br><br>
+	          	 <small class="text-muted">※ 위약금과 관련된 상세 정보는 <a href="${path}/faq/list">FAQ</a>를 확인해주세요.</small>
+	          </p>
 	        </div>
 	        <div class="modal-footer">
 	          <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal">취소</button>
@@ -140,7 +142,7 @@
     	  var penaltyValue = $(this).find('input[name="sub_penalty"]').val();
     	  var productNameValue = $(this).find('input[name="sub_name"]').val();
     	  var formattedPenaltyValue = new Intl.NumberFormat('en-US').format(penaltyValue);
-    	  $('#penaltyValue').text(formattedPenaltyValue);
+    	  $('#penaltyValue').text(formattedPenaltyValue+'원');
     	  $('#productNameValue').text(productNameValue);
     	  $('#confirmationModal').modal('show');
     	  formToSubmit = this;
