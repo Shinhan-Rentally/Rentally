@@ -66,7 +66,8 @@
                     <div class="card h-100 card-lg">
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table id="board_dataTable" class="table table-centered table-hover table-borderless mb-0 customer-table text-nowrap">
+                                <table id="board_dataTable"
+                                       class="table table-centered table-borderless mb-0 customer-table text-nowrap">
                                     <thead class="bg-light">
                                     <tr>
                                         <th>ID</th>

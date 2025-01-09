@@ -8,13 +8,20 @@
     <c:set var="page" value="products"/>
     <title>상품 관리 - Rentally</title>
     <style>
-        th, td {
+        .product-table th, td {
             text-align: center;
         }
 
-        .product-name {
+        .review-table td:nth-child(2) {
             text-align: left;
         }
+
+        .review-table td:nth-child(6) button {
+            border: none !important;
+            background: none !important;
+            outline: none !important;
+        }
+
     </style>
 </head>
 <body>
@@ -55,14 +62,14 @@
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table class="table table-centered table-hover text-nowrap table-borderless mb-0 product-table"
+                                <table class="table table-centered text-nowrap table-borderless mb-0 product-table"
                                        id="board_dataTable">
                                     <thead class="bg-light">
                                     <tr>
                                         <th></th>
                                         <th>상품명</th>
                                         <th>카테고리</th>
-                                        <th>가격</th>
+                                        <th>월 구독료</th>
                                         <th>상품 등록일</th>
                                         <th>삭제</th>
                                     </tr>
@@ -104,11 +111,11 @@
                     initializeSearchPagination('${path}');
                 });
             },
-            error: function () {
                 showModalMessage(`삭제에 실패했습니다.`);
             }
         });
     }
+
 </script>
 </body>
 </html>

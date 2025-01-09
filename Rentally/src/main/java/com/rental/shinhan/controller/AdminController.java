@@ -2,7 +2,6 @@ package com.rental.shinhan.controller;
 
 import com.rental.shinhan.dto.*;
 import com.rental.shinhan.service.AdminService;
-import com.rental.shinhan.util.Pagenation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,10 +24,7 @@ public class AdminController {
 
     @Autowired
     AdminService adminService;
-
-    @Autowired
-    Pagenation pagenation;
-
+    
     @GetMapping("/product/list")
     public String getProduct() {
         return "/admin/products";

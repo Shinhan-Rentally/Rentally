@@ -1,9 +1,10 @@
+// jsp에서의 데이터 받을 수 있는 연결 패스
 const path = document.body.getAttribute('data-path');
 if (!path) {
     console.error("Path is not defined. Please check your JSP configuration.");
 }
 
-// 주소 수정 숫자 유효성 검사
+	// 주소 수정 숫자 유효성 검사
 	$("#editRecipPhone").on("input", function(){
 		let value = $("#editRecipPhone").val().replace(/\D/g, '');
 	    if (value.length <= 3) {
@@ -48,6 +49,7 @@ if (!path) {
         
     }
 	
+	
 	// 모달 닫기
 	function closeModal() {
 		// 모달 요소 가져오기
@@ -72,6 +74,34 @@ if (!path) {
 	    document.body.style.paddingRight = '0';
 	}
 	
+	// 모달 초기화 코드 추가
+	$('#addAddressModal').on('hidden.bs.modal', function () {
+    	// 모든 입력 필드 초기화
+    	$(this).find('input[type="text"], input[type="tel"], textarea').val('');
+    	$(this).find('input[type="checkbox"]').prop('checked', false);
+	});
+	
+	// 모달창 위치 조정
+	$(document).ready(function () {
+   
+    // 모달이 열리기 전에 위치 지정
+    $('#alertModal').on('show.bs.modal', function () {
+        $(this).find('.modal-dialog').css({
+            'transform': 'translate(0, 250px)', // Y축 150px 아래로 이동
+            'transition': 'none' // 애니메이션 제거
+        });
+    });
+
+    // 모달이 완전히 열린 후 다시 애니메이션 설정
+    $('#alertModal').on('shown.bs.modal', function () {
+        	$(this).find('.modal-dialog').css({
+            	'transition': '' // 기본 애니메이션 복원
+        	});
+    	});
+	});
+
+	
+	
 	// 주소 수정 코드
     $('#updateAddress').on("click", function (event) {
         event.preventDefault(); // 기본 폼 제출 동작 방지
@@ -89,7 +119,7 @@ if (!path) {
 
         var data = {
                 "addr_title":address,
-                "addr_detail": `${cleanedDetailAddress}( ${postcode})`,
+                "addr_detail": `${cleanedDetailAddress}(${postcode})`,
                 "addr_name":recipName,
                 "addr_phone":recipPhone,
                "addr_default": addrDefault,              
@@ -103,21 +133,60 @@ if (!path) {
             type: "POST",
             data: data,
             success: function (response) {
+            
                 // 성공 응답 처리
                 if (response.status === "success") {
-                    alert(response.message);
+                
+                // HTML에서 editAddressModal가져오고  bootstrap 모달 안에 넣기
+                const modalElement = document.getElementById('editAddressModal');
+                let editAddressModal = bootstrap.Modal.getInstance(modalElement);
+
+                if (!editAddressModal) {
+                    editAddressModal = new bootstrap.Modal(modalElement);
+                }
+
+                // 주소 수정 모달 닫기
+                if (editAddressModal) {
+                    editAddressModal.hide();
+
+                    // 수정 완료 모달은 주소 수정 모달이 완전히 닫힌 후에 띄움
+                    modalElement.addEventListener('hidden.bs.modal', function () {
+                        showModalMessage(response.message);
+                    }, { once: true });
+                }
+               	
+               	// alertModal 닫힐 때 페이지 새로고침
+                $('#alertModal').on('hidden.bs.modal', function () {
                     location.reload(); // 페이지 새로고침
+                });
+                    
                 } else {
-                    alert(response.message);
+                
+                	// 모달창으로 오류 메시지 표시
+                    showModalMessage(response.message); 
                 }
             },
             error: function (xhr, status, error) {
                 // 실패 응답 처리
                 console.error("Error:", error);
-                alert("주소 수정 중 오류가 발생했습니다.");
+                
+                // 오류 메시지 표시
+                showModalMessage("주소 수정 중 오류가 발생했습니다."); 
             }
         });
     });
+    
+    // 수정 완료 모달 표시
+    function showModalMessage(message) {
+    	const modalElement = document.getElementById('alertModal');
+    	const modalInstance = new bootstrap.Modal(modalElement);
+
+    	// 메시지 설정
+    	document.getElementById('alertModalMessage').textContent = message;
+
+    	// 수정 완료 모달 표시
+    	modalInstance.show();
+	}
 	
 	// 기본 주소 설정
 	function setDefault(addrSeq) {
@@ -128,43 +197,74 @@ if (!path) {
 	        data: { addrSeq: addrSeq },
 	        success: function(data) {
 	            if (data.status === 'success') {
-	                alert(data.message);
-	                location.reload(); // 페이지 새로고침
+	                // 성공 메시지를 알림 모달로 표시
+                	showModalMessage(data.message);
+                
+	                // 모달 닫힌 후 페이지 새로고침
+                	$('#alertModal').on('hidden.bs.modal', function () {
+                    location.reload(); // 페이지 새로고침
+                });
 	            } else {
-	                alert(data.message);
+	               	// 실패 메시지를 알림 모달로 표시
+               		showModalMessage(data.message);
 	            }
 	        },
 	        error: function(xhr, status, error) {
-	            console.error('Error:', error);
-	            alert('기본 주소 설정 중 오류가 발생했습니다.');
+	         	// 오류 메시지를 알림 모달로 표시
+            	showModalMessage("기본 주소 설정 중 오류가 발생했습니다.");
 	        }
 	    });
 	}
 	
 	// 주소 등록 Jquery
 	$('#saveAddress').on("click", function (event) {
-    event.preventDefault();
+    	event.preventDefault();
  
-    const formData = $('#addAddressModal').find('input, select').serialize();
+    	const formData = $('#addAddressModal').find('input, select').serialize();
+		
+    	$.ajax({
+        	url: `${path}/address/add`,
+        	type: "POST",
+        	data: formData,
+        	success: function (response) {
+            // 주소 등록 모달 닫기
+            const modalElement = document.getElementById('addAddressModal');
+            let saveAddressModal = bootstrap.Modal.getInstance(modalElement);
 
-    $.ajax({
-        url: `${path}/address/add`,
-        type: "POST",
-        data: formData,
-        success: function (response) {
-            if (response.status === "error") {
-                alert(response.message);
-            } else if (response.status === "success") {
-                alert(response.message);
-                location.reload(); // 페이지 새로고침
+            if (!saveAddressModal) {
+                saveAddressModal = new bootstrap.Modal(modalElement);
             }
+
+            saveAddressModal.hide();
+
+            // 등록 완료 메시지를 알림 모달에 표시
+            modalElement.addEventListener('hidden.bs.modal', function () {
+                showModalMessage(response.message); // 성공 메시지 표시
+            }, { once: true });
+
+            // 알림 모달 닫힌 후 페이지 새로고침
+            $('#alertModal').on('hidden.bs.modal', function () {
+                location.reload(); // 페이지 새로고침
+            });
         },
-        error: function (xhr, status, error) {
-            console.error("Error:", error);
-            alert("주소 저장 중 오류가 발생했습니다.");
+        error: function () {
+            // 주소 등록 모달 닫기
+            const modalElement = document.getElementById('addAddressModal');
+            let saveAddressModal = bootstrap.Modal.getInstance(modalElement);
+
+            if (!saveAddressModal) {
+                saveAddressModal = new bootstrap.Modal(modalElement);
+            }
+
+            saveAddressModal.hide();
+
+            // 오류 메시지를 알림 모달에 표시
+            modalElement.addEventListener('hidden.bs.modal', function () {
+                showModalMessage("주소 저장 중 오류가 발생했습니다."); // 오류 메시지 표시
+            }, { once: true });
         }
-    });
-});
+    	});
+	});
 	
 	// 주소 삭제
 	$(document).on("click", ".delete-address-btn", function (event) {
@@ -174,29 +274,44 @@ if (!path) {
     const addrSeq = $(this).data("addr-seq"); // data-addr-seq 속성에서 addr_seq 값 가져오기
 
     if (!addrSeq) {
-        alert("주소 식별자가 유효하지 않습니다.");
+        // 모달창으로 오류 메시지 표시
+       	showModalMessage(response.message);
         return;
     }
     
-    if (confirm("정말로 이 주소를 삭제하시겠습니까?")) {
+    // 삭제 확인 모달 표시
+    const confirmDeleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+    confirmDeleteModal.show();
+
+    // "삭제" 버튼 클릭 이벤트 처리
+    $('#confirmDeleteButton').off('click').on('click', function () {
+        confirmDeleteModal.hide(); // 삭제 확인 모달 닫기
+
+        // AJAX 요청으로 주소 삭제
         $.ajax({
             url: `${path}/address/delete`, // 서버의 삭제 엔드포인트
             type: "POST",
             data: { addrSeq: addrSeq },
             success: function (response) {
                 if (response && response.status === "success") {
-                    alert(response.message);
-                    location.reload(); // 페이지 새로고침
+                    // 성공 메시지를 알림 모달에 표시
+                    showModalMessage(response.message);
+
+                    // 알림 모달 닫힌 후 페이지 새로고침
+                    $('#alertModal').on('hidden.bs.modal', function () {
+                        location.reload(); // 페이지 새로고침
+                    });
                 } else {
-                    alert(response?.message || "삭제 중 오류가 발생했습니다.");
+                    // 실패 메시지를 알림 모달에 표시
+                    showModalMessage(response.message || "삭제 중 오류가 발생했습니다.");
                 }
             },
-            error: function (xhr, status, error) {
-                console.error("Error:", error);
-                alert("주소 삭제 중 오류가 발생했습니다.");
+            error: function () {
+                // 오류 메시지를 알림 모달에 표시
+                showModalMessage("주소 삭제 중 오류가 발생했습니다.");
             }
         });
-    }
+    });
 });
 	
 	
