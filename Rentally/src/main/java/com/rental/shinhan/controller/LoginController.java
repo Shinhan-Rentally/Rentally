@@ -58,9 +58,11 @@ public class LoginController {
 		        }
 		        return "redirect:/main";
 		} catch (AuthenticationException e) {
+			e.printStackTrace();
 		    // 비밀번호 불일치 예외 처리
 		    return "redirect:/customer/login?error=wrongPassword"; // 비밀번호 불일치 처리
 		} catch (Exception e) {
+			e.printStackTrace();
 		    // 아이디 없음 등의 다른 예외 처리
 		    return "redirect:/customer/login?error=userNotFound";  // 아이디 없음 처리
 		}
