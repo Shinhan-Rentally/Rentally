@@ -68,7 +68,7 @@
 						<div class="col-12">
 							<!-- form check -->
 							<div class="form-check">
-								<input class="form-check-input" type="checkbox" value=""
+								<input class="form-check-input" type="checkbox" value="true"
 									id="addrDefault" name="addrDefault" /> <label
 									class="form-check-label" for="addrDefault">기본 주소로 설정</label>
 							</div>

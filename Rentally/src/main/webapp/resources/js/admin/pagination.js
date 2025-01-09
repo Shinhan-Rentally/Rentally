@@ -1,7 +1,5 @@
-function pageBar(data) {
-    console.info("data",data)
-    let {pageSize, pageNumber} = data.pageable;
-    let { totalPages, totalElements } = data;
+function pageBar(pageable, totalPages, totalElements) {
+    let {pageSize, pageNumber} = pageable;
 
     $('#pagingCount').text(`Showing ${pageNumber * pageSize + 1} to ${Math.min((pageNumber + 1) * pageSize, totalElements)} of ${totalElements} entries`);
     $('#pagingUl').empty();
