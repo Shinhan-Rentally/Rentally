@@ -180,7 +180,7 @@ div.zoom img {
   --fc-primary-rgb: 10, 173, 10;
   --fc-secondary-rgb: 136, 147, 151;
   --fc-success-rgb: 25, 135, 84;
-  --fc-info-rgb: 1, 107, 248;
+  --fc-info-rgb: 0, 70, 255;
   --fc-warning-rgb: 255, 193, 7;
   --fc-danger-rgb: 219, 48, 48;
   --fc-light-rgb: 240, 243, 242;
@@ -279,8 +279,8 @@ div.zoom img {
   --fc-focus-ring-width: 0.25rem;
   --fc-focus-ring-opacity: 0.25;
   --fc-focus-ring-color: rgba(10, 173, 10, 0.25);
-  --fc-form-valid-color: #198754;
-  --fc-form-valid-border-color: #198754;
+  --fc-form-valid-color: #0046FF;
+  --fc-form-valid-border-color: #0046FF;
   --fc-form-invalid-color: #db3030;
   --fc-form-invalid-border-color: #db3030;
 }
@@ -3593,14 +3593,14 @@ textarea.form-control-lg {
 .was-validated .form-control:valid, .form-control.is-valid {
   border-color: var(--fc-form-valid-border-color);
   padding-right: calc(1.6em + 1.1rem);
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%230046FF' d='M2.3 6.73.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right calc(0.4em + 0.275rem) center;
   background-size: calc(0.8em + 0.55rem) calc(0.8em + 0.55rem);
 }
 .was-validated .form-control:valid:focus, .form-control.is-valid:focus {
   border-color: var(--fc-form-valid-border-color);
-  box-shadow: 0 0 0 0.25rem rgba(var(--fc-success-rgb), 0.25);
+  box-shadow: 0 0 0 0.25rem rgba(var(--fc-info-rgb), 0.25);
 }
 
 .was-validated textarea.form-control:valid, textarea.form-control.is-valid {
@@ -3619,7 +3619,7 @@ textarea.form-control-lg {
 }
 .was-validated .form-select:valid:focus, .form-select.is-valid:focus {
   border-color: var(--fc-form-valid-border-color);
-  box-shadow: 0 0 0 0.25rem rgba(var(--fc-success-rgb), 0.25);
+  box-shadow: 0 0 0 0.25rem rgba(var(--fc-info-rgb), 0.25);
 }
 
 .was-validated .form-control-color:valid, .form-control-color.is-valid {
