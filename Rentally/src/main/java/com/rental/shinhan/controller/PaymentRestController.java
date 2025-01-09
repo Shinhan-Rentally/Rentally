@@ -96,7 +96,6 @@ public class PaymentRestController {
             paymentRequest.getAmount(),
             paymentRequest.getName()
         );
-        System.out.println("requestBody:"+requestBody);
 
         HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
 
