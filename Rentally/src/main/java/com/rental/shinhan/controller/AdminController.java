@@ -24,7 +24,7 @@ public class AdminController {
 
     @Autowired
     AdminService adminService;
-    
+
     @GetMapping("/product/list")
     public String getProduct() {
         return "/admin/products";

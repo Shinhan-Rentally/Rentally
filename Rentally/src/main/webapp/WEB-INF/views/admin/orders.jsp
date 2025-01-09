@@ -71,11 +71,10 @@
 <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="${path}/resources/css/theme.css"></script>
-<script src="${path}/resources/js/admin/orders.js"></script>
-<script src="${path}/resources/js/admin/loadData.js"></script>
 <script src="${path}/resources/js/admin/initializePagination.js"></script>
+<script src="${path}/resources/js/admin/loadData.js"></script>
 <script src="${path}/resources/js/admin/pagination.js"></script>
-
+<script>
     initializeDefaultPagination('${path}',loadOrderData);
 </script>
 </body>

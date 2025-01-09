@@ -12,11 +12,11 @@
             text-align: center;
         }
 
-        .review-table td:nth-child(2) {
+        .product-table td:nth-child(2) {
             text-align: left;
         }
 
-        .review-table td:nth-child(6) button {
+        .product-table td:nth-child(6) button {
             border: none !important;
             background: none !important;
             outline: none !important;
@@ -111,6 +111,7 @@
                     initializeSearchPagination('${path}');
                 });
             },
+            error: function () {
                 showModalMessage(`삭제에 실패했습니다.`);
             }
         });
