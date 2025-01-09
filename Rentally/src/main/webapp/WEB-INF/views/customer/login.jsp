@@ -1,134 +1,86 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<%@ include file="../common/headMeta.jsp" %>
-<%@ include file="../common/headLinks.jsp" %>
+<%@ include file="../common/headMeta.jsp"%>
+<%@ include file="../common/headLinks.jsp"%>
 <meta charset="UTF-8">
 <title>Rentally</title>
 </head>
 <body>
 
-  <!-- header -->
-     <%@ include file="../common/header.jsp" %>
+	<%@ include file="../common/header.jsp"%>
 
-      <main>
-         <!-- section -->
-    <section class="my-lg-14 my-8">
-   <div class="container">
-      <!-- row -->
-      <div class="row justify-content-center align-items-center">
-         <div class="col-12 col-md-6 col-lg-4 order-lg-1 order-2">
-            <!-- img -->
-            <img src="${path}/resources/images/svg-graphics/signin-g.svg" alt="" class="img-fluid" />
-         </div>
-         <!-- col -->
-         <div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1">
-            <div class="mb-lg-9 mb-5">
-               <h1 class="mb-1 h2 fw-bold">로그인</h1>
-               <p>렌탈리의 오신것을 환영합니다.</p>
-            </div>
+	<main>
+		<section class="my-lg-14 my-8">
+			<div class="container">
+				<div class="row justify-content-center align-items-center">
+					<div class="col-12 col-md-6 col-lg-4 order-lg-1 order-2">
+						<img src="${path}/resources/images/svg-graphics/signin-g.svg" alt="" class="img-fluid" />
+					</div>
+					<div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1">
+						<div class="mb-lg-9 mb-5">
+							<h1 class="mb-1 h2 fw-bold">로그인</h1>
+							<p>렌탈리의 오신것을 환영합니다.</p>
+						</div>
+						<form class="needs-validation" action="${path}/customer/login" method="post" id="loginForm" novalidate>
+							<div class="col-12">
+								<label for="cust_id" class="form-label">ID</label> <input type="text" class="form-control" id="cust_id" name="cust_id" placeholder="ID" value="" required />
 
-            <!-- Form with action and method -->
-         <form
-   class="needs-validation"
-   action="${path}/customer/login"
-   method="post"
-   id="loginForm"
-   novalidate
->
-<div class="col-12">
-   <label for="cust_id" class="form-label">ID</label>
-<input
-    type="text"
-    class="form-control"
-    id="cust_id"
-    name="cust_id"
-    placeholder="ID"
-    value="" 
-    required
-/>
-  
-   <div class="invalid-feedback">ID를 입력하세요.</div>
-</div>
+								<div class="invalid-feedback">ID를 입력하세요.</div>
+							</div>
+							<div class="col-12">
+								<div class="password-field position-relative">
+									<label for="cust_pw" class="form-label">Password</label> <input type="password" class="form-control fakePassword" id="cust_pw" name="cust_pw" placeholder="*****" required />
+									<div class="invalid-feedback">비밀번호를 입력하세요.</div>
+								</div>
+							</div>
+							<div class="col-12 d-flex justify-content-between align-items-center">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" /> <label class="form-check-label" for="flexCheckDefault">ID 기억하기</label>
+								</div>
+							</div>
+							<div class="col-12 d-grid">
+								<button type="submit" class="btn btn-info">로그인</button>
+							</div>
+							<div>
+								아직 Rentally 회원가입을 안하셨나요? <a href="${path}/customer/identity">회원가입</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
 
-<!-- Password -->
-<div class="col-12">
-   <div class="password-field position-relative">
-      <label for="cust_pw" class="form-label">Password</label>
-      <input
-         type="password"
-         class="form-control fakePassword"
-         id="cust_pw"
-         name="cust_pw"
-         placeholder="*****"
-         required
-      />
-      <div class="invalid-feedback">비밀번호를 입력하세요.</div>
-   </div>
-</div>
+		</section>
 
-<!-- Options -->
-<div class="col-12 d-flex justify-content-between align-items-center">
-  <div class="form-check">
-   <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-   <label class="form-check-label" for="flexCheckDefault">ID 기억하기</label>
-</div>
-
-         <!-- 비밀번호찾기 -->
-         <div>
-          
-         </div>
-      </div>
-
-      <!-- Submit Button -->
-      <div class="col-12 d-grid">
-         <button type="submit" class="btn btn-info">로그인</button>
-      </div>
-
-      <!-- Sign Up Link -->
-      <div>
-      아직 Rentally 회원가입을 안하셨나요? 
-         <a href="${path}/customer/join">회원가입</a>
-      </div>
-</form>
-   </div>
-
-         
-         </div>
-      </div>
-   
-</section>
-	<!-- 알림용 modal -->
-	<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
-	    <div class="modal-dialog">
-	        <div class="modal-content">
-	            <div class="modal-header">
-	                <h5 class="modal-title" id="alertModalLabel">알림</h5>
-	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	            </div>
-	            <div class="modal-body" id="alertModalMessage"></div>
-	            <div class="modal-footer">
-	                <button type="button" class="btn btn-info" data-bs-dismiss="modal">확인</button>
-	            </div>
-	        </div>
-	    </div>
-	</div>
-      </main>
-
-      <!-- Footer -->
-     <%@ include file="../common/footer.jsp" %>
-   	<%@ include file="../common/bottomKakao.jsp" %>
-      
-      <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
-      
-      <script src="${path}/resources/js/vendors/password.js"></script>
-      <script src="${path}/resources/js/vendors/validation.js"></script>
+		<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="alertModalLabel">알림</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body" id="alertModalMessage"></div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-info" data-bs-dismiss="modal">확인</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
 
 
-<script>
+	<%@ include file="../common/footer.jsp"%>
+	<%@ include file="../common/bottomKakao.jsp"%>
+
+	<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
+
+	<script src="${path}/resources/js/vendors/password.js"></script>
+	<script src="${path}/resources/js/vendors/validation.js"></script>
+
+
+	<script>
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("#loginForm");
     const urlParams = new URLSearchParams(window.location.search);
@@ -167,16 +119,18 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
     
-    // 폼 유효성 검사 및 제출 처리
+ // 폼 유효성 검사 및 제출 처리
     form.addEventListener("submit", (event) => {
-        let isValid = true;
+        let isValid = true; // 기본적으로 유효하다고 설정
 
         // ID 유효성 검사
         const custIdInput = document.getElementById("cust_id");
         if (!custIdInput.value.trim()) {
-            isValid = false;
+            if (isValid) { // 최초로 유효성 검사 실패 시에만 모달 띄우기
+                showModal("ID를 입력해주세요."); 
+            }
+            isValid = false; // 유효하지 않음으로 설정
             custIdInput.classList.add("is-invalid");
-            showModal("ID를 입력해주세요."); // 유효성 검사 실패 시 모달 띄우기
         } else {
             custIdInput.classList.remove("is-invalid");
         }
@@ -184,9 +138,11 @@ document.addEventListener("DOMContentLoaded", () => {
         // 비밀번호 유효성 검사
         const custPwInput = document.getElementById("cust_pw");
         if (!custPwInput.value.trim()) {
-            isValid = false;
+            if (isValid) { // 이전에 이미 유효성 검사 실패했다면 모달 띄우지 않음
+                showModal("비밀번호를 입력해주세요."); 
+            }
+            isValid = false; // 유효하지 않음으로 설정
             custPwInput.classList.add("is-invalid");
-            showModal("비밀번호를 입력해주세요."); // 유효성 검사 실패 시 모달 띄우기
         } else {
             custPwInput.classList.remove("is-invalid");
         }
@@ -207,8 +163,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 </script>
-<!-- id 기억하기 script -->
-<script>
+	<!-- id 기억하기 script -->
+	<script>
     document.addEventListener("DOMContentLoaded", function() {
         // 페이지가 로드되면 로컬 스토리지에서 ID 값을 읽어옵니다.
         var savedId = localStorage.getItem("savedId");
@@ -232,8 +188,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 </script>
-
-
 
 </body>
 </html>

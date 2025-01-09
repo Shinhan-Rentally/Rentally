@@ -19,9 +19,6 @@ import com.rental.shinhan.dto.BestReviewJoinDTO;
 import com.rental.shinhan.dto.ProductListJoinDTO;
 import com.rental.shinhan.service.BestService;
 
-/**
- * Handles requests for the application home page.
- */
 @Controller
 public class HomeController {
 	
@@ -30,9 +27,6 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		
@@ -42,14 +36,10 @@ public class HomeController {
 		model.addAttribute("bestProduct", bestproductlist);
 		model.addAttribute("bestReview", bestreviewlist);
 		
-		
 		return "main";
 	}
-
-	//메인 이동
 	@GetMapping("/main")
 	public String main(Model model) {
-		
 		
 		List<BestProductJoinDTO> bestproductlist= bService.selectBestProduct();
 		List<BestReviewJoinDTO> bestreviewlist = bService.selectBestReview();
@@ -59,7 +49,6 @@ public class HomeController {
 		
 		return "main";
 	}
-
 	@GetMapping("/error")
 	public String error() {
 		

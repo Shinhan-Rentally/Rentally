@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -7,7 +6,6 @@
 .wishAdd.active i {
 	color: red; /* 아이콘 색상을 흰색으로 설정 */
 }
-
 .fs-6 {
 	display: block; /* 블록 요소 */
 	width: 100%; /* 부모 요소에 맞춤 */
@@ -18,7 +16,6 @@
 	white-space: nowrap; /* 한 줄로 제한 */
 	text-overflow: ellipsis; /* 말줄임표 처리 */
 }
-
 .text-center.position-relative {
 	display: flex; /* 이미지 중앙 정렬 */
 	justify-content: center;
@@ -27,96 +24,60 @@
 	height: 200px; /* 부모 요소 높이 고정 */
 	overflow: hidden; /* 넘치는 이미지 잘라냄 */
 }
-
 .img-fluid {
 	width: auto; /* 가로세로 비율 유지 */
 	height: 100%; /* 높이를 부모에 맞춤 */
 }
 </style>
-<c:set var="path" value="${pageContext.servletContext.contextPath}"
-	scope="application"></c:set>
-
-
-
+<c:set var="path" value="${pageContext.servletContext.contextPath}" scope="application"></c:set>
 <span class="text-white" id="categoryname" style="display: none;">${category_name}</span>
-
-
 <div class="mb-3 mb-lg-0">
-	<span class="text-white" id="size" style="display: none;">${productlistsize}</span>
-
+	<span class="text-white" id="size" style="display: none;">${productcount}</span>
 </div>
-<div
-	class="row g-4 row-cols-xl-4 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
-	<c:forEach items="${productlist}" var="productlist">
-		<!-- col -->
+<div class="row g-4 row-cols-xl-4 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
+	<c:forEach items="${productlist}" var="product">
 		<div class="col">
-			<!-- card -->
 			<div class="card card-product">
 				<div class="card-body">
-					<!-- badge -->
 					<div class="text-center position-relative">
-						<a
-							href="${path}/product/detail?product_seq=${productlist.product_seq}">
-							<!-- img --> <img
-							src="https://rentally.s3.ap-northeast-2.amazonaws.com/${productlist.category_seq}/
-													${productlist.product_img}"
-							alt="Grocery Ecommerce Template" class="mb-3 img-fluid" />
+						<a href="${path}/product/detail?product_seq=${product.product_seq}"> <img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${product.category_seq}/
+						${product.product_img}" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" />
 						</a>
-
 					</div>
-
 					<h2 class="fs-6">
-						<a
-							href="${path}/product/detail?product_seq=${productlist.product_seq}"
-							class="text-inherit text-decoration-none">${productlist.product_name}</a>
+						<a href="${path}/product/detail?product_seq=${product.product_seq}" class="text-inherit text-decoration-none">${product.product_name}</a>
 					</h2>
 					<div>
-						
-<small class="text-warning">
-    <c:forEach var="i" begin="1" end="5">
-        <c:choose>
-     
-            <c:when test="${i - 0.5 <= productlist.review_avg && i > productlist.review_avg}">
-                <i class="bi bi-star-half"></i>
-            </c:when>
-     
-            <c:when test="${i <= productlist.review_avg}">
-                <i class="bi bi-star-fill"></i>
-            </c:when>
+						<small class="text-warning"> <c:forEach var="cnt" begin="1" end="5">
+								<c:choose>
+									<c:when test="${product.review_avg != null and (cnt - 0.5 <= product.review_avg) and (cnt > product.review_avg)}">
+										<span class="bi bi-star-half"></span>
+									</c:when>
 
-            <c:otherwise>
-                <i class="bi bi-star"></i>
-            </c:otherwise>
-        </c:choose>
-    </c:forEach>
-</small>
-
-						<span class="text-muted small"><fmt:formatNumber
-								value="${productlist.review_avg}" type="number"
-								maxFractionDigits="2" />(${productlist.review_count})</span>
+									<c:when test="${product.review_avg != null and cnt <= product.review_avg}">
+										<span class="bi bi-star-fill"></span>
+									</c:when>
+									<c:otherwise>
+										<span class="bi bi-star"></span>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</small> <span class="text-muted small"><fmt:formatNumber value="${product.review_avg}" type="number" maxFractionDigits="2" />(${product.review_count})</span>
 					</div>
-					<!-- price -->
 					<div class="d-flex justify-content-between align-items-center mt-3">
-
 						<div>
-							<!-- price -->
-							<span class="text-dark">월 <fmt:formatNumber
-									value="${productlist.product_pay}" type="number"
-									pattern="#,###" />원
+							<span class="text-dark">월 <fmt:formatNumber value="${product.product_pay}" type="number" pattern="#,###" />원
 							</span>
 						</div>
 					</div>
 					<!-- btn -->
 					<div>
-						<input type="hidden" class="product-seq"
-							value="${productlist.product_seq}">
-						<button class="btn btn-info btn-sm wishAdd position-absolute"
-							style="right: 10px; bottom: 10px;"5>
-							<c:if test="${fn:contains(wishlist, productlist.product_seq)}">
+						<input type="hidden" class="product-seq" value="${product.product_seq}">
+						<button class="btn btn-info btn-sm wishAdd position-absolute" style="right: 10px; bottom: 10px;"5>
+							<c:if test="${fn:contains(wishlist, product.product_seq)}">
 								<i class="bi bi-heart-fill"></i>
 							</c:if>
-							<c:if
-								test="${not fn:contains(wishlist, productlist.product_seq)}">
+							<c:if test="${not fn:contains(wishlist, product.product_seq)}">
 								<i class="bi bi-heart"></i>
 							</c:if>
 						</button>
@@ -125,67 +86,42 @@
 				</div>
 			</div>
 		</div>
-
-
-
-
-
 	</c:forEach>
-
-
 </div>
 
 <div class="row mt-8">
-    <div class="col">
-        <c:set var="currentPage" value="${empty param.page ? 1 : param.page}" />
-        <c:set var="totalPages" value="${totalPages}" />
+	<div class="col">
+		<c:set var="currentPage" value="${empty param.page ? 1 : param.page}" />
+		<c:set var="totalPages" value="${totalPages}" />
+		<nav>
+			<ul class="pagination">
+				<!-- Prev 버튼 -->
+				<li class="page-item ${currentPage == 1 ? 'disabled' : ''}"><a class="page-link mx-1" href="javascript:void(0);" aria-label="Previous" data-page="${currentPage > 1 ? currentPage - 1 : 1}"> <i class="feather-icon icon-chevron-left"></i>
+				</a></li>
 
-        <nav>
-            <ul class="pagination">
-                <!-- Prev 버튼 -->
-                <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-                    <a class="page-link mx-1" href="javascript:void(0);"
-                        aria-label="Previous" data-page="${currentPage > 1 ? currentPage - 1 : 1}">
-                        <i class="feather-icon icon-chevron-left"></i>
-                    </a>
-                </li>
+				<!-- 페이지 번호 -->
+				<c:forEach var="i" begin="${currentPage - 2 > 1 ? currentPage - 2 : 1}" end="${currentPage + 2 < totalPages ? currentPage + 2 : totalPages}">
+					<li class="page-item ${currentPage == i ? 'active' : ''}"><a class="page-link mx-1" href="javascript:void(0);" data-page="${i}">${i}</a></li>
+				</c:forEach>
 
-                <!-- 페이지 번호 -->
-                <c:forEach var="i"
-                    begin="${currentPage - 2 > 1 ? currentPage - 2 : 1}"
-                    end="${currentPage + 2 < totalPages ? currentPage + 2 : totalPages}">
-                    <li class="page-item ${currentPage == i ? 'active' : ''}">
-                        <a class="page-link mx-1" href="javascript:void(0);" data-page="${i}">${i}</a>
-                    </li>
-                </c:forEach>
+				<!-- '...' 표시 -->
+				<li class="page-item ${currentPage + 2 < totalPages ? '' : 'd-none'}"><a class="page-link mx-1" href="#">...</a></li>
 
-                <!-- '...' 표시 -->
-                <li class="page-item ${currentPage + 2 < totalPages ? '' : 'd-none'}">
-                    <a class="page-link mx-1" href="#">...</a>
-                </li>
-
-                <!-- 마지막 페이지 -->
-                <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
-                    <a class="page-link mx-1" href="javascript:void(0);"
-                        aria-label="Next" data-page="${currentPage < totalPages ? currentPage + 1 : totalPages}">
-                        <i class="feather-icon icon-chevron-right"></i>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+				<!-- 마지막 페이지 -->
+				<li class="page-item ${currentPage == totalPages ? 'disabled' : ''}"><a class="page-link mx-1" href="javascript:void(0);" aria-label="Next" data-page="${currentPage < totalPages ? currentPage + 1 : totalPages}"> <i class="feather-icon icon-chevron-right"></i>
+				</a></li>
+			</ul>
+		</nav>
+	</div>
 </div>
 
 <!-- 알림용 modal -->
-<!-- 알림용 modal -->
-<div class="modal fade" id="alertModal" tabindex="-1"
-	aria-labelledby="alertModalLabel" aria-hidden="true">
+<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="alertModalLabel">알림</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal"
-					aria-label="Close"></button>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body" id="alertModalMessage"></div>
 			<div class="modal-footer">
@@ -195,14 +131,9 @@
 	</div>
 </div>
 
+<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-
-
-<script
-	src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 $(document).ready(function () {
 	$(document).on("click", ".wishAdd", function (event) {
@@ -272,8 +203,7 @@ function showModal(message) {
     const alertModal = new bootstrap.Modal(document.getElementById("alertModal"));
     alertModal.show();
 }
-		</script>
-
+</script>
 
 <script>
 		$(document).on("click", ".page-link", function (event) {
@@ -295,7 +225,7 @@ function showModal(message) {
 		    });
 		});
 	</script>
-	<script>
+<script>
 		$(document).on("click", ".page-link", function (event) {
 		    event.preventDefault(); // 기본 새로고침 방지
 		    const page = $(this).data("page");
@@ -314,7 +244,4 @@ function showModal(message) {
 		        },
 		    });
 		});
-	</script>
-	<script>
-	
-	</script>
+</script>
