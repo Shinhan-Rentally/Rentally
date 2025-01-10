@@ -8,7 +8,7 @@
 <%@ include file="../common/headLinks.jsp"%>
 <title>회원가입 - Rentally</title>
 <style>
-	#formSignupEmail2:read-only{
+	#formSignupEmail2:read-only, #formSignupName:read-only, #formSignupPhone:read-only{
 		background-color: #EAEAEA;
 	}
 	.hide{
@@ -17,37 +17,25 @@
 </style>
 </head>
 <body>
-	<!-- header 화면 불러오기 -->
 	<%@ include file="../common/header.jsp" %>
 	<main>
-		<!-- section -->
 		<section class="my-lg-14 my-8">
-			<!-- container -->
 			<div class="container">
-				<!-- row -->
 				<div class="row justify-content-center align-items-center">
 					<div class="col-12 col-md-6 col-lg-4 order-lg-1 order-2">
-						<!-- img -->
 						<img src="${path }/resources/images/svg-graphics/signup-g.svg"
-							alt="joinImg" class="img-fluid" />
+							alt="joinImg" class="img-fluid"/>
 					</div>
-					<!-- col -->
 					<div
 						class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1">
 						<div class="mb-lg-9 mb-5">
 							<h1 class="mb-1 h2 fw-bold">회원가입</h1>
-							
 								<h6>Rentally에 오신 걸 환영합니다!</h6><br>
 								<p>Rentally는 가전 구독 플랫폼으로 최신 제품을 부담 없이 간편하게 제공합니다.</p>
-								
 						</div>
-						
-						<!-- form -->
 						<form action="${path}/customer/join" method="post" class="needs-validation" novalidate>
 							<div class="row g-3">
-								<!-- col -->
 								<div class="col-12">
-									<!-- input ID -->
 									<label for="formSignupId" class="form-label visually-hidden">
 										cust_id
 									</label>
@@ -61,7 +49,6 @@
 									<div class="english-feedback hide">영어 또는 숫자만 가능합니다.</div>
 								</div>
 								<div class="col-12">
-									<!-- input 이름 -->
 									<label for="formSignupName" class="form-label visually-hidden">
 										cust_name
 									</label>
@@ -70,7 +57,6 @@
 									<div class="invalid-feedback">이름을 입력해주세요.</div>
 								</div>
 								<div class="col-4">
-									<!-- input 이메일 -->
 									<label for="formSignupEmail" class="form-label visually-hidden">
 										cust_email
 									</label>
@@ -78,7 +64,6 @@
 										id="formSignupEmail" name="cust_email" placeholder="Email"
 										required>
 								</div>
-									
 								<div class="col-4">
 									<input type="text" class="form-control"
 										name="cust_email2" id="formSignupEmail2">
@@ -94,9 +79,8 @@
 									</select>
 								</div>
 								<div class="invalid-feedback">이메일을 입력해주세요.</div>
-								
+								<div class="invalidEmail-feedback hide">유효한 이메일 주소를 입력하세요.</div>
 								<div class="col-12">
-									<!-- input -->
 									<label for="formSignupPhone" class="form-label visually-hidden">
 										Phone number
 									</label>
@@ -106,27 +90,38 @@
 								</div>
 								<div class="col-12">
 									<div class="password-field position-relative">
-
 										<label for="formSignupPassword"
 											class="form-label visually-hidden"> Password </label>
 										<div class="password-field position-relative">
 											<input type="password" class="form-control fakePassword" 
 												minlength="6" maxlength="16" name="cust_pw"
-												id="formSignupPassword" placeholder="*****" required />
+												id="formSignupPassword" placeholder="비밀번호" required />
 											<span>
 												<i class="bi bi-eye-slash passwordToggler"></i>
 											</span>
 											<div class="invalid-feedback">비밀번호를 입력해주세요.</div>
+											<div class="pw-feedback hide">비밀번호는 영문자, 숫자, 특수문자 조합으로 6~16글자로 입력해주세요.</div>
 										</div>
 									</div>
 								</div>
-								<!-- btn -->
+								<div class="col-12">
+									<div class="password-field position-relative">
+										<label for="formSignupPassword"
+											class="form-label visually-hidden"> Password </label>
+										<div class="password-field position-relative">
+											<input type="password" class="form-control fakePassword" 
+												minlength="6" maxlength="16" name="confirmCust_pw"
+												id="formSignupPasswordConfirm" placeholder="비밀번호 확인" required />
+											<span>
+												<i class="bi bi-eye-slash passwordToggler"></i>
+											</span>
+											<div class="mismatch-feedback hide">비밀번호가 일치하지 않습니다.</div>
+										</div>
+									</div>
+								</div>
 								<div class="col-12 d-grid">
-									
 									<button id="join" type="submit" class="btn btn-info">회원가입</button>
 								</div>
-
-								
 							</div>
 						</form>
 						<input type="hidden" id="sessionName" value="${name}" />
@@ -136,12 +131,8 @@
 			</div>
 		</section>
 	</main>
-
-	<!-- Footer -->
 	<%@ include file="../common/footer.jsp" %>
 	<%@ include file="../common/bottomKakao.jsp" %>
-	<!-- Javascript-->
-	<%-- <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script> --%>
 	<script src="${path}/resources/js/vendors/password.js"></script>
 	<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 	<script src="${path}/resources/js/vendors/validation.js"></script>
@@ -151,8 +142,15 @@
 		//본인인증 후 값 가져오기
 		var custName = $('#sessionName').val();
 		var custPhone = $('#sessionPhone').val();
+		
+		function formPhone(phone){
+			phone = phone.replace(/\D/g, '');
+			return phone.replace(/^(\d{3})(\d{4})(\d{4})$/, '$1-$2-$3');
+		}
+		
+		var formatPhone = formPhone(custPhone);
 		$('#formSignupName').val(custName).attr('readonly', true);
-		$('#formSignupPhone').val(custPhone).attr('readonly', true);
+		$('#formSignupPhone').val(formatPhone).attr('readonly', true);
 		
 		//입력값이 비어있을 때 경고문구
 		$("#join").on("click", function(){
@@ -170,14 +168,69 @@
 		
 		//이메일 선택값
 		$("select").on("change", function() {
-			if ($(this).val()) {
-				$("#formSignupEmail2").attr("readonly", true);
-				$("#formSignupEmail2").val($(this).val());
-			} else {
+			var selectEmail = $(this).val();
+			var inputEmail = $("#formSignupEmail2").val();
+			let emailPattern = /[^\s@]+\.[^\s@]+$/;
+			let emailMessage = document.querySelector(".invalidEmail-feedback");
+			
+			if (selectEmail === ''){
+				if(!emailPattern.test(inputEmail)){
+					emailMessage.classList.remove("hide");
+				} else {
+					emailMessage.classList.add("hide");
+				}
 				$("#formSignupEmail2").val("");
 				$("#formSignupEmail2").attr("readonly", false);
+			} else {
+				if(!emailPattern.test(selectEmail)){
+					emailMessage.classList.remove("hide");
+					return;
+				}
+				$("#formSignupEmail2").val(selectEmail);
+				$("#formSignupEmail2").attr("readonly", true);
+				emailMessage.classList.add("hide");
 			}
 		});
+
+		//비밀번호 유효성 검사
+		let inputUserPw = document.querySelector("#formSignupPassword");
+		let confirmUserPw = document.querySelector("#formSignupPasswordConfirm");
+		let pwMessage = document.querySelector(".pw-feedback");
+		let confirmMessage = document.querySelector(".mismatch-feedback");
+		
+		function okPassword(str){
+			return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(str);
+		}
+		function confirm(pw1, pw2){
+			return pw1 === pw2;
+		}
+		
+		inputUserPw.onkeyup = function(){
+			if(inputUserPw.value.length !== 0){
+				if(okPassword(inputUserPw.value)){
+					pwMessage.classList.add("hide");
+				} else {
+					pwMessage.classList.remove("hide");
+				}
+			} else {
+				pwMessage.classList.add("hide");
+			}
+		};
+		
+		confirmUserPw.onkeyup = function(){
+			if(confirmUserPw.value.length !== 0){
+				if(confirm(inputUserPw.value, confirmUserPw.value)){
+					confirmMessage.classList.add("hide");
+					$("#formSignupPasswordConfirm").removeClass("is-invalid");
+					$("#formSignupPasswordConfirm").addClass("is-valid");
+				} else {
+					confirmMessage.classList.remove("hide");
+					$("#formSignupPasswordConfirm").addClass("is-invalid");
+				}
+			} else {
+				confirmMessage.classList.add("hide");
+			}
+		};
 		
 		
 		//ID유효성검사
