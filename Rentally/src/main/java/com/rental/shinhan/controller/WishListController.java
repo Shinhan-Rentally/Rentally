@@ -44,9 +44,9 @@ public class WishListController {
     }
     @ResponseBody
     @DeleteMapping("/{product_seq}/delete")
-    public String deleteWish(HttpSession session, @PathVariable int product_seq) {
-        int cust_seq = (Integer)session.getAttribute("cust_seq");
-        int result = wishListService.deleteWish(cust_seq, product_seq);
+    public String deleteWish(HttpSession session, @PathVariable("product_seq") int productSeq) {
+        int custSeq = (Integer)session.getAttribute("cust_seq");
+        int result = wishListService.deleteWish(custSeq, productSeq);
         return result+"";
     }
 }

@@ -17,7 +17,7 @@ public class WishListService {
     public List<WishListJoinDTO> findWishLists(int custSeq) {
         return wishListDAO.selectWishLists(custSeq);
     }
-    public List<WishListDTO> wishStatus(int cust_seq) {return wishListDAO.wishStatus(cust_seq);}
+    public List<WishListDTO> wishStatus(int custSeq) {return wishListDAO.wishStatus(custSeq);}
 
     public int addWishList(WishListDTO request) {
         WishListDTO wishlist = WishListDTO
@@ -27,7 +27,7 @@ public class WishListService {
                 .build();
         return wishListDAO.insertWishList(wishlist);
     }
-    public int deleteWish(int cust_seq, int product_seq) {
-        return wishListDAO.deleteWish(cust_seq, product_seq);
+    public int deleteWish(int custSeq, int productSeq) {
+        return wishListDAO.deleteWish(custSeq, productSeq);
     }
 }
