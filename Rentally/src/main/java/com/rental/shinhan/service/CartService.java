@@ -19,11 +19,9 @@ public class CartService {
 	
 	public List<CartJoinDTO> selectCart(String cust_id){
 		List<CartJoinDTO> cartlist = cartDAO.selectCart(cust_id);
-		log.info(cartlist.toString());
 		return cartlist;
 	}
 	
-
 	public int insertCart(CartJoinDTO cart) {
 		return cartDAO.insert(cart);
 	}
@@ -31,6 +29,4 @@ public class CartService {
 	public int deleteCart(Map<String, Object> paramMap) {
 		return cartDAO.deleteCart(paramMap);
 	}
-	
-
 }
