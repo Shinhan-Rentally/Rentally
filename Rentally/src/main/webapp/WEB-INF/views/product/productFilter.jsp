@@ -29,7 +29,6 @@
 	height: 100%; /* 높이를 부모에 맞춤 */
 }
 </style>
-<c:set var="path" value="${pageContext.servletContext.contextPath}" scope="application"></c:set>
 <span class="text-white" id="categoryname" style="display: none;">${category_name}</span>
 <div class="mb-3 mb-lg-0">
 	<span class="text-white" id="size" style="display: none;">${productcount}</span>

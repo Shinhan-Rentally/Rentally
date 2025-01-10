@@ -43,6 +43,9 @@ h2.category {
   white-space: nowrap; 
  
 }
+.btn-group-vertical .btn {
+  width: 100%;
+}
 </style>
 
 <title>카테고리 상품</title>
@@ -74,11 +77,6 @@ h2.category {
 						<div class="offcanvas offcanvas-start offcanvas-collapse w-md-50"
 							tabindex="-1" id="offcanvasCategory"
 							aria-labelledby="offcanvasCategoryLabel">
-							<div class="offcanvas-header d-lg-none">
-								<h5 class="offcanvas-title" id="offcanvasCategoryLabel">Filter</h5>
-								<button type="button" class="btn-close"
-									data-bs-dismiss="offcanvas" aria-label="Close"></button>
-							</div>
 							<div class="offcanvas-body ps-lg-2 pt-lg-0">
 								<!-- 브랜드 필터 -->
 								<div class="mb-8">
@@ -101,19 +99,19 @@ h2.category {
 										<button type="button" class="btn btn-outline-info"
 											data-value="below10k" onclick="togglePriceRangeFilter(this)">0
 											~ 10,000</button>
-										<button type="button" class="btn btn-outline-info"
+										<button type="button" class="btn btn-outline-info border-bottom-0"
 											data-value="10kTo20k" onclick="togglePriceRangeFilter(this)">10,001
 											~ 20,000</button>
 										<button type="button" class="btn btn-outline-info"
 											data-value="20kTo30k" onclick="togglePriceRangeFilter(this)">20,001
 											~ 30,000</button>
-										<button type="button" class="btn btn-outline-info"
+										<button type="button" class="btn btn-outline-info border-bottom-0"
 											data-value="30kTo40k" onclick="togglePriceRangeFilter(this)">30,001
 											~ 40,000</button>
 										<button type="button" class="btn btn-outline-info"
 											data-value="40kTo50k" onclick="togglePriceRangeFilter(this)">40,001
 											~ 50,000</button>
-										<button type="button" class="btn btn-outline-info"
+										<button type="button" class="btn btn-outline-info border-bottom-0"
 											data-value="50kTo70k" onclick="togglePriceRangeFilter(this)">50,001
 											~ 70,000</button>
 										<button type="button" class="btn btn-outline-info"
