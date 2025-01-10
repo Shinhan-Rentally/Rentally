@@ -42,36 +42,33 @@ public class CustomerController {
 
 	@Autowired
 	CustomerService custService;
+	//회원가입
+	@Autowired
+	JoinService jService;
 
 	@GetMapping("/list")
 	public String getCustomer(HttpSession session, Model model) {
-		int cust_seq = (Integer) session.getAttribute("cust_seq");
-		System.out.println(cust_seq);
-		model.addAttribute("custInfo", custService.customerInfo(cust_seq));
+		int custSeq = (Integer) session.getAttribute("cust_seq");
+		model.addAttribute("custInfo", custService.customerInfo(custSeq));
 		return "/customer/settings";
 	}
 
 	@ResponseBody
 	@PostMapping("/delete")
-	public String deleteCustomer(HttpSession session, @RequestParam int cust_seq) {
-		log.info("cust_seq: " + cust_seq);
-		int result = custService.deleteCustomer(cust_seq);
+	public String deleteCustomer(HttpSession session, @RequestParam("cust_seq") int custSeq) {
+		int result = custService.deleteCustomer(custSeq);
 		session.invalidate();
 		return result + "";
 	}
 
-	@ResponseBody // page가 아닌 값을 가져감
+	@ResponseBody
 	@PostMapping(value = "/update")
 	public String updateCustInfo(HttpSession session, CustomerDTO custInfo) {
-		int cust_seq = (Integer) session.getAttribute("cust_seq");
-		custInfo.setCust_seq(cust_seq); // 객체에 cust_seq 설정
+		int custSeq = (Integer) session.getAttribute("cust_seq");
+		custInfo.setCust_seq(custSeq);
 		int result = custService.updateCustInfo(custInfo);
 		return result + "";
 	}
-
-	//회원가입
-	@Autowired
-	JoinService jService;
 
 	@PostMapping("/join")
 	public String insert(CustomerDTO cust, RedirectAttributes attr) {
@@ -98,19 +95,18 @@ public class CustomerController {
 	
 	@PostMapping(value = "/updatepw")
 	@ResponseBody
-	public Map<String, Object> updateCustPw(HttpSession session, @RequestParam String currentPW,
-			@RequestParam String newPW) {
-		int cust_seq = (Integer) session.getAttribute("cust_seq");
+	public Map<String, Object> updateCustPw(HttpSession session, @RequestParam String currentPw,
+			@RequestParam String newPw) {
+		int custSeq = (Integer) session.getAttribute("cust_seq");
 		Map<String, Object> response = new HashMap<>();
-		boolean isUpdated = custService.updatePW(cust_seq, currentPW, newPW);
 
+		boolean isUpdated = custService.updatePW(custSeq, currentPw, newPw);
 		if (isUpdated) {
 			response.put("success", true);
 		} else {
 			response.put("success", false);
 			response.put("error", "incorrect_password");
 		}
-
 		return response;
 	}
 

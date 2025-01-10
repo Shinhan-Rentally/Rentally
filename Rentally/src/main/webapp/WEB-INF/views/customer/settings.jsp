@@ -219,8 +219,8 @@
       url: `${path}/customer/updatepw`, // 단일 요청 처리 API
       type: "post",
       data: {
-        currentPW: currentPW,
-        newPW: newPW,
+        currentPw: currentPW,
+        newPw: newPW,
       },
       success: function (response) {
         if (response.success) {
