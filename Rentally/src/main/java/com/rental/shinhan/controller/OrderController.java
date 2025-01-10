@@ -41,10 +41,6 @@ public class OrderController {
                 order.setFormatted_paydate(dateFormat.format(paydate)); // 포맷된 날짜를 추가
             }
         });
-        System.out.println(period);
-//        model.addAttribute("myOrders",orders);
-//        System.out.println(orders);
-//        return "/order/orderList";
         return orders;
     }
 }
