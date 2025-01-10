@@ -37,23 +37,16 @@ public class ProductListController {
 	@Autowired
 	WishListService wishlistService;
 
-	// 카테고리별 상품리스트 출력
-
-	// 필터기능 추가
-	@GetMapping("/list")
-	public String productlist()
-
-	{
-
-		return "product/productList"; // Return full page
-
-	}
-
 	
+	//상품리스트 가이드라인
+	@GetMapping("/list")
+	public String productlist(){
+		return "product/productList"; // Return full page
+	}
 	
 	@GetMapping("/filter")
 	public String productlistfilter(@RequestParam("category_seq") int category_seq, Model model,
-			@RequestParam(value = "brand", required = false) String product_brand,
+			@RequestParam(value = "brand", required = false) String product_brand,//필터링을위한 브랜드
 			@RequestParam(value = "priceRange", required = false) String priceRange,
 			@RequestParam(value = "sort", defaultValue = "popular") String sort,
 			@RequestParam(value = "query", required = false) String query,
@@ -73,7 +66,6 @@ public class ProductListController {
 		if (cust_seq != null) { // 로그인된 경우에만 wishlist를 조회
 			wishlist = wishlistService.wishStatus(cust_seq);
 		}
-
 		
 		// 서비스에서 페이징된 데이터를 가져옴
         Map<String, Object> params = new HashMap<>();
@@ -87,10 +79,11 @@ public class ProductListController {
 		
 		//조회결과에 대한 카운트
 		int count = productlistService.getTotalProductCount(params);
-		int   totalPages = (int) Math.ceil((double) count / size); // 전체 페이지 계수
+		int totalPages = (int) Math.ceil((double) count / size); // 전체 페이지 계수
 	 
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("currentPage", page);
+		model.addAttribute("productcount",count);
 
 		// 모델에 상품 리스트 추가
 		model.addAttribute("productlist", productlist);
@@ -163,7 +156,7 @@ public class ProductListController {
 		List<ProductListJoinDTO> productlist = productlistService.searchProduct(query, product_brand, priceRange, sort,page,size);
 		model.addAttribute("productlistsize", productlist.size());
 	
-		// 서비스에서 페이징된 데이터를 가져옴
+		// 페이징을 위한 카운트 조건
         Map<String, Object> params = new HashMap<>();
         params.put("category_seq", category_seq);
         params.put("page", page);
@@ -173,17 +166,15 @@ public class ProductListController {
         params.put("product_brand", product_brand);
         params.put("priceRange", priceRange);
 		
-		//조회결과에 대한 카운트
+		//페이지 계산을위한 결과에대한 카운트
 		int count = productlistService.getTotalProductCount(params);
-
+		model.addAttribute("productcount",count);
 		
 		// 전체 페이지 수 계산
 		int totalPages = (int) Math.ceil((double) count / size);
-		log.info(count + "검색결과");
-		log.info("검색페이지 토탈" + totalPages);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("currentPage", page);
-
+		
 		// 모델에 결과 추가
 		model.addAttribute("query", query);
 		model.addAttribute("productlist", productlist);

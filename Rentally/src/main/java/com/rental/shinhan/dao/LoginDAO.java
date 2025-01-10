@@ -12,14 +12,8 @@ public class LoginDAO  implements LoginInterfce{
 	@Autowired
 	SqlSession sqlSession;
 	
-	
 	String namespace = "com.rental.shinhan.customer.";
-
 	
-
-
-
-
 	@Override
 	public LoginJoinDTO login(String cust_id) {
 

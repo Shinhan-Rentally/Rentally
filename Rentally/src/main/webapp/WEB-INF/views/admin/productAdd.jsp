@@ -21,7 +21,8 @@
                             <h2>상품 등록</h2>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item"><a href="${path}/main" class="text-inherit">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="${path}/main" class="text-inherit">Home</a>
+                                    </li>
                                     <li class="breadcrumb-item"><a href="${path}/admin/product/list">관리자</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">상품 등록</li>
                                 </ol>
@@ -130,7 +131,6 @@
                             <h4 class="mb-3 h5">상세 설명</h4>
                             <textarea id="features" class="form-control" rows="3"
                                       placeholder="Product Description"></textarea>
-
                         </div>
                         <div>
                             <div class="mb-3 col-lg-12 mt-5">
@@ -148,97 +148,57 @@
                     </div>
                 </div>
                 <div class="d-grid">
-                    <button id="btn_ajax" type="button" class="btn btn-info">상품 등록</button>
+                    <button id="insert" type="button" class="btn btn-info">상품 등록</button>
                 </div>
             </div>
         </div>
     </main>
 </div>
-<!-- 알림용 modal -->
-<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="alertModalLabel">알림</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="alertModalMessage"></div>
-            <div class="modal-footer">
-                <button type="button" id="alertModalConfirm" class="btn btn-info" data-bs-dismiss="modal">확인</button>
-            </div>
-        </div>
-    </div>
-</div>
+<%@ include file="../common/modal.jsp" %>
 <script> var contextPath = "${path}" </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="${path}/resources/libs/quill/dist/quill.min.js"></script>
-<script src="${path}/resources/js/vendors/editor.js"></script>
 <script src="${path}/resources/libs/dropzone/dist/min/dropzone.min.js"></script>
 <script src="${path}/resources/js/vendors/dropzone.js"></script>
+<script src="${path}/resources/js/modalUtils.js"></script>
 <script>
-    $('#features').on('input', function() {
+    $('#features').on('input', function () {
         let lines = $(this).val().split("\n").slice(0, 3);
         $(this).val(lines.join("\n"));
     });
-</script>
-<script>
-    function showModalMessage(message) {
-        $('#alertModalMessage').text(message);
-        $('#alertModal').modal('show');
-    }
 
-    $('#alertModalConfirm').off("click").on("click", function () {
-        if (isSuccess) {
-            location.reload();
-        }
-    });
-    $("#btn_ajax").on("click", f_jsonInsert);
-
-    function f_jsonInsert() {
-        var category = $('#category').val();
-        var productSerial = $('#productSerial').val();
-        var productName = $('#productName').val();
-        var pay = $('#pay').val();
-        var brand = $('#brand').val();
-        var grade = $('#grade').val();
-        var releaseDate = $('#date').val();
+    $("#insert").on("click", function () {
         var wide = $('#wide').val();
         var height = $('#height').val();
         var depth = $('#depth').val();
         var weight = $('#weight').val();
         var wh = $('#wh').val();
-        var color = $('#color').val();
         var features = $('#features').val()
             .split("\n")
             .map(line => `#\${line.trim()}`)
             .join(" ");
 
         var productData = {
-            "category_seq": category,
-            "product_serial": productSerial,
-            "product_name": productName,
-            "product_pay": pay,
-            "product_brand": brand,
-            "product_grade": grade,
-            "product_date": releaseDate,
+            "category_seq": $('#category').val(),
+            "product_serial": $('#productSerial').val(),
+            "product_name": $('#productName').val(),
+            "product_pay": $('#pay').val(),
+            "product_brand": $('#brand').val(),
+            "product_grade": $('#grade').val(),
+            "product_date": $('#date').val(),
             "product_height": wide + " x " + height + " x " + depth + " mm",
             "product_weight": weight + " kg ",
             "product_wh": wh + " wh ",
-            "product_color": color,
+            "product_color": $('#color').val(),
             "product_features": features
         };
-        
+
         var formData = new FormData();
         formData.append("product", new Blob([JSON.stringify(productData)], {type: "application/json"}));
-
-        if (imgDropzone.files.length > 0) {
-            formData.append("imgUrl", imgDropzone.files[0]);
-        }
-        if (detailDropzone.files.length > 0) {
-            formData.append("imgUrl", detailDropzone.files[0]);
-        }
+        formData.append("imgUrl", imgDropzone.files[0]);
+        formData.append("imgUrl", detailDropzone.files[0]);
 
         $.ajax({
             url: "${path}/admin/product/add",
@@ -247,16 +207,16 @@
             contentType: false,
             processData: false,
             enctype: "multipart/form-data",
-            success: function (response) {
-                isSuccess = true;
-                showModalMessage("상품 등록이 완료되었습니다.")
+            success: function () {
+                showModalMessage("상품 등록이 완료되었습니다.", function () {
+                    location.reload();
+                });
             },
-            error: function (xhr) {
-                isSuccess = false;
+            error: function () {
                 showModalMessage("상품 등록에 실패하였습니다.")
             }
         });
-    }
+    });
 </script>
 </body>
 </html>

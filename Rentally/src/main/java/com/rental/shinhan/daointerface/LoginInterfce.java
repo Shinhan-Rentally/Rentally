@@ -5,5 +5,4 @@ import com.rental.shinhan.dto.LoginJoinDTO;
 public interface LoginInterfce {
 
 	LoginJoinDTO login(String cust_id);
-	
 }

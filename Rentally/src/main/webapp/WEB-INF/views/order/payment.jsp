@@ -6,64 +6,57 @@
 <%@ include file="../common/headMeta.jsp"%>
 <title>결제 - Rentally</title>
 <%@ include file="../common/headLinks.jsp"%>
+<style>
+	abbr[title] {
+		text-decoration: none !important;
+	}
+</style>
 </head>
-<body>
+<body data-path="${path}">
 <%@ include file="../common/header.jsp"%>
+<%@ include file="../address/saveAddressModal.jsp" %>
 <main>
-
-		<!-- section -->
 		<section class="mb-lg-14 mb-8 mt-8">
 			<div class="container">
-				<!-- row -->
 				<div class="row">
-					<!-- col -->
 					<div class="col-12">
 						<div>
 							<div class="mb-8">
-								<!-- text -->
 								<h1 class="fw-bold mb-0">결제</h1>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div>
-					<!-- row -->
 					<div class="row">
 						<div class="col-xl-7 col-lg-6 col-md-12">
-							<!-- accordion -->
 							<div class="accordion accordion-flush" id="accordionFlushExample">
-								<!-- accordion item -->
 								<div class="accordion-item py-4">
 									<div class="d-flex justify-content-between align-items-center">
-										<!-- heading one -->
 										<a href="#" class="fs-5 text-inherit collapsed h4" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne">
 											<i class="feather-icon icon-map-pin me-2 text-muted"></i>
 											배송지
 										</a>
-										<!-- btn -->
 										<a href="#" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#addAddressModal">주소지 추가</a>
-										<!-- collapse -->
 									</div>
 									<div id="flush-collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushExample">
 										<div class="mt-5">
 											<div class="row">
 											<c:forEach items="${addressList}" var="addr">
 												<div class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
-													<!-- form -->
 													<div class="card card-body p-6">
 														<div class="form-check mb-4">
 															<input class="form-check-input" type="radio" name="flexRadioDefault" id="homeRadio" <c:if test="${addr.addr_default == true}">checked</c:if> />
 															<label class="form-check-label text-dark" for="homeRadio">${addr.addr_name}</label>
+															<c:if test="${addr.addr_default == true}">
+																<span class="text-info">기본 주소</span>
+															</c:if>
 														</div>
-														<!-- address -->
 														<address>
 															${addr.addr_title}<br>
 															${addr.addr_detail}<br>
 															<abbr title="Phone">P: ${addr.addr_phone}</abbr>
 														</address>
-														<c:if test="${addr.addr_default == true}">
-															<span class="text-danger">Default address</span>
-														</c:if>
 													</div>
 												</div>
 											</c:forEach>
@@ -71,23 +64,18 @@
 										</div>
 									</div>
 								</div>
-								<!-- accordion item -->
 								<div class="accordion-item py-4">
 									<a href="#" class="text-inherit h5" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
 										<i class="feather-icon icon-credit-card me-2 text-muted"></i>
 										결제 방법
-										<!-- collapse -->
 									</a>
 									<div id="flush-collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
 										<div class="mt-5">
 											<div>
 												<div class="card card-bordered shadow-none mb-2">
-													<!-- card body -->
 													<div class="card-body p-6">
 														<div class="d-flex">
-															
 															<div>
-																<!-- title -->
 																<h5 class="mb-1 h6">카드 결제</h5>
 																<p class="mb-0 small">정기 결제를 위한 카드결제만 가능합니다.</p>
 															</div>
@@ -100,11 +88,9 @@
 								</div>
 								<div>
 									<div class="card card-bordered shadow-none mb-2 mt-2">
-										<!-- card body -->
 										<div class="card-body p-6">
 											<div class="d-flex">
 												<div>
-													<!-- title -->
 													<h5 class="mb-1 h6">※ 배송 유의사항</h5>
 													<ul>
 														<li class="small">제주도/도서산간 지역 및 특정 요일만 설치 가능한 지역은 배송 일정이 변경될 수 있으며, 일부 지역은 실제 배송이 되지 않아 주문 취소가 될 수 있습니다.</li>
@@ -120,22 +106,16 @@
 								</div>
 							</div>
 						</div>
-						<!-- sidebar -->
 						<div class="col-12 col-lg-4 col-md-5">
-							<!-- card -->
 							<div class="mb-5 card mt-6">
 								<div class="card-body p-6">
-									<!-- heading -->
 									<h2 class="h5 mb-4">구독정보</h2>
 									<div class="card mb-2">
-										<!-- list group -->
 										<ul class="list-group list-group-flush">
-											<!-- list group item -->
 											<li class="list-group-item d-flex justify-content-between align-items-start">
 												<span id="productName">${productName}</span>
 											</li>
 											<c:if test="${isUpgrade}">
-												<!-- list group item -->
 												<li class="list-group-item d-flex justify-content-between align-items-start">
 													<div class="me-auto">
 														<div>이전 매달 이용요금</div>
@@ -145,8 +125,6 @@
 													</span>
 												</li>
 											</c:if>
-											
-											<!-- list group item -->
 											<li class="list-group-item d-flex justify-content-between align-items-start">
 												<div class="me-auto">
 													<div class="fw-bold">매달 이용요금</div>
@@ -158,7 +136,6 @@
 										</ul>
 									</div>
 									<div class="d-grid mb-1 mt-4">
-										<!-- btn -->
 										<button class="btn btn-info btn-lg d-flex justify-content-center align-items-center" id="subscribe">
 											<c:choose>
 											    <c:when test="${isUpgrade}">
@@ -173,97 +150,12 @@
 								</div>
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>
 		</section>
 	</main>
-
-	<!-- Modal -->
-	<div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<!-- modal body -->
-				<div class="modal-body p-6">
-					<div class="d-flex justify-content-between mb-5">
-						<!-- heading -->
-						<div>
-							<h5 class="h6 mb-1" id="addAddressModalLabel">New Shipping Address</h5>
-							<p class="small mb-0">Add new shipping address for your order delivery.</p>
-						</div>
-						<div>
-							<!-- button -->
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-					</div>
-					<!-- row -->
-					<div class="row g-3">
-						<!-- col -->
-						<div class="col-12">
-							<input type="text" class="form-control" placeholder="First name" aria-label="First name" required="" />
-						</div>
-						<!-- col -->
-						<div class="col-12">
-							<input type="text" class="form-control" placeholder="Last name" aria-label="Last name" required="" />
-						</div>
-						<!-- col -->
-						<div class="col-12">
-							<input type="text" class="form-control" placeholder="Address Line 1" />
-						</div>
-						<div class="col-12">
-							<!-- button -->
-							<input type="text" class="form-control" placeholder="Address Line 2" />
-						</div>
-						<div class="col-12">
-							<!-- button -->
-							<input type="text" class="form-control" placeholder="City" />
-						</div>
-						<div class="col-12">
-							<!-- button -->
-							<select class="form-select">
-								<option selected="">India</option>
-								<option value="1">UK</option>
-								<option value="2">USA</option>
-								<option value="3">UAE</option>
-							</select>
-						</div>
-						<div class="col-12">
-							<!-- button -->
-							<select class="form-select">
-								<option selected="">Gujarat</option>
-								<option value="1">Northern Ireland</option>
-								<option value="2">Alaska</option>
-								<option value="3">Abu Dhabi</option>
-							</select>
-						</div>
-						<div class="col-12">
-							<!-- button -->
-							<input type="text" class="form-control" placeholder="Zip Code" />
-						</div>
-						<div class="col-12">
-							<!-- button -->
-							<input type="text" class="form-control" placeholder="Business Name" />
-						</div>
-						<div class="col-12">
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-								<!-- label -->
-								<label class="form-check-label" for="flexCheckDefault">Set as Default</label>
-							</div>
-						</div>
-						<!-- button -->
-						<div class="col-12 text-end">
-							<button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-							<button class="btn btn-primary" type="button">Save Address</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 	
-	<!-- 알림용 modal -->
 	<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
 	    <div class="modal-dialog">
 	        <div class="modal-content">
@@ -279,19 +171,19 @@
 	    </div>
 	</div>
 	<%@ include file="../common/bottomKakao.jsp" %>
-	<!-- Footer -->
 	<%@ include file="../common/footer.jsp"%>
-	<!-- Javascript-->
+
  	<script src="${path}/resources/libs/flatpickr/dist/flatpickr.min.js"></script>
 	<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 	<script src="${path}/resources/js/main.js"></script>
-	
 	<script src="${path}/resources/libs/imask/dist/imask.min.js"></script>
 	<script src="${path}/resources/js/vendors/inputmask.js"></script>
+	<script src="${path}/resources/js/address.js"></script>
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-	
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 	let merchantUid;
 
@@ -302,7 +194,7 @@
 			merchantUid = data+1;
 		  },
 		  error: function(jqXHR, textStatus, errorThrown) {
-		    console.error("Error: " + textStatus, errorThrown);
+		    /* console.error("Error: " + textStatus, errorThrown); */
 		  }
 		});
     
@@ -382,11 +274,10 @@
 				                }
 				            })
 				            .catch(error => {
-				                console.error('Error:', error);
+				                /* console.error('Error:', error); */
 				                showModalMessage('결제 도중 오류가 발생했습니다.');
 				            });
 				    } else {
-				    	console.log('빌링키 발급 실패');
 				    	showModalMessage('결제 실패했습니다.');
 				    }
 				  },
@@ -413,7 +304,7 @@
 	function redirectToCompletePage(paymentResultData) {
 	    const selectedAddress = getSelectedAddress();
 	    if (!selectedAddress) {
-	        alert('선택된 주소가 없습니다.');
+	    	showModalMessage('선택된 주소가 없습니다.');
 	        return;
 	    }
 

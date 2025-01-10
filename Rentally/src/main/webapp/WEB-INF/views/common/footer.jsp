@@ -1,9 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!-- footer -->
-<style>
-
-
-</style>
 
 <footer class="footer">
   <div class="container">
@@ -44,7 +39,7 @@
               	<img class="btn-social" src="https://rentally.s3.ap-northeast-2.amazonaws.com/logo/kakao_gray.png" style="width:30px; height:30px;"/>
             </li>
           </ul>
-</div>
+		</div>
       </div>
     </div>
   </div>
