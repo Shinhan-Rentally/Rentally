@@ -12,42 +12,32 @@
 <%@ include file="../common/header.jsp" %>
 <c:set var="page" value="settings" />
 <main>
-  <!-- section -->
   <section>
-    <!-- container -->
     <div class="container">
-      <!-- row -->
       <div class="row">
         <%@ include file="../common/myPageNavbar.jsp" %>
         <div class="col-lg-9 col-md-8 col-12">
           <div class="py-6 p-md-6 p-lg-10">
             <div class="mb-6">
-              <!-- heading -->
               <h2 class="mb-0">설정</h2>
             </div>
             <div>
-              <!-- heading -->
               <h5 class="mb-4">회원정보</h5>
               <div class="row">
                 <div class="col-lg-5">
-                  <!-- form -->
                   <form>
-                    <!-- input -->
                     <div class="mb-3">
                       <label class="form-label">이름</label>
                       <input type="text" id="cust_name" class="form-control" value="${custInfo.cust_name}" />
                     </div>
-                    <!-- input -->
                     <div class="mb-3">
                       <label class="form-label">이메일</label>
                       <input type="email" id="cust_email" class="form-control" value="${custInfo.cust_email}" />
                     </div>
-                    <!-- input -->
                     <div class="mb-5">
                       <label class="form-label">전화번호</label>
                       <input type="text" id="cust_phone" class="form-control" value="${custInfo.cust_phone}" />
                     </div>
-                    <!-- button -->
                     <div class="mb-3">
                       <button id="saveDetails" class="btn btn-info">회원정보 수정</button>
                     </div>
@@ -57,22 +47,18 @@
             </div>
             <hr class="my-10" />
             <div class="pe-lg-14">
-              <!-- heading -->
               <h5 class="mb-4">비밀번호</h5>
               <form class="row row-cols-1 row-cols-lg-2">
-                <!-- input -->
                 <div class="mb-3 col">
                   <label class="form-label">새로운 비밀번호</label>
-                  <input id="newPW" type="password" class="form-control" placeholder="**********" required/>
-                  <div id="newPWFeedback" class="invalid-feedback"></div>
+                  <input id="newPw" type="password" class="form-control" placeholder="**********" required/>
+                  <div id="newPwFeedback" class="invalid-feedback"></div>
                 </div>
-                <!-- input -->
                 <div class="mb-3 col">
                   <label class="form-label">현재 비밀번호</label>
-                  <input id="currentPW" type="password" class="form-control" placeholder="**********" required/>
-                  <div id="currentPWFeedback" class="invalid-feedback"></div>
+                  <input id="currentPw" type="password" class="form-control" placeholder="**********" required/>
+                  <div id="currentPwFeedback" class="invalid-feedback"></div>
                 </div>
-                <!-- input -->
                 <div class="col-12">
                   <p class="mb-4 text-nowrap">
                     새로운 비밀번호와 현재 비밀번호를 입력해주세요.
@@ -83,11 +69,9 @@
             </div>
             <hr class="my-10" />
             <div>
-              <!-- heading -->
               <h5 class="mb-4">계정 삭제</h5>
               <p class="mb-2">계정을 삭제하시겠습니까?</p>
               <p class="mb-5">계정을 삭제하면 해당 계정과 연관된 모든 주문 정보가 삭제됩니다.</p>
-              <!-- btn -->
               <div class="mb-3">
                 <button id="deleteAccount" class="btn btn-outline-danger">회원 탈퇴</button>
               </div>
@@ -121,24 +105,21 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <%@ include file="../common/footer.jsp" %>
-<!-- Footer -->
 <%@ include file="../common/bottomKakao.jsp" %>
-<!-- Javascript-->
 </body>
 <script>
-  let redirectUrl = null;  // 전역 변수로 선언
+  let redirectUrl = null;
 
   function showModalMessage(message) {
     $('#alertModalMessage').text(message);
     $('#alertModal').modal('show');
   }
 
-  // 모달 확인 버튼 클릭 시 동작
   $('#alertModalConfirm').off("click").on("click", function () {
     if (redirectUrl) {
-      window.location.href = redirectUrl; // 특정 URL로 리다이렉트
+      window.location.href = redirectUrl;
     } else if (isSuccess) {
-      location.reload(); // 성공한 경우에만 새로고침
+      location.reload();
     }
   });
 </script>
@@ -166,12 +147,12 @@
   })
   $("#deleteAccount").on("click", function (event) {
     event.preventDefault();
-    cust_seq = ${custInfo.cust_seq};
+    custSeq = ${custInfo.cust_seq};
 
     $.ajax({
       url: `${path}/customer/delete`,
       type: 'post',
-      data: {cust_seq:cust_seq},
+      data: {cust_seq:custSeq},
       success: function(response) {
         if (response === "1") {
           redirectUrl = `${path}/main`;  // 전역 변수를 설정
@@ -189,26 +170,26 @@
   $("#updatePW").on("click", function (event) {
     event.preventDefault(); // 기본 동작 방지
 
-    currentPW = $("#currentPW").val(); // 사용자가 입력한 현재 비밀번호
-    newPW = $("#newPW").val(); // 사용자가 입력한 새로운 비밀번호
+    currentPw = $("#currentPw").val(); // 사용자가 입력한 현재 비밀번호
+    newPw = $("#newPw").val(); // 사용자가 입력한 새로운 비밀번호
 
     let isValid = true; // 필드 검증 플래그
 
     // 필드 검증
-    if (!currentPW) {
-      $("#currentPW").addClass("is-invalid");
-      $("#currentPWFeedback").text("현재 비밀번호를 입력해주세요.");
+    if (!currentPw) {
+      $("#currentPw").addClass("is-invalid");
+      $("#currentPwFeedback").text("현재 비밀번호를 입력해주세요.");
       isValid = false;
     } else {
-      $("#currentPW").removeClass("is-invalid");
+      $("#currentPw").removeClass("is-invalid");
     }
 
-    if (!newPW) {
-      $("#newPW").addClass("is-invalid");
-      $("#newPWFeedback").text("새로운 비밀번호를 입력해주세요.");
+    if (!newPw) {
+      $("#newPw").addClass("is-invalid");
+      $("#newPwFeedback").text("새로운 비밀번호를 입력해주세요.");
       isValid = false;
     } else {
-      $("#newPW").removeClass("is-invalid");
+      $("#newPw").removeClass("is-invalid");
     }
 
     if (!isValid) {
@@ -219,8 +200,8 @@
       url: `${path}/customer/updatepw`, // 단일 요청 처리 API
       type: "post",
       data: {
-        currentPw: currentPW,
-        newPw: newPW,
+        currentPw: currentPw,
+        newPw: newPw,
       },
       success: function (response) {
         if (response.success) {
