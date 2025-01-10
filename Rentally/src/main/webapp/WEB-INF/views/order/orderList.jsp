@@ -107,7 +107,11 @@
                             <h6 class="fw-bold mb-3">상품 정보</h6>
                         </header>
                         <div class="css-1sx2i6a">
+                            <div class="row_title TITLE">상품번호</div>
                             <div class="row_content CONTENT" id="productSerial"></div>
+                        </div>
+                        <div class="css-1sx2i6a">
+                            <div class="row_title TITLE">주문날짜</div>
                             <div class="row_content CONTENT" id="subDate"></div>
                         </div>
                     </div>
@@ -273,13 +277,13 @@
                             $('#order_table tbody').append(`
                             <tr>
                                 <td class="align-middle border-top-0 w-0">
-                                    <a href="#">
+                                    <a href="${path}/product/detail?product_seq=\${order.product_seq}">
                                         <img src="https://rentally.s3.ap-northeast-2.amazonaws.com/\${order.category_seq}/\${order.product_img}"
                                         class="icon-shape icon-xl"/>
                                     </a>
                                 </td>
                                 <td class="align-middle border-top-0">
-                                    <a href="#" class="fw-semibold text-inherit">
+                                    <a href="${path}/product/detail?product_seq=\${order.product_seq}" class="fw-semibold text-inherit">
                                         <h6 class="mb-0 product-name">\${order.product_name}</h6>
                                     </a>
                                     <span>
@@ -302,7 +306,7 @@
                                         data-cust-phone="\${order.cust_phone}"
                                         data-sub-addrT="\${order.sub_addrT}"
                                         data-sub-addrD="\${order.sub_addrD}"
-                                        data-product-pay="\${order.product_pay}"
+                                        data-product-pay="\${order.sub_total.toLocaleString()}"
                                         data-sub-period="\${order.sub_period}"
                                         data-sub-card="\${order.sub_card}">
                                         주문상세
