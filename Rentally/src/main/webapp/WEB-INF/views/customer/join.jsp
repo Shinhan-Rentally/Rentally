@@ -23,7 +23,7 @@
 			<div class="container">
 				<div class="row justify-content-center align-items-center">
 					<div class="col-12 col-md-6 col-lg-4 order-lg-1 order-2">
-						<img src="${path }/resources/images/svg-graphics/signup-g.svg"
+						<img src="${path}/resources/images/svg-graphics/signup-g.svg"
 							alt="joinImg" class="img-fluid"/>
 					</div>
 					<div
@@ -70,7 +70,7 @@
 								</div>
 								<div class="col-4">
 									<select class="form-control" id="formSignupEmail3" required>
-										<option value="">직접입력</option>
+										<option id="directInput" value="">직접입력</option>
 										<option value="@naver.com">&#64;naver.com</option>
 										<option value="@gmail.com">&#64;gmail.com</option>
 										<option value="@daum.net">&#64;daum.net</option>
@@ -142,12 +142,10 @@
 		//본인인증 후 값 가져오기
 		var custName = $('#sessionName').val();
 		var custPhone = $('#sessionPhone').val();
-		
 		function formPhone(phone){
 			phone = phone.replace(/\D/g, '');
 			return phone.replace(/^(\d{3})(\d{4})(\d{4})$/, '$1-$2-$3');
 		}
-		
 		var formatPhone = formPhone(custPhone);
 		$('#formSignupName').val(custName).attr('readonly', true);
 		$('#formSignupPhone').val(formatPhone).attr('readonly', true);
@@ -166,32 +164,66 @@
 			});
 		});
 		
+		// 회원가입시 값 입력됐는지 확인
+		function checkValidation() {
+			$('.needs-validation').each(function () {
+		        $(this).on('submit', function (event) {
+		            if (!this.checkValidity() || countUsingId != 0 || validDomain) {
+		                event.preventDefault();
+		                event.stopPropagation();
+		            }
+		            $(this).addClass('was-validated');
+		        });
+		    });
+		}
+		$("#join").on("click", checkValidation);
+		
 		//이메일 선택값
-		$("select").on("change", function() {
-			var selectEmail = $(this).val();
-			var inputEmail = $("#formSignupEmail2").val();
-			let emailPattern = /[^\s@]+\.[^\s@]+$/;
-			let emailMessage = document.querySelector(".invalidEmail-feedback");
+		$("#formSignupEmail3").on("change", function() {
+			const selectEmail = $(this).val();
+			const inputEmail = $("#formSignupEmail2");
+			const emailMessage = $(".invalidEmail-feedback");
+			const emailPattern = /[^\s@]+\.[^\s@]+$/;
 			
 			if (selectEmail === ''){
-				if(!emailPattern.test(inputEmail)){
-					emailMessage.classList.remove("hide");
-				} else {
-					emailMessage.classList.add("hide");
-				}
-				$("#formSignupEmail2").val("");
-				$("#formSignupEmail2").attr("readonly", false);
+				$(this).removeAttr("required");
+				inputEmail.prop("readonly", false);
+				emailMessage.addClass("hide");
 			} else {
 				if(!emailPattern.test(selectEmail)){
-					emailMessage.classList.remove("hide");
+					emailMessage.removeClass("hide");
 					return;
 				}
-				$("#formSignupEmail2").val(selectEmail);
-				$("#formSignupEmail2").attr("readonly", true);
-				emailMessage.classList.add("hide");
+				inputEmail.val(selectEmail);
+				inputEmail.prop("readonly", true);
+				emailMessage.addClass("hide");
 			}
 		});
+		
+		// 직접 입력한 값을 select의 value로 설정 (select에는 '직접입력'이 계속 보이게)
+		$("#formSignupEmail2").on("change", function () {
+		    var inputEmail = $(this).val().trim();
+		    var selectEmail = $("#formSignupEmail3");
 
+		    if (selectEmail.val() === "") {
+		        // "직접입력"을 선택한 상태에서 입력값을 select에 반영
+		        $("#formSignupEmail3 option[value='']").val(inputEmail); // 선택된 값은 UI에 보이지 않음
+		    }
+		});
+
+		
+		//이메일 유효성 검사
+		$("#formSignupEmail2").on("keyup", function(){
+			const inputEmail = $(this).val();
+			const emailMessage = $(".invalidEmail-feedback");
+			const emailPattern = /[^\s@]+\.[^\s@]+$/;
+			if(!emailPattern.test(inputEmail)){
+				emailMessage.removeClass("hide");
+			} else {
+				emailMessage.addClass("hide");
+			}
+		});
+		
 		//비밀번호 유효성 검사
 		let inputUserPw = document.querySelector("#formSignupPassword");
 		let confirmUserPw = document.querySelector("#formSignupPasswordConfirm");
@@ -231,7 +263,6 @@
 				confirmMessage.classList.add("hide");
 			}
 		};
-		
 		
 		//ID유효성검사
 		let inputUserId = document.querySelector("#formSignupId");
@@ -276,7 +307,6 @@
 			successMessage.classList.remove("hide");
 			longMessage.classList.add("hide");
 			englishMessage.classList.add("hide");
-			
 		};
 		//아이디 중복체크
 		$("#formSignupId").on("input", function(){
