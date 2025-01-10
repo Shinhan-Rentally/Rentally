@@ -68,7 +68,7 @@
                         <!-- heading -->
                         <h2 class="mb-6">FAQ</h2>
                         <div class="accordion" id="accordionExample">
-                            <c:forEach var="faq" items="${faqlist}" varStatus="status">
+                            <c:forEach var="faq" items="${faqList}" varStatus="status">
                                 <div class="accordion-item">
                                     <h2 class="accordion-header">
                                         <button class="accordion-button <c:if test="${!status.first}">collapsed</c:if>"

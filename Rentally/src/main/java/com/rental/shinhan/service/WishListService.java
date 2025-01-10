@@ -20,12 +20,12 @@ public class WishListService {
     public List<WishListDTO> wishStatus(int custSeq) {return wishListDAO.wishStatus(custSeq);}
 
     public int addWishList(WishListDTO request) {
-        WishListDTO wishlist = WishListDTO
+        WishListDTO wishList = WishListDTO
                 .builder()
                 .cust_seq(request.getCust_seq())
                 .product_seq(request.getProduct_seq())
                 .build();
-        return wishListDAO.insertWishList(wishlist);
+        return wishListDAO.insertWishList(wishList);
     }
     public int deleteWish(int custSeq, int productSeq) {
         return wishListDAO.deleteWish(custSeq, productSeq);

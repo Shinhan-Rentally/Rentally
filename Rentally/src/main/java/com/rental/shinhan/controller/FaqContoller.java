@@ -17,7 +17,7 @@ public class FaqContoller {
     @GetMapping("/faq/list")
     public String select(Model model) {
         List<FaqDTO> faqList = fService.selectService();
-        model.addAttribute("faqlist", faqList);
+        model.addAttribute("faqList", faqList);
         return "/faq/faqlist"; //jsp 파일명 정해서 넣기
     }
     @GetMapping("/faq/contact")
