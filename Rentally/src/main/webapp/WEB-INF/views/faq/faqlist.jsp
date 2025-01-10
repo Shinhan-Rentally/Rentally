@@ -5,24 +5,20 @@
 <html>
 <head>
     <style>
-        /* 기본 아코디언 버튼 스타일 */
         .accordion-button {
             background-color: transparent; /* 접혔을 때 배경색 투명 */
             color: black; /* 텍스트 색상 */
             border: none; /* 테두리 제거 */
         }
-
         /* 아코디언이 열린 상태에서 버튼의 배경색 */
         .accordion-button:not(.collapsed) {
             background-color: #F0F3F2; /* 열렸을 때 배경색 */
             color: black; /* 열린 버튼 텍스트 색상 */
         }
-
         /* 아코디언 아이템의 테두리 스타일 */
         .accordion-item {
             border: 1px solid #F0F3F2; /* 아코디언 아이템 테두리 */
         }
-
         /* 아코디언 버튼의 호버 효과 */
         .accordion-button:hover {
             background-color: #E1E5E3; /* 호버 상태 배경색 */
@@ -38,14 +34,11 @@
 <body>
 <%@ include file="../common/header.jsp" %>
 <main>
-    <!-- section -->
     <section>
         <div class="container">
-            <!-- row -->
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-12 border-end d-none d-md-block">
                     <div class="pt-10 pe-lg-10">
-                        <!-- nav item -->
                         <ul class="nav flex-column nav-pills nav-pills-dark">
                             <li class="nav-item">
                                 <a class="nav-link active" href="${path}/faq/list">
@@ -53,7 +46,6 @@
                                     FAQ
                                 </a>
                             </li>
-                            <!-- nav item -->
                             <li class="nav-item">
                                 <a class="nav-link" href="${path}/faq/contact">
                                     <i class="feather-icon icon-user me-2"></i>
@@ -65,7 +57,6 @@
                 </div>
                 <div class="col-lg-9 col-md-8 col-12">
                     <div class="py-6 p-md-6 p-lg-10">
-                        <!-- heading -->
                         <h2 class="mb-6">FAQ</h2>
                         <div class="accordion" id="accordionExample">
                             <c:forEach var="faq" items="${faqList}" varStatus="status">
@@ -100,7 +91,6 @@
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="${path}/resources/js/main.js"></script>
 
-<!-- Footer -->
 <%@ include file="../common/footer.jsp" %>
 </body>
 </html>
