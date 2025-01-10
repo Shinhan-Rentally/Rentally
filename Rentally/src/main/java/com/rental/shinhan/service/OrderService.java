@@ -13,7 +13,7 @@ public class OrderService {
     @Autowired
     OrderDAO orderDAO;
 
-    public List<SubscribeListJoinDTO> findOrders(int custSeq) {
-        return orderDAO.selectOrders(custSeq);
+    public List<SubscribeListJoinDTO> selectOrders(int custSeq, String period) {
+        return orderDAO.selectOrders(custSeq, period);
     }
 }

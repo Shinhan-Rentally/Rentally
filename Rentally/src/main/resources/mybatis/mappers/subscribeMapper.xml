@@ -3,17 +3,11 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rental.shinhan.subscribe">
-	<select id="selectMyOrders" parameterType="int" resultType="SubscribeListVO">
+	<select id="selectMyOrders" parameterType="map" resultType="SubscribeListVO">
 		SELECT
-			s.sub_seq,
-			p.product_name,
-			p.product_seq,
+			*,
 			TO_CHAR(s.sub_paydate, 'YYYY-MM-DD') AS formatted_paydate,
-			s.sub_total,
-			c.cust_seq,
-			p.product_img,
-			p.category_seq,
-			s.sub_period,
+
 			CASE
 				WHEN r.review_seq IS NOT NULL THEN TRUE
 				ELSE FALSE
@@ -23,6 +17,12 @@
 		JOIN product p USING (product_seq)
 		LEFT JOIN review r USING (sub_seq)
 		WHERE c.cust_seq = #{cust_seq}
+			AND (
+				'all' = #{period} OR
+				('1' = #{period} AND sub_date >= CURRENT_DATE - INTERVAL '1 month') OR
+				('2' = #{period} AND sub_date >= CURRENT_DATE - INTERVAL '2 months') OR
+				('3' = #{period} AND sub_date >= CURRENT_DATE - INTERVAL '3 months')
+			)
 		ORDER BY sub_seq DESC;
 	</select>
 	<!-- 구독 현황 조회 -->
