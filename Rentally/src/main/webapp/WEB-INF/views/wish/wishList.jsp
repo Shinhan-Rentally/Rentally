@@ -18,10 +18,8 @@
 <%@ include file="../common/header.jsp" %>
 <c:set var="page" value="wishlist"/>
 <main>
-    <!-- section -->
     <section>
         <div class="container">
-            <!-- row -->
             <div class="row">
                 <%@ include file="../common/myPageNavbar.jsp" %>
                 <div class="col-lg-9 col-md-8 col-12">
@@ -30,51 +28,48 @@
                         <p>${totalCount}개의 상품이 위시리스트에 담겨있습니다.</p>
 
                         <div class="table-responsive-xxl border-0">
-                            <!-- table -->
                             <table class="table mb-0 text-nowrap table-centered">
                                 <thead class="bg-light">
-                                <tr>
-                                    <th></th>
-                                    <th class="text-center">상품명</th>
-                                    <th class="text-center">월 구독료</th>
-                                    <th class="text-center">삭제</th>
-                                </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th class="text-center">상품명</th>
+                                        <th class="text-center">월 구독료</th>
+                                        <th class="text-center">삭제</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach var="wish" items="${wishList}">
-                                    <tr>
-                                        <td class="align-middle border-top-0 w-0">
-                                            <a href="${path}/product/detail?product_seq=${wish.product_seq}">
-                                                <img
-                                                        src="https://rentally.s3.ap-northeast-2.amazonaws.com/${wish.category_seq}/${wish.product_img}"
-                                                        class="icon-shape icon-xl"
-                                                /></a>
-                                        </td>
-                                        <td class="align-middle border-top-0">
-
-                                            <a href="${path}/product/detail?product_seq=${wish.product_seq}"
-                                               class="fw-semibold text-inherit">
-                                                <h6 class="mb-0 product-name">${wish.product_name}</h6>
-                                            </a>
-
-                                            <span><small
-                                                    class="text-muted product-name">${wish.product_features}</small></span>
-                                        </td>
-                                        <td class="text-center border-top-0">
-                                            <fmt:formatNumber value="${wish.product_pay}" type="number"
-                                                              pattern="#,###"/>원
-                                        </td>
-                                        <td class="text-center">
-                                            <a class="text-muted deleteWish" href="#"
-                                               data-wish-seq="${wish.wish_seq}"
-                                               data-cust-seq="${wish.cust_seq}"
-                                               data-product-seq="${wish.product_seq}"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
-                                                <i class="feather-icon icon-trash-2"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
+                                    <c:forEach var="wish" items="${wishList}">
+                                        <tr>
+                                            <td class="align-middle border-top-0 w-0">
+                                                <a href="${path}/product/detail?product_seq=${wish.product_seq}">
+                                                    <img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${wish.category_seq}/${wish.product_img}"
+                                                         class="icon-shape icon-xl"
+                                                    /></a>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <a href="${path}/product/detail?product_seq=${wish.product_seq}"
+                                                   class="fw-semibold text-inherit">
+                                                    <h6 class="mb-0 product-name">${wish.product_name}</h6>
+                                                </a>
+                                                <span>
+                                                    <small class="text-muted product-name">${wish.product_features}</small>
+                                                </span>
+                                            </td>
+                                            <td class="text-center border-top-0">
+                                                <fmt:formatNumber value="${wish.product_pay}" type="number"
+                                                                  pattern="#,###"/>원
+                                            </td>
+                                            <td class="text-center">
+                                                <a class="text-muted deleteWish" href="#"
+                                                   data-wish-seq="${wish.wish_seq}"
+                                                   data-cust-seq="${wish.cust_seq}"
+                                                   data-product-seq="${wish.product_seq}"
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                                                    <i class="feather-icon icon-trash-2"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
                                 </tbody>
                             </table>
                         </div>
@@ -107,16 +102,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <%@ include file="../common/bottomKakao.jsp" %>
-<!-- Footer -->
 <%@ include file="../common/footer.jsp" %>
-<!-- Javascript-->
 </body>
 <script>
     function showModalMessage(message) {
         $('#alertModalMessage').text(message);
         $('#alertModal').modal('show');
     }
-
     // 모달 확인 버튼 클릭 시 동작
     $('#alertModalConfirm').off("click").on("click", function () {
         if (isSuccess) {
@@ -128,19 +120,17 @@
     $(document).on("click", ".deleteWish", function (event) {
         event.preventDefault();
 
-        // 버튼에서 product_seq와 cust_seq 가져오기
-        product_seq = $(this).data("product-seq");
-        cust_seq = $(this).data("cust-seq");
+        productSeq = $(this).data("product-seq");
+        custSeq = $(this).data("cust-seq");
 
-        if (!product_seq || !cust_seq) {
+        if (!productSeq || !custSeq) {
             isSuccess = false;
             showModalMessage('필요한 데이터가 누락되었습니다.');
             return;
         }
 
-        // AJAX 요청
         $.ajax({
-            url: `${path}/wishlist/\${product_seq}/delete`,
+            url: `${path}/wishlist/\${productSeq}/delete`,
             type: 'delete',
             success: function (response) {
                 isSuccess = true;
