@@ -4,7 +4,6 @@ import com.rental.shinhan.dto.SubscribeListJoinDTO;
 import com.rental.shinhan.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,9 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/order")
@@ -41,10 +38,6 @@ public class OrderController {
                 order.setFormatted_paydate(dateFormat.format(paydate)); // 포맷된 날짜를 추가
             }
         });
-        System.out.println(period);
-//        model.addAttribute("myOrders",orders);
-//        System.out.println(orders);
-//        return "/order/orderList";
         return orders;
     }
 }

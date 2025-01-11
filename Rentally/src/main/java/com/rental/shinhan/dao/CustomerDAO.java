@@ -20,13 +20,13 @@ public class CustomerDAO implements CustomerInterface {
     @Autowired
     SqlSession sqlSession;
 
-    public CustomerDTO selectCustomer(int cust_seq) {
-        CustomerDTO customer = sqlSession.selectOne(namespace + "selectCustomer", cust_seq);
+    public CustomerDTO selectCustomer(int custSeq) {
+        CustomerDTO customer = sqlSession.selectOne(namespace + "selectCustomer", custSeq);
         return customer;
     }
 
-    public int deleteCustomer(int cust_seq) {
-        int result = sqlSession.update(namespace + "deleteCustomer", cust_seq);
+    public int deleteCustomer(int custSeq) {
+        int result = sqlSession.update(namespace + "deleteCustomer", custSeq);
         return result;
     }
 
@@ -38,7 +38,7 @@ public class CustomerDAO implements CustomerInterface {
     public int updatePW(CustomerDTO customer) {
         return sqlSession.update(namespace+"updateCustPw",customer);
     }
-    
+
 	//고객의 장바구니/위시리스트 갯수 
     public Map<String, Long> getCartAndWishlistCount(String cust_id) {
 	        return sqlSession.selectOne(namespace + "getCartAndWishlistCount", cust_id);
