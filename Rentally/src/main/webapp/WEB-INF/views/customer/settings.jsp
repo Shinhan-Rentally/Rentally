@@ -63,6 +63,9 @@
                   <p class="mb-4 text-nowrap">
                     새로운 비밀번호와 현재 비밀번호를 입력해주세요.
                   </p>
+                  <p class="mb-4 text-nowrap">
+                    비밀번호는 영문자, 숫자, 특수문자 조합으로 6~16글자로 입력해주세요.
+                  </p>
                   <button id="updatePW" class="btn btn-info">비밀번호 수정</button>
                 </div>
               </form>
@@ -167,60 +170,76 @@
   })
 </script>
 <script>
+  function okPassword(str) {
+    return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,16}$/.test(str);
+  }
+
+  $("#newPw").on("keyup", function () {
+    const newPw = $(this).val();
+    if (newPw.length !== 0) {
+      if (okPassword(newPw)) {
+        $("#newPwFeedback").addClass("hide");
+        $(this).removeClass("is-invalid").addClass("is-valid");
+      } else {
+        $("#newPwFeedback").removeClass("hide").text("비밀번호는 영문자, 숫자, 특수문자 조합으로 6~16글자로 입력해주세요.");
+        $(this).removeClass("is-valid").addClass("is-invalid");
+      }
+    } else {
+      $("#newPwFeedback").addClass("hide");
+      $(this).removeClass("is-valid is-invalid");
+    }
+  });
+
   $("#updatePW").on("click", function (event) {
     event.preventDefault(); // 기본 동작 방지
 
-    currentPw = $("#currentPw").val(); // 사용자가 입력한 현재 비밀번호
-    newPw = $("#newPw").val(); // 사용자가 입력한 새로운 비밀번호
+    const currentPw = $("#currentPw").val();
+    const newPw = $("#newPw").val();
+    let isValid = true;
 
-    let isValid = true; // 필드 검증 플래그
-
-    // 필드 검증
+    // 현재 비밀번호 필드 검증
     if (!currentPw) {
       $("#currentPw").addClass("is-invalid");
       $("#currentPwFeedback").text("현재 비밀번호를 입력해주세요.");
       isValid = false;
     } else {
-      $("#currentPw").removeClass("is-invalid");
+      $("#currentPw").removeClass("is-invalid").addClass("is-valid");
     }
 
-    if (!newPw) {
+    // 새로운 비밀번호 필드 검증
+    if (!newPw || !okPassword(newPw)) {
       $("#newPw").addClass("is-invalid");
-      $("#newPwFeedback").text("새로운 비밀번호를 입력해주세요.");
+      $("#newPwFeedback").text("비밀번호는 영문자, 숫자, 특수문자 조합으로 6~16글자로 입력해주세요.");
       isValid = false;
     } else {
-      $("#newPw").removeClass("is-invalid");
+      $("#newPw").removeClass("is-invalid").addClass("is-valid");
     }
 
     if (!isValid) {
-      return;
+      return; // 필드 검증 실패 시 요청 중단
     }
-    // 비밀번호 확인과 변경 요청을 한 번에 처리
+
+    // 비밀번호 변경 요청
     $.ajax({
-      url: `${path}/customer/updatepw`, // 단일 요청 처리 API
+      url: `${path}/customer/updatepw`,
       type: "post",
-      data: {
-        currentPw: currentPw,
-        newPw: newPw,
-      },
+      data: { currentPw, newPw },
       success: function (response) {
         if (response.success) {
           isSuccess = true;
           showModalMessage("비밀번호 변경에 성공했습니다.");
         } else if (response.error === "incorrect_password") {
-          isSuccess = false;
           showModalMessage("현재 비밀번호가 일치하지 않습니다. 다시 시도해주세요.");
         } else {
-          isSuccess = false;
           showModalMessage("비밀번호 변경에 실패했습니다. 다시 시도해주세요.");
         }
       },
       error: function (err) {
-        isSuccess = false;
         showModalMessage("서버 오류로 비밀번호 변경에 실패했습니다.");
-        console.log(err);
+        console.error(err);
       },
     });
   });
 </script>
+
 </html>
