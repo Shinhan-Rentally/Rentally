@@ -29,7 +29,7 @@
 	height: 100%; /* 높이를 부모에 맞춤 */
 }
 </style>
-<c:set var="path" value="${pageContext.servletContext.contextPath}" scope="application"></c:set>
+
 <span class="text-white" id="categoryname" style="display: none;">${category_name}</span>
 <div class="mb-3 mb-lg-0">
 	<span class="text-white" id="size" style="display: none;">${productcount}</span>
@@ -70,10 +70,9 @@
 							</span>
 						</div>
 					</div>
-					<!-- btn -->
 					<div>
 						<input type="hidden" class="product-seq" value="${product.product_seq}">
-						<button class="btn btn-info btn-sm wishAdd position-absolute" style="right: 10px; bottom: 10px;"5>
+						<button class="btn btn-info btn-sm wishAdd position-absolute" style="right: 10px; bottom: 10px;">
 							<c:if test="${fn:contains(wishlist, product.product_seq)}">
 								<i class="bi bi-heart-fill"></i>
 							</c:if>
@@ -82,7 +81,12 @@
 							</c:if>
 						</button>
 					</div>
-
+					<div>
+						<button id="compareButton" class="btn btn-info btn-sm position-absolute" data-product-seq="${product.product_seq}" data-path="${path}"
+								style="right: 50px; bottom: 10px;">
+							<i class="bi bi-arrow-left-right"></i>
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -114,7 +118,27 @@
 		</nav>
 	</div>
 </div>
-
+<!-- 비교함 추가 확인 모달 -->
+<div class="modal fade" id="compareModal" tabindex="-1"
+	aria-labelledby="alertModalLael" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="alertModalLabel">알림</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-body" id="compareMessage"></div>
+			<div class="modal-footer">
+				<button id="moveCompare" type="button" class="btn btn-outline-info">
+					비교함 이동</button>
+				<button id="clearCompare" type="button" class="btn btn-outline-danger">
+				 	비교함 초기화
+				</button>	
+			</div>
+		</div>
+	</div>
+</div>
 <!-- 알림용 modal -->
 <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -136,6 +160,59 @@
 
 <script>
 $(document).ready(function () {
+
+	// 비교하기 버튼 클릭 이벤트
+	$(document).on("click", "#compareButton", function () {
+	    const productSeq = $(this).data("product-seq");
+	
+	    // AJAX 요청
+	    $.ajax({
+	        url: `${path}/product/addToCompare`,
+	        type: "POST",
+	        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+	        data: { productSeq: productSeq },
+	        success: function (message) {
+	            // 성공 메시지 표시
+	            $("#compareMessage").html(message);
+	            // Bootstrap 모달 표시
+	            const alertModal = new bootstrap.Modal(document.getElementById("compareModal"));
+	            alertModal.show();
+	        },
+	        error: function (xhr) {
+	            // 실패 메시지 표시
+	            $("#compareMessage").html(xhr.responseText || "오류가 발생했습니다.");
+	            // Bootstrap 모달 표시
+	            const alertModal = new bootstrap.Modal(document.getElementById("compareModal"));
+	            alertModal.show();
+	        }
+	    });
+	});
+	
+	// 비교함 이동 버튼 클릭 이벤트
+	$("#moveCompare").on("click", function () {
+	    // 비교함 페이지로 이동 (경로를 실제 비교함 페이지 URL로 수정)
+	    window.location.href = `${path}/product/compare`;  // 비교함 페이지 경로로 변경
+	});
+	
+	// 비교함 초기화 버튼 클릭 이벤트
+	$("#clearCompare").on("click", function () {
+	    // 세션 초기화 AJAX 요청
+	    $.ajax({
+	        url: `${path}/product/clearCompare`,
+	        type: "POST",
+	        success: function (message) {
+	            // 성공 메시지 표시
+	            $("#compareMessage").html(message);
+	            $("#compareModal").modal("show");
+	        },
+	        error: function (xhr) {
+	            // 실패 메시지 표시
+	            $("#compareMessage").html(xhr.responseText || "오류가 발생했습니다.");
+	            $("#compareModal").modal("show");
+	        }
+	    });
+	});
+	
 	$(document).on("click", ".wishAdd", function (event) {
 	    event.preventDefault(); // 기본 동작 방지
 

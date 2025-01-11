@@ -1,14 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <%@include file="../common/headMeta.jsp"%>
-<title>${detail.product_name}-Rentally</title>
-<link href="${path}/resources/libs/tiny-slider/dist/tiny-slider.css"
-	rel="stylesheet" />
+<title>${detail.product_name} - Rentally</title>
+<link href="${path}/resources/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet" />
 <%@ include file="../common/headLinks.jsp"%>
 <style>
 	.btn-selected {
@@ -102,12 +98,12 @@
 								</span>
 							</div>
 							<hr class="my-6" />
-							<div
-								class="mt-3 row justify-content-start g-2 align-items-center">
-								<div class="col-xxl-4 col-lg-4 col-md-5 col-5 d-grid">
-									<button id="subscribeButton" type="submit" class="btn btn-info">구독하기</button>
-								</div>
-								<div class="col-md-4 col-4">
+							<div class="mt-3 row justify-content-start g-3 align-items-center">
+								<div>
+									<button id="subscribeButton" type="submit" class="btn btn-info" style="width:154.6px;">구독하기</button>
+									<button id="compareButton" class="btn btn-light" data-product-seq="${detail.product_seq}">
+										비교하기&nbsp;<i class="bi bi-arrow-left-right"></i>
+									</button>
 									<a id="cartIcon" class="btn btn-light" href="#"
 										data-bs-toggle="tooltip" data-bs-html="true" aria-label="Cart">
 										<i class="feather-icon icon-shopping-cart"></i>
@@ -115,15 +111,12 @@
 									<a id="wishIcon" class="btn btn-light" href="#"
 										data-bs-toggle="tooltip" data-bs-html="true"
 										aria-label="Wishlist">
-										<c:if
-											test="${fn:contains(wishlist, detail.product_seq)}">
+										<c:if test="${fn:contains(wishlist, detail.product_seq)}">
 											<i class="bi bi-heart-fill"></i>
 										</c:if>
-										<c:if
-											test="${not fn:contains(wishlist, detail.product_seq)}">
+										<c:if test="${not fn:contains(wishlist, detail.product_seq)}">
 											<i class="bi bi-heart"></i>
 										</c:if>
-										
 									</a>
 								</div>
 							</div>
@@ -187,7 +180,6 @@
 														<th>크기</th>
 														<td>${detail.product_height }</td>
 													</tr>
-
 												</tbody>
 											</table>
 										</div>
@@ -245,6 +237,27 @@
 			</div>
 		</section>
 	</main>
+	<!-- 비교함 추가 확인 모달 -->
+	<div class="modal fade" id="compareModal" tabindex="-1"
+		aria-labelledby="alertModalLael" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="alertModalLabel">알림</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="compareMessage"></div>
+				<div class="modal-footer">
+					<button id="moveCompare" type="button" class="btn btn-outline-info">
+						비교함 이동</button>
+					<button id="clearCompare" type="button" class="btn btn-outline-danger">
+					 	비교함 초기화
+					</button>	
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- 장바구니 추가 확인 모달 -->
 	<div class="modal fade" id="cartModal" tabindex="-1"
 		aria-labelledby="alertModalLael" aria-hidden="true">
@@ -303,22 +316,65 @@
 		</div>
 	</div>
 	
-	<!-- Footer -->
 	<%@include file="../common/footer.jsp"%>
 	<%@include file="../common/bottomKakao.jsp"%>
 	
-	<!-- Javascript-->
-	<script
-		src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="${path}/resources/libs/rater-js/index.js"></script>
 	<script src="${path}/resources/js/vendors/jquery.min.js"></script>
-	<script
-		src="${path}/resources/libs/tiny-slider/dist/min/tiny-slider.js"></script>
+	<script src="${path}/resources/libs/tiny-slider/dist/min/tiny-slider.js"></script>
 	<script src="${path}/resources/js/vendors/tns-slider.js"></script>
 	<script src="${path}/resources/js/vendors/zoom.js"></script>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
+		// 비교하기 버튼 클릭 이벤트
+		$("#compareButton").on("click", function () {
+		    const productSeq = $(this).data("product-seq");
+	
+		    // AJAX 요청
+		    $.ajax({
+		        url: `${path}/product/addToCompare`,
+		        type: "POST",
+		        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		        data: { productSeq: productSeq },
+		        success: function (message) {
+		            // 성공 메시지 표시
+		            $("#compareMessage").html(message);
+		            $("#compareModal").modal("show");
+		        },
+		        error: function (xhr) {
+		            // 실패 메시지 표시
+		            $("#compareMessage").html(xhr.responseText || "오류가 발생했습니다.");
+		            $("#compareModal").modal("show");
+		        }
+		    });
+		});
+	
+		// 비교함 이동 버튼 클릭 이벤트
+		$("#moveCompare").on("click", function () {
+		    // 비교함 페이지로 이동 (경로를 실제 비교함 페이지 URL로 수정)
+		    window.location.href = `${path}/product/compare`;  // 비교함 페이지 경로로 변경
+		});
+	
+		// 비교함 초기화 버튼 클릭 이벤트
+		$("#clearCompare").on("click", function () {
+		    // 세션 초기화 AJAX 요청
+		    $.ajax({
+		        url: `${path}/product/clearCompare`,
+		        type: "POST",
+		        success: function (message) {
+		            // 성공 메시지 표시
+		            $("#compareMessage").text(message);
+		            $("#compareModal").modal("show");
+		        },
+		        error: function (xhr) {
+		            // 실패 메시지 표시
+		            $("#compareMessage").text(xhr.responseText || "오류가 발생했습니다.");
+		            $("#compareModal").modal("show");
+		        }
+		    });
+		});
+		
 		//구독기간 버튼 선택
 		let selectPeriod = null;
 		$('#period button').click(function(){
