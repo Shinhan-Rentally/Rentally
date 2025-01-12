@@ -22,11 +22,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rental.shinhan.dto.CustomerDTO;
@@ -74,10 +72,8 @@ public class CustomerController {
 	public String insert(CustomerDTO cust, RedirectAttributes attr) {
 		int result = jService.insertService(cust);
 		if (result > 0) {
-			log.info("회원가입" + result + "건 성공");
 			return "customer/login";
 		} else {
-			log.error("회원가입실패");
 			attr.addFlashAttribute("errorMessage", "회원가입에 실패했습니다. 다시 시도해주세요.");
 			return "redirect:/customer/join";
 		}
@@ -137,10 +133,6 @@ public class CustomerController {
 	@Value("${imp.secret}")
 	private String impSecret;
 	
-	@Autowired
-	private RestTemplate restTemplate;
-	
-
 	public String getToken() {
 		String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
 		HttpRequest request = HttpRequest.newBuilder()
@@ -212,11 +204,9 @@ public class CustomerController {
 					);
 			return ResponseEntity.ok(result);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "JSON 파싱 중 에러 발생"));
-		}
-		
+		}	
 	}
 	
 	@ResponseBody
