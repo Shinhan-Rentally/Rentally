@@ -72,7 +72,9 @@
 					</div>
 					<div>
 						<input type="hidden" class="product-seq" value="${product.product_seq}">
-						<button class="btn btn-info btn-sm wishAdd position-absolute" style="right: 10px; bottom: 10px;">
+						<button class="btn btn-info btn-sm wishAdd position-absolute" 
+								data-bs-toggle="tooltip" data-bs-placement="bottom" title="위시리스트"
+								style="right: 10px; bottom: 10px;">
 							<c:if test="${fn:contains(wishlist, product.product_seq)}">
 								<i class="bi bi-heart-fill"></i>
 							</c:if>
@@ -83,7 +85,8 @@
 					</div>
 					<div>
 						<button id="compareButton" class="btn btn-info btn-sm position-absolute" data-product-seq="${product.product_seq}" data-path="${path}"
-								style="right: 50px; bottom: 10px;">
+								 data-bs-toggle="tooltip" data-bs-placement="bottom" title="비교하기"
+								 style="right: 50px; bottom: 10px;">
 							<i class="bi bi-arrow-left-right"></i>
 						</button>
 					</div>
@@ -160,7 +163,12 @@
 
 <script>
 $(document).ready(function () {
-
+	// tooltip 적용
+	const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+        new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+    
 	// 비교하기 버튼 클릭 이벤트
 	$(document).on("click", "#compareButton", function () {
 	    const productSeq = $(this).data("product-seq");
