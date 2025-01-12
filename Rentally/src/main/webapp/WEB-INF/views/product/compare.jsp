@@ -7,10 +7,21 @@
 <title>제품 비교하기 - Rentally</title>
 <%@ include file="../common/headLinks.jsp"%>
 <style>
+.card-product {
+	min-height: 352.78px;
+}
+
 .card-product img {
     width: 100%;
     height: 200px;  /* 원하는 높이로 설정 */
     object-fit: contain;  /* 비율을 유지하며 이미지가 잘리지 않도록 축소 */
+}
+.card-body > div:nth-child(2) {
+	height: 42px;
+}
+
+td {
+	width: 546px;
 }
 </style>
 </head>
@@ -36,9 +47,11 @@
                                     	<img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${compare.category_seq}/${compare.product_img}" alt="${compare.product_name}" class="mb-3 img-fluid" />
                                     </a>
                                  </div>
-                                 <h2 class="fs-5 text-center">
-                                 	<a href="${path}/product/detail?product_seq=${compare.product_seq}" class="text-inherit text-decoration-none">${compare.product_name}</a>
-                                 </h2>
+                                 <div class="text-center">
+	                                 <h2 class="fs-5 text-center">
+	                                 	<a href="${path}/product/detail?product_seq=${compare.product_seq}" class="text-inherit text-decoration-none">${compare.product_name}</a>
+	                                 </h2>
+                                 </div>
                                  <div class="text-small mb-1 text-center">
                                     <small>${compare.product_serial}</small>
                                  </div>
@@ -57,41 +70,33 @@
 	                     <table class="table">
 							<tbody>
 								<tr>
-									
-									<td class="text-center">${compareList[0].product_brand}</td>
-									<th class="text-center">브랜드</th>
-									<td class="text-center">${compareList[1].product_brand}</td>
+									<td class="text-center"><h4>브랜드</h4>${compareList[0].product_brand}</td>
+									<td class="text-center"><h4>브랜드</h4>${compareList[1].product_brand}</td>
 								</tr>
 								<tr>
 									
-									<td class="text-center">${compareList[0].product_date}</td>
-									<th class="text-center">출시날짜</th>
-									<td class="text-center">${compareList[1].product_date}</td>
+									<td class="text-center"><h4>출시날짜</h4>${compareList[0].product_date}</td>
+									<td class="text-center"><h4>출시날짜</h4>${compareList[1].product_date}</td>
 								</tr>
 								<tr>
-									<td class="text-center">${compareList[0].product_height}</td>
-									<th class="text-center">크기</th>
-									<td class="text-center">${compareList[1].product_height}</td>
+									<td class="text-center"><h4>크기</h4>${compareList[0].product_height}</td>
+									<td class="text-center"><h4>크기</h4>${compareList[1].product_height}</td>
 								</tr>
 								<tr>
-									<td class="text-center">${compareList[0].product_weight}</td>
-									<th class="text-center">무게</th>
-									<td class="text-center">${compareList[1].product_weight}</td>
+									<td class="text-center"><h4>무게</h4>${compareList[0].product_weight}</td>
+									<td class="text-center"><h4>무게</h4>${compareList[1].product_weight}</td>
 								</tr>
 								<tr>
-									<td class="text-center">${compareList[0].product_wh}</td>
-									<th class="text-center">소비전력</th>
-									<td class="text-center">${compareList[1].product_wh}</td>
+									<td class="text-center"><h4>소비전력</h4>${compareList[0].product_wh}</td>
+									<td class="text-center"><h4>소비전력</h4>${compareList[1].product_wh}</td>
 								</tr>
 								<tr>
-									<td class="text-center">${compareList[0].product_color}</td>
-									<th class="text-center">색상</th>
-									<td class="text-center">${compareList[1].product_color}</td>
+									<td class="text-center"><h4>색상</h4>${compareList[0].product_color}</td>
+									<td class="text-center"><h4>색상</h4>${compareList[1].product_color}</td>
 								</tr>
 								<tr>
-									<td class="text-center">${compareList[0].product_features}</td>
-									<th class="text-center">특징</th>
-									<td class="text-center">${compareList[1].product_features}</td>
+									<td class="text-center"><h4>특징</h4><br>${compareList[0].product_features}</td>
+									<td class="text-center"><h4>특징</h4><br>${compareList[1].product_features}</td>
 								</tr>
 							</tbody>
 	                     </table>
