@@ -406,9 +406,7 @@
 				showModalMessage3("로그인이 필요한 서비스입니다.");
 			} else{
 				$('#productPeriod').val(selectPeriod);
-				setTimeout(function(){
-					$('#periodForm').submit();				
-				}, 1500);
+				$('#periodForm').submit();
 			}
 		});
 		
