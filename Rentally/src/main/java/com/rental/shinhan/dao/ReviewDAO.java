@@ -24,10 +24,8 @@ public class ReviewDAO implements ReviewInterface {
         int result = sqlSession.insert(namespace+"insertReview", review);
         return result;
     }
-    public List<ReviewDTO> selectReview(int product_seq){
-    	List<ReviewDTO> reviewList = sqlSession.selectList(namespace+"selectReview", product_seq);
-    	log.info("리뷰" + reviewList.size() + "건 조회");
+    public List<ReviewDTO> selectReview(int productSeq){
+    	List<ReviewDTO> reviewList = sqlSession.selectList(namespace+"selectReview", productSeq);
 		return reviewList;
     }
-
 }
