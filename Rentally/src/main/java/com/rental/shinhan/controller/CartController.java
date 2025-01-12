@@ -10,9 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rental.shinhan.dto.CartJoinDTO;
 import com.rental.shinhan.service.CartService;
@@ -38,7 +36,6 @@ public class CartController {
 		int custSeq = (int)session.getAttribute("cust_seq");
 		cart.setCust_seq(custSeq);
 		int result = cartService.insertCart(cart);
-		
 		return result>0?"장바구니 추가성공":"장바구니 추가실패";
 	}
 	
@@ -50,7 +47,6 @@ public class CartController {
 		paramMap.put("cust_id", custId);
 		paramMap.put("product_seq", product_seq);
 		int result = cartService.deleteCart(paramMap);
-		log.info(result+"건 삭제 완료");
 		return result > 0 ? "장바구니삭제성공" : "장바구니삭제실패";
 	}
 }
