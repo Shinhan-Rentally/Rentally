@@ -96,8 +96,8 @@ public class SubscribeController {
 
 	
 	@PostMapping("/cancel")
-	public String subscribeCancel(@RequestParam int sub_seq, HttpServletRequest request, HttpSession session) {
-		subscribeService.cancelSubscribe(sub_seq);
+	public String subscribeCancel(HttpServletRequest request, HttpSession session) {
+		subscribeService.cancelSubscribe(Integer.parseInt(request.getParameter("sub_seq")));
 		
 		return "redirect:/subscribe/list";
 	}
