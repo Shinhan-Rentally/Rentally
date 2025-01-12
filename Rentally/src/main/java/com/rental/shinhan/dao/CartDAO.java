@@ -20,20 +20,16 @@ public class CartDAO{
 	String namespace = "com.rental.shinhan.cart.";
 	public List<CartJoinDTO> selectCart(String cust_id){
 		List<CartJoinDTO> cartlist = sqlSession.selectList(namespace+"selectCart", cust_id);
-		log.info(cartlist.size()+"건");
 		return cartlist;
 	}
 
 	public int insert(CartJoinDTO cart) {
     	int result = sqlSession.insert(namespace + "insertCart", cart);
-    	log.info(result + "건 추가 성공!");
     	return result;
     }
 
 	public int deleteCart(Map<String, Object> paramMap) {
 		int result = sqlSession.delete(namespace + "deleteCart", paramMap);
-		log.info(result + "건 삭제 완료");
 		return result;
 	}
-
 }

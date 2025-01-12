@@ -9,38 +9,36 @@
 <title>장바구니 - Rentally</title>
 <%@include file="../common/headLinks.jsp"%>
 <c:set var="page" value="cart" />
+<style>
+	#productName{
+		white-space: pre-wrap;
+	}
+</style>
 </head>
 <body>
 	<%@include file="../common/header.jsp"%>
 	<main>
-		<!-- section -->
-		<section class="mt-8 mb-14">
+		<section>
 			<div class="container">
-				<!-- row -->
 				<div class="row">
 					<%@include file="../common/myPageNavbar.jsp"%>
-					<div class="col-lg-8">
-						<div class="mb-8">
-							<!-- heading -->
-							<h1 class="mb-1">장바구니</h1>
-							<!-- 숫자 카운팅 -->
+					<div class="col-lg-9 col-md-8 col-12">
+						<div class="py-6 p-md-6 p-lg-10">
+							<h2 class="mb-6">장바구니</h2>
 							<p class="cart-count"><span>${cartList.size()}</span>개의 상품이 장바구니에 담겨있습니다.</p>
-						</div>
-						<div>
-							<!-- table -->
-							<div class="table-responsive">
-								<table class="table text-nowrap table-with-checkbox">
-									<thead class="table-light"> 
+							<div>
+								<div class="table-responsive">
+								<table class="table mb-0 text-nowrap table-centered">
+									<thead class="bg-light"> 
 										<tr>
 											<th></th>
-											<th>상품명</th>
-											<th class="text-center">구독료</th>								
-											<th>구독</th>
-											<th>삭제</th>
+											<th class="text-center">상품명</th>
+											<th class="text-center">월 구독료</th>								
+											<th class="text-center">구독</th>
+											<th class="text-center">삭제</th>
 										</tr>
 									</thead>
 									<tbody>
-										
 										<c:forEach items="${cartList}" var="cart" varStatus="status">
 										<tr>
 											<td class="align-middle">
@@ -52,24 +50,20 @@
 											</td>
 											<td class="align-middle">
 												<div>
-													<h5 class="fs-6 mb-0">
-														<a href="${path}/product/detail?product_seq=${cart.product_seq}" class="text-inherit">${cart.product_name}</a>
-													</h5>
+													<h6 class="fs-6 mb-0">
+														<a href="${path}/product/detail?product_seq=${cart.product_seq}" class="text-inherit" id="productName">${cart.product_name}</a>
+													</h6>
 													<span>
 														<small>
-															<c:if test="${cart.cart_option >=12}">
-																<fmt:formatNumber value="${cart.cart_option / 12}" type="number"/>년
-															</c:if>
-															<c:if test="${cart.cart_option < 12}">${cart.cart_option }개월</c:if>
+															${cart.cart_option}개월
 														</small>
 													</span>
 												</div>
 											</td>
-											<td class="align-middle">
-												월 <fmt:formatNumber value="${cart.product_pay}" type="number" pattern="#,###"/> 원
+											<td class="align-middle text-center">
+												<fmt:formatNumber value="${cart.product_pay}" type="number" pattern="#,###"/>원
 											</td>
-											
-											<td class="align-middle">
+											<td class="align-middle text-center">
 												<form action="${path}/payment" method="post" name="subForm">
 													<input type="hidden" name="product_seq" value="${cart.product_seq}">
 													<input type="hidden" name="product_name" value="${cart.product_name}">
@@ -78,7 +72,7 @@
 													<button class="btn btn-info btn-sm" id="subscribe">구독</button>
 												</form>
 											</td>
-											<td class="align-middle">
+											<td class="align-middle text-center">
 												<a href="#" class="text-muted delete" title="Delete"
 												data-bs-toggle="tooltip" data-bs-placement="top">
 												<i class="feather-icon icon-trash-2"></i>
@@ -86,9 +80,9 @@
 											</td>
 										</tr>
 										</c:forEach>
-										
 									</tbody>
 								</table>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -110,7 +104,6 @@
 		        </div>
 		    </div>
 		</div>
-		
 	</main>
 	<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
@@ -139,11 +132,11 @@
 					$("tr").has("input[value='" + item + "']").remove();
 					$(".cart-count span").text(currentCount - 1);
 					showModalMessage('장바구니에서 상품이 삭제되었습니다.');
-					// 갯수 업데이트
+					// 헤더 개수 업데이트
                     updateCounts();
 				},
 				error: function(){
-					alert("장바구니 삭제 실패");
+					showModalMessage('장바구니 상품 삭제에 실패했습니다.');
 				}
 			});
 		});
