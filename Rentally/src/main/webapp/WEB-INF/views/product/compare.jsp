@@ -37,7 +37,7 @@ td {
                            <h2 class="mb-0 fs-1">선택한 제품 비교하기</h2>
                         </div>
                      </div>
-                     <div class="row g-4 row-cols-xl-2 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
+                     <div class="row g-4 row-cols-xl-2 row-cols-lg-2 row-cols-2 row-cols-md-2 mt-2">
                      <c:forEach items="${compareList}" var="compare">
                         <div>
                            <div class="card card-product">
