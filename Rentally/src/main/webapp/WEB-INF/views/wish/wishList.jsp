@@ -142,10 +142,10 @@
         $(document).on("click", ".deleteWish", function (event) {
             event.preventDefault();
 
-            product_seq = $(this).data("product-seq");
-            cust_seq = $(this).data("cust-seq");
+            productSeq = $(this).data("product-seq");
+            custSeq = $(this).data("cust-seq");
 
-            if (!product_seq || !cust_seq) {
+            if (!productSeq || !custSeq) {
                 showModalMessage('필요한 데이터가 누락되었습니다.');
                 return;
             }
@@ -158,7 +158,6 @@
                     wish_filter();
                 },
                 error: function (err) {
-                    alert('삭제 실패');
                     showModalMessage('삭제에 실패하였습니다. 다시 시도해주세요.');
                 }
             });
