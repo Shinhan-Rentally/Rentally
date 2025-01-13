@@ -8,21 +8,25 @@
     <c:set var="page" value="reviews"/>
     <title>리뷰 관리 - Rentally</title>
     <style>
-        .review-table th, td {
-            text-align: center;
+        .review-table th, td, .text-content {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        .review-table td:nth-child(1) {
-            text-align: left;
-            max-width: 200px;
+        .review-table th, td {
+            text-align: center;
+        }
+
+        .text-content.expanded {
+            max-height: none;
+            white-space: normal;
+            text-overflow: clip;
         }
 
         .review-table td:nth-child(3) {
             text-align: left;
-            max-width: 300px;
+            max-width: 450px;
         }
 
         .star-rating span {
@@ -78,7 +82,7 @@
                                        class="table table-borderless table-hover mb-0 review-table text-nowrap">
                                     <thead class="bg-light">
                                     <tr>
-                                        <th>상품명</th>
+                                        <th>상품 번호</th>
                                         <th>고객 ID</th>
                                         <th>리뷰 내용</th>
                                         <th>별점</th>
@@ -111,6 +115,22 @@
 <script src="${path}/resources/js/admin/pagination.js"></script>
 <script>
     initializeRatingPagination('${path}');
+
+        $(document).on('click', '.showMore', function (event) {
+            event.preventDefault();
+
+            const link = $(event.target);
+            const id = $(event.target).data("id");
+            const textContent = $(`.text-content[data-id="\${id}"]`);
+
+            if (textContent.hasClass('expanded')) {
+                textContent.removeClass('expanded');
+                link.text('더보기');
+            } else {
+                textContent.addClass('expanded');
+                link.text('접기');
+            }
+        });
 </script>
 </body>
 </html>
