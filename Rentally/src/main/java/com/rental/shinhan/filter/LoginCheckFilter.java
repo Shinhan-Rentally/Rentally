@@ -38,6 +38,14 @@ public class LoginCheckFilter implements Filter {
             return;
         }
         
+        if (uri.startsWith("/customer/join")) {
+        	HttpSession session = req.getSession();
+        	if(session.getAttribute("name") == null || session.getAttribute("phone") == null) {
+        		res.sendRedirect(contextPath + "/customer/identity");
+        		return;
+        	}
+        }
+        
         if (isProtectedUri(uri)) {
             HttpSession session = req.getSession();
             if (session.getAttribute("cust_seq") == null) {
