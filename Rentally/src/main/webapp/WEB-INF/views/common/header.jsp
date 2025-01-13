@@ -18,7 +18,7 @@
 				</div>
 				<div class="col-xxl-5 col-lg-5 d-none d-lg-block mx-auto text-center">
 					<div class="input-group">
-						<input class="form-control rounded" type="search" name="query" value="${param.query}" placeholder="Search for products" onkeydown="handleEnter(event)" /> <span class="input-group-append">
+						<input class="form-control rounded" type="search" name="query" value="${param.query}" placeholder="검색어를 입력해주세요" onkeydown="handleEnter(event)" /> <span class="input-group-append">
 							<button id="btnSearch" class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end" type="button">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
                     <circle cx="11" cy="11" r="8"></circle>
@@ -127,14 +127,14 @@
 	</nav>
 </div>
 <!-- 알림용 modal -->
-<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="alertModalLabel">알림</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<div class="modal-body" id="alertModalMessage"></div>
+			<div class="modal-body" id="searchModalMessage"></div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-info" data-bs-dismiss="modal">확인</button>
 			</div>
@@ -152,27 +152,26 @@
     		performAjaxSearch();
     	});
     });
-	//검색기능
+	// 검색 기능
 	// Enter 키 처리 함수
 	function handleEnter(event) {
 		if (event.key === "Enter") {
 			event.preventDefault(); // 기본 폼 제출 동작 방지
-	performAjaxSearch();// 검색 함수 호출
+			performAjaxSearch(); // 검색 함수 호출
 		}
 	}
-	// 검색 처리 함수
+	
 	// 모달 띄우는 함수
-    function showModal(message) {
-        const modalMessage = document.getElementById("alertModalMessage");
-        modalMessage.textContent = message; // 모달 메시지 설정
-        const alertModal = new bootstrap.Modal(document.getElementById("alertModal"));
-        alertModal.show(); // 모달 표시
+    function searchModal(message) {
+        $("#searchModalMessage").text(message);
+        $("#searchModal").modal("show"); // 모달 표시
     }
-	// AJAX로 검색 수행
+
+// AJAX로 검색 수행
 	function performAjaxSearch() {
 		const query = $('[name="query"]').val().trim();
 		if (query === "") {
-			showModal("검색어를 입력해주세요.");
+			searchModal("검색어를 입력해주세요.");
 			return;
 		}
 		// contextPath 가져오기 
@@ -181,7 +180,7 @@
 </script>
 <script>
     // 로그인 사용자 ID를 가져오는 함수 (예: 세션에서 userId 저장됨)
-    const cust_id = "${sessionScope.cust_id}"; // 서버에서 세션값으로 userId 전달받는다고 가정
+    const cust_id = "${sessionScope.cust_id}"; // 서버에서 세션값으로 userId 전달받음
     
     // 장바구니와 위시리스트 갯수를 업데이트하는 함수
     function updateCounts() {
