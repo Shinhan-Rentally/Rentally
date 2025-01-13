@@ -276,20 +276,25 @@
                             }
                             $('#order_table tbody').append(`
                             <tr>
-                                <td class="align-middle border-top-0 w-0">
-                                    <a href="${path}/product/detail?product_seq=\${order.product_seq}">
-                                        <img src="https://rentally.s3.ap-northeast-2.amazonaws.com/\${order.category_seq}/\${order.product_img}"
-                                        class="icon-shape icon-xl"/>
-                                    </a>
-                                </td>
-                                <td class="align-middle border-top-0">
-                                    <a href="${path}/product/detail?product_seq=\${order.product_seq}" class="fw-semibold text-inherit">
-                                        <h6 class="mb-0 product-name">\${order.product_name}</h6>
-                                    </a>
+                            <td class="align-middle">
+                                <a href="${path}/product/detail?product_seq=\${order.product_seq}">
+                                    <img
+                                    src="https://rentally.s3.ap-northeast-2.amazonaws.com/\${order.category_seq}/\${order.product_img}" alt="\${order.product_name}"
+                                    class="icon-shape icon-xxl" alt="\${order.product_name}" />
+                                </a>
+                            </td>
+                            <td class="align-middle">
+                                <div>
+                                    <h6 class="fs-6 mb-0">
+                                        <a href="${path}/product/detail?product_seq=\${order.product_seq}" class="text-inherit" id="productName">\${order.product_name}</a>
+                                    </h6>
                                     <span>
-                                        <small class="text-muted">\${order.sub_period}개월</small>
+                                        <small>
+                                            \${order.sub_period}개월
+                                        </small>
                                     </span>
-                                </td>
+                                </div>
+                            </td>
                                 <td class="text-center border-top-0">\${order.formatted_paydate}</td>
                                 <td class="text-center border-top-0">\${order.sub_total.toLocaleString()}원</td>
                                 <td class="text-center border-top-0">
