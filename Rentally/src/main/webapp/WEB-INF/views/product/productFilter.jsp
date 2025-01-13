@@ -121,172 +121,16 @@
 		</nav>
 	</div>
 </div>
-<!-- 비교함 추가 확인 모달 -->
-<div class="modal fade" id="compareModal" tabindex="-1"
-	aria-labelledby="alertModalLael" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="alertModalLabel">알림</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal"
-					aria-label="Close"></button>
-			</div>
-			<div class="modal-body" id="compareMessage"></div>
-			<div class="modal-footer">
-				<button id="moveCompare" type="button" class="btn btn-outline-info">
-					비교함 이동</button>
-				<button id="clearCompare" type="button" class="btn btn-outline-danger">
-				 	비교함 초기화
-				</button>	
-			</div>
-		</div>
-	</div>
-</div>
-<!-- 알림용 modal -->
-<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="alertModalLabel">알림</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body" id="alertModalMessage"></div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-info" data-bs-dismiss="modal">확인</button>
-			</div>
-		</div>
-	</div>
-</div>
 
-<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
 
 <script>
-$(document).ready(function () {
-	// tooltip 적용
-	const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
-        new bootstrap.Tooltip(tooltipTriggerEl);
-    });
-    
-	// 비교하기 버튼 클릭 이벤트
-	$(document).on("click", "#compareButton", function () {
-	    const productSeq = $(this).data("product-seq");
-	
-	    // AJAX 요청
-	    $.ajax({
-	        url: `${path}/product/addToCompare`,
-	        type: "POST",
-	        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-	        data: { productSeq: productSeq },
-	        success: function (message) {
-	            // 성공 메시지 표시
-	            $("#compareMessage").html(message);
-	            // Bootstrap 모달 표시
-	            const alertModal = new bootstrap.Modal(document.getElementById("compareModal"));
-	            alertModal.show();
-	        },
-	        error: function (xhr) {
-	            // 실패 메시지 표시
-	            $("#compareMessage").html(xhr.responseText || "오류가 발생했습니다.");
-	            // Bootstrap 모달 표시
-	            const alertModal = new bootstrap.Modal(document.getElementById("compareModal"));
-	            alertModal.show();
-	        }
-	    });
-	});
-	
-	// 비교함 이동 버튼 클릭 이벤트
-	$("#moveCompare").on("click", function () {
-	    // 비교함 페이지로 이동 (경로를 실제 비교함 페이지 URL로 수정)
-	    window.location.href = `${path}/product/compare`;  // 비교함 페이지 경로로 변경
-	});
-	
-	// 비교함 초기화 버튼 클릭 이벤트
-	$("#clearCompare").on("click", function () {
-	    // 세션 초기화 AJAX 요청
-	    $.ajax({
-	        url: `${path}/product/clearCompare`,
-	        type: "POST",
-	        success: function (message) {
-	            // 성공 메시지 표시
-	            $("#compareMessage").html(message);
-	            $("#compareModal").modal("show");
-	        },
-	        error: function (xhr) {
-	            // 실패 메시지 표시
-	            $("#compareMessage").html(xhr.responseText || "오류가 발생했습니다.");
-	            $("#compareModal").modal("show");
-	        }
-	    });
-	});
-	
-	$(document).on("click", ".wishAdd", function (event) {
-	    event.preventDefault(); // 기본 동작 방지
 
-	    const cust_id = "${sessionScope.cust_id}"; // 서버에서 세션값으로 userId 전달받는다고 가정
-	    const icon = $(this).find("i"); // 버튼 안의 <i> 태그 선택
-	    const product_seq = $(this).siblings(".product-seq").val(); // 올바른 변수명 사용
-
-	    if (cust_id == null || cust_id === "") {
-	        showModal("로그인이 필요한 서비스입니다.");
-	        return;
-	    }
-
-	    // 하트 아이콘 클래스 토글 (빈 하트 ↔ 채운 하트)
-	    if (icon.hasClass("bi-heart")) {
-
-	        $.ajax({
-	            url: "${path}/wishlist/add", // 요청 보낼 URL
-	            type: "POST",
-	            data: {
-	                product_seq: product_seq // 올바른 변수명 사용
-	            },
-	            success: function (response) {
-	                showModal("위시리스트에 추가되었습니다!"); // showModal로 메시지 표시
-	                icon.removeClass("bi-heart").addClass("bi-heart-fill"); // 채운 하트로 변경
-	                icon.css("color", "white"); // 채운 하트 색상 흰색
-	                // 갯수 업데이트
-	                updateCounts();
-	            },
-	            error: function (xhr, status, error) {
-	         
-	                showModal("에러가 발생했습니다."); // 에러 메시지도 모달로 표시
-	            }
-	        });
-
-	    } else {
-	        icon.removeClass("bi-heart-fill").addClass("bi-heart"); // 빈 하트로 변경
-
-	        $.ajax({
-	            url:  `${path}/wishlist/\${product_seq}/delete`, // 서버의 URL
-	            type: "DELETE", // 올바른 HTTP 메소드 사용
-	            data: {
-	                product_seq: product_seq // 올바른 변수명 사용
-	            },
-	            success: function(response) {
-	                showModal("위시리스트에 삭제되었습니다!"); // 성공 시 메시지
-	                icon.css("color", ""); // 원래 색상
-	                updateCounts();
-	            },
-	            error: function(error) {
-	                showModal("위시리스트 삭제 실패"); // 실패 시 메시지
-	            }
-	        });
-
-	    }
-
-	    console.log("Clicked product_seq:", product_seq); // 디버깅용 출력
-	});
-
-});
-function showModal(message) {
-    // 모달 메시지를 설정
-    $("#alertModalMessage").text(message);
-
-    // Bootstrap 모달 표시
-    const alertModal = new bootstrap.Modal(document.getElementById("alertModal"));
-    alertModal.show();
+//모달 띄우는 함수
+function listModal(message) {
+    $("#listModalMessage").text(message);
+    $("#listModal").modal("show"); // 모달 표시
 }
 </script>
 
@@ -305,7 +149,7 @@ function showModal(message) {
 		
 		        },
 		        error: function () {
-		        	showModal("페이지 로드 중 오류가 발생했습니다.");
+		        	listModal("페이지 로드 중 오류가 발생했습니다.");
 		        },
 		    });
 		});
@@ -325,8 +169,15 @@ function showModal(message) {
 	
 		        },
 		        error: function () {
-		        	showModal("페이지 로드 중 오류가 발생했습니다.");
+		        	listModal("페이지 로드 중 오류가 발생했습니다.");
 		        },
 		    });
 		});
+</script>
+
+<script>
+// Tooltip 적용
+$(document).ready(function () {
+	$('[data-bs-toggle="tooltip"]').tooltip();
+});
 </script>
