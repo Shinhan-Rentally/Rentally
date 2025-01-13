@@ -36,4 +36,7 @@ public interface AddressInterface {
 	// 기본 주소 false로 변경
 	public void updateDefaultAddressToFalse(Integer custSeq);
 	
+	// 주소 id 가져오기
+	public AddressDTO getAddressById(int addrSeq);
+	
 }

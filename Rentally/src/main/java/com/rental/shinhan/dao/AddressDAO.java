@@ -73,5 +73,12 @@ public class AddressDAO implements AddressInterface {
 		sqlSession.update(namespace + "updateDefaultAddressToFalse", custSeq);
 	}
 	
+	// 주소 id 가져오기
+	@Override
+	public AddressDTO getAddressById(int addrSeq) {
+		return sqlSession.selectOne(namespace + "getAddressById",addrSeq);
+		
+	}
+	
 	
 }

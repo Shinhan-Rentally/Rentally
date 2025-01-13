@@ -39,8 +39,7 @@
 									<div class="col-xl-5 col-lg-6 col-xxl-4 col-12 mb-4">
 										<div class="card">
 											<div class="card-body p-6">
-													<label class="form-check-label text-dark fw-semibold"
-														for="homeRadio" >${address.addr_name}</label>
+													<label class="form-check-label text-dark fw-semibold" >${address.addr_name}</label>
 														<c:choose>
 														<c:when test="${address.addr_default}">
 															<a  class=""> 기본 주소 </a>
@@ -139,16 +138,8 @@
 	<!-- 카카오 주소 API -->
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 	
-	
-	<script>
-		showModalMessage('실패했습니다.');
-		
-		function showModalMessage(message) {
-	    	$('#alertModalMessage').text(message);
-	    	$('#alertModal').modal('show');
-		}
-	</script>
 	
 	
 

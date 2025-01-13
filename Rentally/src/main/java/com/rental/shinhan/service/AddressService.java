@@ -60,6 +60,10 @@ public class AddressService {
 			addressDAO.updateDefaultAddressToFalse(custSeq);
 	    }
 		
+	// 주소 id 가져오기
+		public AddressDTO getAddressById(int addrSeq) {
+		    return addressDAO.getAddressById(addrSeq);
+		}
 		
 
 }
