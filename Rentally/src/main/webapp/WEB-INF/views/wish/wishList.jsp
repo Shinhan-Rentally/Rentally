@@ -102,12 +102,17 @@
                                              class="icon-shape icon-xl"/>
                                     </a>
                                 </td>
-                                <td class="align-middle border-top-0">
-                                    <a href="${path}/product/detail?product_seq=\${wish.product_seq}"
-                                       class="fw-semibold text-inherit">
-                                        <h6 class="mb-0 product-name">\${wish.product_name}</h6>
-                                    </a>
-                                    <span><small class="text-muted product-name">\${wish.product_features}</small></span>
+                                <td class="align-middle">
+                                    <div>
+                                        <h6 class="fs-6 mb-0">
+                                            <a href="${path}/product/detail?product_seq=\${wish.product_seq}" class="text-inherit product-name" id="productName">\${wish.product_name}</a>
+                                        </h6>
+                                        <span>
+                                            <small>
+                                                \${wish.product_features}
+                                            </small>
+                                        </span>
+                                    </div>
                                 </td>
                                 <td class="text-center border-top-0">
                                     \${wish.product_pay.toLocaleString()}원

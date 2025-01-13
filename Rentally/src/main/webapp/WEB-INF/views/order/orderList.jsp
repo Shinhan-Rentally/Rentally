@@ -286,7 +286,7 @@
                                 <td class="align-middle">
                                     <div>
                                         <h6 class="fs-6 mb-0">
-                                            <a href="${path}/product/detail?product_seq=\${order.product_seq}" class="text-inherit" id="productName">\${order.product_name}</a>
+                                            <a href="${path}/product/detail?product_seq=\${order.product_seq}" class="text-inherit product-name" id="productName">\${order.product_name}</a>
                                         </h6>
                                         <span>
                                             <small>
