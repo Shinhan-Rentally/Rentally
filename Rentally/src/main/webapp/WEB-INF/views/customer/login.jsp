@@ -53,14 +53,14 @@
 
 		</section>
 
-		<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+		<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="alertModalLabel">알림</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<div class="modal-body" id="alertModalMessage"></div>
+					<div class="modal-body" id="loginModalMessage"></div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-info" data-bs-dismiss="modal">확인</button>
 					</div>
@@ -88,12 +88,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // blockUser 값을 JSP에서 JavaScript로 전달
     var blockUser = ${blockUser};
     
-    // 모달 띄우는 함수
-    function showModal(message) {
-        const modalMessage = document.getElementById("alertModalMessage");
-        modalMessage.textContent = message; // 모달 메시지 설정
-        const alertModal = new bootstrap.Modal(document.getElementById("alertModal"));
-        alertModal.show(); // 모달 표시
+  	//모달 띄우는 함수
+    function loginModal(message) {
+        $("#loginModalMessage").text(message);
+        $("#loginModal").modal("show"); // 모달 표시
     }
 
     // URL에서 error 파라미터 값 확인
@@ -102,20 +100,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // 로그인 실패 시 모달 띄우기
         if (error === "userNotFound") {
-            showModal("아이디가 존재하지 않습니다.");
+        	loginModal("아이디가 존재하지 않습니다.");
         } else if (error === "wrongPassword") {
-            showModal("비밀번호가 맞지 않습니다.");
+        	loginModal("비밀번호가 맞지 않습니다.");
         } else if (error === "passwordMissing") {
-            showModal("비밀번호 정보가 누락되었습니다.");
+        	loginModal("비밀번호 정보가 누락되었습니다.");
         } else if (error === "unknownError") {
-            showModal("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
+        	loginModal("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
         }
     }
 
     // blockUser 값이 true일 경우 모달을 띄운다.
     if (blockUser) {
         $(document).ready(function() {
-            showModal("로그인이 필요한 서비스입니다."); // 유효성 검사 실패 시 모달 띄우기
+        	loginModal("로그인이 필요한 서비스입니다."); // 유효성 검사 실패 시 모달 띄우기
         });
     }
     
@@ -127,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const custIdInput = document.getElementById("cust_id");
         if (!custIdInput.value.trim()) {
             if (isValid) { // 최초로 유효성 검사 실패 시에만 모달 띄우기
-                showModal("ID를 입력해주세요."); 
+            	loginModal("ID를 입력해주세요."); 
             }
             isValid = false; // 유효하지 않음으로 설정
             custIdInput.classList.add("is-invalid");
@@ -139,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const custPwInput = document.getElementById("cust_pw");
         if (!custPwInput.value.trim()) {
             if (isValid) { // 이전에 이미 유효성 검사 실패했다면 모달 띄우지 않음
-                showModal("비밀번호를 입력해주세요."); 
+            	loginModal("비밀번호를 입력해주세요."); 
             }
             isValid = false; // 유효하지 않음으로 설정
             custPwInput.classList.add("is-invalid");
