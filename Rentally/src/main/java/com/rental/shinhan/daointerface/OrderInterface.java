@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface OrderInterface {
 
-    public List<SubscribeListJoinDTO> selectOrders(int cust_seq, String period);
+    public List<SubscribeListJoinDTO> selectOrders(int custSeq, String period);
 }

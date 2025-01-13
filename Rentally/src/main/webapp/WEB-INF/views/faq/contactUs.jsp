@@ -33,14 +33,11 @@
 <body>
 <%@ include file="../common/header.jsp" %>
 <main>
-    <!-- section -->
     <section>
         <div class="container">
-            <!-- row -->
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-12 border-end d-none d-md-block">
                     <div class="pt-10 pe-lg-10">
-                        <!-- nav item -->
                         <ul class="nav flex-column nav-pills nav-pills-dark">
                             <li class="nav-item">
                                 <a class="nav-link" href="${path}/faq/list">
@@ -48,7 +45,6 @@
                                     FAQ
                                 </a>
                             </li>
-                            <!-- nav item -->
                             <li class="nav-item">
                                 <a class="nav-link active" href="${path}/faq/contact">
                                     <i class="feather-icon icon-user me-2"></i>
@@ -60,7 +56,6 @@
                 </div>
                 <div class="col-lg-9 col-md-8 col-12">
                     <div class="py-6 p-md-6 p-lg-10">
-                        <!-- heading -->
                         <h2 class="mb-6">카카오톡 문의하기</h2>
                         <div class="container contact-section">
                             <div class="icon">
@@ -82,14 +77,10 @@
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="${path}/resources/js/main.js"></script>
 
-<!-- Footer -->
 <%@ include file="../common/footer.jsp" %>
 </body>
-
 <script>
-
     function popupWindow(url, title, width, height) {
-
         var popupWidth = width;
         var popupHeight = height;
 
@@ -98,9 +89,7 @@
 
         var featureWindow = "width=" + popupWidth + ", height="+popupHeight
             + ", left=" + popupX + ", top=" + popupY;
-
         return window.open(url, name, featureWindow);
     }
-
 </script>
 </html>

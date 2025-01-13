@@ -18,9 +18,9 @@ public class OrderDAO implements OrderInterface {
     @Autowired
     SqlSession sqlSession;
 
-    public List<SubscribeListJoinDTO> selectOrders(int cust_seq, String period) {
+    public List<SubscribeListJoinDTO> selectOrders(int custSeq, String period) {
         Map<String, Object> params = new HashMap<>();
-        params.put("cust_seq", cust_seq);
+        params.put("cust_seq", custSeq);
         params.put("period", period);
 
         List<SubscribeListJoinDTO> orders = sqlSession.selectList(namespace+"selectMyOrders", params);

@@ -22,30 +22,26 @@ public class WishListController {
     private WishListService wishListService;
 
     @GetMapping("/list")
-    public String showWishPage() {
-        return "/wish/wishList";
-    }
-
-    @ResponseBody
-    @GetMapping("/list/selected")
-    public List<WishListJoinDTO> getWishLists(HttpSession session) {
+    public String getWishLists(HttpSession session, Model model) {
         int custSeq = (Integer)session.getAttribute("cust_seq");
         List<WishListJoinDTO> wishList = wishListService.findWishLists(custSeq);
-        return wishList;
+        model.addAttribute("wishList",wishList);
+        model.addAttribute("totalCount",wishList.size());
+        return "/wish/wishList";
     }
 
     @ResponseBody
     @PostMapping(value="/add")
     public String createWishList(HttpSession session, @RequestParam("product_seq") int productSeq) {
+        // WishListDTO 객체를 생성하고, 폼 데이터를 설정
         int custSeq = (Integer)session.getAttribute("cust_seq");
         WishListDTO request = new WishListDTO();
         request.setCust_seq(custSeq);
         request.setProduct_seq(productSeq);
-
+        // 서비스 호출하여 위시리스트 추가
         int result = wishListService.addWishList(request);
         return result+"";
     }
-    
     @ResponseBody
     @DeleteMapping("/{product_seq}/delete")
     public String deleteWish(HttpSession session, @PathVariable int product_seq) {
