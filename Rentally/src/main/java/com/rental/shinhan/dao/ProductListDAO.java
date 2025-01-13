@@ -29,8 +29,8 @@ public class ProductListDAO implements ProductListInterface {
 		 return upgradeProductList;
 	 }
 	 
-	 public ProductListJoinDTO selectProductDetail(int productSeq){
-		 ProductListJoinDTO productDetail = sqlSession.selectOne(namespace + "selectProductDetail", productSeq);
+	 public ProductListJoinDTO selectProductDetail(int product_seq){
+		 ProductListJoinDTO productDetail = sqlSession.selectOne(namespace + "selectProductDetail", product_seq);
 		 return productDetail;
 	 }
 	 //검색기능

@@ -18,8 +18,8 @@ public class ReviewService {
         return reviewDAO.insertReview(review);
     }
     
-    public List<ReviewDTO> selectReview(int productSeq){
-    	List<ReviewDTO> reviewList = reviewDAO.selectReview(productSeq);
+    public List<ReviewDTO> selectReview(int product_seq){
+    	List<ReviewDTO> reviewList = reviewDAO.selectReview(product_seq);
     	return reviewList;
     }
 }

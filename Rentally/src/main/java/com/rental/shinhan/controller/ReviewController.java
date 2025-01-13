@@ -34,8 +34,8 @@ public class ReviewController {
 
     @ResponseBody
     @GetMapping("/ratehigh")
-    public List<ReviewDTO> selectReview(int productSeq) {
-    	List<ReviewDTO> reviews = reviewService.selectReview(productSeq);
+    public List<ReviewDTO> selectReview(int product_seq) {
+    	List<ReviewDTO> reviews = reviewService.selectReview(product_seq);
     	return reviews;
     }
 }

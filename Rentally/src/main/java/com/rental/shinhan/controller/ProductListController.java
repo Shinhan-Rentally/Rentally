@@ -123,7 +123,7 @@ public class ProductListController {
 	ReviewService reviewService;
 
 	@GetMapping("/detail")
-	public String productDetail(HttpSession session, int productSeq, Model model) {
+	public String productDetail(HttpSession session, int product_seq, Model model) {
 		Integer custSeq = (Integer) session.getAttribute("cust_seq");
 
 		// 로그인 여부에 따라 위시리스트 처리
@@ -132,8 +132,8 @@ public class ProductListController {
 			wishlist = wishlistService.wishStatus(custSeq);
 		}
 
-		model.addAttribute("detail", productlistService.selectProductDetail(productSeq));
-		model.addAttribute("reviewList", reviewService.selectReview(productSeq));
+		model.addAttribute("detail", productlistService.selectProductDetail(product_seq));
+		model.addAttribute("reviewList", reviewService.selectReview(product_seq));
 		model.addAttribute("wishlist", wishlist);
 		return "product/detail";
 	}
