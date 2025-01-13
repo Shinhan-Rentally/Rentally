@@ -238,6 +238,7 @@ if (!path) {
         	if (!recipName) missingFields.push("수령인 이름");
         	if (!recipPhone) missingFields.push("전화번호");
 
+
         const errorMessage = `다음 필수 정보를 입력하세요: <br>${missingFields.join(",<br>")}`;
         
         // 주소 등록 창 닫기
