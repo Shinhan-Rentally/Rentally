@@ -55,5 +55,11 @@ public class AddressService {
 			return addressDAO.getAddressCountByCustSeq(custSeq);
 		}
 		
+	// 기본 주소 false로 변경
+		public void updateDefaultAddressToFalse(Integer custSeq) {
+			addressDAO.updateDefaultAddressToFalse(custSeq);
+	    }
+		
+		
 
 }

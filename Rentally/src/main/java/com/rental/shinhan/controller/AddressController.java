@@ -64,14 +64,14 @@ public class AddressController {
 	        return response;
 	    }
 
-	    // 기본 주소 중복 확인
-	    if (addrDefault && addressService.isDefaultAddressExist(custSeq)) {
-	        response.put("status", "error");
-	        response.put("message", "기본 주소는 하나만 설정할 수 있습니다.");
-	        return response;
+	    
+	    
+	 // 기본 주소 설정 시, 기존 기본 주소 false로 변경
+	    if (addrDefault) {
+	        addressService.updateDefaultAddressToFalse(custSeq);
 	    }
 		
-		
+	    
 		// DB에 보낼 정보 저장
 		AddressDTO addressData = new AddressDTO();
 		addressData.setAddr_name(recipName);
