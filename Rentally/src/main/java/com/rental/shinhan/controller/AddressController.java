@@ -64,14 +64,14 @@ public class AddressController {
 	        return response;
 	    }
 
-	    // 기본 주소 중복 확인
-	    if (addrDefault && addressService.isDefaultAddressExist(custSeq)) {
-	        response.put("status", "error");
-	        response.put("message", "기본 주소는 하나만 설정할 수 있습니다.");
-	        return response;
+	    
+	    
+	 // 기본 주소 설정 시, 기존 기본 주소 false로 변경
+	    if (addrDefault) {
+	        addressService.updateDefaultAddressToFalse(custSeq);
 	    }
 		
-		
+	    
 		// DB에 보낼 정보 저장
 		AddressDTO addressData = new AddressDTO();
 		addressData.setAddr_name(recipName);
@@ -148,12 +148,17 @@ public class AddressController {
 				if(custSeq == null) {
 					throw new RuntimeException("로그인이 필요합니다.");
 			}
-				
-			if (addressData.isAddr_default() && addressService.isDefaultAddressExist(custSeq)) {
-			    response.put("status", "error");
-			    response.put("message", "기본 주소는 하나만 설정할 수 있습니다.");
-			    return response;
-			}
+			
+				// 수정하려는 주소가 기본 주소로 설정되려는 경우
+		        if (addressData.isAddr_default()) {
+		            // 현재 수정 중인 주소가 이미 기본 주소라면 중복 검사 생략
+		            AddressDTO currentAddress = addressService.getAddressById(addressData.getAddr_seq());
+		            if (!currentAddress.isAddr_default() && addressService.isDefaultAddressExist(custSeq)) {
+		                response.put("status", "error");
+		                response.put("message", "기본 주소는 하나만 설정할 수 있습니다.");
+		                return response;
+		            }
+		        }
 			
 	        // 서비스 호출하여 업데이트
 	        addressService.updateAddress(addressData);
