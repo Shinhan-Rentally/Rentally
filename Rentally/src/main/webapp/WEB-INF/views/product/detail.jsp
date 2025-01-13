@@ -485,6 +485,11 @@
 		
 		//위시리스트 추가, 제거
 		$("#wishIcon").on("click", function(){
+			const custId = "${sessionScope.cust_id}";
+			if(!custId){
+				showModalMessage3("로그인이 필요한 서비스입니다.");
+				return;
+			}
 			if ($("#wishIcon i").hasClass("bi-heart")) {
 				$("#wishIcon i").removeClass("bi-heart").addClass("bi-heart-fill");
 				$.ajax({
@@ -497,7 +502,7 @@
 				        updateCounts();
 				    },
 				    error: function (xhr, status, error) {
-				    	showModalMessage3("로그인이 필요한 서비스입니다.");
+				    	showModalMessage2("위시리스트 추가에 실패했습니다.");
 				    }
 				 });
 			} else {
@@ -513,7 +518,7 @@
 				        updateCounts();
 				    },
 				    error: function (xhr, status, error) {
-				    	showModalMessage3("로그인이 필요한 서비스입니다.");
+				    	showModalMessage2("위시리스트 삭제에 실패했습니다.");
 				    }
 				 });
 			}
