@@ -24,8 +24,8 @@ public class WishListDAO implements WishListInterface {
         return wishList;
     }
 
-    public List<WishListDTO> wishStatus(int cust_seq) {
-        List<WishListDTO> result = sqlSession.selectList(namespace + "wishStatus", cust_seq);
+    public List<WishListDTO> wishStatus(int custSeq) {
+        List<WishListDTO> result = sqlSession.selectList(namespace + "wishStatus", custSeq);
         return result;
     }
 
@@ -34,10 +34,10 @@ public class WishListDAO implements WishListInterface {
         return result;
     }
 
-    public int deleteWish(int cust_seq, int product_seq) {
+    public int deleteWish(int custSeq, int productSeq) {
         Map<String, Object> params = new HashMap<>();
-        params.put("cust_seq", cust_seq);
-        params.put("product_seq", product_seq);
+        params.put("cust_seq", custSeq);
+        params.put("product_seq", productSeq);
         return sqlSession.delete(namespace + "deleteWish", params);
     }
 }

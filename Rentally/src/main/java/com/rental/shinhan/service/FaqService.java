@@ -16,6 +16,4 @@ public class FaqService{
     public List<FaqDTO> selectService() {
         return faqDao.select();
     }
-    
-
 }

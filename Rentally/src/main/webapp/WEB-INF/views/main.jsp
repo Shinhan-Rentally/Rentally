@@ -56,6 +56,39 @@ p h3 {
   -webkit-line-clamp: 3; /* 최대 3줄 표시 */
   -webkit-box-orient: vertical;
 }
+.review {
+    min-height: 300px; /* 최소 높이 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 내용 상하 정렬 */
+}
+.review h3 {
+  margin: 5px 0; /* 텍스트 간격 */
+}
+.review p {
+  height: 60px; /* 고정된 높이 */
+  overflow: hidden; /* 넘치는 텍스트 숨김 */
+  -webkit-line-clamp: 3; /* 최대 줄 수를 3줄로 제한 */
+  text-overflow: ellipsis; /* 말줄임표 처리 */
+  max-height: 4.5em; /* 3줄에 해당하는 높이 (line-height * 3줄) */
+  line-height: 1.5; /* 줄 간격 */
+}
+.review product {
+    margin: 10px 0; /* h3 태그 간의 간격 통일 */
+    height: 30px; /* h3 태그의 높이 고정 */
+    line-height: 30px; /* 텍스트 세로 정렬 */
+    overflow: hidden; /* 텍스트가 길어도 넘침 방지 */
+    text-overflow: ellipsis; /* 말줄임표 처리 */
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+.profile-img {
+	width: 80px; /* 원하는 크기로 설정 */
+	height: 80px; /* 원하는 크기로 설정 */
+	border-radius: 50%; /* 원형으로 만듦 */
+	object-fit: cover; /* 이미지가 잘리지 않고 프레임에 맞게 조정 */
+	margin: 0 auto; /* 가운데 정렬 */
+	border: 2px solid #ddd; /* 이미지 외곽선 */
+}
 </style>
 <body>
 	<!-- 헤더화면 임포트 -->
@@ -90,18 +123,13 @@ p h3 {
 				<div class="category-slider">
 					<c:forEach items="${bestProduct}" var="bestProduct">
 						<div class="item">
-							<a href="${path}/product/detail?product_seq=${bestProduct.product_seq}"
-								class="text-decoration-none text-inherit">
-								<div class="card card-product mb-lg-4">
-									<div class="card-body text-center py-8">
-										<img
-											src="https://rentally.s3.ap-northeast-2.amazonaws.com/${bestProduct.category_seq}/
-													${bestProduct.product_img}"
-											alt="Grocery Ecommerce Template" class="mb-3 img-fluid" />
-										<div class="text-truncate">${bestProduct.product_name}</div>
-									</div>
+							<div class="card card-product mb-lg-4">
+								<div class="card-body text-center py-8">
+									<a href="${path}/product/detail?product_seq=${bestProduct.product_seq}" class="text-decoration-none text-inherit"> <img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${bestProduct.category_seq}/
+													${bestProduct.product_img}" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
+									<div class="text-truncate">${bestProduct.product_name}</div>
 								</div>
-							</a>
+							</div>
 						</div>
 					</c:forEach>
 				</div>
@@ -117,12 +145,23 @@ p h3 {
 						varStatus="status">
 						<c:if test="${status.index < 4}">
 							<div class="col-md-6 col-lg-3">
-								<div class="border rounded p-3 mb-8 mb-xl-0">
+								<div class="border rounded p-3 mb-8 mb-xl-0 review">
 									<div class="mb-6">
-										<img src="${path}/resources/images/icons/package.svg" alt="" />
+										<c:if test="${status.index == 0}">
+											<img src="${path}/resources/images/avatar/avatar-4.jpg" class="profile-img" alt="Icon 1" />
+										</c:if>
+										<c:if test="${status.index == 1}">
+											<img src="${path}/resources/images/avatar/avatar-2.jpg"  class="profile-img"alt="Icon 2" />
+										</c:if>
+										<c:if test="${status.index == 2}">
+											<img src="${path}/resources/images/avatar/avatar-1.jpg" class="profile-img" alt="Icon 3" />
+										</c:if>
+										<c:if test="${status.index == 3}">
+											<img src="${path}/resources/images/avatar/avatar-5.jpg" class="profile-img" alt="Icon 4" />
+										</c:if>
 									</div>
 									<h3 class="h5 mb-3 custName">${bestReview.cust_id}</h3>
-									<h3 class="h5 mb-3">${bestReview.product_name}</h3>
+									<h3 class="h5 mb-3 product">${bestReview.product_name}</h3>
 									<p>${bestReview.review_content}</p>
 								</div>
 							</div>
@@ -138,6 +177,7 @@ p h3 {
 	<%@ include file="./common/bottomKakao.jsp"%>
 
 	<!-- Javascript-->
+	<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="${path}/resources/js/vendors/jquery.min.js"></script>
 	<script src="${path}/resources/js/vendors/countdown.js"></script>
 	<script src="${path}/resources/libs/slick-carousel/slick/slick.min.js"></script>

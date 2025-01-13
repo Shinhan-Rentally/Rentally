@@ -25,15 +25,12 @@ public class ProductListDAO implements ProductListInterface {
 	    }
 	 
 	 public List<ProductListJoinDTO> selectUpgradeProductList(Map<String ,Object> params){
-		 
 		 List<ProductListJoinDTO> upgradeProductList = sqlSession.selectList(namespace + "selectUpgradeProductList", params);
-		 
 		 return upgradeProductList;
 	 }
 	 
-	 public ProductListJoinDTO selectProductDetail(int product_seq){
-		 ProductListJoinDTO productDetail = sqlSession.selectOne(namespace + "selectProductDetail", product_seq);
-		 
+	 public ProductListJoinDTO selectProductDetail(int productSeq){
+		 ProductListJoinDTO productDetail = sqlSession.selectOne(namespace + "selectProductDetail", productSeq);
 		 return productDetail;
 	 }
 	 //검색기능

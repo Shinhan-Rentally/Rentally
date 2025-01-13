@@ -46,16 +46,16 @@ WHERE
     
   <if test="query != null and query != ''">
     AND (
-        to_tsvector('simple', P.product_serial) @@ to_tsquery('simple', #{query})
-        OR to_tsvector('simple', P.product_name) @@ to_tsquery('simple', #{query})
-        OR to_tsvector('simple', P.product_brand) @@ to_tsquery('simple', #{query})
-        OR to_tsvector('simple', P.product_height) @@ to_tsquery('simple', #{query})
-        OR to_tsvector('simple', P.product_weight) @@ to_tsquery('simple', #{query})
-        OR to_tsvector('simple', P.product_wh) @@ to_tsquery('simple', #{query})
-        OR to_tsvector('simple', P.product_color) @@ to_tsquery('simple', #{query})
-       	OR to_tsvector('simple', P.product_features) @@ to_tsquery('simple', '#' || #{query})
-        OR to_tsvector('simple', C.category_name) @@ to_tsquery('simple', #{query})
-    )
+       P.product_serial LIKE '%' || #{query} || '%'
+		OR P.product_name LIKE '%' || #{query} || '%'
+		OR P.product_brand LIKE '%' || #{query} || '%'
+		OR P.product_height LIKE '%' || #{query} || '%'
+		OR P.product_weight LIKE '%' || #{query} || '%'
+		OR P.product_wh LIKE '%' || #{query} || '%'
+		OR P.product_color LIKE '%' || #{query} || '%'
+		OR P.product_features LIKE '%#' || #{query} || '%'
+		OR C.category_name LIKE '%' || #{query} || '%'
+    	)
 </if>
     
     <if test="product_brand != null and product_brand != ''">
@@ -172,15 +172,15 @@ WHERE 1=1 AND P.product_grade != 'F'
     
 <if test="query != null and query != ''">
     AND (
-        to_tsvector('simple', P.product_serial) @@ to_tsquery('simple', #{query})
-        OR to_tsvector('simple', P.product_name) @@ to_tsquery('simple', #{query})
-        OR to_tsvector('simple', P.product_brand) @@ to_tsquery('simple', #{query})
-        OR to_tsvector('simple', P.product_height) @@ to_tsquery('simple', #{query})
-        OR to_tsvector('simple', P.product_weight) @@ to_tsquery('simple', #{query})
-        OR to_tsvector('simple', P.product_wh) @@ to_tsquery('simple', #{query})
-        OR to_tsvector('simple', P.product_color) @@ to_tsquery('simple', #{query})
- 		OR to_tsvector('simple', P.product_features) @@ to_tsquery('simple', '#' || #{query})
-        OR to_tsvector('simple', C.category_name) @@ to_tsquery('simple', #{query})
+        P.product_serial LIKE '%' || #{query} || '%'
+		OR P.product_name LIKE '%' || #{query} || '%'
+		OR P.product_brand LIKE '%' || #{query} || '%'
+		OR P.product_height LIKE '%' || #{query} || '%'
+		OR P.product_weight LIKE '%' || #{query} || '%'
+		OR P.product_wh LIKE '%' || #{query} || '%'
+		OR P.product_color LIKE '%' || #{query} || '%'
+		OR P.product_features LIKE '%#' || #{query} || '%'
+		OR C.category_name LIKE '%' || #{query} || '%'
     )
 </if>
   <!-- 브랜드 필터 -->

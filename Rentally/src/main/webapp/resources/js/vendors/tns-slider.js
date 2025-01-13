@@ -19,7 +19,7 @@ if (document.querySelectorAll('.productModal').length > 0) {
 }
 
 // Slider for product
-if (document.querySelectorAll('.product').length > 1) {
+if (document.querySelectorAll('.category-slider').length > 1) {
 	var productSlider = tns({
 		container: '#product',
 		items: 1,
