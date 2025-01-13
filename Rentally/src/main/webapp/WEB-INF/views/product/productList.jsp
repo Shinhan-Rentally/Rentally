@@ -297,14 +297,14 @@ h2.category {
 
                 if (query && query.trim() !== "") {
                     // query 값이 있으면 검색 결과 표시
-                    $(".category").html("' " + `<span id="searchColor">${query}</span>` + " '검색결과");
+                    $(".category").html("' " + `<span id="searchColor">\${query}</span>` + " '검색결과");
                 } else {
                     // query 값이 없으면 카테고리 이름 표시
                     $(".category").text(categoryName);
                 }
             },
             error: function () {
-                showModal("필터 적용 중 오류가 발생했습니다.");
+                listModal("필터 적용 중 오류가 발생했습니다.");
             }
         });
     }
@@ -354,7 +354,7 @@ h2.category {
                 $("#category_name").text(query);
             },
             error: function () {
-                showModal("검색 결과를 불러오는 중 오류가 발생했습니다.");
+                listModal("검색 결과를 불러오는 중 오류가 발생했습니다.");
             }
         });
 
@@ -385,7 +385,7 @@ h2.category {
 	    const product_seq = $(this).siblings(".product-seq").val(); // 올바른 변수명 사용
 
 	    if (cust_id == null || cust_id === "") {
-	        showModal("로그인이 필요한 서비스입니다.");
+	        listModal("로그인이 필요한 서비스입니다.");
 	        return;
 	    }
 
@@ -405,7 +405,7 @@ h2.category {
 	                updateCounts();
 	            },
 	            error: function (xhr, status, error) {
-	                showModal("에러가 발생했습니다."); // 에러 메시지도 모달로 표시
+	                listModal("에러가 발생했습니다."); // 에러 메시지도 모달로 표시
 	            }
 	        });
 	    } else {
@@ -420,7 +420,7 @@ h2.category {
 	                updateCounts();
 	            },
 	            error: function (xhr, status, error) {
-	                showModal("위시리스트 삭제 실패"); // 실패 메시지
+	                listModal("위시리스트 삭제 실패"); // 실패 메시지
 	            }
 	        });
 	    }
