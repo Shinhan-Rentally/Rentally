@@ -60,8 +60,8 @@ public class ProductListService {
 		  return productlistDAO.selectUpgradeProductList(params);
 	  }
 	  
-	  public ProductListJoinDTO selectProductDetail(int product_seq){
-		  return productlistDAO.selectProductDetail(product_seq);
+	  public ProductListJoinDTO selectProductDetail(int productSeq){
+		  return productlistDAO.selectProductDetail(productSeq);
 	  }
 	  //검색기능
 	  public List<ProductListJoinDTO> searchProduct(String query,String product_brand,String priceRange,String sort,int page,int size) { // DAO를 호출하여
