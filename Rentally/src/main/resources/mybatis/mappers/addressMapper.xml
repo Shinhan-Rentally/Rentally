@@ -80,5 +80,16 @@
 		WHERE cust_seq = #{custSeq}
 	</select>
 
+	<!-- 기본 주소 false로 설정 -->
+	<update id="updateDefaultAddressToFalse">
+			UPDATE address
+			SET addr_default = false
+			WHERE cust_seq = #{custSeq} AND addr_default = true
+	</update>
+	
+	<!-- 기본 주소 시퀀스 가져오기 -->
+	<select id="getAddressById" resultType="AddressVO">
+    SELECT * FROM address WHERE addr_seq = #{addrSeq}
+	</select>
 
 </mapper>

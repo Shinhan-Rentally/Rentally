@@ -22,11 +22,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rental.shinhan.dto.CustomerDTO;
@@ -42,45 +40,40 @@ public class CustomerController {
 
 	@Autowired
 	CustomerService custService;
+	//회원가입
+	@Autowired
+	JoinService jService;
 
 	@GetMapping("/list")
 	public String getCustomer(HttpSession session, Model model) {
-		int cust_seq = (Integer) session.getAttribute("cust_seq");
-		System.out.println(cust_seq);
-		model.addAttribute("custInfo", custService.customerInfo(cust_seq));
+		int custSeq = (Integer) session.getAttribute("cust_seq");
+		model.addAttribute("custInfo", custService.customerInfo(custSeq));
 		return "/customer/settings";
 	}
 
 	@ResponseBody
 	@PostMapping("/delete")
-	public String deleteCustomer(HttpSession session, @RequestParam int cust_seq) {
-		log.info("cust_seq: " + cust_seq);
-		int result = custService.deleteCustomer(cust_seq);
+	public String deleteCustomer(HttpSession session, @RequestParam("cust_seq") int custSeq) {
+		int result = custService.deleteCustomer(custSeq);
 		session.invalidate();
 		return result + "";
 	}
 
-	@ResponseBody // page가 아닌 값을 가져감
+	@ResponseBody
 	@PostMapping(value = "/update")
 	public String updateCustInfo(HttpSession session, CustomerDTO custInfo) {
-		int cust_seq = (Integer) session.getAttribute("cust_seq");
-		custInfo.setCust_seq(cust_seq); // 객체에 cust_seq 설정
+		int custSeq = (Integer) session.getAttribute("cust_seq");
+		custInfo.setCust_seq(custSeq);
 		int result = custService.updateCustInfo(custInfo);
 		return result + "";
 	}
-
-	//회원가입
-	@Autowired
-	JoinService jService;
 
 	@PostMapping("/join")
 	public String insert(CustomerDTO cust, RedirectAttributes attr) {
 		int result = jService.insertService(cust);
 		if (result > 0) {
-			log.info("회원가입" + result + "건 성공");
 			return "customer/login";
 		} else {
-			log.error("회원가입실패");
 			attr.addFlashAttribute("errorMessage", "회원가입에 실패했습니다. 다시 시도해주세요.");
 			return "redirect:/customer/join";
 		}
@@ -98,19 +91,18 @@ public class CustomerController {
 	
 	@PostMapping(value = "/updatepw")
 	@ResponseBody
-	public Map<String, Object> updateCustPw(HttpSession session, @RequestParam String currentPW,
-			@RequestParam String newPW) {
-		int cust_seq = (Integer) session.getAttribute("cust_seq");
+	public Map<String, Object> updateCustPw(HttpSession session, @RequestParam String currentPw,
+			@RequestParam String newPw) {
+		int custSeq = (Integer) session.getAttribute("cust_seq");
 		Map<String, Object> response = new HashMap<>();
-		boolean isUpdated = custService.updatePW(cust_seq, currentPW, newPW);
 
+		boolean isUpdated = custService.updatePW(custSeq, currentPw, newPw);
 		if (isUpdated) {
 			response.put("success", true);
 		} else {
 			response.put("success", false);
 			response.put("error", "incorrect_password");
 		}
-
 		return response;
 	}
 
@@ -141,10 +133,6 @@ public class CustomerController {
 	@Value("${imp.secret}")
 	private String impSecret;
 	
-	@Autowired
-	private RestTemplate restTemplate;
-	
-
 	public String getToken() {
 		String jsonBody = "{\"imp_key\":\"" + impKey + "\", \"imp_secret\":\"" + impSecret + "\"}";
 		HttpRequest request = HttpRequest.newBuilder()
@@ -216,11 +204,9 @@ public class CustomerController {
 					);
 			return ResponseEntity.ok(result);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "JSON 파싱 중 에러 발생"));
-		}
-		
+		}	
 	}
 	
 	@ResponseBody

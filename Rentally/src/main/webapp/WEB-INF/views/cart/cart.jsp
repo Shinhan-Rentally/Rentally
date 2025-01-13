@@ -18,20 +18,15 @@
 <body>
 	<%@include file="../common/header.jsp"%>
 	<main>
-		<!-- section -->
 		<section>
 			<div class="container">
-				<!-- row -->
 				<div class="row">
 					<%@include file="../common/myPageNavbar.jsp"%>
 					<div class="col-lg-9 col-md-8 col-12">
 						<div class="py-6 p-md-6 p-lg-10">
-							<!-- heading -->
 							<h2 class="mb-6">장바구니</h2>
-							<!-- 숫자 카운팅 -->
 							<p class="cart-count"><span>${cartList.size()}</span>개의 상품이 장바구니에 담겨있습니다.</p>
 							<div>
-								<!-- table -->
 								<div class="table-responsive">
 								<table class="table mb-0 text-nowrap table-centered">
 									<thead class="bg-light"> 
@@ -68,7 +63,6 @@
 											<td class="align-middle text-center">
 												<fmt:formatNumber value="${cart.product_pay}" type="number" pattern="#,###"/>원
 											</td>
-											
 											<td class="align-middle text-center">
 												<form action="${path}/payment" method="post" name="subForm">
 													<input type="hidden" name="product_seq" value="${cart.product_seq}">
@@ -110,17 +104,12 @@
 		        </div>
 		    </div>
 		</div>
-		
 	</main>
 	<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 	<script src="${path}/resources/js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
-		//장바구니 삭제 버튼 호버
-		$('.delete').on("hover", function(){
-			$(this).addClass()
-		})
 		//장바구니 삭제 메세지
 		function showModalMessage(message){
 			$('#alertModalMessage').text(message);
@@ -139,7 +128,7 @@
 					$("tr").has("input[value='" + item + "']").remove();
 					$(".cart-count span").text(currentCount - 1);
 					showModalMessage('장바구니에서 상품이 삭제되었습니다.');
-					// 헤더 개수 업데이트
+					//헤더 개수 업데이트
                     updateCounts();
 				},
 				error: function(){

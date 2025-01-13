@@ -12,42 +12,32 @@
 <%@ include file="../common/header.jsp" %>
 <c:set var="page" value="settings" />
 <main>
-  <!-- section -->
   <section>
-    <!-- container -->
     <div class="container">
-      <!-- row -->
       <div class="row">
         <%@ include file="../common/myPageNavbar.jsp" %>
         <div class="col-lg-9 col-md-8 col-12">
           <div class="py-6 p-md-6 p-lg-10">
             <div class="mb-6">
-              <!-- heading -->
               <h2 class="mb-0">설정</h2>
             </div>
             <div>
-              <!-- heading -->
               <h5 class="mb-4">회원정보</h5>
               <div class="row">
                 <div class="col-lg-5">
-                  <!-- form -->
                   <form>
-                    <!-- input -->
                     <div class="mb-3">
                       <label class="form-label">이름</label>
                       <input type="text" id="cust_name" class="form-control" value="${custInfo.cust_name}" />
                     </div>
-                    <!-- input -->
                     <div class="mb-3">
                       <label class="form-label">이메일</label>
                       <input type="email" id="cust_email" class="form-control" value="${custInfo.cust_email}" />
                     </div>
-                    <!-- input -->
                     <div class="mb-5">
                       <label class="form-label">전화번호</label>
                       <input type="text" id="cust_phone" class="form-control" value="${custInfo.cust_phone}" />
                     </div>
-                    <!-- button -->
                     <div class="mb-3">
                       <button id="saveDetails" class="btn btn-info">회원정보 수정</button>
                     </div>
@@ -57,25 +47,24 @@
             </div>
             <hr class="my-10" />
             <div class="pe-lg-14">
-              <!-- heading -->
               <h5 class="mb-4">비밀번호</h5>
               <form class="row row-cols-1 row-cols-lg-2">
-                <!-- input -->
                 <div class="mb-3 col">
                   <label class="form-label">새로운 비밀번호</label>
-                  <input id="newPW" type="password" class="form-control" placeholder="**********" required/>
-                  <div id="newPWFeedback" class="invalid-feedback"></div>
+                  <input id="newPw" type="password" class="form-control" placeholder="**********" required/>
+                  <div id="newPwFeedback" class="invalid-feedback"></div>
                 </div>
-                <!-- input -->
                 <div class="mb-3 col">
                   <label class="form-label">현재 비밀번호</label>
-                  <input id="currentPW" type="password" class="form-control" placeholder="**********" required/>
-                  <div id="currentPWFeedback" class="invalid-feedback"></div>
+                  <input id="currentPw" type="password" class="form-control" placeholder="**********" required/>
+                  <div id="currentPwFeedback" class="invalid-feedback"></div>
                 </div>
-                <!-- input -->
                 <div class="col-12">
                   <p class="mb-4 text-nowrap">
                     새로운 비밀번호와 현재 비밀번호를 입력해주세요.
+                  </p>
+                  <p class="mb-4 text-nowrap">
+                    비밀번호는 영문자, 숫자, 특수문자 조합으로 6~16글자로 입력해주세요.
                   </p>
                   <button id="updatePW" class="btn btn-info">비밀번호 수정</button>
                 </div>
@@ -83,11 +72,9 @@
             </div>
             <hr class="my-10" />
             <div>
-              <!-- heading -->
               <h5 class="mb-4">계정 삭제</h5>
               <p class="mb-2">계정을 삭제하시겠습니까?</p>
               <p class="mb-5">계정을 삭제하면 해당 계정과 연관된 모든 주문 정보가 삭제됩니다.</p>
-              <!-- btn -->
               <div class="mb-3">
                 <button id="deleteAccount" class="btn btn-outline-danger">회원 탈퇴</button>
               </div>
@@ -121,24 +108,21 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <%@ include file="../common/footer.jsp" %>
-<!-- Footer -->
 <%@ include file="../common/bottomKakao.jsp" %>
-<!-- Javascript-->
 </body>
 <script>
-  let redirectUrl = null;  // 전역 변수로 선언
+  let redirectUrl = null;
 
   function showModalMessage(message) {
     $('#alertModalMessage').text(message);
     $('#alertModal').modal('show');
   }
 
-  // 모달 확인 버튼 클릭 시 동작
   $('#alertModalConfirm').off("click").on("click", function () {
     if (redirectUrl) {
-      window.location.href = redirectUrl; // 특정 URL로 리다이렉트
+      window.location.href = redirectUrl;
     } else if (isSuccess) {
-      location.reload(); // 성공한 경우에만 새로고침
+      location.reload();
     }
   });
 </script>
@@ -166,12 +150,12 @@
   })
   $("#deleteAccount").on("click", function (event) {
     event.preventDefault();
-    cust_seq = ${custInfo.cust_seq};
+    custSeq = ${custInfo.cust_seq};
 
     $.ajax({
       url: `${path}/customer/delete`,
       type: 'post',
-      data: {cust_seq:cust_seq},
+      data: {cust_seq:custSeq},
       success: function(response) {
         if (response === "1") {
           redirectUrl = `${path}/main`;  // 전역 변수를 설정
@@ -186,60 +170,76 @@
   })
 </script>
 <script>
+  function okPassword(str) {
+    return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,16}$/.test(str);
+  }
+
+  $("#newPw").on("keyup", function () {
+    const newPw = $(this).val();
+    if (newPw.length !== 0) {
+      if (okPassword(newPw)) {
+        $("#newPwFeedback").addClass("hide");
+        $(this).removeClass("is-invalid").addClass("is-valid");
+      } else {
+        $("#newPwFeedback").removeClass("hide").text("비밀번호는 영문자, 숫자, 특수문자 조합으로 6~16글자로 입력해주세요.");
+        $(this).removeClass("is-valid").addClass("is-invalid");
+      }
+    } else {
+      $("#newPwFeedback").addClass("hide");
+      $(this).removeClass("is-valid is-invalid");
+    }
+  });
+
   $("#updatePW").on("click", function (event) {
     event.preventDefault(); // 기본 동작 방지
 
-    currentPW = $("#currentPW").val(); // 사용자가 입력한 현재 비밀번호
-    newPW = $("#newPW").val(); // 사용자가 입력한 새로운 비밀번호
+    const currentPw = $("#currentPw").val();
+    const newPw = $("#newPw").val();
+    let isValid = true;
 
-    let isValid = true; // 필드 검증 플래그
-
-    // 필드 검증
-    if (!currentPW) {
-      $("#currentPW").addClass("is-invalid");
-      $("#currentPWFeedback").text("현재 비밀번호를 입력해주세요.");
+    // 현재 비밀번호 필드 검증
+    if (!currentPw) {
+      $("#currentPw").addClass("is-invalid");
+      $("#currentPwFeedback").text("현재 비밀번호를 입력해주세요.");
       isValid = false;
     } else {
-      $("#currentPW").removeClass("is-invalid");
+      $("#currentPw").removeClass("is-invalid").addClass("is-valid");
     }
 
-    if (!newPW) {
-      $("#newPW").addClass("is-invalid");
-      $("#newPWFeedback").text("새로운 비밀번호를 입력해주세요.");
+    // 새로운 비밀번호 필드 검증
+    if (!newPw || !okPassword(newPw)) {
+      $("#newPw").addClass("is-invalid");
+      $("#newPwFeedback").text("비밀번호는 영문자, 숫자, 특수문자 조합으로 6~16글자로 입력해주세요.");
       isValid = false;
     } else {
-      $("#newPW").removeClass("is-invalid");
+      $("#newPw").removeClass("is-invalid").addClass("is-valid");
     }
 
     if (!isValid) {
-      return;
+      return; // 필드 검증 실패 시 요청 중단
     }
-    // 비밀번호 확인과 변경 요청을 한 번에 처리
+
+    // 비밀번호 변경 요청
     $.ajax({
-      url: `${path}/customer/updatepw`, // 단일 요청 처리 API
+      url: `${path}/customer/updatepw`,
       type: "post",
-      data: {
-        currentPW: currentPW,
-        newPW: newPW,
-      },
+      data: { currentPw, newPw },
       success: function (response) {
         if (response.success) {
           isSuccess = true;
           showModalMessage("비밀번호 변경에 성공했습니다.");
         } else if (response.error === "incorrect_password") {
-          isSuccess = false;
           showModalMessage("현재 비밀번호가 일치하지 않습니다. 다시 시도해주세요.");
         } else {
-          isSuccess = false;
           showModalMessage("비밀번호 변경에 실패했습니다. 다시 시도해주세요.");
         }
       },
       error: function (err) {
-        isSuccess = false;
         showModalMessage("서버 오류로 비밀번호 변경에 실패했습니다.");
-        console.log(err);
+        console.error(err);
       },
     });
   });
 </script>
+
 </html>

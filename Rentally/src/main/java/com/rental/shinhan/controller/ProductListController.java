@@ -9,9 +9,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import com.rental.shinhan.dto.WishListDTO;
-import com.rental.shinhan.service.WishListService;
+import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +19,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rental.shinhan.dto.ProductListJoinDTO;
+import com.rental.shinhan.dto.WishListDTO;
 import com.rental.shinhan.service.ProductListService;
 import com.rental.shinhan.service.ReviewService;
+import com.rental.shinhan.service.WishListService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -122,24 +123,25 @@ public class ProductListController {
 	ReviewService reviewService;
 
 	@GetMapping("/detail")
-	public String productDetail(HttpSession session, int product_seq, Model model) {
-		Integer cust_seq = (Integer) session.getAttribute("cust_seq");
+	public String productDetail(HttpSession session, @RequestParam("product_seq") int productSeq, Model model) {
+		Integer custSeq = (Integer) session.getAttribute("cust_seq");
 
 		// 로그인 여부에 따라 위시리스트 처리
 		List<WishListDTO> wishlist = new ArrayList<>();
-		if (cust_seq != null) { // 로그인된 경우에만 wishlist를 조회
-			wishlist = wishlistService.wishStatus(cust_seq);
+		if (custSeq != null) { // 로그인된 경우에만 wishlist를 조회
+			wishlist = wishlistService.wishStatus(custSeq);
 		}
 
-		model.addAttribute("detail", productlistService.selectProductDetail(product_seq));
-		model.addAttribute("reviewList", reviewService.selectReview(product_seq));
+		model.addAttribute("detail", productlistService.selectProductDetail(productSeq));
+		model.addAttribute("reviewList", reviewService.selectReview(productSeq));
 		model.addAttribute("wishlist", wishlist);
 		return "product/detail";
 	}
 
 	// 검색기능 결과
-	@GetMapping("searchResult")
-	public String searchProductResult(@RequestParam(value = "category_seq", defaultValue = "0",required = false) int category_seq,@RequestParam("query") String query, Model model,
+	@GetMapping("/searchResult")
+	public String searchProductResult(@RequestParam(value = "category_seq", defaultValue = "0",required = false) int category_seq,
+			@RequestParam("query") String query, Model model,
 			@RequestParam(value = "brand", required = false) String product_brand,
 			@RequestParam(value = "priceRange", required = false) String priceRange,
 			@RequestParam(value = "sort", defaultValue = "popular") String sort,
@@ -183,4 +185,75 @@ public class ProductListController {
 		// 검색 결과 페이지로 이동
 		return "product/productFilter"; // 검색 결과를 보여주는 JSP 페이지
 	}
+	
+    @PostMapping("/addToCompare")
+    public ResponseEntity<String> addToCompare(@RequestParam int productSeq, HttpSession session) {
+        // 상품 정보를 가져오기 (DB에서 productSeq로 조회)
+    	ProductListJoinDTO product = productlistService.selectProductDetail(productSeq);
+        if (product == null) {
+            return ResponseEntity.badRequest().body("상품을 찾을 수 없습니다.");
+        }
+
+        // 세션에서 비교할 상품 목록 가져오기
+        List<ProductListJoinDTO> compareList = (List<ProductListJoinDTO>) session.getAttribute("compareList");
+        if (compareList == null) {
+            compareList = new ArrayList<>();
+        }
+
+        // 1. 이미 세션에 같은 상품이 있는지 확인
+        if (compareList.stream().anyMatch(p -> p.getProduct_seq() == productSeq)) {
+            return ResponseEntity.ok()
+			                     .header(HttpHeaders.CONTENT_TYPE, "text/plain;charset=UTF-8")
+			                     .body("이미 비교함에 담긴 상품입니다.");
+        }
+
+        // 2. 상품의 카테고리가 일치하지 않으면 추가 불가
+        if (!compareList.isEmpty() && compareList.get(0).getCategory_seq() != product.getCategory_seq()) {
+            return ResponseEntity.badRequest()
+			            		 .header(HttpHeaders.CONTENT_TYPE, "text/plain;charset=UTF-8")
+			            		 .body("같은 카테고리의 상품만 비교할 수 있습니다. <br> 현재 상품을 비교하려면 비교함 초기화 후 다시 비교해주세요.");
+        }
+
+        // 3. 비교 목록이 이미 2개라면 추가 불가
+        if (compareList.size() >= 2) {
+            return ResponseEntity.badRequest()
+			            		 .header(HttpHeaders.CONTENT_TYPE, "text/plain;charset=UTF-8")
+			            		 .body("비교함에 최대 2개의 상품만 담을 수 있습니다. <br> 현재 상품을 비교하려면 비교함 초기화 후 다시 비교해주세요.");
+        }
+
+        // 상품 추가
+        compareList.add(product);
+        session.setAttribute("compareList", compareList);
+
+        return ResponseEntity.ok()
+                             .header(HttpHeaders.CONTENT_TYPE, "text/plain;charset=UTF-8")
+                             .body("상품이 비교함에 담겼습니다!");
+    }
+	
+	@GetMapping("/compare")
+	public String compare(HttpSession session, Model model) {
+	    List<ProductListJoinDTO> compareList = (List<ProductListJoinDTO>) session.getAttribute("compareList");
+	    model.addAttribute("compareList", compareList);
+	    return "product/compare";  // 상품 비교 화면 JSP
+	}
+	
+	@PostMapping("/clearCompare")
+	public ResponseEntity<String> clearCompare(HttpSession session) {
+	    // 세션에서 비교 목록 가져오기
+	    List<ProductListJoinDTO> compareList = (List<ProductListJoinDTO>) session.getAttribute("compareList");
+
+	    // 비교 목록이 존재하면 초기화
+	    if (compareList != null) {
+	        compareList.clear();
+	        session.setAttribute("compareList", compareList);
+	        return ResponseEntity.ok()
+			                     .header(HttpHeaders.CONTENT_TYPE, "text/plain;charset=UTF-8")
+			                     .body("비교함이 초기화되었습니다.");
+	    } else {
+	        return ResponseEntity.ok()
+					             .header(HttpHeaders.CONTENT_TYPE, "text/plain;charset=UTF-8")
+					             .body("비교함에 담긴 상품이 없습니다.");
+	    }
+	}
+
 }

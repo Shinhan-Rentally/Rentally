@@ -21,13 +21,11 @@ public class BestProductDAO {
 	String namespace = "com.rental.shinhan.best.";
 	public List<BestProductJoinDTO> selectBestProduct(){
 		List<BestProductJoinDTO> bestProductList = sqlSession.selectList(namespace+"bestProduct");
-		log.info("베스트상품 >>" + bestProductList.size() + "건 조회");
 		return bestProductList;
 	}
 	
 	public List<BestReviewJoinDTO> selectBestReview(){
 		List<BestReviewJoinDTO> bestReviewList = sqlSession.selectList(namespace+"bestReview");
-		log.info("베스트리뷰"+bestReviewList);
 		return bestReviewList;
 	}
 }
