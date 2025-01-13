@@ -5,7 +5,6 @@ import com.rental.shinhan.dto.WishListJoinDTO;
 import com.rental.shinhan.service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -19,12 +18,14 @@ public class WishListController {
     private WishListService wishListService;
 
     @GetMapping("/list")
-    public String getWishLists(HttpSession session, Model model) {
+    public String showWishPage() {return "/wish/wishList";}
+
+    @ResponseBody
+    @GetMapping("/list/selected")
+    public List<WishListJoinDTO> getWishLists(HttpSession session) {
         int custSeq = (Integer)session.getAttribute("cust_seq");
         List<WishListJoinDTO> wishList = wishListService.findWishLists(custSeq);
-        model.addAttribute("wishList",wishList);
-        model.addAttribute("totalCount",wishList.size());
-        return "/wish/wishList";
+        return wishList;
     }
 
     @ResponseBody
@@ -34,10 +35,10 @@ public class WishListController {
         WishListDTO request = new WishListDTO();
         request.setCust_seq(custSeq);
         request.setProduct_seq(productSeq);
+
         int result = wishListService.addWishList(request);
         return result+"";
     }
-
     @ResponseBody
     @DeleteMapping("/{productSeq}/delete")
     public String deleteWish(HttpSession session, @PathVariable int productSeq) {
