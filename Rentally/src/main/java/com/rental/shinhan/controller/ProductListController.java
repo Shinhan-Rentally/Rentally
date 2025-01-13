@@ -140,7 +140,8 @@ public class ProductListController {
 
 	// 검색기능 결과
 	@GetMapping("/searchResult")
-	public String searchProductResult(@RequestParam(value = "category_seq", defaultValue = "0",required = false) int category_seq,@RequestParam("query") String query, Model model,
+	public String searchProductResult(@RequestParam(value = "category_seq", defaultValue = "0",required = false) int category_seq,
+			@RequestParam("query") String query, Model model,
 			@RequestParam(value = "brand", required = false) String product_brand,
 			@RequestParam(value = "priceRange", required = false) String priceRange,
 			@RequestParam(value = "sort", defaultValue = "popular") String sort,
