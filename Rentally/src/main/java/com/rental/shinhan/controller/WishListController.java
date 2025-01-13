@@ -3,17 +3,13 @@ package com.rental.shinhan.controller;
 import com.rental.shinhan.dto.WishListDTO;
 import com.rental.shinhan.dto.WishListJoinDTO;
 import com.rental.shinhan.service.WishListService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-@Slf4j
 @Controller
 @RequestMapping("/wishlist")
 public class WishListController {
