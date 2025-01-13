@@ -2,7 +2,7 @@ function loadDataGeneric(path, page, additionalParams, processContent) {
     $.ajax({
         url: path,
         method: "GET",
-        data: { page, ...additionalParams },
+        data: {page, ...additionalParams},
         success: function (data) {
             $("#board_dataTable tbody").empty();
             $('#pagingUl').empty();
@@ -59,7 +59,7 @@ function loadProductData(path, page, searchKeyWord) {
     loadDataGeneric(
         `${path}/admin/product/search`,
         page,
-        { searchKeyWord: encodeURIComponent(searchKeyWord) },
+        {searchKeyWord: encodeURIComponent(searchKeyWord)},
         product => {
             $('#board_dataTable tbody').append(`
                 <tr>
@@ -86,19 +86,27 @@ function loadReviewData(path, page, rating) {
     loadDataGeneric(
         `${path}/admin/review/pageable`,
         page,
-        { rating },
-        ({ product_seq, product_name, cust_id, review_content, review_rate, review_date }) => {
-            const stars = Array.from({ length: 5 }, (_, i) =>
+        {rating},
+        ({review_seq, product_serial, cust_id, review_content, review_rate, review_date}) => {
+            const stars = Array.from({length: 5}, (_, i) =>
                 `<span class="${i < review_rate ? 'text-warning' : 'text-light'}"><i class="bi bi-star-fill"></i></span>`
             ).join('');
             $('#board_dataTable tbody').append(`
                 <tr>
-                    <td>${product_name}</td>
+                    <td>${product_serial}</td>
                     <td>${cust_id}</td>
-                    <td>${review_content}</td>
+                    <td>
+                    <div class="text-content" data-id="${review_seq}">
+                        ${review_content}
+                    </div>  
+                    <div>
+                        <a href="#" class="showMore" data-id="${review_seq}">더보기</a>
+                    </div>
+                    </td>
                     <td><div class="star-rating">${stars}</div></td>
                     <td>${review_date}</td>
                 </tr>`);
         }
     );
 }
+
