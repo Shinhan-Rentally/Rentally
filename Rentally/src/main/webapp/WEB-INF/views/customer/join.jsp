@@ -100,7 +100,7 @@
 												<i class="bi bi-eye-slash passwordToggler"></i>
 											</span>
 											<div class="invalid-feedback">비밀번호를 입력해주세요.</div>
-											<div class="pw-feedback hide">비밀번호는 영문자, 숫자, 특수문자 조합으로 6~16글자로 입력해주세요.</div>
+											<div class="pw-feedback hide">영문자, 숫자, 특수문자 조합으로 6~16글자로 입력해주세요.</div>
 										</div>
 									</div>
 								</div>
