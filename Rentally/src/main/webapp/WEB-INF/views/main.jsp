@@ -177,6 +177,7 @@ p h3 {
 	<%@ include file="./common/bottomKakao.jsp"%>
 
 	<!-- Javascript-->
+	<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="${path}/resources/js/vendors/jquery.min.js"></script>
 	<script src="${path}/resources/js/vendors/countdown.js"></script>
 	<script src="${path}/resources/libs/slick-carousel/slick/slick.min.js"></script>
