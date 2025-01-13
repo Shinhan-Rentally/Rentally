@@ -74,7 +74,6 @@
 <%@ include file="../common/bottomKakao.jsp" %>
 <!-- Footer -->
 <%@ include file="../common/footer.jsp" %>
-<!-- Javascript-->
 </body>
 <script>
     function showModalMessage(message) {
@@ -143,7 +142,6 @@
         $(document).on("click", ".deleteWish", function (event) {
             event.preventDefault();
 
-            // 버튼에서 product_seq와 cust_seq 가져오기
             product_seq = $(this).data("product-seq");
             cust_seq = $(this).data("cust-seq");
 
@@ -152,7 +150,6 @@
                 return;
             }
 
-            // AJAX 요청
             $.ajax({
                 url: `${path}/wishlist/\${product_seq}/delete`,
                 type: 'delete',
