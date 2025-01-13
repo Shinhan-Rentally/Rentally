@@ -151,7 +151,7 @@
             }
 
             $.ajax({
-                url: `${path}/wishlist/\${product_seq}/delete`,
+                url: `${path}/wishlist/\${productSeq}/delete`,
                 type: 'delete',
                 success: function (response) {
                     showModalMessage('위시리스트에서 삭제되었습니다.');
