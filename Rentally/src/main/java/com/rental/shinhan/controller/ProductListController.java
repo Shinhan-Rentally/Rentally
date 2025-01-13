@@ -123,17 +123,17 @@ public class ProductListController {
 	ReviewService reviewService;
 
 	@GetMapping("/detail")
-	public String productDetail(HttpSession session, int product_seq, Model model) {
-		Integer cust_seq = (Integer) session.getAttribute("cust_seq");
+	public String productDetail(HttpSession session, @RequestParam("product_seq") int productSeq, Model model) {
+		Integer custSeq = (Integer) session.getAttribute("cust_seq");
 
 		// 로그인 여부에 따라 위시리스트 처리
 		List<WishListDTO> wishlist = new ArrayList<>();
-		if (cust_seq != null) { // 로그인된 경우에만 wishlist를 조회
-			wishlist = wishlistService.wishStatus(cust_seq);
+		if (custSeq != null) { // 로그인된 경우에만 wishlist를 조회
+			wishlist = wishlistService.wishStatus(custSeq);
 		}
 
-		model.addAttribute("detail", productlistService.selectProductDetail(product_seq));
-		model.addAttribute("reviewList", reviewService.selectReview(product_seq));
+		model.addAttribute("detail", productlistService.selectProductDetail(productSeq));
+		model.addAttribute("reviewList", reviewService.selectReview(productSeq));
 		model.addAttribute("wishlist", wishlist);
 		return "product/detail";
 	}

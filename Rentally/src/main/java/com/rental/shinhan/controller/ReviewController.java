@@ -34,10 +34,8 @@ public class ReviewController {
 
     @ResponseBody
     @GetMapping("/ratehigh")
-    public List<ReviewDTO> selectReview(int product_seq) {
-    	log.info("상품번호>>"+product_seq);
-    	List<ReviewDTO> reviews = reviewService.selectReview(product_seq);
-    	log.info("리뷰리스트"+reviews);
+    public List<ReviewDTO> selectReview(@RequestParam("product_seq") int productSeq) {
+    	List<ReviewDTO> reviews = reviewService.selectReview(productSeq);
     	return reviews;
     }
 }
