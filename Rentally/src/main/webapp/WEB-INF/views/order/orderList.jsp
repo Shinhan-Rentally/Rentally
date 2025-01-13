@@ -237,7 +237,10 @@
     }
 </script>
 <script>
+    let defaultPeriod = "all";// 초기 period 값 설정
+
     function f_filter() {
+        period = defaultPeriod;
         loadOrders = (period) => {
             $.ajax({
                 url: `${path}/order/list/selected`,
@@ -331,7 +334,6 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const filterButtons = document.querySelectorAll('.filter-btn');
-        const defaultPeriod = "all"; // 초기 period 값 설정
 
         // period 데이터를 가져오는 함수
         f_filter();
