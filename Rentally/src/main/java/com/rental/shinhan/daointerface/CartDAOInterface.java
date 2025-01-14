@@ -1,14 +1,12 @@
 package com.rental.shinhan.daointerface;
 
-import java.util.List;
-
 import com.rental.shinhan.dto.CartJoinDTO;
 
+import java.util.List;
+
 public interface CartDAOInterface {
-	public List<CartJoinDTO> selectCart(String cust_id);
 
-	public int insert(CartJoinDTO cart);
-
-	public int deleteCart(int product_seq);
-
+    List<CartJoinDTO> selectCart(String cust_id);
+    int insert(CartJoinDTO cart);
+    int deleteCart(int product_seq);
 }
