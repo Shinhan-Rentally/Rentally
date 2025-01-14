@@ -6,13 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
-@ToString
+@Getter @Setter @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginJoinDTO {
-	
+
 	int cust_seq;
 	String cust_id;
 	String cust_pw;

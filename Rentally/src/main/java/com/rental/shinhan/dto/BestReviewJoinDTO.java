@@ -1,18 +1,12 @@
 package com.rental.shinhan.dto;
 
+import lombok.*;
+
 import java.sql.Date;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-@Getter
-@Setter
+@Getter @Setter @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class BestReviewJoinDTO {
 
 	int product_seq;
@@ -26,5 +20,4 @@ public class BestReviewJoinDTO {
     String cust_name;
     String cust_id;
     int cust_seq;
-	
 }

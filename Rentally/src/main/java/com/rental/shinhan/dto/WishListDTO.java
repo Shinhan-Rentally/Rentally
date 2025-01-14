@@ -2,10 +2,10 @@ package com.rental.shinhan.dto;
 
 import lombok.*;
 
+@Builder
 @Getter @Setter @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class WishListDTO {
 
     int cust_seq;

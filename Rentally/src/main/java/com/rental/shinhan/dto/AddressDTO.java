@@ -7,8 +7,10 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter @Setter @ToString
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class AddressDTO {
+
 	int addr_seq;
 	int cust_seq;
 	String addr_detail;
@@ -16,5 +18,4 @@ public class AddressDTO {
 	String addr_name;
 	String addr_phone;
 	boolean addr_default = false;
-	
 }

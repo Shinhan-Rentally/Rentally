@@ -6,12 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
-@ToString
+@Getter @Setter @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class CartJoinDTO {
+
 	String product_name;
 	String product_img;
 	int product_pay;
