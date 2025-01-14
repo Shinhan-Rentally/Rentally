@@ -27,10 +27,7 @@
                   <form>
                     <div class="mb-3">
                       <label class="form-label">이름</label>
-                      <input type="text" id="cust_name" class="form-control" value="${custInfo.cust_name}" />
-                      <div id="nameFeedback" class="invalid-feedback hide">
-                        이름을 입력해주세요.
-                      </div>
+                      <input type="text" id="cust_name" class="form-control" style="background-color: #f0f0f0;" value="${custInfo.cust_name}" readonly/>
                     </div>
                     <div class="mb-3">
                       <label class="form-label">이메일</label>
@@ -41,10 +38,7 @@
                     </div>
                     <div class="mb-5">
                       <label class="form-label">전화번호</label>
-                      <input type="text" id="cust_phone" class="form-control" value="${custInfo.cust_phone}" />
-                      <div id="phoneFeedback" class="invalid-feedback hide">
-                        전화번호를 입력해주세요.
-                      </div>
+                      <input type="text" id="cust_phone" class="form-control" style="background-color: #f0f0f0;" value="${custInfo.cust_phone}" readonly/>
                     </div>
                     <div class="mb-3">
                       <button id="saveDetails" class="btn btn-info">회원정보 수정</button>

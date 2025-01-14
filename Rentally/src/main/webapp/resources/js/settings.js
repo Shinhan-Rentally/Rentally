@@ -36,46 +36,14 @@ function validateField(value, feedbackSelector, inputSelector, emptyMessage, inv
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-$("#cust_phone").on("input", function(){
-    let value = $("#cust_phone").val().replace(/\D/g, '');
-    if (value.length <= 3) {
-        $("#cust_phone").val(value);
-    } else if (value.length <= 7) {
-        $("#cust_phone").val(value.slice(0, 3) + '-' + value.slice(3));
-    } else {
-        $("#cust_phone").val(value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7, 11));
-    }
-});
-
 $('#saveDetails').on("click", function (event){
     event.preventDefault();
 
-    const custName = $('#cust_name').val().trim();
     const custEmail = $('#cust_email').val().trim();
-    let custPhone = $('#cust_phone').val().trim();
     isValid = true;
-
-    // 이름 유효성 검사
-    if (!validateField(custName, "#nameFeedback", "#cust_name", "이름을 입력해주세요.")) {
-        isValid = false;
-    }
 
     // 이메일 유효성 검사
     if (!validateField(custEmail, "#emailFeedback", "#cust_email", "이메일을 입력해주세요.", "유효한 이메일을 입력해주세요.", emailPattern)) {
-        isValid = false;
-    }
-
-    // 전화번호 자동 하이픈 추가
-    custPhone = custPhone.replace(/\D/g, ''); // 숫자만 추출
-    if (custPhone.length >= 4) {
-        custPhone = custPhone.slice(0, 3) + '-' + custPhone.slice(3);
-    }
-    if (custPhone.length >= 8) {
-        custPhone = custPhone.slice(0, 8) + '-' + custPhone.slice(8, 12);
-    }
-
-    // 전화번호 유효성 검사
-    if (!validateField(custPhone, "#phoneFeedback", "#cust_phone", "전화번호를 입력해주세요.")) {
         isValid = false;
     }
 
@@ -88,9 +56,7 @@ $('#saveDetails').on("click", function (event){
         url: `${path}/customer/update`,
         type: 'post',
         data: {
-            cust_name : custName,
-            cust_email : custEmail,
-            cust_phone : custPhone
+            cust_email : custEmail
         },
         success: function (response){
             isSuccess = true;
@@ -150,21 +116,13 @@ $("#updatePW").on("click", function (event) {
     let isValid = true;
 
     // 현재 비밀번호 필드 검증
-    if (!currentPw) {
-        $("#currentPw").addClass("is-invalid");
-        $("#currentPwFeedback").text("현재 비밀번호를 입력해주세요.");
+    if (!validateField(currentPw, "#currentPwFeedback", "#currentPw", "현재 비밀번호를 입력해주세요.")) {
         isValid = false;
-    } else {
-        $("#currentPw").removeClass("is-invalid").addClass("is-valid");
     }
 
     // 새로운 비밀번호 필드 검증
-    if (!newPw || !okPassword(newPw)) {
-        $("#newPw").addClass("is-invalid");
-        $("#newPwFeedback").text("비밀번호는 영문자, 숫자, 특수문자 조합으로 6~16글자로 입력해주세요.");
+    if (!validateField(newPw, "#newPwFeedback", "#newPw", "새로운 비밀번호를 입력해주세요.", "비밀번호는 영문자, 숫자, 특수문자 조합으로 6~16글자로 입력해주세요.", okPassword)) {
         isValid = false;
-    } else {
-        $("#newPw").removeClass("is-invalid").addClass("is-valid");
     }
 
     if (!isValid) {
