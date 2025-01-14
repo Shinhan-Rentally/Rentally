@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rental.shinhan.dto.CartJoinDTO;
@@ -41,11 +42,11 @@ public class CartController {
 	
 	@ResponseBody
 	@PostMapping("/cart/product/delete")
-	public String delete(int product_seq, HttpSession session) {
+	public String delete(@RequestParam("cart_seq")int cartSeq, HttpSession session) {
 		String custId = (String)session.getAttribute("cust_id");
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("cust_id", custId);
-		paramMap.put("product_seq", product_seq);
+		paramMap.put("cart_seq", cartSeq);
 		int result = cartService.deleteCart(paramMap);
 		return result > 0 ? "장바구니삭제성공" : "장바구니삭제실패";
 	}

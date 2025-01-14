@@ -6,7 +6,7 @@
 
 	<select id="selectCart" parameterType="String" resultType="CartVO">
 		select product_brand, product_name, product_img,
-		product_pay, cart_option, category_seq, product.product_seq
+		product_pay, cart_option, category_seq, product.product_seq, cart.cart_seq
 		from cart
 		join product
 		on cart.product_seq =
@@ -23,7 +23,7 @@
 		AND cart.product_seq = p.product_seq
 		AND
 		c.cust_id = #{cust_id}
-		AND p.product_seq = #{product_seq}
+		AND cart.cart_seq = #{cart_seq}
 	</delete>
 	<insert id="insertCart" parameterType="CartVO">
 		INSERT INTO cart

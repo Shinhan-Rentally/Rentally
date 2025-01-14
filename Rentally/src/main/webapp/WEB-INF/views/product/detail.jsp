@@ -331,12 +331,14 @@
 		//구독기간 버튼 선택
 		let selectPeriod = null;
 		$('#period button').click(function(){
-			$('#period button').removeClass('btn-info').addClass('btn-outline-secondary');
-			$(this).removeClass('btn-outline-secondary').addClass('btn-info');
-			$(this).click(function(){
-				$(this).removeClass('btn-info').addClass('btn-outline-secondary');
-			});
-			selectPeriod = $(this).val();
+			if( $(this).hasClass('btn-info')){
+				$('#period button').removeClass('btn-info').addClass('btn-outline-secondary');
+				selectPeriod = null;
+			} else {
+				$('#period button').removeClass('btn-info').addClass('btn-outline-secondary');
+				$(this).removeClass('btn-outline-secondary').addClass('btn-info');
+				selectPeriod = $(this).val();
+			}
 		});
 		
 		//기간선택 안 했을 때 경고창 모달

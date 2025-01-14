@@ -19,4 +19,5 @@ public class CartJoinDTO {
 	int cust_seq;
 	int product_seq;
 	int category_seq;
+	int cart_seq;
 }
