@@ -17,6 +17,8 @@
 		<!-- adminMapper -->
 		<typeAlias type="com.rental.shinhan.dto.ProductDTO" alias="ProductVO"/>
 		<typeAlias type="com.rental.shinhan.dto.ReviewDTO" alias="ReviewVO"/>
+		<typeAlias type="com.rental.shinhan.dto.CustomerDTO" alias="CustomerVO" />
+		<typeAlias type="com.rental.shinhan.dto.OrderJoinDTO" alias="OrderJoinVO" />
 		
 		<!-- bestMapper -->
 		<typeAlias type="com.rental.shinhan.dto.BestProductJoinDTO" alias="BestProductVO"/>
@@ -47,5 +49,4 @@
 		<!-- faqMapper -->
 		<typeAlias type="com.rental.shinhan.dto.FaqDTO" alias="FaqVO" />
 	</typeAliases>
-
 </configuration>
