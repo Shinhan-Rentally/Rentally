@@ -38,12 +38,9 @@
         where cust_seq = #{cust_seq}
     </update>
 
-	<update id="updateCustInfo" parameterType="CustomerVO">
+	<update id="updateCustInfo" parameterType="map">
 		update customer
-		set
-		cust_name = #{cust_name},
-		cust_email = #{cust_email},
-		cust_phone = #{cust_phone}
+		set cust_email = #{cust_email}
 		where cust_seq = #{cust_seq}
 	</update>
 	
