@@ -107,7 +107,11 @@
                             <h6 class="fw-bold mb-3">상품 정보</h6>
                         </header>
                         <div class="css-1sx2i6a">
+                            <div class="row_title TITLE">상품번호</div>
                             <div class="row_content CONTENT" id="productSerial"></div>
+                        </div>
+                        <div class="css-1sx2i6a">
+                            <div class="row_title TITLE">주문날짜</div>
                             <div class="row_content CONTENT" id="subDate"></div>
                         </div>
                     </div>
@@ -233,7 +237,10 @@
     }
 </script>
 <script>
+    let defaultPeriod = "all";// 초기 period 값 설정
+
     function f_filter() {
+        period = defaultPeriod;
         loadOrders = (period) => {
             $.ajax({
                 url: `${path}/order/list/selected`,
@@ -272,19 +279,24 @@
                             }
                             $('#order_table tbody').append(`
                             <tr>
-                                <td class="align-middle border-top-0 w-0">
-                                    <a href="#">
-                                        <img src="https://rentally.s3.ap-northeast-2.amazonaws.com/\${order.category_seq}/\${order.product_img}"
-                                        class="icon-shape icon-xl"/>
+                                <td class="align-middle">
+                                    <a href="${path}/product/detail?product_seq=\${order.product_seq}">
+                                        <img
+                                        src="https://rentally.s3.ap-northeast-2.amazonaws.com/\${order.category_seq}/\${order.product_img}" alt="\${order.product_name}"
+                                        class="icon-shape icon-xxl" alt="\${order.product_name}" />
                                     </a>
                                 </td>
-                                <td class="align-middle border-top-0">
-                                    <a href="#" class="fw-semibold text-inherit">
-                                        <h6 class="mb-0 product-name">\${order.product_name}</h6>
-                                    </a>
-                                    <span>
-                                        <small class="text-muted">\${order.sub_period}개월</small>
-                                    </span>
+                                <td class="align-middle">
+                                    <div>
+                                        <h6 class="fs-6 mb-0">
+                                            <a href="${path}/product/detail?product_seq=\${order.product_seq}" class="text-inherit product-name" id="productName">\${order.product_name}</a>
+                                        </h6>
+                                        <span>
+                                            <small>
+                                                \${order.sub_period}개월
+                                            </small>
+                                        </span>
+                                    </div>
                                 </td>
                                 <td class="text-center border-top-0">\${order.formatted_paydate}</td>
                                 <td class="text-center border-top-0">\${order.sub_total.toLocaleString()}원</td>
@@ -302,7 +314,7 @@
                                         data-cust-phone="\${order.cust_phone}"
                                         data-sub-addrT="\${order.sub_addrT}"
                                         data-sub-addrD="\${order.sub_addrD}"
-                                        data-product-pay="\${order.product_pay}"
+                                        data-product-pay="\${order.sub_total.toLocaleString()}"
                                         data-sub-period="\${order.sub_period}"
                                         data-sub-card="\${order.sub_card}">
                                         주문상세
@@ -322,7 +334,6 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const filterButtons = document.querySelectorAll('.filter-btn');
-        const defaultPeriod = "all"; // 초기 period 값 설정
 
         // period 데이터를 가져오는 함수
         f_filter();

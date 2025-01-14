@@ -110,10 +110,6 @@
 	<script src="${path}/resources/js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
-		//장바구니 삭제 버튼 호버
-		$('.delete').on("hover", function(){
-			$(this).addClass()
-		})
 		//장바구니 삭제 메세지
 		function showModalMessage(message){
 			$('#alertModalMessage').text(message);
@@ -132,7 +128,7 @@
 					$("tr").has("input[value='" + item + "']").remove();
 					$(".cart-count span").text(currentCount - 1);
 					showModalMessage('장바구니에서 상품이 삭제되었습니다.');
-					// 헤더 개수 업데이트
+					//헤더 개수 업데이트
                     updateCounts();
 				},
 				error: function(){

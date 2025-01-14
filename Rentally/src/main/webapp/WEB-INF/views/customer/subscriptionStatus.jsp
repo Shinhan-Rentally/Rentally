@@ -40,12 +40,12 @@
                                  <c:forEach items="${subscribeList}" var="sub" varStatus="status">
 	                                 <tr>
 	                                    <td class="align-middle border-top-0 w-0">
-	                                       <a href="#"><img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${sub.category_seq}/${sub.product_img}" alt="${sub.product_name}" class="icon-shape icon-xl" /></a>
+	                                       <a href="${path}/product/detail?product_seq=${sub.product_seq}"><img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${sub.category_seq}/${sub.product_img}" alt="${sub.product_name}" class="icon-shape icon-xl" /></a>
 	                                    </td>
 	                                    <td class="align-middle border-top-0">
-	                                       <a href="#" class="fw-semibold text-inherit">
-	                                          <h6 class="mb-0 product-name">${sub.product_name}</h6>
-	                                       </a>
+	                                       <h6 class="fs-6 mb-0">
+												<a href="${path}/product/detail?product_seq=${sub.product_seq}" class="text-inherit product-name">${sub.product_name}</a>
+										   </h6>
 	                                       <span>
 	                                       	<small class="text-muted">${sub.sub_period}개월</small>
 	                                       </span>

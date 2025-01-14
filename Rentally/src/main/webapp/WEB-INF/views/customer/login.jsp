@@ -53,14 +53,14 @@
 
 		</section>
 
-		<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+		<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="alertModalLabel">알림</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<div class="modal-body" id="alertModalMessage"></div>
+					<div class="modal-body" id="loginModalMessage"></div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-info" data-bs-dismiss="modal">확인</button>
 					</div>
@@ -88,12 +88,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // blockUser 값을 JSP에서 JavaScript로 전달
     var blockUser = ${blockUser};
     
-    // 모달 띄우는 함수
-    function showModal(message) {
-        const modalMessage = document.getElementById("alertModalMessage");
-        modalMessage.textContent = message; // 모달 메시지 설정
-        const alertModal = new bootstrap.Modal(document.getElementById("alertModal"));
-        alertModal.show(); // 모달 표시
+  	//모달 띄우는 함수
+    function loginModal(message) {
+        $("#loginModalMessage").text(message);
+        $("#loginModal").modal("show"); // 모달 표시
     }
 
     // URL에서 error 파라미터 값 확인
@@ -102,20 +100,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // 로그인 실패 시 모달 띄우기
         if (error === "userNotFound") {
-            showModal("아이디가 존재하지 않습니다.");
+        	loginModal("아이디가 존재하지 않습니다.");
         } else if (error === "wrongPassword") {
-            showModal("비밀번호가 맞지 않습니다.");
+        	loginModal("비밀번호가 맞지 않습니다.");
         } else if (error === "passwordMissing") {
-            showModal("비밀번호 정보가 누락되었습니다.");
+        	loginModal("비밀번호 정보가 누락되었습니다.");
         } else if (error === "unknownError") {
-            showModal("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
+        	loginModal("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
         }
     }
 
     // blockUser 값이 true일 경우 모달을 띄운다.
     if (blockUser) {
         $(document).ready(function() {
-            showModal("로그인이 필요한 서비스입니다."); // 유효성 검사 실패 시 모달 띄우기
+        	loginModal("로그인이 필요한 서비스입니다."); // 유효성 검사 실패 시 모달 띄우기
         });
     }
     
@@ -127,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const custIdInput = document.getElementById("cust_id");
         if (!custIdInput.value.trim()) {
             if (isValid) { // 최초로 유효성 검사 실패 시에만 모달 띄우기
-                showModal("ID를 입력해주세요."); 
+            	loginModal("ID를 입력해주세요."); 
             }
             isValid = false; // 유효하지 않음으로 설정
             custIdInput.classList.add("is-invalid");
@@ -139,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const custPwInput = document.getElementById("cust_pw");
         if (!custPwInput.value.trim()) {
             if (isValid) { // 이전에 이미 유효성 검사 실패했다면 모달 띄우지 않음
-                showModal("비밀번호를 입력해주세요."); 
+            	loginModal("비밀번호를 입력해주세요."); 
             }
             isValid = false; // 유효하지 않음으로 설정
             custPwInput.classList.add("is-invalid");
@@ -163,30 +161,58 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 </script>
-	<!-- id 기억하기 script -->
+<!-- id 기억하기 script -->
 	<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // 페이지가 로드되면 로컬 스토리지에서 ID 값을 읽어옵니다.
-        var savedId = localStorage.getItem("savedId");
-        if (savedId) {
-            document.getElementById("cust_id").value = savedId;
-            document.getElementById("flexCheckDefault").checked = true; // 체크박스를 체크 상태로 설정
-        }
+	document.addEventListener("DOMContentLoaded", function () {
+	    // 페이지 로드 시, 로컬 스토리지에서 ID 값을 읽어옵니다.
+	    const savedId = localStorage.getItem("savedId");
+	    const rememberMeChecked = localStorage.getItem("rememberMe") === "true";
 
-        // "Remember me" 체크박스 상태에 따라 ID를 로컬 스토리지에 저장
-        document.getElementById("flexCheckDefault").addEventListener("change", function() {
-            var rememberMeChecked = this.checked;
-            var userId = document.getElementById("cust_id").value;
+	    const userIdInput = document.getElementById("cust_id");
+	    const rememberMeCheckBox = document.getElementById("flexCheckDefault");
 
-            if (rememberMeChecked) {
-                localStorage.setItem("rememberMe", "true");
-                localStorage.setItem("savedId", userId);
-            } else {
-                localStorage.removeItem("rememberMe");
-                localStorage.removeItem("savedId");
-            }
-        });
-    });
+	    // 저장된 값이 있으면 입력 필드와 체크박스 초기화
+	    if (rememberMeChecked && savedId) {
+	        userIdInput.value = savedId;
+	        rememberMeCheckBox.checked = true;
+	    } else {
+	        userIdInput.value = ""; // 저장된 값이 없으면 빈 상태 유지
+	        rememberMeCheckBox.checked = false;
+	    }
+
+	    // 체크박스 변경 이벤트 핸들러
+	    rememberMeCheckBox.addEventListener("change", function () {
+	        const userId = userIdInput.value.trim();
+
+	        if (this.checked) {
+	            if (userId) {
+	                // 체크박스가 활성화되면 현재 입력된 아이디 저장
+	                localStorage.setItem("rememberMe", "true");
+	                localStorage.setItem("savedId", userId);
+	            }
+	        } else {
+	            // 체크박스 비활성화 시 로컬 스토리지 데이터 제거
+	            localStorage.removeItem("rememberMe");
+	            localStorage.removeItem("savedId");
+	        }
+	    });
+
+	    // 아이디 입력 필드 변경 시 로컬 스토리지 동기화
+	    userIdInput.addEventListener("input", function () {
+	        const userId = this.value.trim();
+
+	        if (rememberMeCheckBox.checked) {
+	            if (userId) {
+	                // 입력값이 있으면 로컬 스토리지 업데이트
+	                localStorage.setItem("savedId", userId);
+	            } else {
+	                // 입력값이 없으면 로컬 스토리지에서 ID 제거
+	                localStorage.removeItem("savedId");
+	            }
+	        }
+	    });
+	});
+
 </script>
 
 </body>

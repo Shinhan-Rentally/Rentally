@@ -25,18 +25,13 @@ public class JoinDAO {
 		String hashedPw = BCrypt.withDefaults().hashToString(12, cust.getCust_pw().toCharArray());
 		cust.setCust_pw(hashedPw);
 		int result = sqlSession.insert(namespace + "insertCustomer", cust);
-		if(result>0) {
-			log.info("회원가입 성공 >>"+cust.toString());
-		} else {
-			log.info("회원가입 실패");
-		}
 		return result;
 	}
 	
 	//아이디 중복체크
 	public boolean checkId(String cust_id) {
 		int count = sqlSession.selectOne(namespace+"checkId", cust_id);
-		if(count ==0) {
+		if(count == 0) {
 			return false;
 		} else {
 			return true;

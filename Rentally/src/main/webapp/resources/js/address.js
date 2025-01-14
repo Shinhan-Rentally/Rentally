@@ -28,6 +28,8 @@ if (!path) {
 	    }
 	});
 	
+	
+	
 	// 수정 모달 열기
 	function updateModal(seq, title, name, phone, address, isDefault) {
         const postcodeMatch = address.match(/\d{5}/);
@@ -182,7 +184,7 @@ if (!path) {
     	const modalInstance = new bootstrap.Modal(modalElement);
 
     	// 메시지 설정
-    	document.getElementById('alertModalMessage').textContent = message;
+    	document.getElementById('alertModalMessage').innerHTML = message;
 
     	// 수정 완료 모달 표시
     	modalInstance.show();
@@ -219,7 +221,44 @@ if (!path) {
 	// 주소 등록 Jquery
 	$('#saveAddress').on("click", function (event) {
     	event.preventDefault();
- 
+ 		
+ 		// 필수값 확인
+    	const postcode = $('#postcode').val().trim();
+    	const address = $('#address').val().trim();
+    	const detailAddress = $('#detailAddress').val().trim();
+    	const recipName = $('#recipName').val().trim();
+    	const recipPhone = $('#recipPhone').val().trim();
+
+    	// 누락된 값 확인
+    	if (!postcode || !address || !detailAddress || !recipName || !recipPhone) {
+        	let missingFields = [];
+        	if (!postcode) missingFields.push("우편번호");
+        	if (!address) missingFields.push("주소");
+        	if (!detailAddress) missingFields.push("상세주소");
+        	if (!recipName) missingFields.push("수령인 이름");
+        	if (!recipPhone) missingFields.push("전화번호");
+
+
+        const errorMessage = `다음 필수 정보를 입력하세요: <br>${missingFields.join(",<br>")}`;
+        
+        // 주소 등록 창 닫기
+        const modalElement = document.getElementById('addAddressModal');
+        const saveAddressModal = bootstrap.Modal.getInstance(modalElement);
+
+        if (saveAddressModal) {
+            saveAddressModal.hide(); // 등록 창 닫기
+        }
+
+        // 등록 창이 닫힌 후 오류 모달 표시
+        modalElement.addEventListener('hidden.bs.modal', function () {
+            showModalMessage(errorMessage); // 오류 메시지 모달 표시
+        }, { once: true });
+        
+        return;
+    }
+
+ 		
+ 		// 데이터 직력화 후, AJAX 요청
     	const formData = $('#addAddressModal').find('input, select').serialize();
 		
     	$.ajax({
@@ -227,15 +266,15 @@ if (!path) {
         	type: "POST",
         	data: formData,
         	success: function (response) {
-            // 주소 등록 모달 닫기
+            // 부트 스트랩 모달 객체 생성 후 넣기
             const modalElement = document.getElementById('addAddressModal');
             let saveAddressModal = bootstrap.Modal.getInstance(modalElement);
 
             if (!saveAddressModal) {
                 saveAddressModal = new bootstrap.Modal(modalElement);
             }
-
-            saveAddressModal.hide();
+			
+			saveAddressModal.hide();
 
             // 등록 완료 메시지를 알림 모달에 표시
             modalElement.addEventListener('hidden.bs.modal', function () {
@@ -255,8 +294,17 @@ if (!path) {
             if (!saveAddressModal) {
                 saveAddressModal = new bootstrap.Modal(modalElement);
             }
+			
+			// 등록 완료 메시지를 알림 모달에 표시
+            modalElement.addEventListener('hidden.bs.modal', function () {
+                showModalMessage(response.message); // 성공 메시지 표시
+            }, { once: true });
 
-            saveAddressModal.hide();
+            // 알림 모달 닫힌 후 페이지 새로고침
+            $('#alertModal').on('hidden.bs.modal', function () {
+                location.reload(); // 페이지 새로고침
+            });
+			
 
             // 오류 메시지를 알림 모달에 표시
             modalElement.addEventListener('hidden.bs.modal', function () {
