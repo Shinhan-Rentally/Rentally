@@ -161,6 +161,7 @@
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="${path}/resources/libs/quill/dist/quill.min.js"></script>
 <script src="${path}/resources/libs/dropzone/dist/min/dropzone.min.js"></script>
+<script src="${path}/resources/js/convertToWebP.js"></script>
 <script src="${path}/resources/js/vendors/dropzone.js"></script>
 <script src="${path}/resources/js/modalUtils.js"></script>
 <script>
