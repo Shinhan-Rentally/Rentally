@@ -30,9 +30,11 @@ public class CustomerDAO implements CustomerInterface {
         return result;
     }
 
-    public int updateCustInfo(CustomerDTO customer){
-        int result = sqlSession.update(namespace + "updateCustInfo", customer);
-        return result;
+    public int updateCustInfo(int custSeq, String custEmail) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("cust_seq", custSeq);
+        params.put("cust_email", custEmail);
+        return sqlSession.update(namespace + "updateCustInfo", params);
     };
 
     public int updatePW(CustomerDTO customer) {
