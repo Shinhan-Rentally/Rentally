@@ -323,7 +323,8 @@ h2.category {
 
     // 초기화 및 이벤트 설정
     $(function () {
-        const query = "${param.query != null ? fn:escapeXml(param.query) : ''}".trim();
+    	const query = "${param.query != null ? param.query : ''}".trim();//검색어
+        const encodedQuery = encodeURIComponent(query);//검색어 인코딩
         const sort = document.querySelector('.form-select').value; // 선택된 정렬 기준
 
         if (query === '') {
@@ -339,7 +340,7 @@ h2.category {
             url: '${path}/product/searchResult', // 검색 처리할 URL
             method: 'GET',
             data: {
-                query: query, // 검색어
+                query: encodedQuery, // 검색어
                 brand: selectedBrand || '',
                 priceRange: selectedPriceRanges.join(',') || '',
                 sort: sort,
