@@ -40,6 +40,7 @@ $('#saveDetails').on("click", function (event){
     event.preventDefault();
 
     const custEmail = $('#cust_email').val().trim();
+    
     isValid = true;
 
     // 이메일 유효성 검사
@@ -56,7 +57,7 @@ $('#saveDetails').on("click", function (event){
         url: `${path}/customer/update`,
         type: 'post',
         data: {
-            cust_email : custEmail
+            custEmail : custEmail
         },
         success: function (response){
             isSuccess = true;
