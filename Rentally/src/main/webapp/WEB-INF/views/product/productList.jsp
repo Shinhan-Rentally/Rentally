@@ -253,8 +253,11 @@ h2.category {
         selectedPriceRanges = Array.from(document.querySelectorAll('#priceRangeToggle button.btn-info'))
             .map(btn => btn.getAttribute('data-value'));
 
-        // 필터 적용
+        
+        currentPage = 1; // 페이지 초기화
+     // 필터 적용
         applyFilters();
+        
     }
 
     // 가격대 필터 다중 선택 가능
@@ -267,9 +270,10 @@ h2.category {
         selectedPriceRanges = Array.from(document.querySelectorAll('#priceRangeToggle button.btn-info'))
             .map(btn => btn.getAttribute('data-value'));
 
+        currentPage = 1; // 페이지 초기화
+        
         // 필터 적용
         applyFilters();
-        currentPage = 1; // 페이지 초기화
     }
 
     // 필터와 정렬을 적용하는 함수
@@ -302,6 +306,7 @@ h2.category {
                     // query 값이 없으면 카테고리 이름 표시
                     $(".category").text(categoryName);
                 }
+                currentPage = 1; // 페이지 초기화
             },
             error: function () {
                 listModal("필터 적용 중 오류가 발생했습니다.");
@@ -352,6 +357,8 @@ h2.category {
                 $("#productlistsize").text($("#size").text());
                 $("#producttotalsize").text($("#totalsize").text());
                 $("#category_name").text(query);
+            	 // 초기 페이지 설정
+                currentPage = 1;
             },
             error: function () {
                 listModal("검색 결과를 불러오는 중 오류가 발생했습니다.");
@@ -455,8 +462,6 @@ h2.category {
 	    document.title = `\${categoryName} - Rentally`; // 템플릿 리터럴 수정
 	}
 </script>
-
-
 
 </body>
 </html>

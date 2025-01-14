@@ -161,6 +161,8 @@
                 success: function (response) {
                     showModalMessage('위시리스트에서 삭제되었습니다.');
                     wish_filter();
+                  	//헤더 개수 업데이트
+                    updateCounts();
                 },
                 error: function (err) {
                     showModalMessage('삭제에 실패하였습니다. 다시 시도해주세요.');

@@ -19,19 +19,21 @@
 						<img src="${path}/resources/images/svg-graphics/signin-g.svg" alt="" class="img-fluid" />
 					</div>
 					<div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1">
-						<div class="mb-lg-9 mb-5">
+						
 							<h1 class="mb-1 h2 fw-bold">로그인</h1>
 							<p>렌탈리의 오신것을 환영합니다.</p>
-						</div>
+						
 						<form class="needs-validation" action="${path}/customer/login" method="post" id="loginForm" novalidate>
 							<div class="col-12">
-								<label for="cust_id" class="form-label">ID</label> <input type="text" class="form-control" id="cust_id" name="cust_id" placeholder="ID" value="" required />
+								<input type="text" class="form-control" id="cust_id" name="cust_id" placeholder="ID" value="" required />
 
 								<div class="invalid-feedback">ID를 입력하세요.</div>
 							</div>
+							<br>
 							<div class="col-12">
 								<div class="password-field position-relative">
-									<label for="cust_pw" class="form-label">Password</label> <input type="password" class="form-control fakePassword" id="cust_pw" name="cust_pw" placeholder="*****" required />
+									
+									<input type="password" class="form-control fakePassword" id="cust_pw" name="cust_pw" placeholder="Password" required />
 									<div class="invalid-feedback">비밀번호를 입력하세요.</div>
 								</div>
 							</div>
@@ -161,30 +163,58 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 </script>
-	<!-- id 기억하기 script -->
+<!-- id 기억하기 script -->
 	<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // 페이지가 로드되면 로컬 스토리지에서 ID 값을 읽어옵니다.
-        var savedId = localStorage.getItem("savedId");
-        if (savedId) {
-            document.getElementById("cust_id").value = savedId;
-            document.getElementById("flexCheckDefault").checked = true; // 체크박스를 체크 상태로 설정
-        }
+	document.addEventListener("DOMContentLoaded", function () {
+	    // 페이지 로드 시, 로컬 스토리지에서 ID 값을 읽어옵니다.
+	    const savedId = localStorage.getItem("savedId");
+	    const rememberMeChecked = localStorage.getItem("rememberMe") === "true";
 
-        // "Remember me" 체크박스 상태에 따라 ID를 로컬 스토리지에 저장
-        document.getElementById("flexCheckDefault").addEventListener("change", function() {
-            var rememberMeChecked = this.checked;
-            var userId = document.getElementById("cust_id").value;
+	    const userIdInput = document.getElementById("cust_id");
+	    const rememberMeCheckBox = document.getElementById("flexCheckDefault");
 
-            if (rememberMeChecked) {
-                localStorage.setItem("rememberMe", "true");
-                localStorage.setItem("savedId", userId);
-            } else {
-                localStorage.removeItem("rememberMe");
-                localStorage.removeItem("savedId");
-            }
-        });
-    });
+	    // 저장된 값이 있으면 입력 필드와 체크박스 초기화
+	    if (rememberMeChecked && savedId) {
+	        userIdInput.value = savedId;
+	        rememberMeCheckBox.checked = true;
+	    } else {
+	        userIdInput.value = ""; // 저장된 값이 없으면 빈 상태 유지
+	        rememberMeCheckBox.checked = false;
+	    }
+
+	    // 체크박스 변경 이벤트 핸들러
+	    rememberMeCheckBox.addEventListener("change", function () {
+	        const userId = userIdInput.value.trim();
+
+	        if (this.checked) {
+	            if (userId) {
+	                // 체크박스가 활성화되면 현재 입력된 아이디 저장
+	                localStorage.setItem("rememberMe", "true");
+	                localStorage.setItem("savedId", userId);
+	            }
+	        } else {
+	            // 체크박스 비활성화 시 로컬 스토리지 데이터 제거
+	            localStorage.removeItem("rememberMe");
+	            localStorage.removeItem("savedId");
+	        }
+	    });
+
+	    // 아이디 입력 필드 변경 시 로컬 스토리지 동기화
+	    userIdInput.addEventListener("input", function () {
+	        const userId = this.value.trim();
+
+	        if (rememberMeCheckBox.checked) {
+	            if (userId) {
+	                // 입력값이 있으면 로컬 스토리지 업데이트
+	                localStorage.setItem("savedId", userId);
+	            } else {
+	                // 입력값이 없으면 로컬 스토리지에서 ID 제거
+	                localStorage.removeItem("savedId");
+	            }
+	        }
+	    });
+	});
+
 </script>
 
 </body>

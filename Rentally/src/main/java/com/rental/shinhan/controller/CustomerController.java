@@ -53,7 +53,8 @@ public class CustomerController {
 
 	@ResponseBody
 	@PostMapping("/delete")
-	public String deleteCustomer(HttpSession session, @RequestParam("cust_seq") int custSeq) {
+	public String deleteCustomer(HttpSession session) {
+		int custSeq = (Integer) session.getAttribute("cust_seq");
 		int result = custService.deleteCustomer(custSeq);
 		session.invalidate();
 		return result + "";
@@ -61,17 +62,18 @@ public class CustomerController {
 
 	@ResponseBody
 	@PostMapping(value = "/update")
-	public String updateCustInfo(HttpSession session, CustomerDTO custInfo) {
-		int custSeq = (Integer) session.getAttribute("cust_seq");
-		custInfo.setCust_seq(custSeq);
-		int result = custService.updateCustInfo(custInfo);
+	public String updateCustInfo(HttpSession session, @RequestParam String custEmail) {
+		int custSeq = (Integer)session.getAttribute("cust_seq");
+		int result = custService.updateCustInfo(custSeq, custEmail);
 		return result + "";
 	}
 
 	@PostMapping("/join")
-	public String insert(CustomerDTO cust, RedirectAttributes attr) {
+	public String insert(CustomerDTO cust, RedirectAttributes attr, HttpSession session) {
 		int result = jService.insertService(cust);
 		if (result > 0) {
+			session.removeAttribute("name");
+			session.removeAttribute("phone");
 			return "customer/login";
 		} else {
 			attr.addFlashAttribute("errorMessage", "회원가입에 실패했습니다. 다시 시도해주세요.");
@@ -162,12 +164,8 @@ public class CustomerController {
 	public ResponseEntity<Map<String, String>> identity(@RequestBody Map<String, String> requestData) {
 		//토큰 가져오기
 		String token = getToken();
-		System.out.println("토큰 >> " + token);
-		
 		//클라이언트에서 받은 imp_uid 확인
 		String imp_uid = requestData.get("imp_uid");
-		System.out.println("imp_uid>"+imp_uid);
-		
 		//iamport API 요청 생성
 		HttpRequest request = HttpRequest.newBuilder()
 				.uri(URI.create("https://api.iamport.kr/certifications/" + imp_uid))
@@ -175,7 +173,6 @@ public class CustomerController {
 				.header("Authorization", "Bearer " + token)
 				.GET()
 				.build();
-
 		HttpResponse<String> response;
 		try {
 			response = HttpClient.newHttpClient()
@@ -184,11 +181,8 @@ public class CustomerController {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "API 호출 중 에러 발생"));
 		}
-		
 		//응답 파싱
 		String jsonResponse = response.body();
-		System.out.println("응답 >>" + jsonResponse);
-
 		//json 데이터를 파싱해서 이름이랑 핸드폰번호 가져오기
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
