@@ -113,7 +113,7 @@
         join product p on s.product_seq = p.product_seq
         join customer c on s.cust_seq = c.cust_seq
         <where>
-            <if test="review != null">
+            <if test="review != 0">
                 r.review_rate = #{review}
             </if>
         </where>
