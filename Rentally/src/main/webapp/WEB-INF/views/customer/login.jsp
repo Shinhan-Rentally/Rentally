@@ -19,19 +19,21 @@
 						<img src="${path}/resources/images/svg-graphics/signin-g.svg" alt="" class="img-fluid" />
 					</div>
 					<div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1">
-						<div class="mb-lg-9 mb-5">
+						
 							<h1 class="mb-1 h2 fw-bold">로그인</h1>
 							<p>렌탈리의 오신것을 환영합니다.</p>
-						</div>
+						
 						<form class="needs-validation" action="${path}/customer/login" method="post" id="loginForm" novalidate>
 							<div class="col-12">
-								<label for="cust_id" class="form-label">ID</label> <input type="text" class="form-control" id="cust_id" name="cust_id" placeholder="ID" value="" required />
+								<input type="text" class="form-control" id="cust_id" name="cust_id" placeholder="ID" value="" required />
 
 								<div class="invalid-feedback">ID를 입력하세요.</div>
 							</div>
+							<br>
 							<div class="col-12">
 								<div class="password-field position-relative">
-									<label for="cust_pw" class="form-label">Password</label> <input type="password" class="form-control fakePassword" id="cust_pw" name="cust_pw" placeholder="*****" required />
+									
+									<input type="password" class="form-control fakePassword" id="cust_pw" name="cust_pw" placeholder="Password" required />
 									<div class="invalid-feedback">비밀번호를 입력하세요.</div>
 								</div>
 							</div>
