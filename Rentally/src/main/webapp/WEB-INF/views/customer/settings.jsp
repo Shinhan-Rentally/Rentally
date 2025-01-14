@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <%@ include file="../common/headMeta.jsp" %>
@@ -29,14 +28,23 @@
                     <div class="mb-3">
                       <label class="form-label">이름</label>
                       <input type="text" id="cust_name" class="form-control" value="${custInfo.cust_name}" />
+                      <div id="nameFeedback" class="invalid-feedback hide">
+                        이름을 입력해주세요.
+                      </div>
                     </div>
                     <div class="mb-3">
                       <label class="form-label">이메일</label>
                       <input type="email" id="cust_email" class="form-control" value="${custInfo.cust_email}" />
+                      <div id="emailFeedback" class="invalid-feedback hide">
+                        이메일 형식을 지켜주세요.
+                      </div>
                     </div>
                     <div class="mb-5">
                       <label class="form-label">전화번호</label>
                       <input type="text" id="cust_phone" class="form-control" value="${custInfo.cust_phone}" />
+                      <div id="phoneFeedback" class="invalid-feedback hide">
+                        전화번호를 입력해주세요.
+                      </div>
                     </div>
                     <div class="mb-3">
                       <button id="saveDetails" class="btn btn-info">회원정보 수정</button>
@@ -98,16 +106,12 @@
     </div>
   </div>
 </div>
-
-<!-- Javascript-->
+<%@ include file="../common/footer.jsp" %>
+<%@ include file="../common/bottomKakao.jsp" %>
 <script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="${path}/resources/js/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-<%@ include file="../common/footer.jsp" %>
-<%@ include file="../common/bottomKakao.jsp" %>
-</body>
 <script>
   let redirectUrl = null;
 
@@ -123,17 +127,79 @@
       location.reload();
     }
   });
+  /// 입력값 유효성 검사 함수
+  function validateField(value, feedbackSelector, inputSelector, emptyMessage, invalidMessage = null, pattern = null) {
+    if (value === "" || (pattern && !pattern.test(value))) {
+      $(feedbackSelector).removeClass("hide").text(
+              value === "" ? emptyMessage : invalidMessage
+      );
+      $(inputSelector).addClass("is-invalid").removeClass("is-valid");
+      return false;
+    } else {
+      $(feedbackSelector).addClass("hide");
+      $(inputSelector).addClass("is-valid").removeClass("is-invalid");
+      return true;
+    }
+  }
 </script>
 <script>
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  $("#cust_phone").on("input", function(){
+    let value = $("#cust_phone").val().replace(/\D/g, '');
+    if (value.length <= 3) {
+      $("#cust_phone").val(value);
+    } else if (value.length <= 7) {
+      $("#cust_phone").val(value.slice(0, 3) + '-' + value.slice(3));
+    } else {
+      $("#cust_phone").val(value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7, 11));
+    }
+  });
+
   $('#saveDetails').on("click", function (event){
     event.preventDefault();
+
+    const custName = $('#cust_name').val().trim();
+    const custEmail = $('#cust_email').val().trim();
+    let custPhone = $('#cust_phone').val().trim();
+    isValid = true;
+
+    // 이름 유효성 검사
+    if (!validateField(custName, "#nameFeedback", "#cust_name", "이름을 입력해주세요.")) {
+      isValid = false;
+    }
+
+    // 이메일 유효성 검사
+    if (!validateField(custEmail, "#emailFeedback", "#cust_email", "이메일을 입력해주세요.", "유효한 이메일을 입력해주세요.", emailPattern)) {
+      isValid = false;
+    }
+
+    // 전화번호 자동 하이픈 추가
+    custPhone = custPhone.replace(/\D/g, ''); // 숫자만 추출
+    if (custPhone.length >= 4) {
+      custPhone = custPhone.slice(0, 3) + '-' + custPhone.slice(3);
+    }
+    if (custPhone.length >= 8) {
+      custPhone = custPhone.slice(0, 8) + '-' + custPhone.slice(8, 12);
+    }
+
+    // 전화번호 유효성 검사
+    if (!validateField(custPhone, "#phoneFeedback", "#cust_phone", "전화번호를 입력해주세요.")) {
+      isValid = false;
+    }
+
+    // 유효하지 않으면 요청 중단
+    if (!isValid) {
+      return;
+    }
+
     $.ajax({
       url: `${path}/customer/update`,
       type: 'post',
       data: {
-        cust_name : $('#cust_name').val(),
-        cust_email : $('#cust_email').val(),
-        cust_phone : $('#cust_phone').val()
+        cust_name : custName,
+        cust_email : custEmail,
+        cust_phone : custPhone
       },
       success: function (response){
         isSuccess = true;
@@ -144,7 +210,6 @@
         showModalMessage("회원정보 수정에 실패했습니다. 다시 시도해주세요.");
       }
     })
-
   })
   $("#deleteAccount").on("click", function (event) {
     event.preventDefault();
@@ -239,5 +304,5 @@
     });
   });
 </script>
-
+</body>
 </html>
