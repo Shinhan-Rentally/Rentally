@@ -8,16 +8,17 @@ import com.rental.shinhan.daointerface.LoginInterfce;
 import com.rental.shinhan.dto.LoginJoinDTO;
 
 @Repository
-public class LoginDAO  implements LoginInterfce{
-	@Autowired
-	SqlSession sqlSession;
-	
-	String namespace = "com.rental.shinhan.customer.";
-	
-	@Override
-	public LoginJoinDTO login(String cust_id) {
+public class LoginDAO implements LoginInterfce {
 
-		return sqlSession.selectOne(namespace+"customerLogin",cust_id);
-	}
-	
+    String namespace = "com.rental.shinhan.customer.";
+
+    @Autowired
+    SqlSession sqlSession;
+
+    @Override
+    public LoginJoinDTO login(String cust_id) {
+
+        LoginJoinDTO login = sqlSession.selectOne(namespace + "customerLogin", cust_id);
+        return login;
+    }
 }

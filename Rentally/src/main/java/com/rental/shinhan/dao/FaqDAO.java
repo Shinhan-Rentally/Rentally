@@ -1,22 +1,24 @@
 package com.rental.shinhan.dao;
 
-import java.util.List;
-
+import com.rental.shinhan.daointerface.FaqDAOInterface;
+import com.rental.shinhan.dto.FaqDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.rental.shinhan.daointerface.FaqDAOInterface;
-import com.rental.shinhan.dto.FaqDTO;
+import java.util.List;
 
 @Repository
 public class FaqDAO implements FaqDAOInterface {
-    @Autowired
-    SqlSession sqlSession;
+
     String namespace = "com.rental.shinhan.faq.";
 
+    @Autowired
+    SqlSession sqlSession;
+
     public List<FaqDTO> select() {
-        List<FaqDTO> faqList = sqlSession.selectList(namespace+"select");
+
+        List<FaqDTO> faqList = sqlSession.selectList(namespace + "select");
         return faqList;
     }
 }
