@@ -169,8 +169,6 @@ if (!path) {
                 }
             },
             error: function (xhr, status, error) {
-                // 실패 응답 처리
-                console.error("Error:", error);
                 
                 // 오류 메시지 표시
                 showModalMessage("주소 수정 중 오류가 발생했습니다."); 

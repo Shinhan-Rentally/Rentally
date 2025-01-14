@@ -219,6 +219,13 @@
     }
 	
 	function payment(){
+	    const selectedAddress = getSelectedAddress();
+	    
+	    if (selectedAddress.subName == '') {
+	    	showModalMessage('선택된 주소가 없습니다.');
+	        return;
+	    }
+	    
 		let nowDate = displayDateTime();
 		let nowDateStr = nowDate.replace(/[^\d]/g, '');
 
@@ -302,12 +309,6 @@
 
 	
 	function redirectToCompletePage(paymentResultData) {
-	    const selectedAddress = getSelectedAddress();
-	    if (!selectedAddress) {
-	    	showModalMessage('선택된 주소가 없습니다.');
-	        return;
-	    }
-
 	    const $form = $('<form></form>');
 	    $form.attr('method', 'POST');
 
@@ -356,7 +357,7 @@
 	}
 
 	function showModalMessage(message) {
-	    $('#alertModalMessage').text(message);
+	    $('#alertModalMessage').html(message);
 	    $('#alertModal').modal('show');
 	}
 	</script>
