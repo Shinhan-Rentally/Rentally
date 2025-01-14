@@ -40,7 +40,7 @@
                                  <c:forEach items="${subscribeList}" var="sub" varStatus="status">
 	                                 <tr>
 	                                    <td class="align-middle border-top-0 w-0">
-	                                       <a href="${path}/product/detail?product_seq=${sub.product_seq}"><img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${sub.category_seq}/${sub.product_img}" alt="${sub.product_name}" class="icon-shape icon-xl" /></a>
+	                                       <a href="${path}/product/detail?product_seq=${sub.product_seq}"><img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${sub.category_seq}/${sub.product_img}?w=56&h=56&f=webp&q=80" width="56" height="56" alt="${sub.product_name}" class="icon-shape icon-xl" /></a>
 	                                    </td>
 	                                    <td class="align-middle border-top-0">
 	                                       <h6 class="fs-6 mb-0">

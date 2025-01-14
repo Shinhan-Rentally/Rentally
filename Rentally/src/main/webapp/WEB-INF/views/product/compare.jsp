@@ -43,7 +43,7 @@ td {
                            <div class="card card-product">
                               <div class="card-body">
                                  <div class="text-center position-relative">
-                                 	<img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${compare.category_seq}/${compare.product_img}" alt="${compare.product_name}" class="mb-3 img-fluid" />
+                                 	<img src="https://d14b80fsv1tvpk.cloudfront.net/${compare.category_seq}/${compare.product_img}" alt="${compare.product_name}" class="mb-3 img-fluid" />
                                  </div>
                                  <div class="text-center">
 	                                 <h2 class="fs-5 text-center">

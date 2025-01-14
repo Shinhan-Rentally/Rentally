@@ -99,16 +99,16 @@ p h3 {
 			<div class="container">
 				<div class="hero-slider">
 					<div
-						style="background: url(https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_LOGO-title_001.png) no-repeat center center; background-size: cover; border-radius: 0.5rem; width: 1200px; height: 628px; margin: 0 auto;">
+						style="background: url(https://d14b80fsv1tvpk.cloudfront.net/logo/RENTALLY_LOGO-title_001.png?w=1200&h=628&f=webp) no-repeat center center; background-size: cover; border-radius: 0.5rem; width: 1200px; height: 628px; margin: 0 auto;">
 					</div>
 					<div
-						style="background: url(https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_LOGO-title_002.png) no-repeat center center; background-size: cover; border-radius: 0.5rem; width: 1200px; height: 628px; margin: 0 auto;">
+						style="background: url(https://d14b80fsv1tvpk.cloudfront.net/logo/RENTALLY_LOGO-title_002.png?w=1200&h=628&f=webp) no-repeat center center; background-size: cover; border-radius: 0.5rem; width: 1200px; height: 628px; margin: 0 auto;">
 					</div>
 					<div
-						style="background: url(https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_LOGO-title_003.png) no-repeat center center; background-size: cover; border-radius: 0.5rem; width: 1200px; height: 628px; margin: 0 auto;">
+						style="background: url(https://d14b80fsv1tvpk.cloudfront.net/logo/RENTALLY_LOGO-title_003.png?w=1200&h=628&f=webp) no-repeat center center; background-size: cover; border-radius: 0.5rem; width: 1200px; height: 628px; margin: 0 auto;">
 					</div>
 					<div
-						style="background: url(https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_LOGO-title_004.png) no-repeat center center; background-size: cover; border-radius: 0.5rem; width: 1200px; height: 628px; margin: 0 auto;">
+						style="background: url(https://d14b80fsv1tvpk.cloudfront.net/logo/RENTALLY_LOGO-title_004.png?w=1200&h=628&f=webp) no-repeat center center; background-size: cover; border-radius: 0.5rem; width: 1200px; height: 628px; margin: 0 auto;">
 					</div>
 				</div>
 			</div>
@@ -125,8 +125,8 @@ p h3 {
 						<div class="item">
 							<div class="card card-product mb-lg-4">
 								<div class="card-body text-center py-8">
-									<a href="${path}/product/detail?product_seq=${bestProduct.product_seq}" class="text-decoration-none text-inherit"> <img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${bestProduct.category_seq}/
-													${bestProduct.product_img}" alt="Grocery Ecommerce Template" class="mb-3 img-fluid" /></a>
+									<a href="${path}/product/detail?product_seq=${bestProduct.product_seq}" class="text-decoration-none text-inherit"> <img src="https://d14b80fsv1tvpk.cloudfront.net/${bestProduct.category_seq}/
+													${bestProduct.product_img}?w=170h=150&f=webp&t=cover" alt="${bestProduct.product_name}" loading="lazy" class="mb-3 img-fluid" /></a>
 									<div class="text-truncate">${bestProduct.product_name}</div>
 								</div>
 							</div>
