@@ -50,13 +50,11 @@
               <h5 class="mb-4">비밀번호</h5>
               <form class="row row-cols-1 row-cols-lg-2">
                 <div class="mb-3 col">
-                  <label class="form-label">새로운 비밀번호</label>
-                  <input id="newPw" type="password" class="form-control" placeholder="**********" required/>
+                  <input id="newPw" type="password" class="form-control" placeholder="새로운 비밀번호" required/>
                   <div id="newPwFeedback" class="invalid-feedback"></div>
                 </div>
                 <div class="mb-3 col">
-                  <label class="form-label">현재 비밀번호</label>
-                  <input id="currentPw" type="password" class="form-control" placeholder="**********" required/>
+                  <input id="currentPw" type="password" class="form-control" placeholder="현재 비밀번호" required/>
                   <div id="currentPwFeedback" class="invalid-feedback"></div>
                 </div>
                 <div class="col-12">
