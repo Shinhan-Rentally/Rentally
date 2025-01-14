@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.sql.Date;
 
+@Builder
 @Getter @Setter @ToString
 @AllArgsConstructor
 @NoArgsConstructor
