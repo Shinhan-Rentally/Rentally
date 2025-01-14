@@ -76,6 +76,7 @@
 												<a href="#" class="text-muted delete" title="Delete"
 												data-bs-toggle="tooltip" data-bs-placement="top">
 												<i class="feather-icon icon-trash-2"></i>
+												<input type="hidden" name="cart_seq" value="${cart.cart_seq}">
 												</a>
 											</td>
 										</tr>
@@ -115,14 +116,16 @@
 			$('#alertModalMessage').text(message);
 			$('#alertModal').modal('show');
 		}
+		
 		$('.delete').click(function(){
-			var item = $(this).closest("tr").find("input[name='product_seq']").val();
 			var currentCount = parseInt($(".cart-count span").text(), 10);
+			var item = $(this).closest("tr").find("input[name='cart_seq']").val();
+			$(this).tooltip('dispose');
 			$.ajax({
 				url: "${path}/cart/product/delete",
 				type: "post",
 				data: {
-					product_seq: item
+					cart_seq: item
 					},
 				success: function(response){
 					$("tr").has("input[value='" + item + "']").remove();
