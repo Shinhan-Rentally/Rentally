@@ -53,7 +53,8 @@ public class CustomerController {
 
 	@ResponseBody
 	@PostMapping("/delete")
-	public String deleteCustomer(HttpSession session, @RequestParam("cust_seq") int custSeq) {
+	public String deleteCustomer(HttpSession session) {
+		int custSeq = (Integer) session.getAttribute("cust_seq");
 		int result = custService.deleteCustomer(custSeq);
 		session.invalidate();
 		return result + "";
@@ -61,10 +62,9 @@ public class CustomerController {
 
 	@ResponseBody
 	@PostMapping(value = "/update")
-	public String updateCustInfo(HttpSession session, CustomerDTO custInfo) {
-		int custSeq = (Integer) session.getAttribute("cust_seq");
-		custInfo.setCust_seq(custSeq);
-		int result = custService.updateCustInfo(custInfo);
+	public String updateCustInfo(HttpSession session, @RequestParam String custEmail) {
+		int custSeq = (Integer)session.getAttribute("cust_seq");
+		int result = custService.updateCustInfo(custSeq, custEmail);
 		return result + "";
 	}
 

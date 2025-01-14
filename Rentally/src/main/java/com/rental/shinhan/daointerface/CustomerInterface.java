@@ -9,7 +9,7 @@ public interface CustomerInterface {
 
     public CustomerDTO selectCustomer(int custSeq);
     public int deleteCustomer(int custSeq);
-    public int updateCustInfo(CustomerDTO customer);
+    public int updateCustInfo(int custSeq, String custEmail);
     public int updatePW(CustomerDTO customer);
 	public Map<String, Long> getCartAndWishlistCount(String cust_id);
 }

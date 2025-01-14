@@ -22,8 +22,8 @@ public class CustomerService {
         return custDAO.deleteCustomer(custSeq);
     }
 
-    public int updateCustInfo(CustomerDTO cust) {
-        return custDAO.updateCustInfo(cust);
+    public int updateCustInfo(int custSeq, String custEmail) {
+        return custDAO.updateCustInfo(custSeq, custEmail);
     }
 
     public boolean updatePW(int custSeq, String custPw, String newPw) {
