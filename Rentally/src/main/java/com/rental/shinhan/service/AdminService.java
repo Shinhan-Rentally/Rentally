@@ -29,25 +29,31 @@ public class AdminService {
     @Autowired
     AdminDAO adminDAO;
 
+    @Autowired
+    S3Uploader s3Uploader;
+
     public Page<ProductDTO> findProducts(Pageable pageable, String searchKeyWord) {
+
         String[] splitSearchKeywords = searchKeyWord.split("\\s+");
         int rowStart = ((pageable.getPageNumber()) * pageable.getPageSize()) + 1;
-        int rowEnd = (rowStart + pageable.getPageSize() -1);
+        int rowEnd = (rowStart + pageable.getPageSize() - 1);
 
         Map<String, Object> map = new HashMap<>();
         map.put("start", rowStart);
         map.put("end", rowEnd);
         map.put("searchKeyWord", searchKeyWord);
         map.put("splitSearchKeywords", splitSearchKeywords);
+
         List<ProductDTO> vo = adminDAO.selectProducts(map);
         int total = adminDAO.totalPageable(map);
+
         return new PageImpl<>(vo, pageable, total);
     }
 
     public Page<ReviewDTO> findReviews(Pageable pageable, Integer rating) {
 
         int rowStart = ((pageable.getPageNumber()) * pageable.getPageSize()) + 1;
-        int rowEnd = (rowStart + pageable.getPageSize() -1);
+        int rowEnd = (rowStart + pageable.getPageSize() - 1);
 
         Map<String, Object> map = new HashMap<>();
         map.put("start", rowStart);
@@ -60,14 +66,16 @@ public class AdminService {
                     .filter(review -> review.getReview_rate() == rating)
                     .collect(Collectors.toList());
         }
+
         int total = adminDAO.totalReviewsPageable(rating);
+
         return new PageImpl<>(reviews, pageable, total);
     }
 
     public Page<CustomerDTO> findCustomers(Pageable pageable) {
 
         int rowStart = ((pageable.getPageNumber()) * pageable.getPageSize()) + 1;
-        int rowEnd = (rowStart + pageable.getPageSize() -1);
+        int rowEnd = (rowStart + pageable.getPageSize() - 1);
 
         Map<String, Object> map = new HashMap<>();
         map.put("start", rowStart);
@@ -75,13 +83,14 @@ public class AdminService {
 
         List<CustomerDTO> customers = adminDAO.selectCustomers(map);
         int total = adminDAO.totalCustomersPageable();
+
         return new PageImpl<>(customers, pageable, total);
     }
 
     public Page<OrderJoinDTO> findOrders(Pageable pageable) {
 
         int rowStart = ((pageable.getPageNumber()) * pageable.getPageSize()) + 1;
-        int rowEnd = (rowStart + pageable.getPageSize() -1);
+        int rowEnd = (rowStart + pageable.getPageSize() - 1);
 
         Map<String, Object> map = new HashMap<>();
         map.put("start", rowStart);
@@ -103,17 +112,17 @@ public class AdminService {
         }
 
         int total = adminDAO.totalOrdersPageable();
+
         return new PageImpl<>(orders, pageable, total);
     }
 
     public int removeProduct(int productSeq) {
+
         return adminDAO.deleteProduct(productSeq);
     }
 
-    @Autowired
-    S3Uploader s3Uploader;
-
     public int addProduct(List<MultipartFile> images, ProductDTO product) throws IOException {
+
         try {
             if (!images.isEmpty()) {
                 String categorySeq = String.valueOf(product.getCategory_seq());

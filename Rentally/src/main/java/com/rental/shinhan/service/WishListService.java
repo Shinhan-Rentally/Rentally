@@ -15,19 +15,28 @@ public class WishListService {
     WishListDAO wishListDAO;
 
     public List<WishListJoinDTO> findWishLists(int custSeq) {
+
         return wishListDAO.selectWishLists(custSeq);
     }
-    public List<WishListDTO> wishStatus(int custSeq) {return wishListDAO.wishStatus(custSeq);}
+
+    public List<WishListDTO> wishStatus(int custSeq) {
+
+        return wishListDAO.wishStatus(custSeq);
+    }
 
     public int addWishList(WishListDTO request) {
+
         WishListDTO wishList = WishListDTO
                 .builder()
                 .cust_seq(request.getCust_seq())
                 .product_seq(request.getProduct_seq())
                 .build();
+
         return wishListDAO.insertWishList(wishList);
     }
+
     public int deleteWish(int custSeq, int productSeq) {
+
         return wishListDAO.deleteWish(custSeq, productSeq);
     }
 }

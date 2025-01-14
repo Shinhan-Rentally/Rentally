@@ -1,12 +1,11 @@
 package com.rental.shinhan.service;
 
-import java.util.Map;
-
+import com.rental.shinhan.dao.CustomerDAO;
+import com.rental.shinhan.dto.CustomerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.rental.shinhan.dao.CustomerDAO;
-import com.rental.shinhan.dto.CustomerDTO;
+import java.util.Map;
 
 @Service
 public class CustomerService {
@@ -15,14 +14,17 @@ public class CustomerService {
     CustomerDAO custDAO;
 
     public CustomerDTO customerInfo(int custSeq) {
+
         return custDAO.selectCustomer(custSeq);
     }
 
     public int deleteCustomer(int custSeq) {
+
         return custDAO.deleteCustomer(custSeq);
     }
 
     public int updateCustInfo(CustomerDTO cust) {
+
         return custDAO.updateCustInfo(cust);
     }
 
@@ -54,7 +56,7 @@ public class CustomerService {
     
     //고객의 위시리스트갯수,장바구니 갯수
     public Map<String, Long> getCartAndWishlistCount(String cust_id) {
+
         return custDAO.getCartAndWishlistCount(cust_id);
     }
-
 }
