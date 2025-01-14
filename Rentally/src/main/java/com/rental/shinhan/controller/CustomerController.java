@@ -53,7 +53,8 @@ public class CustomerController {
 
 	@ResponseBody
 	@PostMapping("/delete")
-	public String deleteCustomer(HttpSession session, @RequestParam("cust_seq") int custSeq) {
+	public String deleteCustomer(HttpSession session) {
+		int custSeq = (Integer) session.getAttribute("cust_seq");
 		int result = custService.deleteCustomer(custSeq);
 		session.invalidate();
 		return result + "";
