@@ -1,5 +1,6 @@
 package com.rental.shinhan.controller;
 
+import java.net.URLDecoder;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -59,6 +60,8 @@ public class ProductListController {
 		if (priceRange != null && priceRange.trim().isEmpty()) {
 			priceRange = null;
 		}
+		//인코딩된 검색어 디코딩
+		query = URLDecoder.decode(query);
 		// 서비스 호출
 		List<ProductListJoinDTO> productlist = productlistService.selectProductList(category_seq, product_brand,
 				priceRange, sort,query,page,size);
@@ -153,6 +156,8 @@ public class ProductListController {
 		if (priceRange != null && priceRange.trim().isEmpty()) {
 			priceRange = null;
 		}
+		//인코딩된 검색어 디코딩
+		query = URLDecoder.decode(query);
 
 		// 서비스 호출하여 검색된 상품 리스트 가져오기
 		List<ProductListJoinDTO> productlist = productlistService.searchProduct(query, product_brand, priceRange, sort,page,size);
