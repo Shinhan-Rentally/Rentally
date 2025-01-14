@@ -46,7 +46,7 @@ public class HomeController {
 		
 		return "main";
 	}
-	
+
 	@GetMapping("/error")
 	public String error() {
 		
