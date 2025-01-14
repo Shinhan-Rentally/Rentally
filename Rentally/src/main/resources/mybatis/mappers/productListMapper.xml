@@ -1,206 +1,206 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.rental.shinhan.productlist">
-	<!-- 상품리스트 필터/정렬/검색 적용 -->
 
-	<select id="selectProductList" parameterType="map" resultType="ProductListVO">
-	SELECT
-    P.product_seq,
-    P.product_serial,
-    P.product_name,
-    P.product_img,
-    P.product_detail,
-    P.product_pay,
-    P.product_brand,
-    P.product_grade,
-    P.product_date,
-    P.product_height,
-    P.product_weight,
-    P.product_wh,
-    P.product_color,
-    P.product_features,
-    C.category_name,
-    C.category_seq,
-    cart_count.product_popularity,
-    review_stats.review_count,
-    review_stats.review_avg
-FROM
-    PRODUCT P
-LEFT JOIN
-    CATEGORY C ON P.category_seq = C.category_seq
-LEFT JOIN
-    (SELECT product_seq, COUNT(*) AS product_popularity
-     FROM cart
-     GROUP BY product_seq) cart_count ON P.product_seq = cart_count.product_seq
-LEFT JOIN
-    (SELECT s.product_seq, COUNT(*) AS review_count, AVG(r.review_rate) AS review_avg
-     FROM subscribe s
-     JOIN review r ON s.sub_seq = r.sub_seq
-     GROUP BY s.product_seq) review_stats ON P.product_seq = review_stats.product_seq
-WHERE
-    P.product_grade != 'F'
-    <if test="category_seq != 0 and category_seq != null">
-        AND P.category_seq = #{category_seq}
-    </if>
-    
-  <if test="query != null and query != ''">
-    AND (
-       P.product_serial LIKE '%' || #{query} || '%'
-		OR P.product_name LIKE '%' || #{query} || '%'
-		OR P.product_brand LIKE '%' || #{query} || '%'
-		OR P.product_height LIKE '%' || #{query} || '%'
-		OR P.product_weight LIKE '%' || #{query} || '%'
-		OR P.product_wh LIKE '%' || #{query} || '%'
-		OR P.product_color LIKE '%' || #{query} || '%'
-		OR P.product_features LIKE '%#' || #{query} || '%'
-		OR C.category_name LIKE '%' || #{query} || '%'
-    	)
-</if>
-    
-    <if test="product_brand != null and product_brand != ''">
-        AND P.product_brand = #{product_brand}
-    </if>  
- <!-- 가격대 필터 -->
-    <if test="priceRange != null">
-        AND (
-            #{priceRange} LIKE '%below10k%' AND P.product_pay &lt; 10000
-            OR #{priceRange} LIKE '%10kTo20k%' AND P.product_pay BETWEEN 10001 AND 20000
-            OR #{priceRange} LIKE '%20kTo30k%' AND P.product_pay BETWEEN 20001 AND 30000
-            OR #{priceRange} LIKE '%30kTo40k%' AND P.product_pay BETWEEN 30001 AND 40000
-            OR #{priceRange} LIKE '%40kTo50k%' AND P.product_pay BETWEEN 40001 AND 50000
-            OR #{priceRange} LIKE '%50kTo70k%' AND P.product_pay BETWEEN 50001 AND 70000
-            OR #{priceRange} LIKE '%70kTo100k%' AND P.product_pay BETWEEN 70001 AND 100000
-            OR #{priceRange} LIKE '%above100k%' AND P.product_pay > 100000
-        )
-    </if>
-    
-   <!-- 정렬 필터 defalut:낮은가격순(리스트 처음이 낮은가격순)--> 
-<choose>
-    <when test="sort == 'Low to High'">
-        ORDER BY P.product_pay ASC, P.product_seq ASC
-    </when>
-    <when test="sort == 'High to Low'">
-        ORDER BY P.product_pay DESC, P.product_seq DESC
-    </when>
-    <when test="sort == 'Release Date'">
-        ORDER BY P.product_date DESC, P.product_seq DESC
-    </when>
-    <when test="sort == 'Avg. Rating'">
-        ORDER BY cart_count.product_popularity DESC NULLS LAST, P.product_seq DESC
-    </when>
-    <otherwise>
-        ORDER BY review_stats.review_avg DESC NULLS LAST, P.product_seq DESC
-    </otherwise>
-</choose>
-LIMIT #{size} OFFSET #{offset};
-	</select>
+    <!-- 상품리스트 필터/정렬/검색 적용 -->
+    <select id="selectProductList" parameterType="map" resultType="ProductListVO">
+        SELECT
+            p.product_seq,
+            p.product_serial,
+            p.product_name,
+            p.product_img,
+            p.product_detail,
+            p.product_pay,
+            p.product_brand,
+            p.product_grade,
+            p.product_date,
+            p.product_height,
+            p.product_weight,
+            p.product_wh,
+            p.product_color,
+            p.product_features,
+            c.category_name,
+            c.category_seq,
+            cart_count.product_popularity,
+            review_stats.review_count,
+            review_stats.review_avg
+        FROM product p
+        LEFT JOIN category c
+            ON p.category_seq = c.category_seq
+        LEFT JOIN (
+            SELECT
+                product_seq,
+                COUNT(*) AS product_popularity
+            FROM cart
+            GROUP BY product_seq
+        ) cart_count
+            ON p.product_seq = cart_count.product_seq
+        LEFT JOIN (
+            SELECT
+                s.product_seq,
+                COUNT(*) AS review_count,
+                AVG(r.review_rate) AS review_avg
+            FROM subscribe s
+            JOIN review r
+                ON s.sub_seq = r.sub_seq
+            GROUP BY s.product_seq
+        ) review_stats
+            ON p.product_seq = review_stats.product_seq
+        WHERE p.product_grade != 'F'
+        <if test="category_seq != 0 and category_seq != null">
+            AND p.category_seq = #{category_seq}
+        </if>
+        <if test="query != null and query != ''">
+            AND (
+                p.product_serial LIKE '%' || #{query} || '%'
+                OR p.product_name LIKE '%' || #{query} || '%'
+                OR p.product_brand LIKE '%' || #{query} || '%'
+                OR p.product_height LIKE '%' || #{query} || '%'
+                OR p.product_weight LIKE '%' || #{query} || '%'
+                OR p.product_wh LIKE '%' || #{query} || '%'
+                OR p.product_color LIKE '%' || #{query} || '%'
+                OR p.product_features LIKE '%#' || #{query} || '%'
+                OR c.category_name LIKE '%' || #{query} || '%'
+            )
+        </if>
+        <if test="product_brand != null and product_brand != ''">
+            AND p.product_brand = #{product_brand}
+        </if>
+        <if test="priceRange != null">
+            AND (
+                #{priceRange} LIKE '%below10k%' AND p.product_pay &lt; 10000
+                OR #{priceRange} LIKE '%10kTo20k%' AND p.product_pay BETWEEN 10001 AND 20000
+                OR #{priceRange} LIKE '%20kTo30k%' AND p.product_pay BETWEEN 20001 AND 30000
+                OR #{priceRange} LIKE '%30kTo40k%' AND p.product_pay BETWEEN 30001 AND 40000
+                OR #{priceRange} LIKE '%40kTo50k%' AND p.product_pay BETWEEN 40001 AND 50000
+                OR #{priceRange} LIKE '%50kTo70k%' AND p.product_pay BETWEEN 50001 AND 70000
+                OR #{priceRange} LIKE '%70kTo100k%' AND p.product_pay BETWEEN 70001 AND 100000
+                OR #{priceRange} LIKE '%above100k%' AND p.product_pay > 100000
+            )
+        </if>
+        <choose>
+            <when test="sort == 'Low to High'">
+                ORDER BY p.product_pay ASC, p.product_seq ASC
+            </when>
+            <when test="sort == 'High to Low'">
+                ORDER BY p.product_pay DESC, p.product_seq DESC
+            </when>
+            <when test="sort == 'Release Date'">
+                ORDER BY p.product_date DESC, p.product_seq DESC
+            </when>
+            <when test="sort == 'Avg. Rating'">
+                ORDER BY cart_count.product_popularity DESC NULLS LAST, p.product_seq DESC
+            </when>
+            <otherwise>
+                ORDER BY review_stats.review_avg DESC NULLS LAST, p.product_seq DESC
+            </otherwise>
+        </choose>
+        LIMIT #{size} OFFSET #{offset};
+    </select>
 
-	<select id="selectProductDetail" parameterType="int" resultType="ProductListVO">
-		SELECT
-		P.*,
-		C.category_name,
-		C.category_seq
-		FROM
-		PRODUCT P
-		LEFT
-		JOIN
-		CATEGORY C ON P.category_seq = C.category_seq
-		where P.product_seq =
-		#{product_seq}
-	</select>
-	
-	<!-- 업그레이드 가능 리스트 조회 -->
-	<select id="selectUpgradeProductList" parameterType="map" resultType="ProductListVO">
-		SELECT 
-		    p.product_seq,
-		    p.product_name,
-		    p.product_brand,
-		    p.category_seq,
-		    p.product_grade,
-		    p.product_date,
-		    p.product_serial,
-		    p.product_img,
-		    p.product_detail,
-		    p.product_pay,
-		    p.product_height,
-		    p.product_weight,
-		    p.product_wh,
-		    p.product_color,
-		    p.product_features,
-		    COUNT(r.review_rate) AS review_count, 
-		    avg(r.review_rate) AS review_avg
-		FROM product p
-		LEFT OUTER JOIN  subscribe s USING(product_seq) 
-		LEFT JOIN review r USING(sub_seq)
-		WHERE 
-		    p.product_brand = #{product_brand} 
-		    AND p.category_seq = #{category_seq} 
-		    AND p.product_grade = #{product_grade} 
-		    AND p.product_date >= #{product_date}
-		    AND p.product_seq <![CDATA[ <> ]]> #{product_seq}
-		GROUP BY 
-		    p.product_seq,
-		    p.product_name,
-		    p.product_brand,
-		    p.category_seq,
-		    p.product_grade,
-		    p.product_date,
-		    p.product_serial,
-		    p.product_img,
-		    p.product_detail,
-		    p.product_pay,
-		    p.product_height,
-		    p.product_weight,
-		    p.product_wh,
-		    p.product_color,
-		    p.product_features
-	</select>
-	
-    
+    <!-- 상품 디테일 조회 -->
+    <select id="selectProductDetail" parameterType="int" resultType="ProductListVO">
+        SELECT
+            p.*,
+            c.category_name,
+            c.category_seq
+        FROM
+            product p
+        LEFT JOIN category c
+            ON p.category_seq = c.category_seq
+        WHERE p.product_seq = #{product_seq}
+    </select>
+
+    <!-- 업그레이드 가능 리스트 조회 -->
+    <select id="selectUpgradeProductList" parameterType="map" resultType="ProductListVO">
+        SELECT
+            p.product_seq,
+            p.product_name,
+            p.product_brand,
+            p.category_seq,
+            p.product_grade,
+            p.product_date,
+            p.product_serial,
+            p.product_img,
+            p.product_detail,
+            p.product_pay,
+            p.product_height,
+            p.product_weight,
+            p.product_wh,
+            p.product_color,
+            p.product_features,
+            COUNT(r.review_rate) AS review_count,
+            AVG(r.review_rate) AS review_avg
+        FROM
+            product p
+        LEFT OUTER JOIN subscribe s USING(product_seq)
+        LEFT JOIN review r USING(sub_seq)
+        WHERE
+            p.product_brand = #{product_brand}
+            AND p.product_grade = #{product_grade}
+            AND p.product_date >= #{product_date}
+            AND p.product_seq <![CDATA[ <> ]]> #{product_seq}
+            AND p.category_seq = #{category_seq}
+        GROUP BY
+            p.product_seq,
+            p.product_name,
+            p.product_brand,
+            p.category_seq,
+            p.product_grade,
+            p.product_date,
+            p.product_serial,
+            p.product_img,
+            p.product_detail,
+            p.product_pay,
+            p.product_height,
+            p.product_weight,
+            p.product_wh,
+            p.product_color,
+            p.product_features
+    </select>
+
+    <!-- 상품 total 조회 -->
     <select id="selectTotalProductCount" parameterType="map" resultType="int">
-SELECT
- COUNT(*)
-FROM
-    PRODUCT P
-LEFT JOIN
-    CATEGORY C ON P.category_seq = C.category_seq
-WHERE 1=1 AND P.product_grade != 'F' 
-    <if test="category_seq != 0 and category_seq != null" >
-    AND P.category_seq = #{category_seq}
-</if>
-    
-<if test="query != null and query != ''">
-    AND (
-        P.product_serial LIKE '%' || #{query} || '%'
-		OR P.product_name LIKE '%' || #{query} || '%'
-		OR P.product_brand LIKE '%' || #{query} || '%'
-		OR P.product_height LIKE '%' || #{query} || '%'
-		OR P.product_weight LIKE '%' || #{query} || '%'
-		OR P.product_wh LIKE '%' || #{query} || '%'
-		OR P.product_color LIKE '%' || #{query} || '%'
-		OR P.product_features LIKE '%#' || #{query} || '%'
-		OR C.category_name LIKE '%' || #{query} || '%'
-    )
-</if>
-  <!-- 브랜드 필터 -->
-    <if test="product_brand != null and product_brand != '' ">
-        AND  
-       ( P.product_brand = #{product_brand} 
-        )
-    </if>
-    <!-- 가격대 필터 -->
-    <if test="priceRange != null">
-        AND (
-            #{priceRange} LIKE '%below10k%' AND P.product_pay &lt; 10000
-            OR #{priceRange} LIKE '%10kTo20k%' AND P.product_pay BETWEEN 10001 AND 20000
-            OR #{priceRange} LIKE '%20kTo30k%' AND P.product_pay BETWEEN 20001 AND 30000
-            OR #{priceRange} LIKE '%30kTo40k%' AND P.product_pay BETWEEN 30001 AND 40000
-            OR #{priceRange} LIKE '%40kTo50k%' AND P.product_pay BETWEEN 40001 AND 50000
-            OR #{priceRange} LIKE '%50kTo70k%' AND P.product_pay BETWEEN 50001 AND 70000
-            OR #{priceRange} LIKE '%70kTo100k%' AND P.product_pay BETWEEN 70001 AND 100000
-            OR #{priceRange} LIKE '%above100k%' AND P.product_pay > 100000
-        )
-    </if>
-</select>
+        SELECT COUNT(*)
+        FROM product p
+        LEFT JOIN category c
+            ON p.category_seq = c.category_seq
+        WHERE
+            1=1
+            AND p.product_grade != 'F'
+            <if test="category_seq != 0 and category_seq != null">
+                AND p.category_seq = #{category_seq}
+            </if>
+            <if test="query != null and query != ''">
+                AND (
+                    p.product_serial LIKE '%' || #{query} || '%'
+                    OR p.product_name LIKE '%' || #{query} || '%'
+                    OR p.product_brand LIKE '%' || #{query} || '%'
+                    OR p.product_height LIKE '%' || #{query} || '%'
+                    OR p.product_weight LIKE '%' || #{query} || '%'
+                    OR p.product_wh LIKE '%' || #{query} || '%'
+                    OR p.product_color LIKE '%' || #{query} || '%'
+                    OR p.product_features LIKE '%#' || #{query} || '%'
+                    OR c.category_name LIKE '%' || #{query} || '%'
+                )
+            </if>
+            <!-- 브랜드 필터 -->
+            <if test="product_brand != null and product_brand != '' ">
+                AND p.product_brand = #{product_brand}
+            </if>
+            <!-- 가격대 필터 -->
+            <if test="priceRange != null">
+                AND (
+                    #{priceRange} LIKE '%below10k%' AND p.product_pay &lt; 10000
+                    OR #{priceRange} LIKE '%10kTo20k%' AND p.product_pay BETWEEN 10001 AND 20000
+                    OR #{priceRange} LIKE '%20kTo30k%' AND p.product_pay BETWEEN 20001 AND 30000
+                    OR #{priceRange} LIKE '%30kTo40k%' AND p.product_pay BETWEEN 30001 AND 40000
+                    OR #{priceRange} LIKE '%40kTo50k%' AND p.product_pay BETWEEN 40001 AND 50000
+                    OR #{priceRange} LIKE '%50kTo70k%' AND p.product_pay BETWEEN 50001 AND 70000
+                    OR #{priceRange} LIKE '%70kTo100k%' AND p.product_pay BETWEEN 70001 AND 100000
+                    OR #{priceRange} LIKE '%above100k%' AND p.product_pay > 100000
+                )
+            </if>
+    </select>
 </mapper>

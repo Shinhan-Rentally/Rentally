@@ -1,117 +1,131 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.rental.shinhan.admin">
 
+    <!-- 관리자 상품 조회 -->
     <select id="selectProducts" parameterType="map" resultType="ProductVO">
-        select *
-        from (
-        select row_number() over(order by p.product_seq desc) as num,
-        p.product_seq, p.product_name, p.product_grade, p.category_seq,
-        c.category_name, p.product_img, p.product_pay, p.product_date
-        from product p
-        join category c using (category_seq)
-        <where>
-            p.product_grade != 'F'
-            <if test="searchKeyWord != null and searchKeyWord != ''">
-                and (
-                <foreach collection="splitSearchKeywords" item="keyword" open="(" separator="and" close=")">
-                    (p.product_name like concat('%', #{keyword}, '%') or c.category_name like concat('%', #{keyword}, '%'))
-                </foreach>
-                )
-            </if>
-        </where>
-        ) as temp
-        where num between #{start} and #{end}
+        SELECT *
+        FROM (
+            SELECT row_number() OVER(order by p.product_seq desc) AS num,
+                p.product_seq, p.product_name, p.product_grade, p.category_seq,
+                c.category_name, p.product_img, p.product_pay, p.product_date
+            FROM product p
+            JOIN category c USING (category_seq)
+            <where>
+                p.product_grade != 'F'
+                <if test="searchKeyWord != null and searchKeyWord != ''">
+                    AND (
+                    <foreach collection="splitSearchKeywords" item="keyword" open="(" separator="and" close=")">
+                        (p.product_name LIKE CONCAT('%', #{keyword}, '%') OR c.category_name LIKE CONCAT('%', #{keyword}, '%'))
+                    </foreach>
+                    )
+                </if>
+            </where>
+        ) AS temp
+        WHERE num BETWEEN #{start} AND #{end}
     </select>
 
-    <select id="totalProducts" parameterType="map" resultType="int">
-        select count(p.product_seq)
-        from product p
-        join category c using (category_seq)
-        <where>
-            p.product_grade != 'F'
-            <if test="searchKeyWord != null and searchKeyWord != ''">
-                and (
-                <foreach collection="splitSearchKeywords" item="keyword" open="(" separator="and" close=")">
-                    (p.product_name like concat('%', #{keyword}, '%') or c.category_name like concat('%', #{keyword}, '%'))
-                </foreach>
-                )
-            </if>
-        </where>
-    </select>
-
+    <!-- 관리자 리뷰 조회 -->
     <select id="selectReviews" parameterType="map" resultType="ReviewVO">
-        select *
-        from (
-        select
-        row_number() over(order by s.sub_date desc) as num,
-        r.review_seq,
-        s.sub_seq,
-        c.cust_id,
-        p.product_seq,
-        p.product_serial,
-        p.product_name,
-        r.review_content,
-        r.review_rate,
-        r.review_date
-        from
-        review r
-        join subscribe s on r.sub_seq = s.sub_seq
-        join product p on s.product_seq = p.product_seq
-        join customer c on s.cust_seq = c.cust_seq
+        SELECT *
+        FROM (
+            SELECT
+                row_number() OVER(order by s.sub_date desc) AS num,
+                r.review_seq,
+                s.sub_seq,
+                c.cust_id,
+                p.product_seq,
+                p.product_serial,
+                p.product_name,
+                r.review_content,
+                r.review_rate,
+                r.review_date
+            FROM
+                review r
+            JOIN subscribe s
+                ON r.sub_seq = s.sub_seq
+            JOIN product p
+                ON s.product_seq = p.product_seq
+            JOIN customer c
+                ON s.cust_seq = c.cust_seq
+            <where>
+                <if test="rating != 0">
+                    r.review_rate = #{rating}
+                </if>
+            </where>
+        ) temp
+        WHERE num BETWEEN #{start} AND #{end}
+    </select>
+
+    <!-- 관리자 고객 조회 -->
+    <select id="selectCustomers" parameterType="map" resultType="CustomerVO">
+        SELECT *
+        FROM (
+            SELECT row_number() OVEr(order by cust_id) AS num,
+                cust_id, cust_name, cust_email, cust_phone
+            FROM customer
+            WHERE cust_status = true
+        ) AS temp
+        WHERE num BETWEEN #{start} AND #{end}
+    </select>
+
+    <!-- 관리자 주문 조회 -->
+    <select id="selectOrders" parameterType="map" resultType="OrderJoinVO">
+        SELECT *
+        FROM (
+            SELECT row_number() OVER(order by s.sub_date desc) AS num,
+                p.product_img,
+                p.product_serial,
+                p.category_seq,
+                c.cust_name,
+                s.sub_date,
+                s.sub_card,
+                s.sub_total,
+                s.sub_period
+            FROM subscribe s
+            JOIN customer c
+                ON s.cust_seq = c.cust_seq
+            JOIN product p
+                ON s.product_seq = p.product_seq
+        ) AS temp
+        WHERE num BETWEEN #{start} AND #{end}
+    </select>
+
+    <!-- 관리자 상품 total 조회 -->
+    <select id="totalProducts" parameterType="map" resultType="int">
+        SELECT COUNT(p.product_seq)
+        FROM product p
+        JOIN category c USING (category_seq)
         <where>
-            <if test="rating != 0">
-                r.review_rate = #{rating}
+            p.product_grade != 'F'
+            <if test="searchKeyWord != null and searchKeyWord != ''">
+                AND (
+                <foreach collection="splitSearchKeywords" item="keyword" open="(" separator="and" close=")">
+                    (p.product_name LIKE CONCAT('%', #{keyword}, '%') OR c.category_name LIKE CONCAT('%', #{keyword}, '%'))
+                </foreach>
+                )
             </if>
         </where>
-        ) temp
-        where num between #{start} and #{end}
     </select>
 
-    <select id="selectCustomers" parameterType="map" resultType="com.rental.shinhan.dto.CustomerDTO">
-        select *
-        from (
-        select row_number() over(order by cust_id) as num,
-        cust_id, cust_name, cust_email, cust_phone
-        from customer
-        where cust_status = true
-        ) as temp
-        where num between #{start} and #{end}
-    </select>
-
+    <!-- 관리자 고객 total 조회 -->
     <select id="totalCustomers" resultType="int">
-        select count(*)
-        from customer
-        where cust_status = true
+        SELECT count(*)
+        FROM customer
+        WHERE cust_status = TRUE
     </select>
 
-    <select id="selectOrders" parameterType="map" resultType="com.rental.shinhan.dto.OrderJoinDTO">
-        select *
-        from (
-        select row_number() over(order by s.sub_date desc) as num,
-        p.product_img,
-        p.product_serial,
-        p.category_seq,
-        c.cust_name,
-        s.sub_date,
-        s.sub_card,
-        s.sub_total,
-        s.sub_period
-        from subscribe s
-        join customer c on s.cust_seq = c.cust_seq
-        join product p on s.product_seq = p.product_seq
-        ) as temp
-        where num between #{start} and #{end}
-    </select>
-
+    <!-- 관리자 리뷰 total 조회 -->
     <select id="totalReviews" parameterType="map" resultType="int">
-        select count(*)
-        from review r
-        join subscribe s on r.sub_seq = s.sub_seq
-        join product p on s.product_seq = p.product_seq
-        join customer c on s.cust_seq = c.cust_seq
+        SELECT count(*)
+        FROM review r
+        JOIN subscribe s
+            ON r.sub_seq = s.sub_seq
+        JOIN product p
+            ON s.product_seq = p.product_seq
+        JOIN customer c
+            ON s.cust_seq = c.cust_seq
         <where>
             <if test="review != null">
                 r.review_rate = #{review}
@@ -119,56 +133,57 @@
         </where>
     </select>
 
+    <!-- 관리자 주문 total 조회 -->
     <select id="totalOrders" resultType="int">
-        select count(p.product_seq)
-        from subscribe s
-        join customer c on s.cust_seq = c.cust_seq
-        join product p on s.product_seq = p.product_seq
+        SELECT count(p.product_seq)
+        FROM subscribe s
+        JOIN customer c
+            ON s.cust_seq = c.cust_seq
+        JOIN product p
+            ON s.product_seq = p.product_seq
     </select>
 
-
+    <!-- 관리자 상품 삭제 -->
     <update id="deleteProduct" parameterType="int">
-        update product
-        set product_grade = 'F'
-        where product_seq = #{product_seq}
+        UPDATE product
+        SET product_grade = 'F'
+        WHERE product_seq = #{product_seq}
     </update>
 
+    <!-- 관리자 상품 등록 -->
     <insert id="insertProduct" parameterType="ProductVO">
-        insert into product
-        (
-        product_seq,
-        category_seq,
-        product_serial,
-        product_name,
-        product_img,
-        product_detail,
-        product_pay,
-        product_brand,
-        product_grade,
-        product_date,
-        product_height,
-        product_weight,
-        product_wh,
-        product_color,
-        product_features
-        )
-        values
-        (
-        nextval('product_seq'),
-        #{category_seq},
-        #{product_serial},
-        #{product_name},
-        #{product_img},
-        #{product_detail},
-        #{product_pay},
-        #{product_brand},
-        #{product_grade},
-        #{product_date},
-        #{product_height},
-        #{product_weight},
-        #{product_wh},
-        #{product_color},
-        #{product_features}
+        INSERT INTO product (
+            product_seq,
+            category_seq,
+            product_serial,
+            product_name,
+            product_img,
+            product_detail,
+            product_pay,
+            product_brand,
+            product_grade,
+            product_date,
+            product_height,
+            product_weight,
+            product_wh,
+            product_color,
+            product_features
+        ) VALUES (
+            nextval('product_seq'),
+            #{category_seq},
+            #{product_serial},
+            #{product_name},
+            #{product_img},
+            #{product_detail},
+            #{product_pay},
+            #{product_brand},
+            #{product_grade},
+            #{product_date},
+            #{product_height},
+            #{product_weight},
+            #{product_wh},
+            #{product_color},
+            #{product_features}
         )
     </insert>
 </mapper>

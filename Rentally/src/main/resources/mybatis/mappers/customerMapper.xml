@@ -4,69 +4,72 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rental.shinhan.customer">
 
+	<!-- 고객 조회 -->
 	<select id="selectCustomer" parameterType="int" resultType="CustomerVO">
-		select * from customer where cust_seq=#{cust_seq}
+		SELECT *
+		FROM customer
+		WHERE cust_seq=#{cust_seq}
 	</select>
 	
 	<!-- 로그인 기능 -->
 	<select id="customerLogin" parameterType="string" resultType="LoginVO" >
 		SELECT
-		c.*,
-		COUNT(DISTINCT crt.cart_seq) AS cart_count,
-		COUNT(DISTINCT wl.wish_seq) AS wishlist_count
+			c.*,
+			COUNT(DISTINCT crt.cart_seq) AS cart_count,
+			COUNT(DISTINCT wl.wish_seq) AS wishlist_count
 		FROM
-		CUSTOMER c
-		LEFT JOIN
-		CART crt
-		ON
-		c.cust_seq = crt.cust_seq
-		LEFT JOIN
-		WISHLIST wl
-		ON
-		c.cust_seq = wl.cust_seq
+			customer c
+		LEFT JOIN cart crt
+			ON c.cust_seq = crt.cust_seq
+		LEFT JOIN wishlist wl
+			ON c.cust_seq = wl.cust_seq
 		WHERE
-		c.cust_id = #{cust_id} AND CUST_STATUS = TRUE
+			c.cust_id = #{cust_id}
+			AND c.cust_status = TRUE
 		GROUP BY
-		c.cust_seq, c.cust_id, c.cust_name, c.cust_phone, c.cust_email,c.cust_grade
+			c.cust_seq, c.cust_id, c.cust_name, c.cust_phone, c.cust_email, c.cust_grade
 	</select>
 
-
+	<!-- 고객 삭제 -->
     <update id="deleteCustomer" parameterType="int">
-        update customer
-        set
-        cust_status = false
-        where cust_seq = #{cust_seq}
+        UPDATE customer
+        SET cust_status = FALSE
+        WHERE cust_seq = #{cust_seq}
     </update>
 
+	<!-- 고객 정보 업데이트 -->
 	<update id="updateCustInfo" parameterType="CustomerVO">
-		update customer
-		set
-		cust_name = #{cust_name},
-		cust_email = #{cust_email},
-		cust_phone = #{cust_phone}
-		where cust_seq = #{cust_seq}
+		UPDATE customer
+		SET
+			cust_name = #{cust_name},
+			cust_email = #{cust_email},
+			cust_phone = #{cust_phone}
+		WHERE cust_seq = #{cust_seq}
 	</update>
-	
+
+	<!-- 고객 등록 -->
 	<insert id="insertCustomer" parameterType="CustomerVO">
-		INSERT INTO CUSTOMER
-			(CUST_SEQ, CUST_ID, CUST_PW, CUST_PHONE,
-			CUST_EMAIL, CUST_NAME, CUST_STATUS)
-		VALUES
-			(nextval('customer_seq'), #{cust_id},
+		INSERT INTO CUSTOMER (
+			cust_seq, cust_id, cust_pw, cust_phone, cust_email, cust_name, cust_status
+		) VALUES (
+			nextval('customer_seq'), #{cust_id},
 			#{cust_pw}, #{cust_phone}, #{cust_email},
-			#{cust_name}, 'true')
+			#{cust_name}, 'true'
+		)
 	</insert>
 
+	<!-- 고객 비밀번호 업데이트 -->
 	<update id="updateCustPw" parameterType="CustomerVO">
-		update customer
-		set
-		cust_pw = #{cust_pw}
-		where cust_seq = #{cust_seq}
+		UPDATE customer
+		SET cust_pw = #{cust_pw}
+		WHERE cust_seq = #{cust_seq}
 	</update>
-	
+
+	<!-- 고객 아이디 유효성 검사 -->
 	<select id="checkId" parameterType="String" resultType="Integer">
-		select count(*) from customer
-		where cust_id = #{cust_id}
+		SELECT COUNT(*)
+		FROM customer
+		WHERE cust_id = #{cust_id}
 	</select>
 
 	<!-- 위시리스트/장바구니 기능 동작시 갯수 가져오는 쿼리 -->
@@ -75,21 +78,15 @@
             COUNT(DISTINCT crt.cart_seq) AS cart_count,
             COUNT(DISTINCT wl.wish_seq) AS wishlist_count
         FROM
-            CUSTOMER c
-        LEFT JOIN
-            CART crt
-        ON
-            c.cust_seq = crt.cust_seq
-        LEFT JOIN
-            WISHLIST wl
-        ON
-            c.cust_seq = wl.cust_seq
+            customer c
+        LEFT JOIN cart crt
+        ON c.cust_seq = crt.cust_seq
+        LEFT JOIN wishlist wl
+        ON c.cust_seq = wl.cust_seq
         WHERE
-            c.cust_id = #{cust_id} AND CUST_STATUS = TRUE
+            c.cust_id = #{cust_id}
+			AND c.cust_status = TRUE
         GROUP BY
             c.cust_seq, c.cust_id, c.cust_name, c.cust_phone, c.cust_email, c.cust_grade
     </select>
-
-
-
 </mapper>
