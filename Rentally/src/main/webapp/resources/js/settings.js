@@ -36,12 +36,18 @@ function validateField(value, feedbackSelector, inputSelector, emptyMessage, inv
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+$('#cust_email').on("keyup", function () {
+    const custEmail = $(this).val().trim();
+
+    // 이메일 유효성 검사
+    validateField(custEmail, "#emailFeedback", "#cust_email", "이메일을 입력해주세요.", "유효한 이메일을 입력해주세요.", emailPattern);
+});
+
 $('#saveDetails').on("click", function (event){
     event.preventDefault();
 
     const custEmail = $('#cust_email').val().trim();
-    
-    isValid = true;
+    let isValid = true;
 
     // 이메일 유효성 검사
     if (!validateField(custEmail, "#emailFeedback", "#cust_email", "이메일을 입력해주세요.", "유효한 이메일을 입력해주세요.", emailPattern)) {
