@@ -65,10 +65,12 @@ public class CustomerController {
     }
 
     @PostMapping("/join")
-    public String insert(CustomerDTO cust, RedirectAttributes attr) {
+    public String insert(CustomerDTO cust, RedirectAttributes attr, HttpSession session) {
 
         int result = jService.insertService(cust);
         if (result > 0) {
+            session.removeAttribute("name");
+            session.removeAttribute("phone");
             return "customer/login";
         } else {
             attr.addFlashAttribute("errorMessage", "회원가입에 실패했습니다. 다시 시도해주세요.");
@@ -165,12 +167,8 @@ public class CustomerController {
 
         //토큰 가져오기
         String token = getToken();
-        System.out.println("토큰 >> " + token);
-
         //클라이언트에서 받은 imp_uid 확인
         String imp_uid = requestData.get("imp_uid");
-        System.out.println("imp_uid>" + imp_uid);
-
         //iamport API 요청 생성
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.iamport.kr/certifications/" + imp_uid))
@@ -190,7 +188,6 @@ public class CustomerController {
 
         //응답 파싱
         String jsonResponse = response.body();
-        System.out.println("응답 >>" + jsonResponse);
 
         //json 데이터를 파싱해서 이름이랑 핸드폰번호 가져오기
         try {
