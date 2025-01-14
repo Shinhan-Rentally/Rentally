@@ -282,6 +282,8 @@ h2.category {
         const category_seq = getCategorySeqFromURL(); // URL에서 category_seq 가져오기
         const query = "${param.query}".trim(); // 검색어 확인
 
+        console.log(sort);
+        
         // Ajax로 필터 및 정렬된 결과 요청
         $.ajax({
             url: '${path}/product/filter', // 서버 URL (실제 URL로 변경 필요)
@@ -292,7 +294,7 @@ h2.category {
                 priceRange: selectedPriceRanges.join(',') || '', // 선택된 가격대 필터 (콤마로 구분된 문자열)
                 sort: sort, // 정렬 기준
                 query: query || '', // 검색어 (검색 상태인 경우에만 추가)
-                page: currentPage, // 현재 페이지 번호
+                page: currentPage // 현재 페이지 번호
             },
             success: function (response) {
                 $('#productListContainer').html(response); // 결과 업데이트
@@ -344,7 +346,7 @@ h2.category {
                 brand: selectedBrand || '',
                 priceRange: selectedPriceRanges.join(',') || '',
                 sort: sort,
-                page: currentPage,
+                page: currentPage
             },
             success: function (response) {
                 if (query.trim() !== "") {
@@ -366,10 +368,7 @@ h2.category {
             }
         });
 
-        // 'select' 변경 시 정렬 적용
-        document.querySelector('.form-select').addEventListener('change', applyFilters);
-
-        // 필터 버튼 클릭 이벤트 처리
+         // 필터 버튼 클릭 이벤트 처리
         document.querySelectorAll('.btn-info').forEach(button => {
             button.addEventListener('click', function () {
                 toggleBrandFilter(this);
@@ -382,6 +381,10 @@ h2.category {
             });
         });
     });
+</script>
+<script>
+//정렬 적용시 필터 적용
+document.querySelector('.form-select').addEventListener('change', applyFilters);
 </script>
 	
 <script>
