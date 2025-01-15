@@ -1,28 +1,24 @@
 package com.rental.shinhan.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-
 import com.rental.shinhan.dto.AddressDTO;
 import com.rental.shinhan.dto.CustomerDTO;
 import com.rental.shinhan.dto.ProductListJoinDTO;
 import com.rental.shinhan.service.AddressService;
 import com.rental.shinhan.service.CustomerService;
 import com.rental.shinhan.service.ProductListService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
-@Slf4j
 @Controller
 public class PaymentController {
+
 	@Autowired
     ProductListService productlistService;
 	
@@ -36,7 +32,6 @@ public class PaymentController {
     @PostMapping("/payment")
     public String getPaymentPage(Model model, HttpSession session, HttpServletRequest request) {
     	
-    	int subSeq = 0;
     	int productSeq = 0;
     	int productPeriod = 0;
     	int cartSeq = 0;
@@ -102,3 +97,4 @@ public class PaymentController {
     	return "order/paymentResult";
     }
 }
+

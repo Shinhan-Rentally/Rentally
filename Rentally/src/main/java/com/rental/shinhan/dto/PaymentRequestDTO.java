@@ -10,6 +10,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentRequestDTO {
+
 	private String billingKey; 
 	private String merchantUid;
 	private int amount;

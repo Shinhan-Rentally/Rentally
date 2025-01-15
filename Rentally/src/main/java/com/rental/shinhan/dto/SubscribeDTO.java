@@ -10,6 +10,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubscribeDTO {
+
     int sub_seq;
     int cust_seq;
     int product_seq;

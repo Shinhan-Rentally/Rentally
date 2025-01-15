@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.rental.shinhan.wish">
 
     <select id="selectWishLists" parameterType="int" resultType="WishListVO">
-        select w.wish_seq, w.cust_seq, w.product_seq,
-        p.product_serial, p.product_pay, p.category_seq, p.product_name, p.product_img, p.product_features
-        from wishlist w
-        join product p
-        on w.product_seq = p.product_seq
-        where w.cust_seq = #{cust_seq}
+        SELECT w.wish_seq, w.cust_seq, w.product_seq,
+            p.product_serial, p.product_pay, p.category_seq, p.product_name, p.product_img, p.product_features
+        FROM wishlist w
+        JOIN product p
+            ON w.product_seq = p.product_seq
+        WHERE w.cust_seq = #{cust_seq}
     </select>
 
     <select id="wishStatus" parameterType="int" resultType="com.rental.shinhan.dto.WishListDTO">
@@ -21,18 +20,19 @@
     </select>
 
     <insert id="insertWishList" parameterType="com.rental.shinhan.dto.WishListDTO">
-        insert into wishlist (cust_seq, product_seq)
-        select c.cust_seq, p.product_seq
-        from customer c
-        join product p
-        on p.product_seq = #{product_seq}
-        where c.cust_seq = #{cust_seq}
-        on conflict (cust_seq, product_seq) do nothing;
+        INSERT INTO wishlist (cust_seq, product_seq)
+        SELECT c.cust_seq, p.product_seq
+        FROM customer c
+        JOIN product p
+            ON p.product_seq = #{product_seq}
+        WHERE c.cust_seq = #{cust_seq}
+        ON CONFLICT (cust_seq, product_seq) DO NOTHING;
     </insert>
 
     <delete id="deleteWish" parameterType="map">
         DELETE FROM wishlist
-        where cust_seq = #{cust_seq} and product_seq = #{product_seq};
+        WHERE
+            cust_seq = #{cust_seq}
+            AND product_seq = #{product_seq};
     </delete>
-
 </mapper>

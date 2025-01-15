@@ -14,30 +14,35 @@ import java.util.Map;
 @Repository
 public class WishListDAO implements WishListInterface {
 
-    private String namespace = "com.rental.shinhan.wish.";
+    private final String namespace = "com.rental.shinhan.wish.";
 
     @Autowired
     SqlSession sqlSession;
 
     public List<WishListJoinDTO> selectWishLists(int custSeq) {
+
         List<WishListJoinDTO> wishList = sqlSession.selectList(namespace + "selectWishLists", custSeq);
         return wishList;
     }
 
     public List<WishListDTO> wishStatus(int custSeq) {
+
         List<WishListDTO> result = sqlSession.selectList(namespace + "wishStatus", custSeq);
         return result;
     }
 
     public int insertWishList(WishListDTO request) {
+
         int result = sqlSession.insert(namespace + "insertWishList", request);
         return result;
     }
 
     public int deleteWish(int custSeq, int productSeq) {
+
         Map<String, Object> params = new HashMap<>();
         params.put("cust_seq", custSeq);
         params.put("product_seq", productSeq);
+
         return sqlSession.delete(namespace + "deleteWish", params);
     }
 }

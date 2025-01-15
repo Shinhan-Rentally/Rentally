@@ -20,49 +20,62 @@ public class AdminDAO implements AdminInterface {
     @Autowired
     SqlSession sqlSession;
 
-    public List<ProductDTO> selectProducts(Map<String,Object> request) {
+    public List<ProductDTO> selectProducts(Map<String, Object> request) {
+
         List<ProductDTO> products = sqlSession.selectList(namespace + "selectProducts", request);
         return products;
     }
 
-    public int totalPageable(Map<String,Object> request){
-        return sqlSession.selectOne(namespace + "totalProducts",request);
-    }
+    public List<ReviewDTO> selectReviews(Map<String, Object> request) {
 
-    public List<ReviewDTO> selectReviews(Map<String,Object> request) {
         List<ReviewDTO> reviews = sqlSession.selectList(namespace + "selectReviews", request);
         return reviews;
     }
 
     public List<OrderJoinDTO> selectOrders(Map<String, Object> request) {
+
         List<OrderJoinDTO> orders = sqlSession.selectList(namespace + "selectOrders", request);
         return orders;
     }
 
-    public int totalOrdersPageable() {
-        return sqlSession.selectOne(namespace + "totalOrders");
-    }
+    public List<CustomerDTO> selectCustomers(Map<String, Object> request) {
 
-    public int totalReviewsPageable(int rating) {
-        return sqlSession.selectOne(namespace + "totalReviews", rating);
-    }
-
-
-    public  List<CustomerDTO> selectCustomers(Map<String, Object> request) {
         List<CustomerDTO> customers = sqlSession.selectList(namespace + "selectCustomers", request);
         return customers;
     }
 
+    public int totalPageable(Map<String, Object> request) {
+
+        int result = sqlSession.selectOne(namespace + "totalProducts", request);
+        return result;
+    }
+
+    public int totalOrdersPageable() {
+
+        int result = sqlSession.selectOne(namespace + "totalOrders");
+        return result;
+    }
+
+    public int totalReviewsPageable(int rating) {
+
+        int result = sqlSession.selectOne(namespace + "totalReviews", rating);
+        return result;
+    }
+
     public int totalCustomersPageable() {
-        return sqlSession.selectOne(namespace + "totalCustomers");
+
+        int result = sqlSession.selectOne(namespace + "totalCustomers");
+        return result;
     }
 
     public int deleteProduct(int productSeq) {
+
         int result = sqlSession.update(namespace + "deleteProduct", productSeq);
         return result;
     }
 
     public int insertProduct(ProductDTO product) {
+
         int result = sqlSession.insert(namespace + "insertProduct", product);
         return result;
     }

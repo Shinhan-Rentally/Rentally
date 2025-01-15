@@ -18,32 +18,43 @@ public class WishListController {
     private WishListService wishListService;
 
     @GetMapping("/list")
-    public String showWishPage() {return "/wish/wishList";}
+    public String showWishPage() {
+
+        return "/wish/wishList";
+    }
 
     @ResponseBody
     @GetMapping("/list/selected")
     public List<WishListJoinDTO> getWishLists(HttpSession session) {
-        int custSeq = (Integer)session.getAttribute("cust_seq");
+
+        int custSeq = (Integer) session.getAttribute("cust_seq");
+
         List<WishListJoinDTO> wishList = wishListService.findWishLists(custSeq);
+
         return wishList;
     }
 
     @ResponseBody
-    @PostMapping(value="/add")
+    @PostMapping(value = "/add")
     public String createWishList(HttpSession session, @RequestParam("product_seq") int productSeq) {
-        int custSeq = (Integer)session.getAttribute("cust_seq");
+
+        int custSeq = (Integer) session.getAttribute("cust_seq");
         WishListDTO request = new WishListDTO();
         request.setCust_seq(custSeq);
         request.setProduct_seq(productSeq);
 
         int result = wishListService.addWishList(request);
-        return result+"";
+
+        return result + "";
     }
+
     @ResponseBody
     @DeleteMapping("/{productSeq}/delete")
     public String deleteWish(HttpSession session, @PathVariable int productSeq) {
-        int custSeq = (Integer)session.getAttribute("cust_seq");
+
+        int custSeq = (Integer) session.getAttribute("cust_seq");
         int result = wishListService.deleteWish(custSeq, productSeq);
-        return result+"";
+
+        return result + "";
     }
 }

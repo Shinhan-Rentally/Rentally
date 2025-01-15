@@ -1,20 +1,16 @@
 package com.rental.shinhan.dto;
 
+import lombok.*;
+
 import java.sql.Date;
 import java.sql.Timestamp;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Builder
 @Getter @Setter @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubscribeListJoinDTO {
+
     int sub_seq;
     int cust_seq;
     int product_seq;

@@ -13,19 +13,18 @@ import java.util.Map;
 @Repository
 public class OrderDAO implements OrderInterface {
 
-    String namespace ="com.rental.shinhan.subscribe.";
+    String namespace = "com.rental.shinhan.subscribe.";
 
     @Autowired
     SqlSession sqlSession;
 
     public List<SubscribeListJoinDTO> selectOrders(int custSeq, String period) {
+
         Map<String, Object> params = new HashMap<>();
         params.put("cust_seq", custSeq);
         params.put("period", period);
 
-        List<SubscribeListJoinDTO> orders = sqlSession.selectList(namespace+"selectMyOrders", params);
+        List<SubscribeListJoinDTO> orders = sqlSession.selectList(namespace + "selectMyOrders", params);
         return orders;
     }
-
-
 }

@@ -1,64 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.rental.shinhan.review">
 
 	<!-- 상품 상세보기 - 리뷰조회 -->
-	<select id="selectReview" parameterType="int"
-		resultType="ReviewVO">
-
+	<select id="selectReview" parameterType="int" resultType="ReviewVO">
 		SELECT
-		P.product_seq,
-		P.product_name,
-		P.product_brand,
-		P.product_img,
-		P.product_serial,
-		R.review_content,
-		R.review_rate,
-		R.review_date,
-		C.cust_name,
-		C.cust_id,
-		C.cust_seq,
-		RA.review_avg,
-		RA.review_count
-		FROM
-		PRODUCT P
-		LEFT JOIN
-		SUBSCRIBE S ON P.product_seq = S.product_seq
-		LEFT JOIN
-		REVIEW R ON S.sub_seq = R.sub_seq
-		LEFT JOIN
-		CUSTOMER C ON S.cust_seq = C.cust_seq
+			p.product_seq,
+			p.product_name,
+			p.product_brand,
+			p.product_img,
+			p.product_serial,
+			r.review_content,
+			r.review_rate,
+			r.review_date,
+			c.cust_name,
+			c.cust_id,
+			c.cust_seq,
+			ra.review_avg,
+			ra.review_count
+		FROM product p
+		LEFT JOIN subscribe s
+			ON p.product_seq = s.product_seq
+		LEFT JOIN review r
+			ON s.sub_seq = r.sub_seq
+		LEFT JOIN customer c
+			ON s.cust_seq = c.cust_seq
 		LEFT JOIN (
-		SELECT
-		P.product_seq,
-		AVG(R.review_rate) AS review_avg,
-		COUNT(R.review_rate) AS review_count
-		FROM
-		PRODUCT P
-		LEFT JOIN
-		SUBSCRIBE S ON P.product_seq = S.product_seq
-		LEFT JOIN
-		REVIEW R ON S.sub_seq = R.sub_seq
+				SELECT
+					p.product_seq,
+					AVG(r.review_rate) AS review_avg,
+					COUNT(r.review_rate) AS review_count
+				FROM product p
+				LEFT JOIN subscribe s
+					ON p.product_seq = s.product_seq
+				LEFT JOIN review r
+					ON s.sub_seq = r.sub_seq
+				WHERE r.sub_seq IS NOT NULL
+				GROUP BY p.product_seq
+			) ra
+				ON p.product_seq = ra.product_seq
 		WHERE
-		R.sub_seq IS NOT NULL
-		GROUP BY
-		P.product_seq
-		) RA ON P.product_seq = RA.product_seq
-		WHERE
-		P.product_seq = #{product_seq}
-		AND R.sub_seq IS NOT NULL
+			p.product_seq = #{product_seq}
+			AND r.sub_seq IS NOT NULL
 		ORDER BY
-		R.review_rate DESC,
-		R.review_date DESC
+			r.review_rate DESC,
+			r.review_date DESC
 	</select>
 
     <insert id="insertReview">
-        insert into review
-        (sub_seq, review_content, review_rate, review_date)
-        VALUES
-        (#{sub_seq}, #{review_content}, #{review_rate}, CURRENT_TIMESTAMP)
+        INSERT INTO review (
+			sub_seq, review_content, review_rate, review_date
+		) VALUES (
+			#{sub_seq}, #{review_content}, #{review_rate}, CURRENT_TIMESTAMP
+		)
     </insert>
-
 </mapper>

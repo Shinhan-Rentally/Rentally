@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.rental.shinhan.subscribe">
+
 	<select id="selectMyOrders" parameterType="map" resultType="SubscribeListVO">
 		SELECT
 			*,
 			TO_CHAR(s.sub_paydate, 'YYYY-MM-DD') AS formatted_paydate,
-
 			CASE
 				WHEN r.review_seq IS NOT NULL THEN TRUE
 				ELSE FALSE
@@ -16,7 +15,8 @@
 		JOIN customer c USING (cust_seq)
 		JOIN product p USING (product_seq)
 		LEFT JOIN review r USING (sub_seq)
-		WHERE c.cust_seq = #{cust_seq}
+		WHERE
+			c.cust_seq = #{cust_seq}
 			AND (
 				'all' = #{period} OR
 				('1' = #{period} AND sub_paydate >= CURRENT_DATE - INTERVAL '1 month') OR
@@ -25,37 +25,41 @@
 			)
 		ORDER BY sub_seq DESC;
 	</select>
+
 	<!-- 구독 현황 조회 -->
 	<select id="selectSubscribeList" parameterType="int" resultType="SubscribeListVO">
-		select *
-		from subscribe join customer using (cust_seq)
-					   join product using (product_seq)
-		where cust_seq = #{cust_seq} and sub_date + (sub_period || ' month')::INTERVAL >= current_date
-		and sub_cancel = false
-		order by sub_date + (sub_period || ' month')::INTERVAL
+		SELECT *
+		FROM subscribe
+		JOIN customer USING (cust_seq)
+		JOIN product USING (product_seq)
+		WHERE
+			cust_seq = #{cust_seq}
+			AND sub_date + (sub_period || ' month')::INTERVAL >= current_date
+			AND sub_cancel = FALSE
+		ORDER BY sub_date + (sub_period || ' month')::INTERVAL
 	</select>
 
 	<!-- 구독 취소 -->
 	<update id="cancelSubscibe" parameterType="int" >
-		update subscribe
-		set sub_cancel = true
-		where sub_seq = #{sub_seq}
+		UPDATE subscribe
+		SET sub_cancel = TRUE
+		WHERE sub_seq = #{sub_seq}
 	</update>
 
 	<!-- 구독 상품 정보 등록 -->
 	<insert id="insertSubscribe" parameterType="SubscribeListVO">
-		insert into subscribe
-		values ( nextval('sub_seq'), #{cust_seq}, #{sub_date}, #{sub_total}, 
+		INSERT INTO subscribe
+		VALUES ( nextval('sub_seq'), #{cust_seq}, #{sub_date}, #{sub_total},
 		#{sub_addrT}, #{sub_addrD}, #{sub_name}, #{sub_phone}, #{sub_card},
 		#{sub_period}, #{sub_upgrade}, #{sub_cancel}, #{product_seq}, #{sub_paydate})
 	</insert>
 
 	<!-- 구독 상품 정보 업데이트 -->
 	<update id="updateSubscribe" parameterType="SubscribeVO">
-		update subscribe
-		set sub_total = #{sub_total}, sub_addrT = #{sub_addrT}, sub_addrD = #{sub_addrD},
+		UPDATE subscribe
+		SET sub_total = #{sub_total}, sub_addrT = #{sub_addrT}, sub_addrD = #{sub_addrD},
 			sub_name = #{sub_name}, sub_phone = #{sub_phone}, sub_card = #{sub_card},
-			sub_upgrade = true, product_seq = #{product_seq}
-		where sub_seq = #{sub_seq}
+			sub_upgrade = TRUE, product_seq = #{product_seq}
+		WHERE sub_seq = #{sub_seq}
 	</update>
 </mapper>

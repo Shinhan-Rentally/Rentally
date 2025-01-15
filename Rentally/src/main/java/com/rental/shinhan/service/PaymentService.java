@@ -7,11 +7,12 @@ import com.rental.shinhan.dao.PaymentDAO;
 
 @Service
 public class PaymentService {
-	
-	@Autowired
-	PaymentDAO paymentDAO;
-	
-	public int selectSubSeq() {
-		return paymentDAO.selectSubSeq();
-	}
+
+    @Autowired
+    PaymentDAO paymentDAO;
+
+    public int selectSubSeq() {
+
+        return paymentDAO.selectSubSeq();
+    }
 }

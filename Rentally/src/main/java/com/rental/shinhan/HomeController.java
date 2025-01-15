@@ -1,10 +1,8 @@
 package com.rental.shinhan;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
+import com.rental.shinhan.dto.BestProductJoinDTO;
+import com.rental.shinhan.dto.BestReviewJoinDTO;
+import com.rental.shinhan.service.BestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.rental.shinhan.dto.BestProductJoinDTO;
-import com.rental.shinhan.dto.BestReviewJoinDTO;
-import com.rental.shinhan.dto.ProductListJoinDTO;
-import com.rental.shinhan.service.BestService;
+import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class HomeController {
@@ -38,6 +34,7 @@ public class HomeController {
 		
 		return "main";
 	}
+
 	@GetMapping("/main")
 	public String main(Model model) {
 		
@@ -49,10 +46,10 @@ public class HomeController {
 		
 		return "main";
 	}
+
 	@GetMapping("/error")
 	public String error() {
 		
 		return "common/error";
 	}
-	
 }

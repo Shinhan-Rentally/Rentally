@@ -22,12 +22,15 @@ public class OrderController {
     OrderService orderService;
 
     @GetMapping("/list")
-    public String showOrderPage() {return "/order/orderList";}
+    public String showOrderPage() {
+        return "/order/orderList";
+    }
 
     @ResponseBody
     @GetMapping("/list/selected")
     public List<SubscribeListJoinDTO> getOrders(HttpSession seesion,
-                            @RequestParam(defaultValue = "all") String period) {
+                                                @RequestParam(defaultValue = "all") String period) {
+
         int custSeq = (int) seesion.getAttribute("cust_seq");
         List<SubscribeListJoinDTO> orders = orderService.selectOrders(custSeq, period);
 
@@ -38,6 +41,7 @@ public class OrderController {
                 order.setFormatted_paydate(dateFormat.format(paydate)); // 포맷된 날짜를 추가
             }
         });
+
         return orders;
     }
 }

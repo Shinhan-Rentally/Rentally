@@ -14,6 +14,7 @@ public class OrderService {
     OrderDAO orderDAO;
 
     public List<SubscribeListJoinDTO> selectOrders(int custSeq, String period) {
+
         return orderDAO.selectOrders(custSeq, period);
     }
 }
