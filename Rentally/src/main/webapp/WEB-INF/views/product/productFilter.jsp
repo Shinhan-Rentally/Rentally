@@ -41,7 +41,7 @@
 				<div class="card-body">
 					<div class="text-center position-relative">
 						<a href="${path}/product/detail?product_seq=${product.product_seq}"> <img src="https://d14b80fsv1tvpk.cloudfront.net/${product.category_seq}/
-						${product.product_img}?w=160&h=160&f=webp&q=80" alt="${product.product_name}" class="mb-3 img-fluid" width="160" height="160"/>
+						${product.product_img}?f=webp&q=80" alt="${product.product_name}" class="mb-3 img-fluid" width="160" height="160"/>
 						</a>
 					</div>
 					<h2 class="fs-6">
