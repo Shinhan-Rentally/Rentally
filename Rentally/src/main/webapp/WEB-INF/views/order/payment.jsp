@@ -343,6 +343,9 @@
 	    
     	const $isCartInput = $('<input type="hidden" name="isCart">').val(${isCart});
     	$form.append($isCartInput);
+    	
+    	const $cartSeqInput = $('<input type="hidden" name="cartSeq">').val(${cartSeq});
+    	$form.append($cartSeqInput);
 
 	    if(${isUpgrade}){
 	    	const $subSeqInput = $('<input type="hidden" name="sub_seq">').val(${subSeq});

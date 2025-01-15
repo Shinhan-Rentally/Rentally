@@ -68,6 +68,7 @@
 													<input type="hidden" name="product_seq" value="${cart.product_seq}">
 													<input type="hidden" name="product_name" value="${cart.product_name}">
 													<input type="hidden" name="cart_option" value="${cart.cart_option}">
+													<input type="hidden" name="cart_seq" value="${cart.cart_seq}">
 													<input type="hidden" name="isCart" value="true">
 													<button class="btn btn-info btn-sm" id="subscribe">구독</button>
 												</form>
