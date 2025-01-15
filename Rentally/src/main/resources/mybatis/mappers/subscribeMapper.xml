@@ -19,9 +19,9 @@
 			c.cust_seq = #{cust_seq}
 			AND (
 				'all' = #{period} OR
-				('1' = #{period} AND sub_date >= CURRENT_DATE - INTERVAL '1 month') OR
-				('2' = #{period} AND sub_date >= CURRENT_DATE - INTERVAL '2 months') OR
-				('3' = #{period} AND sub_date >= CURRENT_DATE - INTERVAL '3 months')
+				('1' = #{period} AND sub_paydate >= CURRENT_DATE - INTERVAL '1 month') OR
+				('2' = #{period} AND sub_paydate >= CURRENT_DATE - INTERVAL '2 months') OR
+				('3' = #{period} AND sub_paydate >= CURRENT_DATE - INTERVAL '3 months')
 			)
 		ORDER BY sub_seq DESC;
 	</select>

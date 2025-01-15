@@ -49,6 +49,7 @@ public class SubscribeController {
         }
 
         attr.addFlashAttribute("resultMessage", "구독 신청");
+        
         return "redirect:/payment/result";
     }
 

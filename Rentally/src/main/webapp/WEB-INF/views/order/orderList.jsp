@@ -282,7 +282,7 @@
                                 <td class="align-middle">
                                     <a href="${path}/product/detail?product_seq=\${order.product_seq}">
                                         <img
-                                        src="https://rentally.s3.ap-northeast-2.amazonaws.com/\${order.category_seq}/\${order.product_img}" alt="\${order.product_name}"
+                                        src="https://d14b80fsv1tvpk.cloudfront.net/\${order.category_seq}/\${order.product_img}?w=64&h=64&f=webp&q=80" alt="\${order.product_name}"
                                         class="icon-shape icon-xxl" alt="\${order.product_name}" />
                                     </a>
                                 </td>
@@ -311,7 +311,7 @@
                                         data-product-serial="\${order.product_serial}"
                                         data-sub-date="\${order.formatted_paydate}"
                                         data-sub-name="\${order.sub_name}"
-                                        data-cust-phone="\${order.cust_phone}"
+                                        data-cust-phone="\${order.sub_phone}"
                                         data-sub-addrT="\${order.sub_addrT}"
                                         data-sub-addrD="\${order.sub_addrD}"
                                         data-product-pay="\${order.sub_total.toLocaleString()}"

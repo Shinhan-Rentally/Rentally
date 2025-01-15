@@ -42,10 +42,9 @@
 					<div class="col-md-5 col-xl-6">
 						<div class="product" id="product">
 							<div class="zoom" onmousemove="zoom(event)"
-								style="background-image: url(https://rentally.s3.ap-northeast-2.amazonaws.com/${detail.category_seq}/${detail.product_img})">
-								<img
-									src="https://rentally.s3.ap-northeast-2.amazonaws.com/${detail.category_seq}/${detail.product_img}"
-									alt="상품이미지" />
+								style="background-image: url(https://d14b80fsv1tvpk.cloudfront.net/${detail.category_seq}/${detail.product_img}?f=webp&q=80)">
+								<img src="https://d14b80fsv1tvpk.cloudfront.net/${detail.category_seq}/${detail.product_img}?f=webp&q=80"
+									alt="${detail.product_name}" width="628" height="628"/>
 							</div>
 						</div>
 					</div>
@@ -153,9 +152,9 @@
 							<div class="tab-pane fade show active" id="product-tab-pane"
 								role="tabpanel" aria-labelledby="product-tab" tabindex="0">
 								<div class="my-8">
-									<img class="rounded mx-auto d-block"
-										src="https://rentally.s3.ap-northeast-2.amazonaws.com/${detail.category_seq}/${detail.product_detail}"
-										alt="상품상세설명이미지" />
+									<img class="rounded mx-auto d-block" loading="lazy"
+										src="https://d14b80fsv1tvpk.cloudfront.net/${detail.category_seq}/${detail.product_detail}?q=80"
+										alt="${detail.product_name}" />
 								</div>
 							</div>
 							<div class="tab-pane fade" id="details-tab-pane" role="tabpanel"
@@ -331,12 +330,14 @@
 		//구독기간 버튼 선택
 		let selectPeriod = null;
 		$('#period button').click(function(){
-			$('#period button').removeClass('btn-info').addClass('btn-outline-secondary');
-			$(this).removeClass('btn-outline-secondary').addClass('btn-info');
-			$(this).click(function(){
-				$(this).removeClass('btn-info').addClass('btn-outline-secondary');
-			});
-			selectPeriod = $(this).val();
+			if( $(this).hasClass('btn-info')){
+				$('#period button').removeClass('btn-info').addClass('btn-outline-secondary');
+				selectPeriod = null;
+			} else {
+				$('#period button').removeClass('btn-info').addClass('btn-outline-secondary');
+				$(this).removeClass('btn-outline-secondary').addClass('btn-info');
+				selectPeriod = $(this).val();
+			}
 		});
 		
 		//기간선택 안 했을 때 경고창 모달

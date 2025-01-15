@@ -43,26 +43,27 @@ public class CustomerController {
         return "/customer/settings";
     }
 
-    @ResponseBody
-    @PostMapping("/delete")
-    public String deleteCustomer(HttpSession session, @RequestParam("cust_seq") int custSeq) {
+    
+	@ResponseBody
+	@PostMapping("/delete")
+	public String deleteCustomer(HttpSession session) {
+		int custSeq = (Integer) session.getAttribute("cust_seq");
+		int result = custService.deleteCustomer(custSeq);
+		session.invalidate();
+        
+		return result + "";
+	}
 
-        int result = custService.deleteCustomer(custSeq);
-        session.invalidate();
+	@ResponseBody
+	@PostMapping(value = "/update")
+	public String updateCustInfo(HttpSession session, @RequestParam String custEmail) {
+        
+		int custSeq = (Integer)session.getAttribute("cust_seq");
+		int result = custService.updateCustInfo(custSeq, custEmail);
+        
+		return result + "";
+	}
 
-        return result + "";
-    }
-
-    @ResponseBody
-    @PostMapping(value = "/update")
-    public String updateCustInfo(HttpSession session, CustomerDTO custInfo) {
-
-        int custSeq = (Integer) session.getAttribute("cust_seq");
-        custInfo.setCust_seq(custSeq);
-        int result = custService.updateCustInfo(custInfo);
-
-        return result + "";
-    }
 
     @PostMapping("/join")
     public String insert(CustomerDTO cust, RedirectAttributes attr, HttpSession session) {

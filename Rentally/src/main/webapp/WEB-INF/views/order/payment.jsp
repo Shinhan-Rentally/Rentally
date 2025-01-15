@@ -42,12 +42,12 @@
 									<div id="flush-collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushExample">
 										<div class="mt-5">
 											<div class="row">
-											<c:forEach items="${addressList}" var="addr">
+											<c:forEach items="${addressList}" var="addr" varStatus="status">
 												<div class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
 													<div class="card card-body p-6">
 														<div class="form-check mb-4">
-															<input class="form-check-input" type="radio" name="flexRadioDefault" id="homeRadio" <c:if test="${addr.addr_default == true}">checked</c:if> />
-															<label class="form-check-label text-dark" for="homeRadio">${addr.addr_name}</label>
+															<input class="form-check-input" type="radio" name="flexRadioDefault" id="homeRadio${status.index}" <c:if test="${addr.addr_default == true}">checked</c:if> />
+															<label class="form-check-label text-dark" for="homeRadio${status.index}">${addr.addr_name}</label>
 															<c:if test="${addr.addr_default == true}">
 																<span class="text-info">기본 주소</span>
 															</c:if>
@@ -219,6 +219,13 @@
     }
 	
 	function payment(){
+	    const selectedAddress = getSelectedAddress();
+	    
+	    if (selectedAddress.subName == '') {
+	    	showModalMessage('선택된 주소가 없습니다.');
+	        return;
+	    }
+	    
 		let nowDate = displayDateTime();
 		let nowDateStr = nowDate.replace(/[^\d]/g, '');
 
@@ -302,11 +309,7 @@
 
 	
 	function redirectToCompletePage(paymentResultData) {
-	    const selectedAddress = getSelectedAddress();
-	    if (!selectedAddress) {
-	    	showModalMessage('선택된 주소가 없습니다.');
-	        return;
-	    }
+		const selectedAddress = getSelectedAddress();
 
 	    const $form = $('<form></form>');
 	    $form.attr('method', 'POST');
@@ -340,6 +343,9 @@
 	    
     	const $isCartInput = $('<input type="hidden" name="isCart">').val(${isCart});
     	$form.append($isCartInput);
+    	
+    	const $cartSeqInput = $('<input type="hidden" name="cartSeq">').val(${cartSeq});
+    	$form.append($cartSeqInput);
 
 	    if(${isUpgrade}){
 	    	const $subSeqInput = $('<input type="hidden" name="sub_seq">').val(${subSeq});
@@ -356,7 +362,7 @@
 	}
 
 	function showModalMessage(message) {
-	    $('#alertModalMessage').text(message);
+	    $('#alertModalMessage').html(message);
 	    $('#alertModal').modal('show');
 	}
 	</script>

@@ -127,7 +127,7 @@
         JOIN customer c
             ON s.cust_seq = c.cust_seq
         <where>
-            <if test="review != null">
+            <if test="review != 0">
                 r.review_rate = #{review}
             </if>
         </where>

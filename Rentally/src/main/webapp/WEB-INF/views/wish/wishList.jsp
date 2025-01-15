@@ -98,8 +98,8 @@
                             <tr>
                                 <td class="align-middle border-top-0 w-0">
                                     <a href="${path}/product/detail?product_seq=\${wish.product_seq}">
-                                        <img src="https://rentally.s3.ap-northeast-2.amazonaws.com/\${wish.category_seq}/\${wish.product_img}"
-                                             class="icon-shape icon-xl"/>
+                                        <img src="https://d14b80fsv1tvpk.cloudfront.net/\${wish.category_seq}/\${wish.product_img}?&f=webp&q=80" width="56" height="56"
+                                             alt="\${wish.product_name}" class="icon-shape icon-xl"/>
                                     </a>
                                 </td>
                                 <td class="align-middle">
@@ -161,6 +161,8 @@
                 success: function (response) {
                     showModalMessage('위시리스트에서 삭제되었습니다.');
                     wish_filter();
+                  	//헤더 개수 업데이트
+                    updateCounts();
                 },
                 error: function (err) {
                     showModalMessage('삭제에 실패하였습니다. 다시 시도해주세요.');

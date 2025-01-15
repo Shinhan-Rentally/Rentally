@@ -41,9 +41,7 @@
 	<update id="updateCustInfo" parameterType="CustomerVO">
 		UPDATE customer
 		SET
-			cust_name = #{cust_name},
-			cust_email = #{cust_email},
-			cust_phone = #{cust_phone}
+			cust_email = #{cust_email}
 		WHERE cust_seq = #{cust_seq}
 	</update>
 

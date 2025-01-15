@@ -5,7 +5,7 @@
   <div class="navbar-vertical">
     <div class="px-4 py-5">
       <a href="${path}/main" class="navbar-brand">
-        <img src="https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_LOGO.png"
+        <img src="https://d14b80fsv1tvpk.cloudfront.net/logo/RENTALLY_LOGO.png?w=198&h=64&f=webp&q=80&t=cover"
               style="width:200px; height:60px;"
         />
       </a>
@@ -57,7 +57,7 @@
   <div class="navbar-vertical">
     <div class="px-4 py-5 d-flex justify-content-between align-items-center">
       <a href="${path}/main" class="navbar-brand">
-        <img src="https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_LOGO.png"
+        <img src="https://d14b80fsv1tvpk.cloudfront.net/logo/RENTALLY_LOGO.png?w=198&h=64&f=webp&q=80&t=cover"
              style="width:200px; height:60px;"/>
       </a>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>

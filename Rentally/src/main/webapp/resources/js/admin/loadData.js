@@ -1,3 +1,4 @@
+
 function loadDataGeneric(path, page, additionalParams, processContent) {
     $.ajax({
         url: path,
@@ -10,7 +11,7 @@ function loadDataGeneric(path, page, additionalParams, processContent) {
 
             if (data.content.length > 0) {
                 data.content.forEach(item => processContent(item));
-                pageBar(data.pageable, data.totalPages, data.totalElements);
+                pageBar(data.pageable.pageNumber, data.totalPages, data.totalElements);
             } else {
                 $("#board_dataTable tbody").append('<tr><td colspan="6">데이터가 없습니다.</td></tr>');
             }
@@ -43,7 +44,7 @@ function loadOrderData(path, page) {
         order => {
             $('#board_dataTable tbody').append(`
                 <tr>
-                    <td><img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${order.category_seq}/${order.product_img}" width="48" height="48"></td>
+                    <td><img src="https://d14b80fsv1tvpk.cloudfront.net/${order.category_seq}/${order.product_img}?f=webp" width="48" height="48" alt="${order.product_name}"></td>
                     <td>${order.product_serial}</td>
                     <td>${order.cust_name}</td>
                     <td>${order.formattedSubDate}</td>
@@ -63,7 +64,7 @@ function loadProductData(path, page, searchKeyWord) {
         product => {
             $('#board_dataTable tbody').append(`
                 <tr>
-                    <td><img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${product.category_seq}/${product.product_img}" width="48" height="48"></td>
+                    <td><img src="https://d14b80fsv1tvpk.cloudfront.net/${product.category_seq}/${product.product_img}?w=48&h=48&f=webp&q=80" width="48" height="48" alt="${product.product_name}"></td>
                         <td>${product.product_name}</td>
                         <td>${product.category_name}</td>
                         <td>${product.product_pay.toLocaleString()}원</td>

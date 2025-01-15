@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Repository
@@ -28,11 +29,15 @@ public class CustomerDAO implements CustomerInterface {
         return result;
     }
 
-    public int updateCustInfo(CustomerDTO customer) {
-
-        int result = sqlSession.update(namespace + "updateCustInfo", customer);
+    public int updateCustInfo(int custSeq, String custEmail) {
+        
+        Map<String, Object> params = new HashMap<>();
+        params.put("cust_seq", custSeq);
+        params.put("cust_email", custEmail);
+        int result = sqlSession.update(namespace + "updateCustInfo", params);
+        
         return result;
-    }
+    };
 
     public int updatePW(CustomerDTO customer) {
 
