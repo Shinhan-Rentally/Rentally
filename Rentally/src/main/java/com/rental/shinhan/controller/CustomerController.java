@@ -47,6 +47,7 @@ public class CustomerController {
 	@ResponseBody
 	@PostMapping("/delete")
 	public String deleteCustomer(HttpSession session) {
+
 		int custSeq = (Integer) session.getAttribute("cust_seq");
 		int result = custService.deleteCustomer(custSeq);
 		session.invalidate();
@@ -115,6 +116,7 @@ public class CustomerController {
     public String checkId(@RequestParam String cust_id) {
 
         boolean isDuplicate = jService.checkIdService(cust_id);
+
         return String.valueOf(isDuplicate);
     }
 

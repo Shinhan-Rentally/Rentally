@@ -30,6 +30,7 @@ public class WishListController {
         int custSeq = (Integer) session.getAttribute("cust_seq");
 
         List<WishListJoinDTO> wishList = wishListService.findWishLists(custSeq);
+
         return wishList;
     }
 
@@ -43,6 +44,7 @@ public class WishListController {
         request.setProduct_seq(productSeq);
 
         int result = wishListService.addWishList(request);
+
         return result + "";
     }
 
@@ -51,8 +53,8 @@ public class WishListController {
     public String deleteWish(HttpSession session, @PathVariable int productSeq) {
 
         int custSeq = (Integer) session.getAttribute("cust_seq");
-
         int result = wishListService.deleteWish(custSeq, productSeq);
+
         return result + "";
     }
 }

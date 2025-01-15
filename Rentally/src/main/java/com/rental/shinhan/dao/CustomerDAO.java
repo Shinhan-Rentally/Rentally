@@ -20,12 +20,14 @@ public class CustomerDAO implements CustomerInterface {
     public CustomerDTO selectCustomer(int custSeq) {
 
         CustomerDTO customer = sqlSession.selectOne(namespace + "selectCustomer", custSeq);
+
         return customer;
     }
 
     public int deleteCustomer(int custSeq) {
 
         int result = sqlSession.update(namespace + "deleteCustomer", custSeq);
+
         return result;
     }
 
@@ -42,6 +44,7 @@ public class CustomerDAO implements CustomerInterface {
     public int updatePW(CustomerDTO customer) {
 
         int result =  sqlSession.update(namespace + "updateCustPw", customer);
+
         return result;
     }
 
@@ -49,6 +52,7 @@ public class CustomerDAO implements CustomerInterface {
     public Map<String, Long> getCartAndWishlistCount(String cust_id) {
 
         Map<String, Long> count = sqlSession.selectOne(namespace + "getCartAndWishlistCount", cust_id);
+
         return count;
     }
 }

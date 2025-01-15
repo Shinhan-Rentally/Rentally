@@ -134,6 +134,7 @@ public class ProductListController {
         model.addAttribute("detail", productlistService.selectProductDetail(productSeq));
         model.addAttribute("reviewList", reviewService.selectReview(productSeq));
         model.addAttribute("wishlist", wishlist);
+
         return "product/detail";
     }
 

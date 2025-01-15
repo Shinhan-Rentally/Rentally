@@ -41,11 +41,13 @@ public class AdminController {
         searchKeyWord = URLDecoder.decode(searchKeyWord, StandardCharsets.UTF_8);
         Pageable pageable = PageRequest.of(page, size);
         Page<ProductDTO> products = adminService.findProducts(pageable, searchKeyWord);
+
         return products;
     }
 
     @GetMapping("/review/list")
     public String getReviews() {
+
         return "/admin/reviews";
     }
 
@@ -55,8 +57,10 @@ public class AdminController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "0") int rating) {
+
         Pageable pageable = PageRequest.of(page, size);
         Page<ReviewDTO> reviews = adminService.findReviews(pageable, rating);
+
         return reviews;
     }
 
@@ -74,6 +78,7 @@ public class AdminController {
 
         Pageable pageable = PageRequest.of(page, size);
         Page<CustomerDTO> customers = adminService.findCustomers(pageable);
+
         return customers;
     }
 
@@ -91,6 +96,7 @@ public class AdminController {
 
         Pageable pageable = PageRequest.of(page, size);
         Page<OrderJoinDTO> orders = adminService.findOrders(pageable);
+
         return orders;
     }
 

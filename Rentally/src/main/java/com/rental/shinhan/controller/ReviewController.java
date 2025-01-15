@@ -25,8 +25,8 @@ public class ReviewController {
                                HttpSession session) {
 
         review.setCust_seq(cust_seq);
-
         int result = reviewService.insertReview(review);
+
         return result + "";
     }
 
@@ -35,6 +35,7 @@ public class ReviewController {
     public List<ReviewDTO> selectReview(@RequestParam("product_seq") int productSeq) {
 
         List<ReviewDTO> reviews = reviewService.selectReview(productSeq);
+
         return reviews;
     }
 }
