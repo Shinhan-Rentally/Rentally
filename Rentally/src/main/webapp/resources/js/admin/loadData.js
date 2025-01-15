@@ -44,7 +44,7 @@ function loadOrderData(path, page) {
         order => {
             $('#board_dataTable tbody').append(`
                 <tr>
-                    <td><img src="https://d14b80fsv1tvpk.cloudfront.net/${order.category_seq}/${order.product_img}?w=48&h=48&f=webp" width="48" height="48" alt="${order.product_name}"></td>
+                    <td><img src="https://d14b80fsv1tvpk.cloudfront.net/${order.category_seq}/${order.product_img}?f=webp" width="48" height="48" alt="${order.product_name}"></td>
                     <td>${order.product_serial}</td>
                     <td>${order.cust_name}</td>
                     <td>${order.formattedSubDate}</td>

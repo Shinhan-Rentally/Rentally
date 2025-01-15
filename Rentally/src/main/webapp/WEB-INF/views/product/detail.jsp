@@ -42,8 +42,8 @@
 					<div class="col-md-5 col-xl-6">
 						<div class="product" id="product">
 							<div class="zoom" onmousemove="zoom(event)"
-								style="background-image: url(https://d14b80fsv1tvpk.cloudfront.net/${detail.category_seq}/${detail.product_img}?w=638&h=638&f=webp&q=80)">
-								<img src="https://d14b80fsv1tvpk.cloudfront.net/${detail.category_seq}/${detail.product_img}?w=638&h=638&f=webp&q=80"
+								style="background-image: url(https://d14b80fsv1tvpk.cloudfront.net/${detail.category_seq}/${detail.product_img}?f=webp&q=80)">
+								<img src="https://d14b80fsv1tvpk.cloudfront.net/${detail.category_seq}/${detail.product_img}?f=webp&q=80"
 									alt="${detail.product_name}" width="628" height="628"/>
 							</div>
 						</div>

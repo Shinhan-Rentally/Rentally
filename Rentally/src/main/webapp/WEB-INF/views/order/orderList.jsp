@@ -283,7 +283,7 @@
                                     <a href="${path}/product/detail?product_seq=\${order.product_seq}">
                                         <img
                                         src="https://d14b80fsv1tvpk.cloudfront.net/\${order.category_seq}/\${order.product_img}?w=64&h=64&f=webp&q=80" alt="\${order.product_name}"
-                                        class="icon-shape icon-xxl" alt="\${order.product_name}" width="64" height="64 />
+                                        class="icon-shape icon-xxl" alt="\${order.product_name}" />
                                     </a>
                                 </td>
                                 <td class="align-middle">

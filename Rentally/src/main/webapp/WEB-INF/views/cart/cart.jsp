@@ -44,7 +44,7 @@
 											<td class="align-middle">
 												<a href="${path}/product/detail?product_seq=${cart.product_seq}">
 													<img
-													src="https://d14b80fsv1tvpk.cloudfront.net/${cart.category_seq}/${cart.product_img}?w=64&h=64&f=webp&q=80" width="64" height="64" alt="${cart.product_name}"
+													src="https://d14b80fsv1tvpk.cloudfront.net/${cart.category_seq}/${cart.product_img}?f=webp&q=80" width="64" height="64" alt="${cart.product_name}"
 													class="icon-shape icon-xxl" alt="${cart.product_name}" />
 												</a>
 											</td>
