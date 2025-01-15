@@ -5,7 +5,7 @@
 <c:set var="path" value="${pageContext.servletContext.contextPath}" scope="application"></c:set>
 
 <!-- Favicon icon-->
-<link rel="shortcut icon" type="image/x-icon" href="https://rentally.s3.ap-northeast-2.amazonaws.com/logo/RENTALLY_Character.ico">
+<link rel="shortcut icon" type="image/x-icon" href="https://d14b80fsv1tvpk.cloudfront.net/logo/RENTALLY_Character.ico">
 
 
 <!-- Libs CSS -->

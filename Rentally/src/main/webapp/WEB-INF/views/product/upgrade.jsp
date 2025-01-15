@@ -38,7 +38,7 @@
                                  <div class="row align-items-center">
                                     <div class="col-md-4 col-12">
                                        <div class="text-center position-relative">
-                                             <img src="https://rentally.s3.ap-northeast-2.amazonaws.com/${upgrade.category_seq}/${upgrade.product_img}" 
+                                             <img src="https://d14b80fsv1tvpk.cloudfront.net/${upgrade.category_seq}/${upgrade.product_img}?w=397&h=397&f=webp&q=80" width="397" height="397"
                                              alt="${upgrade.product_name}" class="mb-3 img-fluid" />
                                        </div>
                                     </div>

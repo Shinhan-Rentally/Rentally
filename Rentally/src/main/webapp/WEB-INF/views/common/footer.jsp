@@ -36,7 +36,7 @@
           <ul class="list-inline text-md-end mb-0 small mt-3 mt-md-0">
             <li class="list-inline-item text-muted">Follow us on</li>
             <li class="list-inline-item">
-              	<img class="btn-social" src="https://rentally.s3.ap-northeast-2.amazonaws.com/logo/kakao_gray.png" style="width:30px; height:30px;"/>
+              	<img class="btn-social" src="https://d14b80fsv1tvpk.cloudfront.net/logo/kakao_gray.png?w=30&h=30&f=webp&q=80" style="width:30px; height:30px;"/>
             </li>
           </ul>
 		</div>
