@@ -174,12 +174,22 @@
 		$('#formSignupPhone').val(formatPhone).attr('readonly', true);
 		
 		//유효성 검사 변수
-		let isFormValid = true;
-		
+		let isIdValid = false;
+		let isPwValid = false;
+		let isPwConfirmValid = false;
+		let isEmailValid = false;
+
 		//회원가입 클릭할 때
 		$("#join").on("click", function(event){
 			//유효성검사 통과 못하면 폼 제출을 막음
-			if(isFormValid == false){
+			if(!isIdValid || !isPwValid || !isPwConfirmValid || !isEmailValid){
+				event.preventDefault();
+				showModalMessage("모든 값을 정확히 입력해주세요.");
+			}
+		});
+		$("form").on("submit", function(event){
+			//유효성검사 통과 못하면 폼 제출을 막음
+			if(!isIdValid || !isPwValid || !isPwConfirmValid || !isEmailValid){
 				event.preventDefault();
 				showModalMessage("모든 값을 정확히 입력해주세요.");
 			}
@@ -198,12 +208,12 @@
 			} else {
 				if(!emailPattern.test(selectEmail)){
 					emailMessage.removeClass("hide");
-					isFormValid = false;
+					isEmailValid = false;
 				} else {
 					inputEmail.val(selectEmail);
 					inputEmail.prop("readonly", true);
 					emailMessage.addClass("hide");
-					isFormValid = true;
+					isEmailValid = true;
 				}
 			}
 		});
@@ -225,10 +235,10 @@
 			let emailPattern = /[^\s@]+\.[^\s@]+$/;
 			if(!emailPattern.test(inputEmail)){
 				emailMessage.removeClass("hide");
-				isFormValid = false;
+				isEmailValid = false;
 			} else {
 				emailMessage.addClass("hide");
-				isFormValid = true;
+				isEmailValid = true;
 			}
 		});
 		
@@ -246,17 +256,17 @@
 				if(okPassword($(this).val())){
 					$(".pw-feedback").addClass("hide");
 					$(this).addClass("is-valid").removeClass("is-invalid");
-					isFormValid = true;
+					isPwValid = true;
 				}else{
 					$(".pw-feedback").removeClass("hide");
 					$(this).addClass("is-invalid");
-					isFormValid = false;
+					isPwValid = false;
 				}
 			}else{
 				$(".pwinput-feedback").removeClass("hide");
 				$(".pw-feedback").addClass("hide");
 				$(this).addClass("is-invalid");
-				isFormValid = false;
+				isPwValid = false;
 			}
 		});
 
@@ -266,18 +276,18 @@
 					$(this).addClass("is-valid").removeClass("is-invalid");
 					$(".pwcinput-feedback").addClass("hide");
 					$(".mismatch-feedback").addClass("hide");
-					isFormValid = true;
+					isPwConfirmValid = true;
 				}else{
 					$(this).removeClass("is-valid").addClass("is-invalid");
 					$(".pwcinput-feedback").addClass("hide");
 					$(".mismatch-feedback").removeClass("hide");
-					isFormValid = false;
+					isPwConfirmValid = false;
 				}
 			}else{
 				$(this).removeClass("is-valid").addClass("is-invalid");
 				$(".pwcinput-feedback").removeClass("hide");
 				$(".mismatch-feedback").addClass("hide");
-				isFormValid = false;
+				isPwConfirmValid = false;
 			}
 		});
 		
@@ -302,7 +312,7 @@
 				longMessage.classList.add("hide");
 				englishMessage.classList.add("hide");
 				$(".idinput-feedback").removeClass("hide");
-				isFormValid = false;
+				isIdValid = false;
 				return;
 			}
 			if(!onlyNumAndEng(userId)){
@@ -310,7 +320,7 @@
 				successMessage.classList.add("hide");
 				longMessage.classList.add("hide");
 				englishMessage.classList.remove("hide");
-				isFormValid = false;
+				isIdValid = false;
 				return;
 			}
 			
@@ -319,7 +329,7 @@
 				successMessage.classList.add("hide");
 				longMessage.classList.remove("hide");
 				englishMessage.classList.add("hide");
-				isFormValid = false;
+				isIdValid = false;
 				return;
 			}
 			//모든 조건을 만족할 때
@@ -329,13 +339,13 @@
 			$(this).addClass("is-valid");
 			$(this).removeClass("is-invalid")
 		};
-		//ㅇㅋㅇㅋ아이디 중복체크
+		//아이디 중복체크
 		$("#formSignupId").on("input", function(){
 			let custId = $(this).val().trim();
 			if(custId.length < 4){
 				$(".check-feedback").addClass("hide");
 				$(".idinput-feedback").addClass("hide");
-				isFormValid = false;
+				isIdValid = false;
 				return;
 			}
 			$.ajax({
@@ -346,24 +356,23 @@
 					if(response == "true"){
 						$(".success-feedback").addClass("hide");
 						$(".check-feedback").removeClass("hide");
-						isFormValid = false;
+						isIdValid = false;
 						$(inputUserId).removeClass("is-valid").addClass("is-invalid");
 					} else {
 						if(idLength(custId) && onlyNumAndEng(custId)){
 							$(".success-feedback").removeClass("hide");
 							$(".check-feedback").addClass("hide");
 							$(inputUserId).removeClass("is-invalid").addClass("is-valid");
-			                isFormValid = true;
+							isIdValid = true;
 						}
 					}
 				},
 				error: function(err){
 					showModalMessage('id중복체크 실패');
-					isFormValid = false;
+					isIdValid = false;
 				}
 			});
 		});
-		
 	</script>
 </body>
 </html>
