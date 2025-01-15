@@ -311,7 +311,7 @@
                                         data-product-serial="\${order.product_serial}"
                                         data-sub-date="\${order.formatted_paydate}"
                                         data-sub-name="\${order.sub_name}"
-                                        data-cust-phone="\${order.cust_phone}"
+                                        data-cust-phone="\${order.sub_phone}"
                                         data-sub-addrT="\${order.sub_addrT}"
                                         data-sub-addrD="\${order.sub_addrD}"
                                         data-product-pay="\${order.sub_total.toLocaleString()}"

@@ -174,8 +174,9 @@
 			searchModal("검색어를 입력해주세요.");
 			return;
 		}
+		const encodedQuery = encodeURIComponent(query);
 		// contextPath 가져오기 
-		location.href = `${path}/product/list?query=\${query}`;
+		location.href = `${path}/product/list?query=\${encodedQuery}`;
 	}
 </script>
 <script>

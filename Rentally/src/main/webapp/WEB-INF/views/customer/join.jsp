@@ -40,9 +40,9 @@
 										cust_id
 									</label>
 									<input type="text" class="form-control" maxlength="12"
-										id="formSignupId" name="cust_id" placeholder="ID를 입력해주세요"
+										id="formSignupId" name="cust_id" placeholder="ID"
 										required />
-									<div class="invalid-feedback">ID를 입력해주세요.</div>
+									<div class="idinput-feedback hide">ID를 입력해주세요.</div>
 									<div class="success-feedback hide">사용할 수 있는 ID 입니다.</div>
 									<div class="check-feedback hide">이미 사용하는 ID 입니다.</div>
 									<div class="long-feedback hide">아이디는 4~12글자 입니다.</div>
@@ -54,7 +54,6 @@
 									</label>
 									<input type="text" class="form-control"
 										id="formSignupName" name="cust_name" placeholder="이름" required />
-									<div class="invalid-feedback">이름을 입력해주세요.</div>
 								</div>
 								<div class="col-4">
 									<label for="formSignupEmail" class="form-label visually-hidden">
@@ -66,10 +65,10 @@
 								</div>
 								<div class="col-4">
 									<input type="text" class="form-control"
-										name="cust_email2" id="formSignupEmail2">
+										name="cust_email2" id="formSignupEmail2" required>
 								</div>
 								<div class="col-4">
-									<select class="form-control" id="formSignupEmail3" required>
+									<select class="form-control" id="formSignupEmail3">
 										<option id="directInput" value="">직접입력</option>
 										<option value="@naver.com">&#64;naver.com</option>
 										<option value="@gmail.com">&#64;gmail.com</option>
@@ -78,7 +77,7 @@
 										<option value="@nate.com">&#64;nate.com</option>
 									</select>
 								</div>
-								<div class="invalid-feedback">이메일을 입력해주세요.</div>
+								<div class="emailinput-feedback hide">이메일을 입력해주세요.</div>
 								<div class="invalidEmail-feedback hide">유효한 이메일 주소를 입력하세요.</div>
 								<div class="col-12">
 									<label for="formSignupPhone" class="form-label visually-hidden">
@@ -86,7 +85,7 @@
 									</label>
 									<input type="text" class="form-control" name="cust_phone"
 										id="formSignupPhone" placeholder="핸드폰번호" required />
-									<div class="invalid-feedback">핸드폰번호를 입력해주세요.</div>
+									<div class="phoneinput-feedback hide">핸드폰번호를 입력해주세요.</div>
 								</div>
 								<div class="col-12">
 									<div class="password-field position-relative">
@@ -99,7 +98,7 @@
 											<span>
 												<i class="bi bi-eye-slash passwordToggler"></i>
 											</span>
-											<div class="invalid-feedback">비밀번호를 입력해주세요.</div>
+											<div class="pwinput-feedback hide">비밀번호를 입력해주세요.</div>
 											<div class="pw-feedback hide">영문자, 숫자, 특수문자 조합으로 6~16글자로 입력해주세요.</div>
 										</div>
 									</div>
@@ -115,6 +114,7 @@
 											<span>
 												<i class="bi bi-eye-slash passwordToggler"></i>
 											</span>
+											<div class="pwcinput-feedback hide">비밀번호를 입력해주세요.</div>
 											<div class="mismatch-feedback hide">비밀번호가 일치하지 않습니다.</div>
 										</div>
 									</div>
@@ -131,14 +131,37 @@
 			</div>
 		</section>
 	</main>
+	<!-- 알림용 modal -->
+	<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title" id="alertModalLabel">알림</h5>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	            </div>
+	            <div class="modal-body" id="alertModalMessage"></div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-info" data-bs-dismiss="modal">확인</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
 	<%@ include file="../common/footer.jsp" %>
 	<%@ include file="../common/bottomKakao.jsp" %>
+	<script src="${path}/resources/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="${path}/resources/js/vendors/password.js"></script>
 	<script src="${path}/resources/libs/simplebar/dist/simplebar.min.js"></script>
 	<script src="${path}/resources/js/vendors/validation.js"></script>
 	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
+		//모달
+		function showModalMessage(message) {
+	    	$('#alertModalMessage').text(message);
+	    	$('#alertModal').modal('show');
+		}
+
 		//본인인증 후 값 가져오기
 		var custName = $('#sessionName').val();
 		var custPhone = $('#sessionPhone').val();
@@ -150,41 +173,34 @@
 		$('#formSignupName').val(custName).attr('readonly', true);
 		$('#formSignupPhone').val(formatPhone).attr('readonly', true);
 		
-		//입력값이 비어있을 때 경고문구
-		$("#join").on("click", function(){
-			$(".form-control").each(function(){
-				let input = $(this);
-				let value = input.val().trim();
-				let errorMessage = input.next('.invalid-feedback');
-				if(value === ""){
-					errorMessage.removeClass('hide');
-				} else {
-					errorMessage.addClass('hide');
-				}
-			});
+		//유효성 검사 변수
+		let isIdValid = false;
+		let isPwValid = false;
+		let isPwConfirmValid = false;
+		let isEmailValid = false;
+
+		//회원가입 클릭할 때
+		$("#join").on("click", function(event){
+			//유효성검사 통과 못하면 폼 제출을 막음
+			if(!isIdValid || !isPwValid || !isPwConfirmValid || !isEmailValid){
+				event.preventDefault();
+				showModalMessage("모든 값을 정확히 입력해주세요.");
+			}
+		});
+		$("form").on("submit", function(event){
+			//유효성검사 통과 못하면 폼 제출을 막음
+			if(!isIdValid || !isPwValid || !isPwConfirmValid || !isEmailValid){
+				event.preventDefault();
+				showModalMessage("모든 값을 정확히 입력해주세요.");
+			}
 		});
 		
-		// 회원가입시 값 입력됐는지 확인
-		function checkValidation() {
-			$('.needs-validation').each(function () {
-		        $(this).on('submit', function (event) {
-		            if (!this.checkValidity() || countUsingId != 0 || validDomain) {
-		                event.preventDefault();
-		                event.stopPropagation();
-		            }
-		            $(this).addClass('was-validated');
-		        });
-		    });
-		}
-		$("#join").on("click", checkValidation);
-		
 		//이메일 선택값
+		let inputEmail = $("#formSignupEmail2");
+		let emailMessage = $(".invalidEmail-feedback");
+		let emailPattern = /[^\s@]+\.[^\s@]+$/;
 		$("#formSignupEmail3").on("change", function() {
-			const selectEmail = $(this).val();
-			const inputEmail = $("#formSignupEmail2");
-			const emailMessage = $(".invalidEmail-feedback");
-			const emailPattern = /[^\s@]+\.[^\s@]+$/;
-			
+			let selectEmail = $(this).val();
 			if (selectEmail === ''){
 				$(this).removeAttr("required");
 				inputEmail.prop("readonly", false);
@@ -192,11 +208,13 @@
 			} else {
 				if(!emailPattern.test(selectEmail)){
 					emailMessage.removeClass("hide");
-					return;
+					isEmailValid = false;
+				} else {
+					inputEmail.val(selectEmail);
+					inputEmail.prop("readonly", true);
+					emailMessage.addClass("hide");
+					isEmailValid = true;
 				}
-				inputEmail.val(selectEmail);
-				inputEmail.prop("readonly", true);
-				emailMessage.addClass("hide");
 			}
 		});
 		
@@ -204,65 +222,74 @@
 		$("#formSignupEmail2").on("change", function () {
 		    var inputEmail = $(this).val().trim();
 		    var selectEmail = $("#formSignupEmail3");
-
 		    if (selectEmail.val() === "") {
 		        // "직접입력"을 선택한 상태에서 입력값을 select에 반영
-		        $("#formSignupEmail3 option[value='']").val(inputEmail); // 선택된 값은 UI에 보이지 않음
+		        $("#formSignupEmail3 option[value='']").val(inputEmail);
 		    }
 		});
 
-		
 		//이메일 유효성 검사
 		$("#formSignupEmail2").on("keyup", function(){
-			const inputEmail = $(this).val();
-			const emailMessage = $(".invalidEmail-feedback");
-			const emailPattern = /[^\s@]+\.[^\s@]+$/;
+			let inputEmail = $(this).val();
+			let emailMessage = $(".invalidEmail-feedback");
+			let emailPattern = /[^\s@]+\.[^\s@]+$/;
 			if(!emailPattern.test(inputEmail)){
 				emailMessage.removeClass("hide");
+				isEmailValid = false;
 			} else {
 				emailMessage.addClass("hide");
+				isEmailValid = true;
 			}
 		});
 		
 		//비밀번호 유효성 검사
-		let inputUserPw = document.querySelector("#formSignupPassword");
-		let confirmUserPw = document.querySelector("#formSignupPasswordConfirm");
-		let pwMessage = document.querySelector(".pw-feedback");
-		let confirmMessage = document.querySelector(".mismatch-feedback");
-		
 		function okPassword(str){
-			return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(str);
+			return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(str);
 		}
 		function confirm(pw1, pw2){
 			return pw1 === pw2;
 		}
 		
-		inputUserPw.onkeyup = function(){
-			if(inputUserPw.value.length !== 0){
-				if(okPassword(inputUserPw.value)){
-					pwMessage.classList.add("hide");
-				} else {
-					pwMessage.classList.remove("hide");
+		$("#formSignupPassword").on("keyup", function(){
+			if($(this).val().length !== 0){
+				$(".pwinput-feedback").addClass("hide");
+				if(okPassword($(this).val())){
+					$(".pw-feedback").addClass("hide");
+					$(this).addClass("is-valid").removeClass("is-invalid");
+					isPwValid = true;
+				}else{
+					$(".pw-feedback").removeClass("hide");
+					$(this).addClass("is-invalid");
+					isPwValid = false;
 				}
-			} else {
-				pwMessage.classList.add("hide");
+			}else{
+				$(".pwinput-feedback").removeClass("hide");
+				$(".pw-feedback").addClass("hide");
+				$(this).addClass("is-invalid");
+				isPwValid = false;
 			}
-		};
-		
-		confirmUserPw.onkeyup = function(){
-			if(confirmUserPw.value.length !== 0){
-				if(confirm(inputUserPw.value, confirmUserPw.value)){
-					confirmMessage.classList.add("hide");
-					$("#formSignupPasswordConfirm").removeClass("is-invalid");
-					$("#formSignupPasswordConfirm").addClass("is-valid");
-				} else {
-					confirmMessage.classList.remove("hide");
-					$("#formSignupPasswordConfirm").addClass("is-invalid");
+		});
+
+		$("#formSignupPasswordConfirm").on("keyup", function(){
+			if($(this).val().length !== 0){
+				if(confirm($("#formSignupPassword").val(), $("#formSignupPasswordConfirm").val())){
+					$(this).addClass("is-valid").removeClass("is-invalid");
+					$(".pwcinput-feedback").addClass("hide");
+					$(".mismatch-feedback").addClass("hide");
+					isPwConfirmValid = true;
+				}else{
+					$(this).removeClass("is-valid").addClass("is-invalid");
+					$(".pwcinput-feedback").addClass("hide");
+					$(".mismatch-feedback").removeClass("hide");
+					isPwConfirmValid = false;
 				}
-			} else {
-				confirmMessage.classList.add("hide");
+			}else{
+				$(this).removeClass("is-valid").addClass("is-invalid");
+				$(".pwcinput-feedback").removeClass("hide");
+				$(".mismatch-feedback").addClass("hide");
+				isPwConfirmValid = false;
 			}
-		};
+		});
 		
 		//ID유효성검사
 		let inputUserId = document.querySelector("#formSignupId");
@@ -271,7 +298,6 @@
 		let englishMessage = document.querySelector(".english-feedback");
 
 		function idLength(value){
-			//4~12이면 true
 			return value.length >= 4 && value.length <=12
 		}
 		function onlyNumAndEng(str){
@@ -280,39 +306,46 @@
 		
 		inputUserId.onkeyup = function(){
 			let userId = inputUserId.value;
-			//입력값 비어있을 때
 			if(userId.length === 0){
+				$(this).addClass("is-invalid");
 				successMessage.classList.add("hide");
 				longMessage.classList.add("hide");
 				englishMessage.classList.add("hide");
+				$(".idinput-feedback").removeClass("hide");
+				isIdValid = false;
 				return;
 			}
-			
-			//영문,숫자
 			if(!onlyNumAndEng(userId)){
+				$(this).addClass("is-invalid");
 				successMessage.classList.add("hide");
 				longMessage.classList.add("hide");
 				englishMessage.classList.remove("hide");
+				isIdValid = false;
 				return;
 			}
 			
-			//길이조건
 			if(!idLength(userId)){
+				$(this).addClass("is-invalid");
 				successMessage.classList.add("hide");
 				longMessage.classList.remove("hide");
 				englishMessage.classList.add("hide");
+				isIdValid = false;
 				return;
 			}
 			//모든 조건을 만족할 때
 			successMessage.classList.remove("hide");
 			longMessage.classList.add("hide");
 			englishMessage.classList.add("hide");
+			$(this).addClass("is-valid");
+			$(this).removeClass("is-invalid")
 		};
 		//아이디 중복체크
 		$("#formSignupId").on("input", function(){
 			let custId = $(this).val().trim();
 			if(custId.length < 4){
 				$(".check-feedback").addClass("hide");
+				$(".idinput-feedback").addClass("hide");
+				isIdValid = false;
 				return;
 			}
 			$.ajax({
@@ -321,17 +354,22 @@
 				data: {cust_id : custId},
 				success: function(response){
 					if(response == "true"){
-						//이미 사용중인 아이디
 						$(".success-feedback").addClass("hide");
 						$(".check-feedback").removeClass("hide");
+						isIdValid = false;
+						$(inputUserId).removeClass("is-valid").addClass("is-invalid");
 					} else {
-						//사용가능한 아이디
-						$(".success-feedback").removeClass("hide");
-						$(".check-feedback").addClass("hide");
+						if(idLength(custId) && onlyNumAndEng(custId)){
+							$(".success-feedback").removeClass("hide");
+							$(".check-feedback").addClass("hide");
+							$(inputUserId).removeClass("is-invalid").addClass("is-valid");
+							isIdValid = true;
+						}
 					}
 				},
 				error: function(err){
-					alert('id중복체크 실패');
+					showModalMessage('id중복체크 실패');
+					isIdValid = false;
 				}
 			});
 		});

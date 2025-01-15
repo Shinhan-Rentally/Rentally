@@ -48,7 +48,7 @@ public class SubscribeController {
     		String custId = (String)session.getAttribute("cust_id");
     		Map<String, Object> paramMap = new HashMap<>();
     		paramMap.put("cust_id", custId);
-    		paramMap.put("product_seq", Integer.parseInt(request.getParameter("product_seq")));
+    		paramMap.put("cart_seq", Integer.parseInt(request.getParameter("cartSeq")));
     		int result = cartService.deleteCart(paramMap);
     	}
     	

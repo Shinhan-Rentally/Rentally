@@ -5,28 +5,106 @@ if (!path) {
 }
 
 	// 주소 수정 숫자 유효성 검사
-	$("#editRecipPhone").on("input", function(){
-		let value = $("#editRecipPhone").val().replace(/\D/g, '');
-	    if (value.length <= 3) {
-	    	$("#editRecipPhone").val(value);
-	    } else if (value.length <= 7) {
-	    	$("#editRecipPhone").val(value.slice(0, 3) + '-' + value.slice(3));
-	    } else {
-	    	$("#editRecipPhone").val(value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7, 11));
-	    }
-	});
+	$("#editRecipPhone").on("input", function () {
+    const value = $(this).val().replace(/\D/g, ''); // 숫자만 유지
+    let formattedValue = "";
+
+    if (value.startsWith("02")) {
+        // 02로 시작하는 경우: 02-0000-0000
+        if (value.length <= 2) {
+            formattedValue = value;
+        } else if (value.length <= 6) {
+            formattedValue = value.slice(0, 2) + "-" + value.slice(2);
+        } else {
+            formattedValue = value.slice(0, 2) + "-" + value.slice(2, 6) + "-" + value.slice(6, 10);
+        }
+    } else if (value.startsWith("010")) {
+        // 010으로 시작하는 경우: 010-0000-0000
+        if (value.length <= 3) {
+            formattedValue = value;
+        } else if (value.length <= 7) {
+            formattedValue = value.slice(0, 3) + "-" + value.slice(3);
+        } else {
+            formattedValue = value.slice(0, 3) + "-" + value.slice(3, 7) + "-" + value.slice(7, 11);
+        }
+    } else {
+        // 그 외의 경우는 숫자만 유지
+        formattedValue = value.slice(0, 11);
+    }
+
+    $(this).val(formattedValue); // 입력 필드에 반영
+});
 	
 	// 주소 등록 숫자 유효성 검사
-	$("#recipPhone").on("input", function(){
-		let value = $("#recipPhone").val().replace(/\D/g, '');
-	    if (value.length <= 3) {
-	    	$("#recipPhone").val(value);
-	    } else if (value.length <= 7) {
-	    	$("#recipPhone").val(value.slice(0, 3) + '-' + value.slice(3));
-	    } else {
-	    	$("#recipPhone").val(value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7, 11));
-	    }
-	});
+	$("#recipPhone").on("input", function () {
+    let value = $(this).val().replace(/\D/g, ''); // 숫자만 남기기
+
+    // 유효성 검사: 숫자만 입력되었는지 확인
+    if (!/^\d*$/.test(value)) {
+        alert("전화번호는 숫자만 입력 가능합니다."); // 경고 메시지
+        $(this).val(""); // 필드 초기화
+        return;
+    }
+
+    // 최소 자리수 확인
+    if (value.length < 2) {
+        $(this).val(value); // 최소 2자리 미만일 경우 그대로 유지
+        return;
+    }
+
+    // 전화번호 형식 지정
+    let formattedValue = "";
+
+    if (value.startsWith("02")) {
+        // 02로 시작하는 경우: 02-0000-0000
+        if (value.length <= 2) {
+            formattedValue = value; // 02까지만 입력
+        } else if (value.length <= 6) {
+            formattedValue = value.slice(0, 2) + "-" + value.slice(2); // 02-0000
+        } else if (value.length <= 10) {
+            formattedValue =
+                value.slice(0, 2) +
+                "-" +
+                value.slice(2, 6) +
+                "-" +
+                value.slice(6); // 02-0000-0000
+        } else {
+            formattedValue =
+                value.slice(0, 2) +
+                "-" +
+                value.slice(2, 6) +
+                "-" +
+                value.slice(6, 10); // 최대 10자리까지 허용
+        }
+    } else if (value.startsWith("010")) {
+        // 010으로 시작하는 경우: 010-0000-0000
+        if (value.length <= 3) {
+            formattedValue = value; // 010까지만 입력
+        } else if (value.length <= 7) {
+            formattedValue = value.slice(0, 3) + "-" + value.slice(3); // 010-0000
+        } else if (value.length <= 11) {
+            formattedValue =
+                value.slice(0, 3) +
+                "-" +
+                value.slice(3, 7) +
+                "-" +
+                value.slice(7); // 010-0000-0000
+        } else {
+            formattedValue =
+                value.slice(0, 3) +
+                "-" +
+                value.slice(3, 7) +
+                "-" +
+                value.slice(7, 11); // 최대 11자리까지 허용
+        }
+    } else {
+        // 다른 경우: 숫자만 출력 (최소 자리수 제한 적용)
+        formattedValue = value.slice(0, 11); // 최대 11자리 제한
+    }
+
+    $(this).val(formattedValue); // 입력 필드에 결과 반영
+     
+});
 	
 	
 	
@@ -223,21 +301,20 @@ if (!path) {
  		// 필수값 확인
     	const postcode = $('#postcode').val().trim();
     	const address = $('#address').val().trim();
-    	const detailAddress = $('#detailAddress').val().trim();
     	const recipName = $('#recipName').val().trim();
     	const recipPhone = $('#recipPhone').val().trim();
 
     	// 누락된 값 확인
-    	if (!postcode || !address || !detailAddress || !recipName || !recipPhone) {
+    	if (!postcode || !address || !recipName || !recipPhone) {
         	let missingFields = [];
         	if (!postcode) missingFields.push("우편번호");
         	if (!address) missingFields.push("주소");
-        	if (!detailAddress) missingFields.push("상세주소");
         	if (!recipName) missingFields.push("수령인 이름");
         	if (!recipPhone) missingFields.push("전화번호");
 
 
         const errorMessage = `다음 필수 정보를 입력하세요: <br>${missingFields.join(",<br>")}`;
+          
         
         // 주소 등록 창 닫기
         const modalElement = document.getElementById('addAddressModal');

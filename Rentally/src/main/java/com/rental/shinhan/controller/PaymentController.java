@@ -39,10 +39,15 @@ public class PaymentController {
     	int subSeq = 0;
     	int productSeq = 0;
     	int productPeriod = 0;
+    	int cartSeq = 0;
     	
     	int custSeq = (int)session.getAttribute("cust_seq");
     	
     	boolean isCart = Boolean.parseBoolean(request.getParameter("isCart") != null?request.getParameter("isCart"):"false");
+    	
+    	if(isCart) {
+    		cartSeq = Integer.parseInt(request.getParameter("cart_seq"));
+    	}
     	
     	// 장바구니,상품상세페이지, 업그레이드 페이지화면에서 product_seq 줬다는 가정
     	productSeq = Integer.parseInt(request.getParameter("product_seq"));
@@ -82,6 +87,7 @@ public class PaymentController {
     	model.addAttribute("custPhone", custInfo.getCust_phone());
 
     	model.addAttribute("isCart", isCart);
+    	model.addAttribute("cartSeq", cartSeq);
 
     	List<AddressDTO> addressList = addressService.getAddressesByCustSeq(custSeq);
     	

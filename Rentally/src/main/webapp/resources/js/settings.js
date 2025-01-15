@@ -123,13 +123,20 @@ $("#updatePW").on("click", function (event) {
     let isValid = true;
 
     // 현재 비밀번호 필드 검증
-    if (!validateField(currentPw, "#currentPwFeedback", "#currentPw", "현재 비밀번호를 입력해주세요.")) {
+    if (!currentPw) {
+        $("#currentPw").addClass("is-invalid");
+        $("#currentPwFeedback").text("현재 비밀번호를 입력해주세요.");
         isValid = false;
+    } else {
+        $("#currentPw").removeClass("is-invalid").addClass("is-valid");
     }
-
     // 새로운 비밀번호 필드 검증
-    if (!validateField(newPw, "#newPwFeedback", "#newPw", "새로운 비밀번호를 입력해주세요.", "비밀번호는 영문자, 숫자, 특수문자 조합으로 6~16글자로 입력해주세요.", okPassword)) {
+    if (!newPw || !okPassword(newPw)) {
+        $("#newPw").addClass("is-invalid");
+        $("#newPwFeedback").text("비밀번호는 영문자, 숫자, 특수문자 조합으로 6~16글자로 입력해주세요.");
         isValid = false;
+    } else {
+        $("#newPw").removeClass("is-invalid").addClass("is-valid");
     }
 
     if (!isValid) {

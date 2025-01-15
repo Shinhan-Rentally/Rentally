@@ -65,7 +65,7 @@
 	<script>
 		//alert 모달창
 		function showModalMessage(message){
-			$("#altertModalMessage").text(message);
+			$("#alertModalMessage").text(message);
 			$("#alertModal").modal("show");
 		}
 		//본인인증

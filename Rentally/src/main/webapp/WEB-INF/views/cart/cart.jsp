@@ -68,6 +68,7 @@
 													<input type="hidden" name="product_seq" value="${cart.product_seq}">
 													<input type="hidden" name="product_name" value="${cart.product_name}">
 													<input type="hidden" name="cart_option" value="${cart.cart_option}">
+													<input type="hidden" name="cart_seq" value="${cart.cart_seq}">
 													<input type="hidden" name="isCart" value="true">
 													<button class="btn btn-info btn-sm" id="subscribe">구독</button>
 												</form>
@@ -76,6 +77,7 @@
 												<a href="#" class="text-muted delete" title="Delete"
 												data-bs-toggle="tooltip" data-bs-placement="top">
 												<i class="feather-icon icon-trash-2"></i>
+												<input type="hidden" name="cart_seq" value="${cart.cart_seq}">
 												</a>
 											</td>
 										</tr>
@@ -115,14 +117,16 @@
 			$('#alertModalMessage').text(message);
 			$('#alertModal').modal('show');
 		}
+		
 		$('.delete').click(function(){
-			var item = $(this).closest("tr").find("input[name='product_seq']").val();
 			var currentCount = parseInt($(".cart-count span").text(), 10);
+			var item = $(this).closest("tr").find("input[name='cart_seq']").val();
+			$(this).tooltip('dispose');
 			$.ajax({
 				url: "${path}/cart/product/delete",
 				type: "post",
 				data: {
-					product_seq: item
+					cart_seq: item
 					},
 				success: function(response){
 					$("tr").has("input[value='" + item + "']").remove();

@@ -11,7 +11,7 @@ function loadDataGeneric(path, page, additionalParams, processContent) {
 
             if (data.content.length > 0) {
                 data.content.forEach(item => processContent(item));
-                pageBar(data.pageable, data.totalPages, data.totalElements);
+                pageBar(data.pageable.pageNumber, data.totalPages, data.totalElements);
             } else {
                 $("#board_dataTable tbody").append('<tr><td colspan="6">데이터가 없습니다.</td></tr>');
             }
