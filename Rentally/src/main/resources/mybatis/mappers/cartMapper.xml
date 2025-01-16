@@ -17,15 +17,14 @@
 
 	<!-- 장바구니 상품 삭제 -->
 	<delete id="deleteCart" parameterType="map">
-		DELETE
-		FROM cart crt
+		DELETE FROM cart
 		USING customer c, product p
 		WHERE
-			c.cust_id = #{cust_id}
+			cart.cust_seq = c.cust_seq
+			AND cart.product_seq = p.product_seq
 			AND
-			AND crt.product_seq = p.product_seq
-			crt.cust_seq = c.cust_seq
-		    AND cart.cart_seq = #{cart_seq}
+			c.cust_id = #{cust_id}
+			AND cart.cart_seq = #{cart_seq}
 	</delete>
 
 	<!-- 장바구니 상품 추가 -->
@@ -34,3 +33,4 @@
 		VALUES (nextval('cart_seq'), #{cust_seq}, #{product_seq}, #{cart_option})
 	</insert>
 </mapper>
+
